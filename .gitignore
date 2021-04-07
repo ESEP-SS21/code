@@ -1,0 +1,6 @@
+build/
+.metadata/
+.project
+.cproject
+192.168.68.128/
+192.168.68.129/
