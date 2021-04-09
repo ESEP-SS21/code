@@ -16,8 +16,8 @@
 - Feature branches
   - wie erstellen? am leichtesten siehe [Abschnitt Gitlab](#Gitlab)
   - Keine Angst vor neuen Branches
-- Häufig commiten
-  - Aussagekräftige Commit-messages: TBD
+- Häufig commiten, Commits atomar halten, im Zeifel `git rebase -i` nutzen.
+- [Aussagekräftige Commit-messages](https://chris.beams.io/posts/git-commit/), erste Zeile reicht.
 
 ## Gitlab
 - Plannung
