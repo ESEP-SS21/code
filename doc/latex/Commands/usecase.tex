@@ -1,0 +1,34 @@
+\newcommand{\addCollum}[2]{
+ \cellcolor{black!25}#1 & \multicolumn{5}{l|}{
+ \begin{minipage}{5cm}
+    \vskip 4pt
+    \begin{itemize}
+    #2
+    \end{itemize}
+\vskip 4pt
+ \end{minipage}}\tabularnewline
+ \hhline{|-|-|-|-|-|-|}
+}
+
+\newcommand{\mylabel}[2]{\label{#1:#2}}
+\newcommand{\ucref}[1]{\ref{uc:#1}}
+
+\newenvironment{usecase}[3]
+{% begin code
+    \setlength{\tabcolsep}{10pt}
+    \renewcommand{\arraystretch}{1.6}
+    \subsubsection[UC#1]{UC#1: #2}\label{uc:#1}
+    \begin{figure}[h!]
+    \centering
+    \begin{tabular}{ |p{2.5cm}|p{1cm}|p{1cm}|p{4cm}|p{1.5cm}|p{1cm}|}
+         \hhline{|-|-|-|-|-|-|}
+         \rowcolor{black!25}\multicolumn{6}{|c|}{Use Case} \tabularnewline 
+         \hhline{|-|-|-|-|-|-|}
+         \cellcolor{black!25}ID & UC#1 & \cellcolor{black!25}Name & #2 & \cellcolor{lightgray}Priorität & #3\tabularnewline
+         \hhline{|-|-|-|-|-|-|}
+}
+{
+    \end{tabular}
+    \end{figure}
+    \renewcommand{\arraystretch}{1}
+}% end code
