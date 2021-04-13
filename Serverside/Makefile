@@ -1,4 +1,5 @@
-ARTIFACT = server
+ARTIFACT = Serverside
+
 #Build architecture/variant string, possible values: x86, armv7le, etc...
 PLATFORM ?= x86_64
 
@@ -9,25 +10,20 @@ CONFIG_NAME ?= $(PLATFORM)-$(BUILD_PROFILE)
 OUTPUT_DIR = build/$(CONFIG_NAME)
 TARGET = $(OUTPUT_DIR)/$(ARTIFACT)
 
-
 #Compiler definitions
 
 CC = qcc -Vgcc_nto$(PLATFORM)
-CXX = qcc -lang-c++ -Vgcc_nto$(PLATFORM) -DSIM_SOW_SENSORS -DSIM_SHOW_ACTUATORS
+CXX = qcc -lang-c++ -Vgcc_nto$(PLATFORM)
 LD = $(CXX)
 
 #User defined include/preprocessor flags and libraries
 
 #INCLUDES += -I/path/to/my/lib/include
 #INCLUDES += -I../mylib/public
-INCLUDES += -Isrc/simulation/simulationadapterqnx
-INCLUDES += -Isrc/simulation/simulationbase
-INCLUDES += -Isrc/simulation/simulationcore
-INCLUDES += -Isrc/simulation/simulationudpqnx
+
 #LIBS += -L/path/to/my/lib/$(PLATFORM)/usr/lib -lmylib
 #LIBS += -L../mylib/$(OUTPUT_DIR) -lmylib
-LIBS += -lsocket
-LIBS += -lgtest
+
 #Compiler flags for build profiles
 CCFLAGS_release += -O2
 CCFLAGS_debug += -g -O0 -fno-builtin

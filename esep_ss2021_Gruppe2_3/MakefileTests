@@ -1,4 +1,4 @@
-ARTIFACT = server
+ARTIFACT = tests
 #Build architecture/variant string, possible values: x86, armv7le, etc...
 PLATFORM ?= x86_64
 
@@ -50,6 +50,7 @@ rwildcard = $(wildcard $(addprefix $1/*.,$2)) $(foreach d,$(wildcard $1/*),$(cal
 
 #Source list
 SRCS = $(call rwildcard, src, c cpp)
+SRCS += $(call rwildcard, test, c cpp)
 
 #Object files list
 OBJS = $(addprefix $(OUTPUT_DIR)/,$(addsuffix .o, $(basename $(SRCS))))
@@ -64,7 +65,7 @@ $(OUTPUT_DIR)/%.o: %.cpp
 
 #Linking rule
 $(TARGET):$(OBJS)
-	$(LD) -o $(TARGET) $(LDFLAGS_all) $(LDFLAGS) $(OBJS) $(LIBS_all) $(LIBS)
+	$(LD) -o $(TARGET) $(LDFLAGS_all) $(LDFLAGS) $(filter-out %/server.o, $(OBJS)) $(LIBS_all) $(LIBS)
 
 #Rules section for default compilation and linking
 all: $(TARGET)
