@@ -10,3 +10,5 @@
 - 
 
 ## [Protokoll](https://docs.google.com/spreadsheets/d/1IJHuvuZt6RnmSIk-100NPBO5X5v3VdXLJgNsTsDXQhE/)
+
+/label ~Protokoll
