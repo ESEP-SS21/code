@@ -40,8 +40,8 @@ FTS</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>603</x>
-      <y>270</y>
+      <x>441</x>
+      <y>144</y>
       <w>144</w>
       <h>63</h>
     </coordinates>
@@ -52,10 +52,10 @@ ErrorHandler</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>882</x>
-      <y>747</y>
-      <w>189</w>
-      <h>135</h>
+      <x>936</x>
+      <y>765</y>
+      <w>144</w>
+      <h>117</h>
     </coordinates>
     <panel_attributes>symbol=component
 Aktoren</panel_attributes>
@@ -64,10 +64,10 @@ Aktoren</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>558</x>
-      <y>747</y>
-      <w>189</w>
-      <h>135</h>
+      <x>774</x>
+      <y>765</y>
+      <w>144</w>
+      <h>117</h>
     </coordinates>
     <panel_attributes>symbol=component
 Sensoren</panel_attributes>
@@ -98,10 +98,10 @@ Sensoren</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>603</x>
-      <y>180</y>
+      <x>567</x>
+      <y>765</y>
       <w>144</w>
-      <h>63</h>
+      <h>117</h>
     </coordinates>
     <panel_attributes>symbol=component
 EventRecorder</panel_attributes>
@@ -178,7 +178,7 @@ m1=Qnet</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>1008</x>
+      <x>963</x>
       <y>180</y>
       <w>207</w>
       <h>153</h>
@@ -213,7 +213,7 @@ KontrollLogik</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>774</x>
+      <x>711</x>
       <y>180</y>
       <w>207</w>
       <h>153</h>
@@ -247,8 +247,8 @@ Foerderband</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>432</x>
-      <y>180</y>
+      <x>441</x>
+      <y>225</y>
       <w>144</w>
       <h>63</h>
     </coordinates>
@@ -259,8 +259,8 @@ Steuerpanel</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>432</x>
-      <y>270</y>
+      <x>441</x>
+      <y>306</y>
       <w>144</w>
       <h>63</h>
     </coordinates>
