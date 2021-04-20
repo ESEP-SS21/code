@@ -8,13 +8,14 @@
 | [Testleitung](https://git.haw-hamburg.de/groups/ss21-esep-gruppe-2.3/-/epics?label_name%5B%5D=responsibility%3A%3ATestleitung), [Configuration Manager](https://git.haw-hamburg.de/groups/ss21-esep-gruppe-2.3/-/epics?label_name%5B%5D=responsibility%3A%3AConfiguration+Manager) | Hugo    | Protsch  | acs521  | Hugo.Protsch@haw-hamburg.de |
 | [Programmierleitung](https://git.haw-hamburg.de/groups/ss21-esep-gruppe-2.3/-/epics?label_name%5B%5D=responsibility%3A%3AProgrammierleitung) | Jendrik | Stoltz   | acs357  | Jendrik.Stoltz@haw-hamburg.de |
 
-## Links
+## Boards
 
-- [MRs pending review](https://git.haw-hamburg.de/ss21-esep-gruppe-2.3/esep/-/merge_requests?scope=all&utf8=%E2%9C%93&state=opened&label_name[]=workflow%3A%3Apending%20review)
-- [Protokolle](https://git.haw-hamburg.de/ss21-esep-gruppe-2.3/esep/-/boards/2082?&label_name[]=Protokoll)
-- [Team-Auslastung](https://git.haw-hamburg.de/ss21-esep-gruppe-2.3/esep/-/boards/2083)
-- [Workflow](https://git.haw-hamburg.de/ss21-esep-gruppe-2.3/esep/-/boards/2013)
+- [MRs pending review](https://git.haw-hamburg.de/groups/ss21-esep-gruppe-2.3/-/merge_requests?scope=all&utf8=%E2%9C%93&state=opened&label_name[]=workflow%3A%3Apending%20review)
+- [Protokolle](https://git.haw-hamburg.de/groups/ss21-esep-gruppe-2.3/-/boards/2107?&label_name[]=Protokoll)
+- [Team-Auslastung](https://git.haw-hamburg.de/groups/ss21-esep-gruppe-2.3/-/boards/2109)
+- [Workflow](https://git.haw-hamburg.de/groups/ss21-esep-gruppe-2.3/-/boards/2110)
+- [Milestones](https://git.haw-hamburg.de/groups/ss21-esep-gruppe-2.3/-/boards/2108)
 
-### [Burndown Charts](https://git.haw-hamburg.de/groups/ss21-esep-gruppe-2.3/-/milestones)
+## [Burndown Charts](https://git.haw-hamburg.de/groups/ss21-esep-gruppe-2.3/-/milestones)
 | [Phase 1](https://git.haw-hamburg.de/groups/ss21-esep-gruppe-2.3/-/milestones/1) | [Phase 2](https://git.haw-hamburg.de/groups/ss21-esep-gruppe-2.3/-/milestones/2) |[Phase 3](https://git.haw-hamburg.de/groups/ss21-esep-gruppe-2.3/-/milestones/3) |[Phase 4](https://git.haw-hamburg.de/groups/ss21-esep-gruppe-2.3/-/milestones/4) |[Phase 5](https://git.haw-hamburg.de/groups/ss21-esep-gruppe-2.3/-/milestones/5) |
 |---|---|---|---|---|
