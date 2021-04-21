@@ -8,6 +8,9 @@
 | [Testleitung](https://git.haw-hamburg.de/groups/ss21-esep-gruppe-2.3/-/epics?label_name%5B%5D=responsibility%3A%3ATestleitung), [Configuration Manager](https://git.haw-hamburg.de/groups/ss21-esep-gruppe-2.3/-/epics?label_name%5B%5D=responsibility%3A%3AConfiguration+Manager) | Hugo    | Protsch  | acs521  | Hugo.Protsch@haw-hamburg.de |
 | [Programmierleitung](https://git.haw-hamburg.de/groups/ss21-esep-gruppe-2.3/-/epics?label_name%5B%5D=responsibility%3A%3AProgrammierleitung) | Jendrik | Stoltz   | acs357  | Jendrik.Stoltz@haw-hamburg.de |
 
+## Links
+- [Unsere Wiki](https://git.haw-hamburg.de/groups/ss21-esep-gruppe-2.3/-/wikis/home) (Guides zum Eintrichten etc.)
+
 ## Boards
 
 - [MRs pending review](https://git.haw-hamburg.de/groups/ss21-esep-gruppe-2.3/-/merge_requests?scope=all&utf8=%E2%9C%93&state=opened&label_name[]=workflow%3A%3Apending%20review)
