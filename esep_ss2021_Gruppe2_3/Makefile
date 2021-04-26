@@ -16,7 +16,9 @@ CC = qcc -Vgcc_nto$(PLATFORM)
 CXX = qcc -lang-c++ -Vgcc_nto$(PLATFORM) -DSIM_SOW_SENSORS -DSIM_SHOW_ACTUATORS
 CXX += -DSIM_REPORT -DSIM_EXT_CTRL
 
+# - - - - - - - - - - - - - - - - - - - - TESTS AN/AUS - - - - - - - - - - - - - - - - - - - -  
 #CXX += -DTEST_ENABLE
+# - - - - - - - - - - - - - - - - - - - - ^^^^^^^^^^^^ - - - - - - - - - - - - - - - - - - - -  
 
 LD = $(CXX)
 
