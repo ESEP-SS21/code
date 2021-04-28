@@ -6,7 +6,7 @@
  */
 
 #include "gpiowrapper.h"
-#include "gpio_bbb.h"
+//#include "gpio_bbb.h"
 #include <iostream>
 #include <sys/mman.h>
 #include "simqnxgpioapi.h"
@@ -14,52 +14,55 @@
 namespace hal {
 
 GPIOWrapper::GPIOWrapper() {
-	_bank_input = mmap_device_io(GPIO_SIZE, (uint64_t ) GPIO_BASE_BANK0);
-	_bank_actuator = mmap_device_io(GPIO_SIZE, (uint64_t ) GPIO_BASE_BANK1);
-	_bank_led = mmap_device_io(GPIO_SIZE, (uint64_t ) GPIO_BASE_BANK1);
+	_bank_input = mmap_device_io(gpio_adresses::GPIO_SIZE,
+			(uint64_t ) gpio_adresses::GPIO_BASE_BANK0);
+	_bank_actuator = mmap_device_io(gpio_adresses::GPIO_SIZE,
+			(uint64_t ) gpio_adresses::GPIO_BASE_BANK1);
+	_bank_led = mmap_device_io(gpio_adresses::GPIO_SIZE,
+			(uint64_t ) gpio_adresses::GPIO_BASE_BANK1);
 }
 
 GPIOWrapper::~GPIOWrapper() {
-	munmap_device_io(_bank_input, GPIO_SIZE);
-	munmap_device_io(_bank_actuator, GPIO_SIZE);
-	munmap_device_io(_bank_led, GPIO_SIZE);
+	munmap_device_io(_bank_input, gpio_adresses::GPIO_SIZE);
+	munmap_device_io(_bank_actuator, gpio_adresses::GPIO_SIZE);
+	munmap_device_io(_bank_led, gpio_adresses::GPIO_SIZE);
 }
 
 void GPIOWrapper::out(uint32_t bank, uint32_t pin, uint32_t value) {
 	if (value) {
-		set_bit_in_register(bank, GPIO_SETDATAOUT, pin);
+		set_bit_in_register(bank, gpio_adresses::GPIO_SETDATAOUT, pin);
 	} else {
-		set_bit_in_register(bank, GPIO_CLEARDATAOUT, pin);
+		set_bit_in_register(bank, gpio_adresses::GPIO_CLEARDATAOUT, pin);
 	}
 
 }
 
 uint32_t GPIOWrapper::in(uint32_t bank, uint32_t pin) {
-	return read_value_from_register(bank, GPIO_DATAIN, pin);
+	return read_value_from_register(bank, gpio_adresses::GPIO_DATAIN, pin);
 }
 
 void GPIOWrapper::enable_interrupt(uint32_t bank, uint32_t pin) {
-	set_bit_in_register(bank, GPIO_IRQSTATUS_SET_1, pin);
+	set_bit_in_register(bank, gpio_adresses::GPIO_IRQSTATUS_SET_1, pin);
 }
 
 void GPIOWrapper::disable_interrupt(uint32_t bank, uint32_t pin) {
-	set_bit_in_register(bank, GPIO_IRQSTATUS_SET_0, pin);
+	set_bit_in_register(bank, gpio_adresses::GPIO_IRQSTATUS_SET_0, pin);
 }
 
 void GPIOWrapper::enable_debounce(uint32_t bank, uint32_t pin) {
-	add_bit_to_register(bank, GPIO_DEBOUNCENABLE, pin);
+	add_bit_to_register(bank, gpio_adresses::GPIO_DEBOUNCENABLE, pin);
 }
 
 void GPIOWrapper::set_debounce_time(uint32_t bank, uint32_t time_ms) {
-	write_value_to_register(bank, GPIO_DEBOUNCENABLE, time_ms);
+	write_value_to_register(bank, gpio_adresses::GPIO_DEBOUNCENABLE, time_ms);
 }
 
 void GPIOWrapper::enable_interrupt_falling(uint32_t bank, uint32_t pin) {
-	add_bit_to_register(bank, GPIO_FALLINGDETECT, pin);
+	add_bit_to_register(bank, gpio_adresses::GPIO_FALLINGDETECT, pin);
 }
 
 void GPIOWrapper::enable_interrupt_rising(uint32_t bank, uint32_t pin) {
-	add_bit_to_register(bank, GPIO_RAISINGDETECT, pin);
+	add_bit_to_register(bank, gpio_adresses::GPIO_RAISINGDETECT, pin);
 }
 // Sets a single bit in a register and erases the other ones
 void GPIOWrapper::set_bit_in_register(uint32_t bank,
