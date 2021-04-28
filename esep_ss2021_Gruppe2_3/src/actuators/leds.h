@@ -2,7 +2,7 @@
  * leds.h
  *
  *  Created on: 28.04.2021
- *      Author: justi
+ *      Author: Justin Hoffmann
  */
 
 #ifndef SRC_ACTUATORS_LEDS_H_
@@ -18,10 +18,10 @@ enum LED_type {
 
 class LEDs {
 private:
-	GPIOWrapper* gpio;
+	std::shared_ptr<GPIOWrapper> _gpio;
 
 public:
-	LEDs(GPIOWrapper*);
+	LEDs(std::shared_ptr<GPIOWrapper>);
 	virtual ~LEDs();
 
 	void enable(LED_type);

@@ -2,7 +2,7 @@
  * hal.h
  *
  *  Created on: 28.04.2021
- *      Author: justi
+ *      Author: Justin Hoffmann
  */
 
 #ifndef SRC_HAL_H_
@@ -21,21 +21,20 @@ private:
 	HAL* _instance;
 	HAL();
 
-	GPIOWrapper* gpio;
-	LEDs* leds;
-	SortingMechanism* sorting_mechanism;
-	CBMotor* cb_motor;
-	Stoplight* stoplight;
+	std::shared_ptr<GPIOWrapper> _gpio;
+	std::unique_ptr<LEDs> _leds;
+	std::unique_ptr<SortingMechanism> _sorting_mechanism;
+	std::unique_ptr<CBMotor> _cb_motor;
+	std::unique_ptr<Stoplight> _stoplight;
 
 public:
 	virtual ~HAL();
 
 	HAL* get_instance();
-	LEDs* get_leds();
-	SortingMechanism* get_eject_mechanism();
-	CBMotor* get_cb_motor();
-	Stoplight* get_stoplight();
-
+	std::unique_ptr<LEDs> get_leds();
+	std::unique_ptr<SortingMechanism> get_eject_mechanism();
+	std::unique_ptr<CBMotor> get_cb_motor();
+	std::unique_ptr<Stoplight> get_stoplight();
 };
 
 }

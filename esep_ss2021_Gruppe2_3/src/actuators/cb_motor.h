@@ -2,7 +2,7 @@
  * cb_motor.h
  *
  *  Created on: 28.04.2021
- *      Author: justi
+ *      Author: Justin Hoffmann
  */
 
 #ifndef SRC_ACTUATORS_CB_MOTOR_H_
@@ -19,8 +19,7 @@ enum Direction {
 
 class CBMotor {
 private:
-	std::shared_ptr<GPIOWrapper> gpio;
-	//GPIO* gpio;
+	std::shared_ptr<GPIOWrapper> _gpio;
 
 public:
 	CBMotor(std::shared_ptr<GPIOWrapper>);

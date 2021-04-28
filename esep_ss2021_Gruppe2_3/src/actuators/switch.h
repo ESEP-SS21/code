@@ -2,7 +2,7 @@
  * switch.h
  *
  *  Created on: 28.04.2021
- *      Author: justi
+ *      Author: Justin Hoffmann
  */
 
 #ifndef SRC_ACTUATORS_SWITCH_H_

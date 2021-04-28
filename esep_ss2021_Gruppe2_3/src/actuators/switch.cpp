@@ -2,7 +2,7 @@
  * switch.cpp
  *
  *  Created on: 28.04.2021
- *      Author: justi
+ *      Author: Justin Hoffmann
  */
 
 #include "../actuators/switch.h"

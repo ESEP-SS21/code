@@ -2,14 +2,14 @@
  * stoplight.cpp
  *
  *  Created on: 28.04.2021
- *      Author: justi
+ *      Author: Justin Hoffmann
  */
 
 #include "../actuators/stoplight.h"
 
 namespace hal {
 
-Stoplight::Stoplight(GPIOWrapper* gpio) {
+Stoplight::Stoplight(std::shared_ptr<GPIOWrapper> gpio) {
 	// TODO Auto-generated constructor stub
 
 }

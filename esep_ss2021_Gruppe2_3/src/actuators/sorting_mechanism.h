@@ -2,7 +2,7 @@
  * sorting_mechanism.h
  *
  *  Created on: 28.04.2021
- *      Author: justi
+ *      Author: Justin Hoffmann
  */
 
 #ifndef SRC_ACTUATORS_SORTING_MECHANISM_H_
@@ -14,10 +14,10 @@ namespace hal {
 
 class SortingMechanism {
 private:
-	GPIOWrapper* gpio;
+	std::shared_ptr<GPIOWrapper> _gpio;
 
 public:
-	SortingMechanism(GPIOWrapper*);
+	SortingMechanism(std::shared_ptr<GPIOWrapper>);
 
 	virtual void open()=0;
 	virtual void close()=0;

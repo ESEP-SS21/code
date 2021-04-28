@@ -2,7 +2,7 @@
  * cb_motor.cpp
  *
  *  Created on: 28.04.2021
- *      Author: justi
+ *      Author: Justin Hoffmann
  */
 
 #include "../actuators/cb_motor.h"

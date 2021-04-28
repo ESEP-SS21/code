@@ -2,7 +2,7 @@
  * stoplight.h
  *
  *  Created on: 28.04.2021
- *      Author: justi
+ *      Author: Justin Hoffmann
  */
 
 #ifndef SRC_ACTUATORS_STOPLIGHT_H_
@@ -22,10 +22,10 @@ enum Speed {
 
 class Stoplight {
 private:
-	GPIOWrapper* gpio;
+	std::shared_ptr<GPIOWrapper> _gpio;
 
 public:
-	Stoplight(GPIOWrapper*);
+	Stoplight(std::shared_ptr<GPIOWrapper>);
 	virtual ~Stoplight();
 
 	void enable(Color);

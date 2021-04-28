@@ -1,14 +1,15 @@
 /*
- * gpio.h
+ * gpiowrapper.h
  *
  *  Created on: 28.04.2021
- *      Author: justi
+ *      Author: Justin Hoffmann
  */
 
 #ifndef SRC_ACTUATORS_GPIO_H_
 #define SRC_ACTUATORS_GPIO_H_
 
 #include <cstdint>
+#include <memory>
 
 namespace hal {
 
