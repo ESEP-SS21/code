@@ -7,7 +7,7 @@
 
 #include "../actuators/stoplight.h"
 
-Stoplight::Stoplight(GPIO* gpio) {
+Stoplight::Stoplight(GPIOWrapper* gpio) {
 	// TODO Auto-generated constructor stub
 
 }

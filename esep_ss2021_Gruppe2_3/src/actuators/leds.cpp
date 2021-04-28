@@ -7,7 +7,7 @@
 
 #include "../actuators/leds.h"
 
-LEDs::LEDs(GPIO* gpio) {
+LEDs::LEDs(GPIOWrapper* gpio) {
 	// TODO Auto-generated constructor stub
 
 }

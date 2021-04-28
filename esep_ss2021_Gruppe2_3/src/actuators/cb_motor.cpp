@@ -7,7 +7,7 @@
 
 #include "../actuators/cb_motor.h"
 
-CBMotor::CBMotor(std::shared_ptr<GPIO> gpio) {
+CBMotor::CBMotor(std::shared_ptr<GPIOWrapper> gpio) {
 	// TODO Auto-generated constructor stub
 
 }

@@ -12,14 +12,14 @@
 #include "actuators/sorting_mechanism.h"
 #include "actuators/cb_motor.h"
 #include "actuators/stoplight.h"
-#include "actuators/gpio.h"
+#include "gpiowrapper.h"
 
 class HAL {
 private:
 	HAL* _instance;
 	HAL();
 
-	GPIO* gpio;
+	GPIOWrapper* gpio;
 	LEDs* leds;
 	SortingMechanism* sorting_mechanism;
 	CBMotor* cb_motor;

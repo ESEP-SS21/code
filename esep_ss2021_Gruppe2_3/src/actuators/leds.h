@@ -8,7 +8,7 @@
 #ifndef SRC_ACTUATORS_LEDS_H_
 #define SRC_ACTUATORS_LEDS_H_
 
-#include "gpio.h"
+#include "../gpiowrapper.h"
 
 enum LED_type {
 		START = 0,
@@ -19,10 +19,10 @@ enum LED_type {
 
 class LEDs {
 private:
-	GPIO* gpio;
+	GPIOWrapper* gpio;
 
 public:
-	LEDs(GPIO*);
+	LEDs(GPIOWrapper*);
 	virtual ~LEDs();
 
 	void enable(LED_type);

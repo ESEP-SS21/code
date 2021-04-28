@@ -8,7 +8,7 @@
 #ifndef SRC_ACTUATORS_CB_MOTOR_H_
 #define SRC_ACTUATORS_CB_MOTOR_H_
 
-#include "gpio.h"
+#include "../gpiowrapper.h"
 #include <memory>
 
 enum Direction {
@@ -21,11 +21,11 @@ enum Direction {
 
 class CBMotor {
 private:
-	std::shared_ptr<GPIO> gpio;
+	std::shared_ptr<GPIOWrapper> gpio;
 	//GPIO* gpio;
 
 public:
-	CBMotor(std::shared_ptr<GPIO>);
+	CBMotor(std::shared_ptr<GPIOWrapper>);
 	virtual ~CBMotor();
 
 	void set_direction(Direction);

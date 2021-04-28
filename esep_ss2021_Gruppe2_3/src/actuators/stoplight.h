@@ -8,7 +8,7 @@
 #ifndef SRC_ACTUATORS_STOPLIGHT_H_
 #define SRC_ACTUATORS_STOPLIGHT_H_
 
-#include "gpio.h"
+#include "../gpiowrapper.h"
 
 enum Color {
 		GREEN = 0,
@@ -23,10 +23,10 @@ enum Speed {
 
 class Stoplight {
 private:
-	GPIO* gpio;
+	GPIOWrapper* gpio;
 
 public:
-	Stoplight(GPIO*);
+	Stoplight(GPIOWrapper*);
 	virtual ~Stoplight();
 
 	void enable(Color);

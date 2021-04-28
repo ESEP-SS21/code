@@ -8,14 +8,14 @@
 #ifndef SRC_ACTUATORS_SORTING_MECHANISM_H_
 #define SRC_ACTUATORS_SORTING_MECHANISM_H_
 
-#include "gpio.h"
+#include "../gpiowrapper.h"
 
 class SortingMechanism {
 private:
-	GPIO* gpio;
+	GPIOWrapper* gpio;
 
 public:
-	SortingMechanism(GPIO*);
+	SortingMechanism(GPIOWrapper*);
 
 	virtual void open()=0;
 	virtual void close()=0;

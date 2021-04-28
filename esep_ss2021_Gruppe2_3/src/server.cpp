@@ -4,8 +4,9 @@
  * @date: 2020-04-24
  */
 #include <iostream>
-#include "gpio_bbb.h"
 #include "simqnxgpioapi.h" // must be last include !!!
+#include "gpiowrapper.h"
+
 #ifdef TEST_ENABLE
 
 #include <gtest/gtest.h>
@@ -19,6 +20,16 @@ int main(int argc, char **argv){
 #else
 
 int main(int argc, char **argv) {
+
+	GPIOWrapper gpio;
+	while(1){
+		gpio.out(1,19,1);
+        usleep(1000*500);
+		gpio.out(1,19,0);
+        usleep(1000*500);
+	}
+
+	/*
 	std::cout << "Switch traffic light on / off" << std::endl;
 
 	uintptr_t gpio_bank_1 = mmap_device_io(GPIO_SIZE,(uint64_t) GPIO_BASE_BANK1);
@@ -44,6 +55,7 @@ int main(int argc, char **argv) {
 		out32((uintptr_t) (gpio_bank_1 + GPIO_CLEARDATAOUT), AMPEL_GRUEN_1); // clear register
         usleep(1000*1000);
 	}
+	*/
 
 	return 0;
 }
