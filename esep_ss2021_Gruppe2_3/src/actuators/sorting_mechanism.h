@@ -17,9 +17,9 @@ private:
 public:
 	SortingMechanism(GPIO*);
 
-	virtual void open();
-	virtual void close();
-	virtual bool is_open();
+	virtual void open()=0;
+	virtual void close()=0;
+	virtual bool is_open()=0;
 };
 
 #endif /* SRC_ACTUATORS_SORTING_MECHANISM_H_ */
