@@ -1,6 +1,6 @@
 #ifndef GPIO_BBB_H
 #define GPIO_BBB_H
-
+namespace hal{
 static constexpr uint32_t GPIO_SIZE = 0x1000;
 // GPIO base adresses
 static constexpr uint32_t GPIO_BASE_BANK0 = 0x44E07000;
@@ -64,5 +64,6 @@ static constexpr uint32_t LED_START_2 = 0x1<<2;
 static constexpr uint32_t LED_RESET_2 = 0x1<<3;
 static constexpr uint32_t LED_Q1_2 = 0x1<<4;
 static constexpr uint32_t LED_Q2_2 = 0x1<<5;
+}
 
 #endif

@@ -10,7 +10,7 @@
 
 #include "../gpiowrapper.h"
 #include <memory>
-
+namespace hal{
 enum Direction {
 		FAST_FORWARDS = 0,
 		SLOW_FORWARDS,
@@ -30,5 +30,6 @@ public:
 
 	void set_direction(Direction);
 };
+}
 
 #endif /* SRC_ACTUATORS_CB_MOTOR_H_ */

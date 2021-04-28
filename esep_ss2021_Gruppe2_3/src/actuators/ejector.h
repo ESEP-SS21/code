@@ -9,7 +9,7 @@
 #define SRC_ACTUATORS_EJECTOR_H_
 
 #include "../actuators/sorting_mechanism.h"
-
+namespace hal{
 class Ejector: public SortingMechanism {
 public:
 	virtual ~Ejector();
@@ -19,5 +19,6 @@ public:
 	virtual bool is_open();
 
 };
+}
 
 #endif /* SRC_ACTUATORS_EJECTOR_H_ */

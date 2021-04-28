@@ -10,6 +10,8 @@
 
 #include "../actuators/sorting_mechanism.h"
 
+namespace hal{
+
 class Switch: public SortingMechanism {
 public:
 	virtual ~Switch();
@@ -19,5 +21,6 @@ public:
 	virtual bool is_open();
 
 };
+}
 
 #endif /* SRC_ACTUATORS_SWITCH_H_ */

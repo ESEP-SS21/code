@@ -6,7 +6,7 @@
  */
 
 #include "../actuators/cb_motor.h"
-
+namespace hal{
 CBMotor::CBMotor(std::shared_ptr<GPIOWrapper> gpio) {
 	// TODO Auto-generated constructor stub
 
@@ -18,5 +18,6 @@ CBMotor::~CBMotor() {
 
 void CBMotor::set_direction(Direction) {
 
+}
 }
 

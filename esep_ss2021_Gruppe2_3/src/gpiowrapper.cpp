@@ -11,6 +11,7 @@
 #include <sys/mman.h>
 #include "simqnxgpioapi.h"
 
+namespace hal{
 
 GPIOWrapper::GPIOWrapper() {
 	_bank_input = mmap_device_io(GPIO_SIZE,(uint64_t) GPIO_BASE_BANK0);
@@ -140,6 +141,7 @@ uint32_t GPIOWrapper::read_value_from_register(uint32_t bank, const uint32_t gpi
 		default:
 			return -1;
 	}
+}
 }
 
 

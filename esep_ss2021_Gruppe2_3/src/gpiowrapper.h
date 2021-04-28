@@ -10,6 +10,8 @@
 
 #include <cstdint>
 
+namespace hal{
+
 class GPIOWrapper {
 private:
 	uintptr_t _bank_input;
@@ -34,5 +36,6 @@ public:
 	void enable_interrupt_falling(uint32_t bank, uint32_t pin);
 	void enable_interrupt_rising(uint32_t bank, uint32_t pin);
 };
+}
 
 #endif /* SRC_ACTUATORS_GPIO_H_ */

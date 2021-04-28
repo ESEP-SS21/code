@@ -21,7 +21,7 @@ int main(int argc, char **argv){
 
 int main(int argc, char **argv) {
 
-	GPIOWrapper gpio;
+	hal::GPIOWrapper gpio;
 	while(1){
 		gpio.out(1,19,1);
 		std::cout<<gpio.in(1,19)<<std::endl;
