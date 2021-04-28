@@ -18,7 +18,7 @@ namespace hal {
 
 class HAL {
 private:
-	static HAL Instance;
+	static HAL _instance;
 
 	HAL();
 	~HAL();
@@ -30,7 +30,7 @@ private:
 
 public:
 	static HAL& get_instance() {
-		return Instance;
+		return _instance;
 	}
 
 	std::unique_ptr<LEDs> get_leds();
