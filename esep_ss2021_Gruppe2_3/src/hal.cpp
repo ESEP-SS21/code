@@ -10,7 +10,7 @@
 namespace hal {
 
 HAL::HAL() {
-	// TODO Auto-generated constructor stub
+	//erzeuge gpio
 
 }
 
