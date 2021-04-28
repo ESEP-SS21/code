@@ -1,0 +1,30 @@
+/*
+ * stoplight.cpp
+ *
+ *  Created on: 28.04.2021
+ *      Author: justi
+ */
+
+#include "../actuators/stoplight.h"
+
+Stoplight::Stoplight(GPIO* gpio) {
+	// TODO Auto-generated constructor stub
+
+}
+
+Stoplight::~Stoplight() {
+	// TODO Auto-generated destructor stub
+}
+
+void Stoplight::enable(Color) {
+
+}
+
+void Stoplight::disable(Color) {
+
+}
+
+void Stoplight::blink(Color, Speed) {
+
+}
+
