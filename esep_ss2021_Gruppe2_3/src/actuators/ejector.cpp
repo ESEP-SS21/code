@@ -6,7 +6,9 @@
  */
 
 #include "../actuators/ejector.h"
-namespace hal{
+
+namespace hal {
+
 Ejector::~Ejector() {
 	// TODO Auto-generated destructor stub
 }
@@ -22,5 +24,6 @@ void Ejector::close() {
 bool Ejector::is_open() {
 	return 0;
 }
+
 }
 

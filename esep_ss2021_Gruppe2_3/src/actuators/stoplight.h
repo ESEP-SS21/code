@@ -10,17 +10,14 @@
 
 #include "../gpiowrapper.h"
 
-namespace hal{
+namespace hal {
 
 enum Color {
-		GREEN = 0,
-		YELLOW,
-		RED
+	GREEN = 0, YELLOW, RED
 };
 
 enum Speed {
-		SLOW,
-		FAST
+	SLOW, FAST
 };
 
 class Stoplight {
@@ -35,6 +32,7 @@ public:
 	void disable(Color);
 	void blink(Color, Speed);
 };
+
 }
 
 #endif /* SRC_ACTUATORS_STOPLIGHT_H_ */

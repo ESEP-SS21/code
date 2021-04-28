@@ -6,7 +6,9 @@
  */
 
 #include "hal.h"
-namespace hal{
+
+namespace hal {
+
 HAL::HAL() {
 	// TODO Auto-generated constructor stub
 
@@ -15,5 +17,6 @@ HAL::HAL() {
 HAL::~HAL() {
 	// TODO Auto-generated destructor stub
 }
+
 }
 

@@ -6,7 +6,9 @@
  */
 
 #include "../actuators/leds.h"
-namespace hal{
+
+namespace hal {
+
 LEDs::LEDs(GPIOWrapper* gpio) {
 	// TODO Auto-generated constructor stub
 
@@ -23,4 +25,5 @@ void LEDs::enable(LED_type) {
 void LEDs::disable(LED_type) {
 
 }
+
 }

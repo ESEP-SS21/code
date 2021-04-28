@@ -9,7 +9,9 @@
 #define SRC_ACTUATORS_SORTING_MECHANISM_H_
 
 #include "../gpiowrapper.h"
-namespace hal{
+
+namespace hal {
+
 class SortingMechanism {
 private:
 	GPIOWrapper* gpio;
@@ -21,6 +23,7 @@ public:
 	virtual void close()=0;
 	virtual bool is_open()=0;
 };
+
 }
 
 #endif /* SRC_ACTUATORS_SORTING_MECHANISM_H_ */

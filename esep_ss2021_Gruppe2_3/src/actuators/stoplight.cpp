@@ -6,7 +6,9 @@
  */
 
 #include "../actuators/stoplight.h"
-namespace hal{
+
+namespace hal {
+
 Stoplight::Stoplight(GPIOWrapper* gpio) {
 	// TODO Auto-generated constructor stub
 
@@ -27,5 +29,6 @@ void Stoplight::disable(Color) {
 void Stoplight::blink(Color, Speed) {
 
 }
+
 }
 

@@ -14,7 +14,8 @@
 #include "actuators/stoplight.h"
 #include "gpiowrapper.h"
 
-namespace hal{
+namespace hal {
+
 class HAL {
 private:
 	HAL* _instance;
@@ -36,6 +37,7 @@ public:
 	Stoplight* get_stoplight();
 
 };
+
 }
 
 #endif /* SRC_HAL_H_ */

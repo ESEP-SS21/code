@@ -9,12 +9,11 @@
 #define SRC_ACTUATORS_LEDS_H_
 
 #include "../gpiowrapper.h"
-namespace hal{
+
+namespace hal {
+
 enum LED_type {
-		START = 0,
-		RESET,
-		Q1,
-		Q2
+	START = 0, RESET, Q1, Q2
 };
 
 class LEDs {
@@ -28,6 +27,7 @@ public:
 	void enable(LED_type);
 	void disable(LED_type);
 };
+
 }
 
 #endif /* SRC_ACTUATORS_LEDS_H_ */
