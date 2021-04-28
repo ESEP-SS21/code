@@ -24,8 +24,10 @@ int main(int argc, char **argv) {
 	GPIOWrapper gpio;
 	while(1){
 		gpio.out(1,19,1);
+		std::cout<<gpio.in(1,19)<<std::endl;
         usleep(1000*500);
 		gpio.out(1,19,0);
+		std::cout<<gpio.in(1,19)<<std::endl;
         usleep(1000*500);
 	}
 
