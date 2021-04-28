@@ -11,15 +11,15 @@ Switch::~Switch() {
 	// TODO Auto-generated destructor stub
 }
 
-void SortingMechanism::open() {
+void Switch::open() {
 
 }
 
-void SortingMechanism::close() {
+void Switch::close() {
 
 }
 
-bool SortingMechanism::is_open() {
+bool Switch::is_open() {
 	return 0;
 }
 

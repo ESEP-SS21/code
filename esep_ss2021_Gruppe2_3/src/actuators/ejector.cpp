@@ -11,15 +11,15 @@ Ejector::~Ejector() {
 	// TODO Auto-generated destructor stub
 }
 
-void SortingMechanism::open() {
+void Ejector::open() {
 
 }
 
-void SortingMechanism::close() {
+void Ejector::close() {
 
 }
 
-bool SortingMechanism::is_open() {
+bool Ejector::is_open() {
 	return 0;
 }
 
