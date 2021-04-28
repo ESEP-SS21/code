@@ -16,7 +16,7 @@ public:
 
 	virtual void open();
 	virtual void close();
-	virtual bool get_status();
+	virtual bool is_open();
 
 };
 

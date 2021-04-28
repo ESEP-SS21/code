@@ -9,6 +9,7 @@
 #define SRC_ACTUATORS_CB_MOTOR_H_
 
 #include "gpio.h"
+#include <memory>
 
 enum Direction {
 		FAST_FORWARDS = 0,
@@ -20,10 +21,11 @@ enum Direction {
 
 class CBMotor {
 private:
-	GPIO* gpio;
+	std::shared_ptr<GPIO> gpio;
+	//GPIO* gpio;
 
 public:
-	CBMotor(GPIO*);
+	CBMotor(std::shared_ptr<GPIO>);
 	virtual ~CBMotor();
 
 	void set_direction(Direction);
