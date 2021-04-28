@@ -13,13 +13,14 @@
 class SortingMechanism {
 private:
 	GPIO* gpio;
+	bool is_open;
 
 public:
 	SortingMechanism(GPIO*);
 
 	virtual void open()=0;
 	virtual void close()=0;
-	virtual bool is_open()=0;
+	virtual bool get_status()=0;
 };
 
 #endif /* SRC_ACTUATORS_SORTING_MECHANISM_H_ */

@@ -19,7 +19,7 @@ void Switch::close() {
 
 }
 
-bool Switch::is_open() {
+bool Switch::get_status() {
 	return 0;
 }
 

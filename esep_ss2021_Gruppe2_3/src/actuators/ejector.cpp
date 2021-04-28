@@ -19,7 +19,7 @@ void Ejector::close() {
 
 }
 
-bool Ejector::is_open() {
+bool Ejector::get_status() {
 	return 0;
 }
 
