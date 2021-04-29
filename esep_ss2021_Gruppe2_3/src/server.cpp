@@ -6,6 +6,8 @@
 #include <iostream>
 #include "simqnxgpioapi.h" // must be last include !!!
 #include "gpiowrapper.h"
+#include "hal.h"
+#include "cb_motor.h"
 
 #ifdef TEST_ENABLE
 
@@ -21,16 +23,19 @@ int main(int argc, char **argv) {
 
 int main(int argc, char **argv) {
 
-	hal::GPIOWrapper gpio;
+	hal::HAL* hal;
 	while (1) {
-		gpio.out(1, 19, 1);
-		std::cout << gpio.in(1, 19) << std::endl;
+		hal->get_instance().get_cb_motor().get()->set_direction(hal::FAST_FORWARDS);
+		std::cout << "FAST_FORWARD" << std::endl;
 		usleep(1000 * 500);
-		gpio.out(1, 19, 0);
-		std::cout << gpio.in(1, 19) << std::endl;
+		hal->get_instance().get_cb_motor().get()->set_direction(hal::STOP);
+		std::cout << "STOP" << std::endl;
 		usleep(1000 * 500);
 	}
 
+	/*
+	 * BEISPIELCODE
+	 */
 	/*
 	 std::cout << "Switch traffic light on / off" << std::endl;
 
