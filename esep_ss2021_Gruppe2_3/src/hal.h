@@ -10,6 +10,8 @@
 
 #include "actuators/leds.h"
 #include "actuators/sorting_mechanism.h"
+#include "actuators/switch.h"
+#include "actuators/ejector.h"
 #include "actuators/cb_motor.h"
 #include "actuators/stoplight.h"
 #include "gpiowrapper.h"
@@ -20,13 +22,13 @@ class HAL {
 private:
 	static HAL _instance;
 
-	HAL();
-	~HAL();
-
 	std::unique_ptr<LEDs> _leds;
 	std::unique_ptr<SortingMechanism> _sorting_mechanism;
 	std::unique_ptr<CBMotor> _cb_motor;
 	std::unique_ptr<Stoplight> _stoplight;
+
+	HAL();
+	~HAL();
 
 public:
 	static HAL& get_instance() {

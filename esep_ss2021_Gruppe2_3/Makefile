@@ -15,6 +15,7 @@ TARGET = $(OUTPUT_DIR)/$(ARTIFACT)
 CC = qcc -Vgcc_nto$(PLATFORM)
 CXX = qcc -lang-c++ -Vgcc_nto$(PLATFORM) -DSIM_SOW_SENSORS -DSIM_SHOW_ACTUATORS
 CXX += -DSIM_REPORT -DSIM_EXT_CTRL
+#CXX += -std=c++14
 
 # - - - - - - - - - - - - - - - - - - - - TESTS AN/AUS - - - - - - - - - - - - - - - - - - - -  
 #CXX += -DTEST_ENABLE

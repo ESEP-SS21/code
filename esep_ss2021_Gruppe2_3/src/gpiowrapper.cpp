@@ -6,7 +6,7 @@
  */
 
 #include "gpiowrapper.h"
-//#include "gpio_bbb.h"
+
 #include <iostream>
 #include <sys/mman.h>
 #include "simqnxgpioapi.h"
@@ -19,7 +19,7 @@ GPIOWrapper::GPIOWrapper() {
 	_bank_actuator = mmap_device_io(gpio_adresses::GPIO_SIZE,
 			(uint64_t ) gpio_adresses::GPIO_BASE_BANK1);
 	_bank_led = mmap_device_io(gpio_adresses::GPIO_SIZE,
-			(uint64_t ) gpio_adresses::GPIO_BASE_BANK1);
+			(uint64_t ) gpio_adresses::GPIO_BASE_BANK2);
 }
 
 GPIOWrapper::~GPIOWrapper() {

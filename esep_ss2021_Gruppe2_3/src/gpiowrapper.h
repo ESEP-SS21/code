@@ -48,6 +48,11 @@ static constexpr uint32_t ADC_IRQ_STATUS = 0x28;
 static constexpr uint32_t ADC_CTRL = 0x40;
 static constexpr uint32_t ADC_DATA = 0x100;
 
+// GPIO Banks
+static constexpr uint32_t BANK_INPUT = 0;
+static constexpr uint32_t BANK_ACTUATOR = 1;
+static constexpr uint32_t BANK_LED = 2;
+
 // GPIO 0 bitmasks
 static constexpr uint32_t LICHTSCHRANKE_EINLAUF_0 = 2;
 static constexpr uint32_t LICHTSCHRANKE_HOEHENMESSUNG_0 = 3;

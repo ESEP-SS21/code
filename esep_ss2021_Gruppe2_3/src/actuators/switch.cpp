@@ -9,8 +9,12 @@
 
 namespace hal {
 
+Switch::Switch(std::shared_ptr<GPIOWrapper> gpio) : SortingMechanism(gpio) {
+
+}
+
 Switch::~Switch() {
-	// TODO Auto-generated destructor stub
+
 }
 
 void Switch::open() {

@@ -9,8 +9,12 @@
 
 namespace hal {
 
+Ejector::Ejector(std::shared_ptr<GPIOWrapper> gpio) : SortingMechanism(gpio) {
+
+}
+
 Ejector::~Ejector() {
-	// TODO Auto-generated destructor stub
+
 }
 
 void Ejector::open() {

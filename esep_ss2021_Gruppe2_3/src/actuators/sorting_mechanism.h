@@ -17,7 +17,7 @@ private:
 	std::shared_ptr<GPIOWrapper> _gpio;
 
 public:
-	SortingMechanism(std::shared_ptr<GPIOWrapper>);
+	SortingMechanism(std::shared_ptr<GPIOWrapper> gpio);
 
 	virtual void open()=0;
 	virtual void close()=0;

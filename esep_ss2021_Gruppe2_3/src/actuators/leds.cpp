@@ -10,8 +10,7 @@
 namespace hal {
 
 LEDs::LEDs(std::shared_ptr<GPIOWrapper> gpio) {
-	// TODO Auto-generated constructor stub
-
+	_gpio = gpio;
 }
 
 LEDs::~LEDs() {

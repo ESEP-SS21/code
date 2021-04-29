@@ -14,6 +14,7 @@ namespace hal {
 
 class Ejector: public SortingMechanism {
 public:
+	Ejector(std::shared_ptr<GPIOWrapper>);
 	virtual ~Ejector();
 
 	virtual void open();
