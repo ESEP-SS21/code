@@ -27,13 +27,80 @@ int main(int argc, char **argv) {
 
 int main(int argc, char **argv) {
 
-	//hal::HAL* hal;
+
+	auto hal_instance = hal::HAL::get_instance();
 	while (1) {
-		//hal->get_instance().get_cb_motor().get()->set_direction(hal::FAST_FORWARDS);
-		std::cout << "FAST_FORWARD" << std::endl;
+		//CBMotor
+		hal_instance.get_cb_motor().get()->set_direction(hal::FAST_FORWARDS);
 		usleep(1000 * 500);
-		//hal->get_instance().get_cb_motor().get()->set_direction(hal::STOP);
-		std::cout << "STOP" << std::endl;
+
+		hal_instance.get_cb_motor().get()->set_direction(hal::STOP);
+		usleep(1000 * 500);
+
+		hal_instance.get_cb_motor().get()->set_direction(hal::FAST_BACKWARDS);
+		usleep(1000 * 500);
+
+		hal_instance.get_cb_motor().get()->set_direction(hal::SLOW_BACKWARDS);
+		usleep(1000 * 500);
+
+		hal_instance.get_cb_motor().get()->set_direction(hal::SLOW_FORWARDS);
+		usleep(1000 * 500);
+
+		//SortingMechanism
+		hal_instance.get_sorting_mechanism().get()->open();
+		usleep(1000 * 500);
+
+		std::cout << hal_instance.get_sorting_mechanism().get()->is_open() << std::endl;
+		usleep(1000 * 500);
+
+		hal_instance.get_sorting_mechanism().get()->close();
+		usleep(1000 * 500);
+
+		std::cout << hal_instance.get_sorting_mechanism().get()->is_open() << std::endl;
+		usleep(1000 * 500);
+
+		//Stoplight
+		hal_instance.get_stoplight().get()->enable(hal::GREEN);
+		usleep(1000 * 500);
+
+		hal_instance.get_stoplight().get()->enable(hal::YELLOW);
+		usleep(1000 * 500);
+
+		hal_instance.get_stoplight().get()->enable(hal::RED);
+		usleep(1000 * 500);
+
+		hal_instance.get_stoplight().get()->disable(hal::GREEN);
+		usleep(1000 * 500);
+
+		hal_instance.get_stoplight().get()->disable(hal::YELLOW);
+		usleep(1000 * 500);
+
+		hal_instance.get_stoplight().get()->disable(hal::RED);
+		usleep(1000 * 500);
+
+		//LEDs
+		hal_instance.get_leds().get()->enable(hal::START);
+		usleep(1000 * 500);
+
+		hal_instance.get_leds().get()->enable(hal::RESET);
+		usleep(1000 * 500);
+
+		hal_instance.get_leds().get()->enable(hal::Q1);
+		usleep(1000 * 500);
+
+		hal_instance.get_leds().get()->enable(hal::Q2);
+		usleep(1000 * 500);
+
+		hal_instance.get_leds().get()->disable(hal::START);
+		usleep(1000 * 500);
+
+		hal_instance.get_leds().get()->disable(hal::RESET);
+		usleep(1000 * 500);
+
+		hal_instance.get_leds().get()->disable(hal::Q1);
+		usleep(1000 * 500);
+
+		hal_instance.get_leds().get()->disable(hal::Q2);
 		usleep(1000 * 500);
 	}
 

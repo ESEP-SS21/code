@@ -20,28 +20,29 @@ namespace hal {
 
 class HAL {
 private:
-	//static HAL& _instance;
-
-	std::unique_ptr<LEDs> _leds;
-	std::unique_ptr<SortingMechanism> _sorting_mechanism;
-	std::unique_ptr<CBMotor> _cb_motor;
-	std::unique_ptr<Stoplight> _stoplight;
+	//static HAL* _instance;
 
 	HAL();
-	~HAL();
+
+	std::shared_ptr<LEDs> _leds;
+	std::shared_ptr<SortingMechanism> _sorting_mechanism;
+	std::shared_ptr<CBMotor> _cb_motor;
+	std::shared_ptr<Stoplight> _stoplight;
+
+
 
 public:
-	/*static HAL&*/ void get_instance();
+	static HAL& get_instance() {
+		static HAL _instance;
+		return _instance;
+	}
 
-	HAL(HAL const&) = delete;
-	HAL(HAL&&) = delete;
-	HAL& operator=(HAL const&) = delete;
-	HAL& operator=(HAL&&) = delete;
+	~HAL();
 
-	const std::unique_ptr<LEDs> get_leds();
-	const std::unique_ptr<SortingMechanism> get_sorting_mechanism();
-	const std::unique_ptr<CBMotor> get_cb_motor();
-	const std::unique_ptr<Stoplight> get_stoplight();
+	std::shared_ptr<LEDs> get_leds();
+	std::shared_ptr<SortingMechanism> get_sorting_mechanism();
+	std::shared_ptr<CBMotor> get_cb_motor();
+	std::shared_ptr<Stoplight> get_stoplight();
 };
 
 }

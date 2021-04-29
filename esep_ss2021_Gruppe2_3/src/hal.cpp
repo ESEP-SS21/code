@@ -10,18 +10,18 @@
 
 namespace hal {
 
-/*HAL&*/ void HAL::get_instance() {
+//HAL& HAL::get_instance() {
 	//static HAL _instance;
 	//return _instance;
-}
+//}
 
 HAL::HAL() {
 	auto gpio_shptr = std::make_shared<GPIOWrapper>();
 
-	_leds = std::unique_ptr<LEDs>(new LEDs(gpio_shptr));
-	_cb_motor = std::unique_ptr<CBMotor>(new CBMotor(gpio_shptr));
-	_stoplight = std::unique_ptr<Stoplight>(new Stoplight(gpio_shptr));
-	_sorting_mechanism = std::unique_ptr<SortingMechanism>(
+	_leds = std::shared_ptr<LEDs>(new LEDs(gpio_shptr));
+	_cb_motor = std::shared_ptr<CBMotor>(new CBMotor(gpio_shptr));
+	_stoplight = std::shared_ptr<Stoplight>(new Stoplight(gpio_shptr));
+	_sorting_mechanism = std::shared_ptr<SortingMechanism>(
 			new Switch(gpio_shptr));
 }
 
@@ -32,20 +32,20 @@ HAL::~HAL() {
 	delete &_sorting_mechanism;
 }
 
-const std::unique_ptr<LEDs> HAL::get_leds() {
-	return move(_leds);
+std::shared_ptr<LEDs> HAL::get_leds() {
+	return _leds;
 }
 
-const std::unique_ptr<SortingMechanism> HAL::get_sorting_mechanism() {
-	return move(_sorting_mechanism);
+std::shared_ptr<SortingMechanism> HAL::get_sorting_mechanism() {
+	return _sorting_mechanism;
 }
 
-const std::unique_ptr<CBMotor> HAL::get_cb_motor() {
-	return move(_cb_motor);
+std::shared_ptr<CBMotor> HAL::get_cb_motor() {
+	return _cb_motor;
 }
 
-const std::unique_ptr<Stoplight> HAL::get_stoplight() {
-	return move(_stoplight);
+std::shared_ptr<Stoplight> HAL::get_stoplight() {
+	return _stoplight;
 }
 
 }
