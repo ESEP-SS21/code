@@ -10,9 +10,9 @@
 
 namespace hal {
 
-HAL& HAL::get_instance() {
-	static HAL _instance;
-	return _instance;
+/*HAL&*/ void HAL::get_instance() {
+	//static HAL _instance;
+	//return _instance;
 }
 
 HAL::HAL() {

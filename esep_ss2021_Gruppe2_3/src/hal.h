@@ -31,7 +31,7 @@ private:
 	~HAL();
 
 public:
-	static HAL& get_instance();
+	/*static HAL&*/ void get_instance();
 
 	HAL(HAL const&) = delete;
 	HAL(HAL&&) = delete;

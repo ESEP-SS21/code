@@ -16,9 +16,9 @@ class Switch: public SortingMechanism {
 public:
 	Switch(std::shared_ptr<GPIOWrapper>);
 
-	virtual void open();
-	virtual void close();
-	virtual bool is_open();
+	void open() override;
+	void close() override;
+	bool is_open() override;
 
 };
 

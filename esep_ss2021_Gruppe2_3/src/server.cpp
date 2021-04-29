@@ -27,12 +27,12 @@ int main(int argc, char **argv) {
 
 int main(int argc, char **argv) {
 
-	hal::HAL* hal;
+	//hal::HAL* hal;
 	while (1) {
-		hal->get_instance().get_cb_motor().get()->set_direction(hal::FAST_FORWARDS);
+		//hal->get_instance().get_cb_motor().get()->set_direction(hal::FAST_FORWARDS);
 		std::cout << "FAST_FORWARD" << std::endl;
 		usleep(1000 * 500);
-		hal->get_instance().get_cb_motor().get()->set_direction(hal::STOP);
+		//hal->get_instance().get_cb_motor().get()->set_direction(hal::STOP);
 		std::cout << "STOP" << std::endl;
 		usleep(1000 * 500);
 	}
