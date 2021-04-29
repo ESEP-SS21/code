@@ -33,6 +33,11 @@ private:
 public:
 	static HAL& get_instance();
 
+	HAL(HAL const&) = delete;
+	HAL(HAL&&) = delete;
+	HAL& operator=(HAL const&) = delete;
+	HAL& operator=(HAL&&) = delete;
+
 	std::unique_ptr<LEDs> get_leds();
 	std::unique_ptr<SortingMechanism> get_sorting_mechanism();
 	std::unique_ptr<CBMotor> get_cb_motor();
