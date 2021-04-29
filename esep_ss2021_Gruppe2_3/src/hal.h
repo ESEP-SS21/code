@@ -38,10 +38,10 @@ public:
 	HAL& operator=(HAL const&) = delete;
 	HAL& operator=(HAL&&) = delete;
 
-	std::unique_ptr<LEDs> get_leds();
-	std::unique_ptr<SortingMechanism> get_sorting_mechanism();
-	std::unique_ptr<CBMotor> get_cb_motor();
-	std::unique_ptr<Stoplight> get_stoplight();
+	const std::unique_ptr<LEDs> get_leds();
+	const std::unique_ptr<SortingMechanism> get_sorting_mechanism();
+	const std::unique_ptr<CBMotor> get_cb_motor();
+	const std::unique_ptr<Stoplight> get_stoplight();
 };
 
 }

@@ -32,19 +32,19 @@ HAL::~HAL() {
 	delete &_sorting_mechanism;
 }
 
-std::unique_ptr<LEDs> HAL::get_leds() {
+const std::unique_ptr<LEDs> HAL::get_leds() {
 	return move(_leds);
 }
 
-std::unique_ptr<SortingMechanism> HAL::get_sorting_mechanism() {
+const std::unique_ptr<SortingMechanism> HAL::get_sorting_mechanism() {
 	return move(_sorting_mechanism);
 }
 
-std::unique_ptr<CBMotor> HAL::get_cb_motor() {
+const std::unique_ptr<CBMotor> HAL::get_cb_motor() {
 	return move(_cb_motor);
 }
 
-std::unique_ptr<Stoplight> HAL::get_stoplight() {
+const std::unique_ptr<Stoplight> HAL::get_stoplight() {
 	return move(_stoplight);
 }
 
