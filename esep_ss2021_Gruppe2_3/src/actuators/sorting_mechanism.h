@@ -13,11 +13,12 @@
 namespace hal {
 
 class SortingMechanism {
-private:
+protected:
 	std::shared_ptr<GPIOWrapper> _gpio;
 
 public:
 	SortingMechanism(std::shared_ptr<GPIOWrapper> gpio);
+	~SortingMechanism();
 
 	virtual void open()=0;
 	virtual void close()=0;

@@ -11,8 +11,6 @@
 namespace hal {
 
 HAL& HAL::get_instance() {
-
-
 	static HAL _instance;
 	return _instance;
 }

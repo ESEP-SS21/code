@@ -15,7 +15,6 @@ namespace hal {
 class Switch: public SortingMechanism {
 public:
 	Switch(std::shared_ptr<GPIOWrapper>);
-	virtual ~Switch();
 
 	virtual void open();
 	virtual void close();

@@ -12,7 +12,9 @@ SortingMechanism::SortingMechanism(std::shared_ptr<GPIOWrapper> gpio) {
 	_gpio = gpio;
 }
 
+SortingMechanism::~SortingMechanism() {
+	delete &_gpio;
 }
 
-
+}
 
