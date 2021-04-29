@@ -11,8 +11,8 @@
 namespace hal {
 
 //HAL& HAL::get_instance() {
-	//static HAL _instance;
-	//return _instance;
+//static HAL _instance;
+//return _instance;
 //}
 
 HAL::HAL() {
@@ -32,19 +32,19 @@ HAL::~HAL() {
 	delete &_sorting_mechanism;
 }
 
-std::shared_ptr<LEDs> HAL::get_leds() {
+std::shared_ptr<LEDs> HAL::get_leds() const {
 	return _leds;
 }
 
-std::shared_ptr<SortingMechanism> HAL::get_sorting_mechanism() {
+std::shared_ptr<SortingMechanism> HAL::get_sorting_mechanism() const {
 	return _sorting_mechanism;
 }
 
-std::shared_ptr<CBMotor> HAL::get_cb_motor() {
+std::shared_ptr<CBMotor> HAL::get_cb_motor() const {
 	return _cb_motor;
 }
 
-std::shared_ptr<Stoplight> HAL::get_stoplight() {
+std::shared_ptr<Stoplight> HAL::get_stoplight() const {
 	return _stoplight;
 }
 

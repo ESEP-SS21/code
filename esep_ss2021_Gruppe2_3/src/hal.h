@@ -29,8 +29,6 @@ private:
 	std::shared_ptr<CBMotor> _cb_motor;
 	std::shared_ptr<Stoplight> _stoplight;
 
-
-
 public:
 	static HAL& get_instance() {
 		static HAL _instance;
@@ -39,10 +37,10 @@ public:
 
 	~HAL();
 
-	std::shared_ptr<LEDs> get_leds();
-	std::shared_ptr<SortingMechanism> get_sorting_mechanism();
-	std::shared_ptr<CBMotor> get_cb_motor();
-	std::shared_ptr<Stoplight> get_stoplight();
+	std::shared_ptr<LEDs> get_leds() const;
+	std::shared_ptr<SortingMechanism> get_sorting_mechanism() const;
+	std::shared_ptr<CBMotor> get_cb_motor() const;
+	std::shared_ptr<Stoplight> get_stoplight() const;
 };
 
 }
