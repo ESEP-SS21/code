@@ -90,10 +90,10 @@ private:
 	uintptr_t _bank_actuator;
 	uintptr_t _bank_led;
 
-	void add_bit_to_register(uint32_t, const uint32_t, uint32_t);
-	void set_bit_in_register(uint32_t, const uint32_t, uint32_t);
-	void write_value_to_register(uint32_t, const uint32_t, uint32_t);
-	uint32_t read_value_from_register(uint32_t, const uint32_t, uint32_t);
+	void add_bit_to_register(uint32_t, const uint32_t, uint32_t) const;
+	void set_bit_in_register(uint32_t, const uint32_t, uint32_t) const;
+	void write_value_to_register(uint32_t, const uint32_t, uint32_t) const;
+	uint32_t read_value_from_register(uint32_t, const uint32_t, uint32_t) const;
 
 public:
 	GPIOWrapper();

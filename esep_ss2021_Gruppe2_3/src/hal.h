@@ -30,7 +30,7 @@ private:
 	std::shared_ptr<Stoplight> _stoplight;
 
 public:
-	static HAL& get_instance() {
+	static const HAL& get_instance() {
 		static HAL _instance;
 		return _instance;
 	}

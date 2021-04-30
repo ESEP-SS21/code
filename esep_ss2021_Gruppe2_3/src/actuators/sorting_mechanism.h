@@ -20,9 +20,9 @@ public:
 	SortingMechanism(std::shared_ptr<GPIOWrapper> gpio);
 	~SortingMechanism();
 
-	virtual void open()=0;
-	virtual void close()=0;
-	virtual bool is_open()=0;
+	virtual void open() const = 0;
+	virtual void close() const = 0;
+	virtual bool is_open() const = 0;
 };
 
 }

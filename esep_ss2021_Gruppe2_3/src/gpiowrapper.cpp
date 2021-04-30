@@ -66,7 +66,7 @@ void GPIOWrapper::enable_interrupt_rising(uint32_t bank, uint32_t pin) {
 }
 // Sets a single bit in a register and erases the other ones
 void GPIOWrapper::set_bit_in_register(uint32_t bank,
-		const uint32_t gpio_register, uint32_t pin) {
+		const uint32_t gpio_register, uint32_t pin) const {
 	switch (bank) {
 	case 0: {
 		out32((uintptr_t ) (_bank_input + gpio_register), 0x1 << (pin));
@@ -87,7 +87,7 @@ void GPIOWrapper::set_bit_in_register(uint32_t bank,
 
 // sets a single bit in a register without touching the others
 void GPIOWrapper::add_bit_to_register(uint32_t bank,
-		const uint32_t gpio_register, uint32_t pin) {
+		const uint32_t gpio_register, uint32_t pin) const {
 	switch (bank) {
 	case 0: {
 		uint32_t old = in32((uintptr_t ) (_bank_input + gpio_register));
@@ -111,7 +111,7 @@ void GPIOWrapper::add_bit_to_register(uint32_t bank,
 }
 
 void GPIOWrapper::write_value_to_register(uint32_t bank,
-		const uint32_t gpio_register, uint32_t value) {
+		const uint32_t gpio_register, uint32_t value) const {
 	switch (bank) {
 	case 0:
 		out32((uintptr_t ) (_bank_input + gpio_register), value);
@@ -128,7 +128,7 @@ void GPIOWrapper::write_value_to_register(uint32_t bank,
 }
 
 uint32_t GPIOWrapper::read_value_from_register(uint32_t bank,
-		const uint32_t gpio_register, uint32_t pin) {
+		const uint32_t gpio_register, uint32_t pin) const {
 	switch (bank) {
 	case 0:
 		return (in32((uintptr_t ) (_bank_input + gpio_register))

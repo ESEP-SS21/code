@@ -14,17 +14,17 @@ Ejector::Ejector(std::shared_ptr<GPIOWrapper> gpio) :
 
 }
 
-void Ejector::open() {
+void Ejector::open() const {
 	_gpio->out(gpio_adresses::BANK_ACTUATOR, gpio_adresses::WEICHE_OEFFNEN_1,
 			0);
 }
 
-void Ejector::close() {
+void Ejector::close() const {
 	_gpio->out(gpio_adresses::BANK_ACTUATOR, gpio_adresses::WEICHE_OEFFNEN_1,
 			1);
 }
 
-bool Ejector::is_open() {
+bool Ejector::is_open() const {
 	return _gpio->in(gpio_adresses::BANK_INPUT, gpio_adresses::WEICHE_OFFEN_0)
 			== 0;
 }
