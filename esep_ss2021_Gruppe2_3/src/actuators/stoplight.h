@@ -9,6 +9,7 @@
 #define SRC_ACTUATORS_STOPLIGHT_H_
 
 #include "../gpiowrapper.h"
+#include <../actuators/BlinkWorker.h>
 
 namespace hal {
 
@@ -23,6 +24,9 @@ enum Speed {
 class Stoplight {
 private:
 	std::shared_ptr<GPIOWrapper> _gpio;
+	BlinkWorker blinker;
+	std::thread blinker_thread;
+
 
 public:
 	Stoplight(std::shared_ptr<GPIOWrapper>);

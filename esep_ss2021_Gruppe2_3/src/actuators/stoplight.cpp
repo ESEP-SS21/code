@@ -7,17 +7,21 @@
 
 #include "../actuators/stoplight.h"
 
+
 namespace hal {
 
 Stoplight::Stoplight(std::shared_ptr<GPIOWrapper> gpio) {
 	_gpio = gpio;
+	blinker_thread = std::thread(&BlinkWorker::run, &blinker);
 }
 
 Stoplight::~Stoplight() {
+	blinker_thread.join();
 	delete &_gpio;
 }
 
 void Stoplight::enable(Color color) {
+	blinker.stop_blinking();
 	switch (color) {
 	case GREEN:
 		_gpio->out(gpio_adresses::BANK_ACTUATOR, gpio_adresses::AMPEL_GRUEN_1,
@@ -34,6 +38,7 @@ void Stoplight::enable(Color color) {
 }
 
 void Stoplight::disable(Color color) {
+	blinker.stop_blinking();
 	switch (color) {
 	case GREEN:
 		_gpio->out(gpio_adresses::BANK_ACTUATOR, gpio_adresses::AMPEL_GRUEN_1,
@@ -50,17 +55,7 @@ void Stoplight::disable(Color color) {
 }
 
 void Stoplight::blink(Color color, Speed speed) {
-
-	// TODO
-
-	//switch (color) {
-	//case GREEN:
-	//	start_blinking(gpio_adresses::AMPEL_GRUEN_1, speed);
-	//case YELLOW:
-	//	start_blinking(gpio_adresses::AMPEL_GELB_1, speed);
-	//default: // RED
-	//	start_blinking(gpio_adresses::AMPEL_ROT_1, speed);
-	//}
+	blinker.start_blinking();
 }
 
 }

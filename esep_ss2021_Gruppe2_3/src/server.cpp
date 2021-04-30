@@ -17,7 +17,6 @@
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
 	auto result = RUN_ALL_TESTS();
-}
 
 #else
 
@@ -25,7 +24,13 @@ int main(int argc, char **argv) {
 //TODO XOR der SortingMechanisms in der HAL
 
 int main(int argc, char **argv) {
+	hal::HAL::get_instance().get_stoplight().get()->blink(hal::GREEN, hal::SLOW);
+	usleep(5000 *1000);
+	hal::HAL::get_instance().get_stoplight().get()->disable(hal::GREEN);
+	usleep(2000 *1000);
+	hal::HAL::get_instance().get_stoplight().get()->blink(hal::GREEN, hal::SLOW);
 
+	/*
 	while (1) {
 		//CBMotor
 		hal::HAL::get_instance().get_cb_motor().get()->set_direction(hal::FAST_FORWARDS);
@@ -58,7 +63,9 @@ int main(int argc, char **argv) {
 	}
 
 	return 0;
+	*/
 }
+
 
 #endif
 
