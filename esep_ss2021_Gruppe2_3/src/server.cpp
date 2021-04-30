@@ -27,23 +27,25 @@ int main(int argc, char **argv) {
 int main(int argc, char **argv) {
 
 
-	auto hal_instance = hal::HAL::get_instance();
+	//HAL hal_instance = hal::HAL::get_instance();
 	while (1) {
 		//CBMotor
-		hal_instance.get_cb_motor().get()->set_direction(hal::FAST_FORWARDS);
+		hal::HAL::get_instance().get_cb_motor().get()->set_direction(hal::FAST_FORWARDS);
 		usleep(1000 * 500);
 
-		hal_instance.get_cb_motor().get()->set_direction(hal::STOP);
+		hal::HAL::get_instance().get_cb_motor().get()->set_direction(hal::STOP);
 		usleep(1000 * 500);
 
-		hal_instance.get_cb_motor().get()->set_direction(hal::FAST_BACKWARDS);
+		hal::HAL::get_instance().get_cb_motor().get()->set_direction(hal::FAST_BACKWARDS);
 		usleep(1000 * 500);
 
-		hal_instance.get_cb_motor().get()->set_direction(hal::SLOW_BACKWARDS);
+		hal::HAL::get_instance().get_cb_motor().get()->set_direction(hal::SLOW_BACKWARDS);
 		usleep(1000 * 500);
 
-		hal_instance.get_cb_motor().get()->set_direction(hal::SLOW_FORWARDS);
+		hal::HAL::get_instance().get_cb_motor().get()->set_direction(hal::SLOW_FORWARDS);
 		usleep(1000 * 500);
+
+		/*
 
 		//SortingMechanism
 		hal_instance.get_sorting_mechanism().get()->open();
@@ -101,6 +103,8 @@ int main(int argc, char **argv) {
 
 		hal_instance.get_leds().get()->disable(hal::Q2);
 		usleep(1000 * 500);
+
+		*/
 	}
 
 	/*

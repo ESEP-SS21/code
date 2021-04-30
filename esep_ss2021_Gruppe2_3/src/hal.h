@@ -20,8 +20,6 @@ namespace hal {
 
 class HAL {
 private:
-	//static HAL* _instance;
-
 	HAL();
 
 	std::shared_ptr<LEDs> _leds;
@@ -36,6 +34,11 @@ public:
 	}
 
 	~HAL();
+
+	HAL(HAL const&) = delete;
+	HAL(HAL&&) = delete;
+	HAL& operator=(HAL const&) = delete;
+	HAL& operator=(HAL &&) = delete;
 
 	std::shared_ptr<LEDs> get_leds() const;
 	std::shared_ptr<SortingMechanism> get_sorting_mechanism() const;

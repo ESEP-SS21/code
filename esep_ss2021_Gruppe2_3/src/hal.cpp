@@ -10,11 +10,6 @@
 
 namespace hal {
 
-//HAL& HAL::get_instance() {
-//static HAL _instance;
-//return _instance;
-//}
-
 HAL::HAL() {
 	auto gpio_shptr = std::make_shared<GPIOWrapper>();
 
