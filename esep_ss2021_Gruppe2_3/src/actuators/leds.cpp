@@ -14,7 +14,7 @@ LEDs::LEDs(std::shared_ptr<GPIOWrapper> gpio) {
 }
 
 LEDs::~LEDs() {
-	delete &_gpio;
+	//delete &_gpio;
 }
 
 void LEDs::enable(LED_type led_type) {

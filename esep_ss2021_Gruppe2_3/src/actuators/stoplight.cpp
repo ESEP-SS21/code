@@ -16,8 +16,8 @@ Stoplight::Stoplight(std::shared_ptr<GPIOWrapper> gpio) {
 }
 
 Stoplight::~Stoplight() {
+	blinker.stop_loop();
 	blinker_thread.join();
-	delete &_gpio;
 }
 
 void Stoplight::enable(Color color) {

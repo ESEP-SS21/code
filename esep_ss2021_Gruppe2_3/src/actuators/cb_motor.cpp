@@ -14,7 +14,7 @@ CBMotor::CBMotor(std::shared_ptr<GPIOWrapper> gpio) {
 }
 
 CBMotor::~CBMotor() {
-	delete &_gpio;
+	//delete &_gpio;
 }
 
 void CBMotor::set_direction(Direction direction) {

@@ -21,10 +21,10 @@ HAL::HAL() {
 }
 
 HAL::~HAL() {
-	delete &_leds;
-	delete &_cb_motor;
-	delete &_stoplight;
-	delete &_sorting_mechanism;
+	//delete &_leds;
+	//delete &_cb_motor;
+	//delete &_stoplight;
+	//delete &_sorting_mechanism;
 }
 
 std::shared_ptr<LEDs> HAL::get_leds() const {

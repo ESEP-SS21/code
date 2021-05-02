@@ -12,9 +12,6 @@ namespace hal {
 
 BlinkWorker::BlinkWorker(): duty_cycle{1000}, running{true}{
 	blink_lock.try_lock();
-	active[0] = false;
-	active[1] = false;
-	active[2] = false;
 }
 
 void BlinkWorker::run(){
@@ -28,6 +25,10 @@ void BlinkWorker::run(){
 		usleep(duty_cycle*1000);
 	}
 	return;
+}
+
+void BlinkWorker::stop_loop(){
+	running = false;
 }
 
 void BlinkWorker::set_duty_cycle(const uint32_t milliseconds){
@@ -52,9 +53,10 @@ void BlinkWorker::stop_blinking(){
 }
 
 
-
 BlinkWorker::~BlinkWorker() {
-
+	running = false;
+	blink_lock.try_lock();
+	blink_lock.unlock();
 }
 
 } /* namespace hal */
