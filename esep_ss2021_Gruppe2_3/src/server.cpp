@@ -20,8 +20,6 @@ int main(int argc, char **argv) {
 
 #else
 
-//TODO blinken der Stoplight in Thread
-//TODO XOR der SortingMechanisms in der HAL
 
 int main(int argc, char **argv) {
 	hal::HAL::get_instance().get_stoplight().get()->blink(hal::GREEN,
