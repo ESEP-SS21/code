@@ -27,10 +27,10 @@ public:
 	virtual ~BlinkWorker();
 private:
 	std::shared_ptr<GPIOWrapper> _gpio;
-	hal::Color color;
-	std::mutex blink_lock;
-	useconds_t duty_cycle;
-	bool running;
+	hal::Color _color;
+	std::mutex _blink_lock;
+	useconds_t _duty_cycle;
+	bool _running;
 };
 
 } /* namespace hal */

@@ -33,6 +33,8 @@ int main(int argc, char **argv) {
 	usleep(4500 * 1000);
 	hal::HAL::get_instance().get_stoplight().get()->enable(hal::GREEN);
 	usleep(2000 * 1000);
+
+
 	/*
 	 while (1) {
 	 //CBMotor

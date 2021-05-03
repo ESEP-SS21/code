@@ -10,18 +10,18 @@
 
 namespace hal {
 
-Stoplight::Stoplight(std::shared_ptr<GPIOWrapper> gpio): blinker(gpio) {
+Stoplight::Stoplight(std::shared_ptr<GPIOWrapper> gpio): _blinker(gpio) {
 	_gpio = gpio;
-	blinker_thread = std::thread(&BlinkWorker::run, &blinker);
+	_blinker_thread = std::thread(&BlinkWorker::run, &_blinker);
 }
 
-Stoplight::~Stoplight() {
-	blinker.stop_loop();
-	blinker_thread.join();
+Stoplight::~Stoplight(){
+	_blinker.stop_loop();
+	_blinker_thread.join();
 }
 
 void Stoplight::enable(Color color) {
-	blinker.stop_blinking();
+	_blinker.stop_blinking();
 	switch (color) {
 	case GREEN:
 		_gpio->out(gpio_adresses::BANK_ACTUATOR, gpio_adresses::AMPEL_GRUEN_1,
@@ -38,7 +38,7 @@ void Stoplight::enable(Color color) {
 }
 
 void Stoplight::disable(Color color) {
-	blinker.stop_blinking();
+	_blinker.stop_blinking();
 	switch (color) {
 	case GREEN:
 		_gpio->out(gpio_adresses::BANK_ACTUATOR, gpio_adresses::AMPEL_GRUEN_1,
@@ -56,12 +56,12 @@ void Stoplight::disable(Color color) {
 
 void Stoplight::blink(Color color, Speed speed) {
 	if(speed == hal::FAST){
-		blinker.set_duty_cycle(500);
+		_blinker.set_duty_cycle(500);
 	}
 	else{
-		blinker.set_duty_cycle(1000);
+		_blinker.set_duty_cycle(1000);
 	}
-	blinker.start_blinking(color);
+	_blinker.start_blinking(color);
 }
 
 }

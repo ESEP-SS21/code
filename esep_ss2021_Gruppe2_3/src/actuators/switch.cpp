@@ -14,12 +14,12 @@ Switch::Switch(std::shared_ptr<GPIOWrapper> gpio) :
 
 }
 
-void Switch::open() const {
+void Switch::do_not_discard() const {
 	_gpio->out(gpio_adresses::BANK_ACTUATOR, gpio_adresses::WEICHE_OEFFNEN_1,
 			1);
 }
 
-void Switch::close() const {
+void Switch::discard() const {
 	_gpio->out(gpio_adresses::BANK_ACTUATOR, gpio_adresses::WEICHE_OEFFNEN_1,
 			0);
 }

@@ -18,10 +18,10 @@ protected:
 
 public:
 	SortingMechanism(std::shared_ptr<GPIOWrapper> gpio);
-	~SortingMechanism();
+	virtual ~SortingMechanism();
 
-	virtual void open() const = 0;
-	virtual void close() const = 0;
+	virtual void discard() const = 0;
+	virtual void do_not_discard() const = 0;
 	virtual bool is_open() const = 0;
 	virtual void reset() const = 0;
 };

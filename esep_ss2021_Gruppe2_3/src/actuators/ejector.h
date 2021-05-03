@@ -16,8 +16,8 @@ class Ejector: public SortingMechanism {
 public:
 	Ejector(std::shared_ptr<GPIOWrapper>);
 
-	void open() const override;
-	void close() const override;
+	void do_not_discard() const override;
+	void discard() const override;
 	bool is_open() const override;
 	void reset() const override;
 
