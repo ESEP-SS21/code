@@ -30,9 +30,9 @@ bool Ejector::is_open() const {
 }
 
 void Ejector::reset() const {
-
+	_gpio->out(gpio_adresses::BANK_ACTUATOR, gpio_adresses::WEICHE_OEFFNEN_1,
+			0);
 }
-
 
 }
 
