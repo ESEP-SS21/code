@@ -22,7 +22,7 @@ private:
 
 public:
 	LEDs(std::shared_ptr<GPIOWrapper>);
-	virtual ~LEDs();
+	virtual ~LEDs() = default;
 
 	void enable(LED_type);
 	void disable(LED_type);

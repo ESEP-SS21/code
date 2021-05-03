@@ -13,10 +13,6 @@ CBMotor::CBMotor(std::shared_ptr<GPIOWrapper> gpio) {
 	_gpio = gpio;
 }
 
-CBMotor::~CBMotor() {
-	//delete &_gpio;
-}
-
 void CBMotor::set_direction(Direction direction) {
 	switch(direction){
 	case FAST_FORWARDS:

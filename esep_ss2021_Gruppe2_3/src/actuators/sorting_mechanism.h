@@ -18,7 +18,7 @@ protected:
 
 public:
 	SortingMechanism(std::shared_ptr<GPIOWrapper> gpio);
-	virtual ~SortingMechanism();
+	virtual ~SortingMechanism() = default;
 
 	virtual void discard() const = 0;
 	virtual void do_not_discard() const = 0;

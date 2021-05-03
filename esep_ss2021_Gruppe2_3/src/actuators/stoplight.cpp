@@ -31,7 +31,7 @@ void Stoplight::enable(Color color) {
 		_gpio->out(gpio_adresses::BANK_ACTUATOR, gpio_adresses::AMPEL_GELB_1,
 				1);
 		break;
-	default: // RED
+	default:
 		_gpio->out(gpio_adresses::BANK_ACTUATOR, gpio_adresses::AMPEL_ROT_1, 1);
 		break;
 	}
@@ -48,7 +48,7 @@ void Stoplight::disable(Color color) {
 		_gpio->out(gpio_adresses::BANK_ACTUATOR, gpio_adresses::AMPEL_GELB_1,
 				0);
 		break;
-	default: // RED
+	default:
 		_gpio->out(gpio_adresses::BANK_ACTUATOR, gpio_adresses::AMPEL_ROT_1, 0);
 		break;
 	}
