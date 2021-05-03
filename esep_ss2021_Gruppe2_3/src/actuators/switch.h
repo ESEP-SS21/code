@@ -19,7 +19,6 @@ public:
 	void discard() const override;
 	bool is_open() const override;
 	void reset() const override;
-
 };
 
 }
