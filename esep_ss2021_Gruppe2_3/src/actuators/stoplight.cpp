@@ -10,7 +10,7 @@
 
 namespace hal {
 
-Stoplight::Stoplight(std::shared_ptr<GPIOWrapper> gpio) {
+Stoplight::Stoplight(std::shared_ptr<GPIOWrapper> gpio): blinker(gpio) {
 	_gpio = gpio;
 	blinker_thread = std::thread(&BlinkWorker::run, &blinker);
 }
@@ -55,7 +55,13 @@ void Stoplight::disable(Color color) {
 }
 
 void Stoplight::blink(Color color, Speed speed) {
-	blinker.start_blinking();
+	if(speed == hal::FAST){
+		blinker.set_duty_cycle(500);
+	}
+	else{
+		blinker.set_duty_cycle(1000);
+	}
+	blinker.start_blinking(color);
 }
 
 }

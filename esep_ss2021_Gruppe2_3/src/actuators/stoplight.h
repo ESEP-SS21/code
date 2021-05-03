@@ -10,12 +10,9 @@
 
 #include "../gpiowrapper.h"
 #include <../actuators/BlinkWorker.h>
+#include <../actuators/Color.h>
 
 namespace hal {
-
-enum Color {
-	GREEN = 0, YELLOW, RED
-};
 
 enum Speed {
 	SLOW, FAST

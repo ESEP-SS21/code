@@ -24,12 +24,14 @@ int main(int argc, char **argv) {
 //TODO XOR der SortingMechanisms in der HAL
 
 int main(int argc, char **argv) {
-	hal::HAL::get_instance().get_stoplight().get()->blink(hal::GREEN, hal::SLOW);
+	hal::HAL::get_instance().get_stoplight().get()->blink(hal::GREEN, hal::FAST);
 	usleep(5000 *1000);
-	hal::HAL::get_instance().get_stoplight().get()->disable(hal::GREEN);
+	hal::HAL::get_instance().get_stoplight().get()->enable(hal::YELLOW);
 	usleep(2000 *1000);
-	hal::HAL::get_instance().get_stoplight().get()->blink(hal::GREEN, hal::SLOW);
-	usleep(5000 *1000);
+	hal::HAL::get_instance().get_stoplight().get()->blink(hal::RED, hal::SLOW);
+	usleep(4500 *1000);
+	hal::HAL::get_instance().get_stoplight().get()->enable(hal::GREEN);
+	usleep(2000 *1000);
 	/*
 	while (1) {
 		//CBMotor
