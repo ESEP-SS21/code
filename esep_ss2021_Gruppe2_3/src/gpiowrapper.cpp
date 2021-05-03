@@ -37,7 +37,7 @@ void GPIOWrapper::out(uint32_t bank, uint32_t pin, uint32_t value) {
 
 }
 
-uint32_t GPIOWrapper::in(uint32_t bank, uint32_t pin) {
+const uint32_t GPIOWrapper::in(uint32_t bank, uint32_t pin) {
 	return read_value_from_register(bank, gpio_adresses::GPIO_DATAIN, pin);
 }
 

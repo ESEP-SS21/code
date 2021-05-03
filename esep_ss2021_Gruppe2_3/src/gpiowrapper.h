@@ -100,7 +100,7 @@ public:
 	virtual ~GPIOWrapper();
 
 	void out(uint32_t bank, uint32_t pin, uint32_t value);
-	uint32_t in(uint32_t bank, uint32_t pin);
+	const uint32_t in(uint32_t bank, uint32_t pin);
 	void enable_interrupt(uint32_t bank, uint32_t pin);
 	void disable_interrupt(uint32_t bank, uint32_t pin);
 	void enable_debounce(uint32_t bank, uint32_t pin);
