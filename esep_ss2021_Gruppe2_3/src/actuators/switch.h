@@ -15,7 +15,6 @@ namespace hal {
 class Switch: public SortingMechanism {
 public:
 	Switch(std::shared_ptr<GPIOWrapper>);
-
 	void do_not_discard() const override;
 	void discard() const override;
 	bool is_open() const override;

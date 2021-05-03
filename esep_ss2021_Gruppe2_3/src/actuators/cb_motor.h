@@ -24,7 +24,6 @@ private:
 public:
 	CBMotor(std::shared_ptr<GPIOWrapper>);
 	virtual ~CBMotor() = default;
-
 	void set_direction(Direction);
 };
 

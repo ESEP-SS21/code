@@ -33,10 +33,8 @@ public:
 		return _instance;
 	}
 
-	~HAL();
-
+	~HAL() = default;
 	HAL(HAL const&) = delete;
-
 	std::shared_ptr<LEDs> get_leds() const;
 	std::shared_ptr<SortingMechanism> get_sorting_mechanism() const;
 	std::shared_ptr<CBMotor> get_cb_motor() const;

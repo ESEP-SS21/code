@@ -24,7 +24,6 @@ private:
 	BlinkWorker _blinker;
 	std::thread _blinker_thread;
 
-
 public:
 	Stoplight(std::shared_ptr<GPIOWrapper>);
 	virtual ~Stoplight();
