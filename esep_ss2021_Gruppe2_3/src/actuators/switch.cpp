@@ -29,5 +29,9 @@ bool Switch::is_open() const {
 			== 1;
 }
 
+void Switch::reset() const {
+
+}
+
 }
 

@@ -29,5 +29,10 @@ bool Ejector::is_open() const {
 			== 0;
 }
 
+void Ejector::reset() const {
+
+}
+
+
 }
 

@@ -10,8 +10,8 @@
 
 #include <mutex>
 #include <thread>
-#include <../actuators/Color.h>
 #include "../gpiowrapper.h"
+#include "color.h"
 
 namespace hal {
 

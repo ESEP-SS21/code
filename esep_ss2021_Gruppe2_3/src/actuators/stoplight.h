@@ -10,7 +10,7 @@
 
 #include "../gpiowrapper.h"
 #include <../actuators/BlinkWorker.h>
-#include <../actuators/Color.h>
+#include "color.h"
 
 namespace hal {
 

@@ -19,6 +19,7 @@ public:
 	void open() const override;
 	void close() const override;
 	bool is_open() const override;
+	void reset() const override;
 
 };
 

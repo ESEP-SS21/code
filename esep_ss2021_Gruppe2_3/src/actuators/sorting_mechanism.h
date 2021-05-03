@@ -23,6 +23,7 @@ public:
 	virtual void open() const = 0;
 	virtual void close() const = 0;
 	virtual bool is_open() const = 0;
+	virtual void reset() const = 0;
 };
 
 }
