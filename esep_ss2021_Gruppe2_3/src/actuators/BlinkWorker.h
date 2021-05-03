@@ -12,6 +12,7 @@
 #include <thread>
 #include "../gpiowrapper.h"
 #include "color.h"
+#include <chrono>
 
 namespace hal {
 
@@ -25,12 +26,14 @@ public:
 	void stop_blinking();
 	void stop_loop();
 	virtual ~BlinkWorker();
+
 private:
 	std::shared_ptr<GPIOWrapper> _gpio;
+	bool _running;
+	useconds_t _duty_cycle;
 	hal::Color _color;
 	std::mutex _blink_lock;
-	useconds_t _duty_cycle;
-	bool _running;
+
 };
 
 } /* namespace hal */

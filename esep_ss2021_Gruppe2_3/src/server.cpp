@@ -8,6 +8,8 @@
 #include "gpiowrapper.h"
 #include "hal.h"
 #include "cb_motor.h"
+#include <thread>
+#include <chrono>
 
 #ifdef TEST_ENABLE
 
@@ -24,13 +26,13 @@ int main(int argc, char **argv) {
 int main(int argc, char **argv) {
 	hal::HAL::get_instance().get_stoplight().get()->blink(hal::GREEN,
 			hal::FAST);
-	usleep(5000 * 1000);
+	std::this_thread::sleep_for (std::chrono::seconds(5));
 	hal::HAL::get_instance().get_stoplight().get()->enable(hal::YELLOW);
-	usleep(2000 * 1000);
+	std::this_thread::sleep_for (std::chrono::seconds(2));
 	hal::HAL::get_instance().get_stoplight().get()->blink(hal::RED, hal::SLOW);
-	usleep(4500 * 1000);
+	std::this_thread::sleep_for (std::chrono::milliseconds(4500));
 	hal::HAL::get_instance().get_stoplight().get()->enable(hal::GREEN);
-	usleep(2000 * 1000);
+	std::this_thread::sleep_for (std::chrono::seconds(2));
 
 
 	/*

@@ -12,7 +12,7 @@
 namespace hal {
 
 BlinkWorker::BlinkWorker(std::shared_ptr<GPIOWrapper> gpio) :
-		_duty_cycle { 1000 }, _running { true }, _gpio { gpio }, _color { hal::RED } {
+		_gpio { gpio }, _running { true }, _duty_cycle { 1000 }, _color { hal::RED } {
 	_blink_lock.try_lock();
 }
 
@@ -37,7 +37,7 @@ void BlinkWorker::run() {
 			break;
 		}
 
-		usleep(_duty_cycle * 500);
+		std::this_thread::sleep_for (std::chrono::milliseconds(_duty_cycle/2));
 	}
 }
 

@@ -32,7 +32,6 @@ public:
 		static HAL _instance;
 		return _instance;
 	}
-
 	~HAL() = default;
 	HAL(HAL const&) = delete;
 	std::shared_ptr<LEDs> get_leds() const;

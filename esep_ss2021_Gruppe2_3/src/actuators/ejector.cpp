@@ -11,7 +11,6 @@ namespace hal {
 
 Ejector::Ejector(std::shared_ptr<GPIOWrapper> gpio) :
 		SortingMechanism(gpio) {
-
 }
 
 void Ejector::do_not_discard() const {

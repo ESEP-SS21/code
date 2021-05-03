@@ -89,7 +89,6 @@ private:
 	uintptr_t _bank_input;
 	uintptr_t _bank_actuator;
 	uintptr_t _bank_led;
-
 	void add_bit_to_register(uint32_t, const uint32_t, uint32_t) const;
 	void set_bit_in_register(uint32_t, const uint32_t, uint32_t) const;
 	void write_value_to_register(uint32_t, const uint32_t, uint32_t) const;
@@ -98,7 +97,6 @@ private:
 public:
 	GPIOWrapper();
 	virtual ~GPIOWrapper();
-
 	void out(uint32_t bank, uint32_t pin, uint32_t value);
 	const uint32_t in(uint32_t bank, uint32_t pin);
 	void enable_interrupt(uint32_t bank, uint32_t pin);
