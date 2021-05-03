@@ -15,6 +15,7 @@ TARGET = $(OUTPUT_DIR)/$(ARTIFACT)
 CC = qcc -Vgcc_nto$(PLATFORM)
 CXX = qcc -lang-c++ -Vgcc_nto$(PLATFORM) -DSIM_SOW_SENSORS -DSIM_SHOW_ACTUATORS
 CXX += -DSIM_REPORT -DSIM_EXT_CTRL
+# CXX += -std=c++14 # only runs with C++ 11
 
 # - - - - - - - - - - - - - - - - - - - - TESTS AN/AUS - - - - - - - - - - - - - - - - - - - -  
 #CXX += -DTEST_ENABLE
@@ -31,6 +32,7 @@ INCLUDES += -Isrc/simulation/simulationbase
 INCLUDES += -Isrc/simulation/simulationcore
 INCLUDES += -Isrc/simulation/simulationudpqnx
 INCLUDES += -Itest
+INCLUDES += -Isrc/actuators
 #LIBS += -L/path/to/my/lib/$(PLATFORM)/usr/lib -lmylib
 #LIBS += -L../mylib/$(OUTPUT_DIR) -lmylib
 LIBS += -lsocket
