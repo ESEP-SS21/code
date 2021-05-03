@@ -13,7 +13,6 @@
 #include <../actuators/Color.h>
 #include "../gpiowrapper.h"
 
-
 namespace hal {
 
 class BlinkWorker {
