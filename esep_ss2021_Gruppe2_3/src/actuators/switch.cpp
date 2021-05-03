@@ -11,7 +11,6 @@ namespace hal {
 
 Switch::Switch(std::shared_ptr<GPIOWrapper> gpio) :
 		SortingMechanism(gpio) {
-
 }
 
 void Switch::do_not_discard() const {

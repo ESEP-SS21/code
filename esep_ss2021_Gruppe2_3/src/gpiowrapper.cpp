@@ -34,7 +34,6 @@ void GPIOWrapper::out(uint32_t bank, uint32_t pin, uint32_t value) {
 	} else {
 		set_bit_in_register(bank, gpio_adresses::GPIO_CLEARDATAOUT, pin);
 	}
-
 }
 
 const uint32_t GPIOWrapper::in(uint32_t bank, uint32_t pin) {
@@ -64,6 +63,7 @@ void GPIOWrapper::enable_interrupt_falling(uint32_t bank, uint32_t pin) {
 void GPIOWrapper::enable_interrupt_rising(uint32_t bank, uint32_t pin) {
 	add_bit_to_register(bank, gpio_adresses::GPIO_RAISINGDETECT, pin);
 }
+
 // Sets a single bit in a register and erases the other ones
 void GPIOWrapper::set_bit_in_register(uint32_t bank,
 		const uint32_t gpio_register, uint32_t pin) const {

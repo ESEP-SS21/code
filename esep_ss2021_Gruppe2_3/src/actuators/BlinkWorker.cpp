@@ -31,7 +31,7 @@ void BlinkWorker::run() {
 			_gpio->out(gpio_adresses::BANK_ACTUATOR,
 					gpio_adresses::AMPEL_GELB_1, val);
 			break;
-		default: // RED
+		default:
 			_gpio->out(gpio_adresses::BANK_ACTUATOR, gpio_adresses::AMPEL_ROT_1,
 					val);
 			break;
