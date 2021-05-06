@@ -33,6 +33,7 @@ INCLUDES += -Isrc/simulation/simulationcore
 INCLUDES += -Isrc/simulation/simulationudpqnx
 INCLUDES += -Itest
 INCLUDES += -Isrc/actuators
+INCLUDES += -Isrc/utils/logging
 #LIBS += -L/path/to/my/lib/$(PLATFORM)/usr/lib -lmylib
 #LIBS += -L../mylib/$(OUTPUT_DIR) -lmylib
 LIBS += -lsocket

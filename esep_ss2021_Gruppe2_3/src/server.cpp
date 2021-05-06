@@ -11,6 +11,7 @@
 #include <thread>
 #include <chrono>
 #include "dispatcher/dispatcher.h"
+#include "utils/logging/Logger.h"
 
 #include <sys/dispatch.h>
 
@@ -31,7 +32,7 @@ int main(int argc, char **argv) {
 
 
 int main(int argc, char **argv) {
-
+    LOG_SET_LEVEL(ERROR);
     std::unique_ptr<connManagement::QnxChannel>  channel (new connManagement::QnxChannel("test"));
 	dispatcher::dispatcher disp(std::move(channel));
 
