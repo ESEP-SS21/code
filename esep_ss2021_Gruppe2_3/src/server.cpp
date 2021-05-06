@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
 
 
 int main(int argc, char **argv) {
-    LOG_SET_LEVEL(ERROR);
+    LOG_SET_LEVEL(DEBUG);
     std::unique_ptr<connManagement::QnxChannel>  channel (new connManagement::QnxChannel("test"));
 	dispatcher::dispatcher disp(std::move(channel));
 

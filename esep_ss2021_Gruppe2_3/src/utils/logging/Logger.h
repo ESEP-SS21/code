@@ -5,8 +5,8 @@
  *      Author: jendr
  */
 
-#ifndef LOGGER_H_
-#define LOGGER_H_
+#ifndef LOGGER_H
+#define LOGGER_H
 
 #include <iostream>
 #include <fstream>
