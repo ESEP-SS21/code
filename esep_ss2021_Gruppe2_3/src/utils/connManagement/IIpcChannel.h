@@ -11,6 +11,7 @@ public:
     virtual rcvid msg_receive(void* msg, int size) = 0;
     virtual void msg_reply(rcvid msg_rcvid, int status, void* msg, int size) = 0;
     virtual void msg_reply_error(rcvid msg_rcvid, int error_code) = 0;
+    virtual chid get_chid() = 0;
 };
 
 } /* namespace utils */

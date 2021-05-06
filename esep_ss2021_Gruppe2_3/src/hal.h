@@ -1,10 +1,3 @@
-/*
- * hal.h
- *
- *  Created on: 28.04.2021
- *      Author: Justin Hoffmann
- */
-
 #ifndef SRC_HAL_H_
 #define SRC_HAL_H_
 
@@ -20,24 +13,24 @@ namespace hal {
 
 class HAL {
 private:
-	HAL();
+    HAL();
 
-	std::shared_ptr<LEDs> _leds;
-	std::shared_ptr<SortingMechanism> _sorting_mechanism;
-	std::shared_ptr<CBMotor> _cb_motor;
-	std::shared_ptr<Stoplight> _stoplight;
+    std::shared_ptr<LEDs> _leds;
+    std::shared_ptr<SortingMechanism> _sorting_mechanism;
+    std::shared_ptr<CBMotor> _cb_motor;
+    std::shared_ptr<Stoplight> _stoplight;
 
 public:
-	static const HAL& get_instance() {
-		static HAL _instance;
-		return _instance;
-	}
-	~HAL() = default;
-	HAL(HAL const&) = delete;
-	std::shared_ptr<LEDs> get_leds() const;
-	std::shared_ptr<SortingMechanism> get_sorting_mechanism() const;
-	std::shared_ptr<CBMotor> get_cb_motor() const;
-	std::shared_ptr<Stoplight> get_stoplight() const;
+    static const HAL& get_instance() {
+        static HAL _instance;
+        return _instance;
+    }
+    ~HAL() = default;
+    HAL(HAL const&) = delete;
+    std::shared_ptr<LEDs> get_leds() const;
+    std::shared_ptr<SortingMechanism> get_sorting_mechanism() const;
+    std::shared_ptr<CBMotor> get_cb_motor() const;
+    std::shared_ptr<Stoplight> get_stoplight() const;
 };
 
 }

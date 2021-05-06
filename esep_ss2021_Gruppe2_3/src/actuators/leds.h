@@ -1,10 +1,3 @@
-/*
- * leds.h
- *
- *  Created on: 28.04.2021
- *      Author: Justin Hoffmann
- */
-
 #ifndef SRC_ACTUATORS_LEDS_H_
 #define SRC_ACTUATORS_LEDS_H_
 

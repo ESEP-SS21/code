@@ -25,7 +25,6 @@ public:
         }
         _chid = _attach->chid;
         std::cout << "chid of named server: " << _chid << std::endl;
-
     }
 
     virtual ~QnxChannel() override {
@@ -51,6 +50,10 @@ public:
     void msg_reply_error(rcvid msg_rcvid, int error_code) override {
         if (-1 == MsgError(msg_rcvid, error_code))
             std::cout << "error while replying with error" << std::endl;
+    }
+
+    chid get_chid() override {
+        return _chid;
     }
 
 private:

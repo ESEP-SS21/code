@@ -1,10 +1,3 @@
-/*
- * cb_motor.h
- *
- *  Created on: 28.04.2021
- *      Author: Justin Hoffmann
- */
-
 #ifndef SRC_ACTUATORS_CB_MOTOR_H_
 #define SRC_ACTUATORS_CB_MOTOR_H_
 
@@ -14,17 +7,17 @@
 namespace hal {
 
 enum Direction {
-	FAST_FORWARDS = 0, SLOW_FORWARDS, STOP, SLOW_BACKWARDS, FAST_BACKWARDS
+    FAST_FORWARDS = 0, SLOW_FORWARDS, STOP, SLOW_BACKWARDS, FAST_BACKWARDS
 };
 
 class CBMotor {
 private:
-	std::shared_ptr<GPIOWrapper> _gpio;
+    std::shared_ptr<GPIOWrapper> _gpio;
 
 public:
-	CBMotor(std::shared_ptr<GPIOWrapper>);
-	virtual ~CBMotor() = default;
-	void set_direction(Direction);
+    CBMotor(std::shared_ptr<GPIOWrapper>);
+    virtual ~CBMotor() = default;
+    void set_direction(Direction);
 };
 
 }
