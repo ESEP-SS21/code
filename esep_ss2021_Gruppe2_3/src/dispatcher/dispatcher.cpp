@@ -6,20 +6,20 @@
 namespace dispatcher {
 
 dispatcher::dispatcher(std::unique_ptr<connManagement::IIpcChannel> ipc) :
-        _ipc(std::move(ipc)) {
+        _channel(std::move(ipc)) {
     _dispatcher_thread = std::thread([this] {this->run();});
 }
 
 dispatcher::~dispatcher() {
     _is_running = false;
-    connManagement::QnxConnection(_ipc->get_chid()).msg_send_pulse(1, _PULSE_CODE_UNBLOCK, 0);
+    connManagement::QnxConnection(_channel->get_chid()).msg_send_pulse(1, _PULSE_CODE_UNBLOCK, 0);
     _dispatcher_thread.join();
 }
 
 void dispatcher::run() {
     while (_is_running) {
         connManagement::header_t header;
-        int rcvid = _ipc->msg_receive(&header, sizeof(connManagement::header_t));
+        int rcvid = _channel->msg_receive(&header, sizeof(connManagement::header_t));
 
         if (rcvid == -1) {
             //TODO logging or exception
@@ -40,18 +40,24 @@ void dispatcher::run() {
             continue;
         }
 
-        //A sync msg (presumable ours) was received; handle it
-        handle_event_subscr(header, rcvid);
+        handle_sync_msg(header, rcvid);
     }
 }
+void dispatcher::handle_sync_msg(connManagement::header_t header, int rcvid) {
+    if (true) {//when is event subscr
+        int event_id = 1;
+        connManagement::chid chid = 1;
+        subscribe(event_id, chid);
+    }
+    //maybe other forms of sync communications
+}
 
-void dispatcher::handle_event_subscr(connManagement::header_t header, int rcvid) {
-    int evnt_id = 5;
-    connManagement::chid chid = 123;
-    //TODO use factory passed in constructor
-    _evnt_coid_map[evnt_id].insert(
-            std::unique_ptr<connManagement::IIpcConnection>(
-                    new connManagement::QnxConnection(chid)));
+void dispatcher::subscribe(int event_id, connManagement::chid chid) {
+    if (_chid_conn_map.find(chid) == _chid_conn_map.end()) { //no connection for this chid yet
+        _chid_conn_map[chid] = std::shared_ptr<connManagement::IIpcConnection>(
+                new connManagement::QnxConnection(chid));
+    }
+    _evnt_conn_multimap[event_id].insert(_chid_conn_map[chid]);
 }
 
 void dispatcher::handle_event(connManagement::header_t header, int rcvid) {
@@ -61,9 +67,8 @@ void dispatcher::handle_event(connManagement::header_t header, int rcvid) {
     std::cout << "id: " << evnt_id << std::endl;
     std::cout << "value: " << evnt_value << std::endl;
 
-    for (auto& connection : _evnt_coid_map[evnt_id]) {
+    for (auto& connection : _evnt_conn_multimap[evnt_id]) {
         connection->msg_send_pulse(1, evnt_id, evnt_value);
-        //_ipc->msg_send_pulse(reciever_id, 0, evnt_id, evnt_value);
     }
 }
 
@@ -71,12 +76,12 @@ void dispatcher::handle_qnx_io_msg(connManagement::header_t header, int rcvid) {
     if (header.type == _IO_CONNECT) {
         // QNX IO msg _IO_CONNECT was received; answer with EOK
         std::cout << "Dispatcher received _IO_CONNECT (sync. msg) \n" << std::endl;
-        _ipc->msg_reply(rcvid, EOK, nullptr, 0);
+        _channel->msg_reply(rcvid, EOK, nullptr, 0);
         return;
     }
     // Some other QNX IO message was received; reject it
     std::cout << "Dispatcher received unexpected (sync.) msg type = " << header.type << std::endl;
-    _ipc->msg_reply_error(rcvid, ENOSYS);
+    _channel->msg_reply_error(rcvid, ENOSYS);
 }
 
 } /* namespace dispatcher */

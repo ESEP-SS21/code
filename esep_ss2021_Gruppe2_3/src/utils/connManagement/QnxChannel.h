@@ -28,7 +28,6 @@ public:
     }
 
     virtual ~QnxChannel() override {
-        std::cout << "descturctor called" << std::endl;
         if (_attach != nullptr)
             name_detach(_attach, 0);
     }
