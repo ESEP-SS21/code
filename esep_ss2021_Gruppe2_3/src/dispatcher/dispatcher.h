@@ -1,10 +1,3 @@
-/*
- * dispatcher.h
- *
- *  Created on: 05.05.2021
- *      Author: hugop
- */
-
 #ifndef SRC_DISPATCHER_DISPATCHER_H_
 #define SRC_DISPATCHER_DISPATCHER_H_
 #include <thread>
@@ -12,13 +5,9 @@
 #include <string>
 #include <unordered_set>
 #include <array>
-#include <errno.h>
-#include <sys/dispatch.h>
-#include "../utils/connManagement/IIpcChannel.h"
+#include "../utils/connManagement/qnxConnectionManagement" //TODO use the interface instead. This needs a 'IIpcConnectionFactory of some sort'
 
 namespace dispatcher {
-
-typedef struct _pulse header_t;
 
 class dispatcher {
 public:
@@ -29,14 +18,14 @@ private:
     const static int MAX_EVNT_ID { 128 };
     const std::string SERVICE_NAME { "dispatcher" };
     std::thread _dispatcher_thread;
-    std::array<std::unordered_set<connManagement::conid>, MAX_EVNT_ID> _evnt_coid_map;
+    std::array<std::unordered_set<std::unique_ptr<connManagement::IIpcConnection>>, MAX_EVNT_ID> _evnt_coid_map;
     bool _is_running { true };
     std::unique_ptr<connManagement::IIpcChannel> _ipc;
     void run();
     void attach();
-    void handle_event(header_t header, int rcvid);
-    void handle_qnx_io_msg(header_t header, int rcvid);
-    void handle_event_subscr(header_t header, int rcvid);
+    void handle_event(connManagement::header_t header, int rcvid);
+    void handle_qnx_io_msg(connManagement::header_t header, int rcvid);
+    void handle_event_subscr(connManagement::header_t header, int rcvid);
 };
 
 } /* namespace dispatcher */

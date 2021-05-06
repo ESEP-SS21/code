@@ -11,14 +11,16 @@
 #include <thread>
 #include <chrono>
 #include "dispatcher/dispatcher.h"
-#include "utils/connManagement/QnxIpcChannel.h"
+
+#include <sys/dispatch.h>
+
+#include "utils/connManagement/qnxConnectionManagement"
 
 #ifdef TEST_ENABLE
 
 #include <gtest/gtest.h>
 #include "tests.h"
-#include "utils/IIpcChannel.h"
-#include <sys/dispatch.h>
+
 
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
@@ -29,18 +31,11 @@ int main(int argc, char **argv) {
 
 int main(int argc, char **argv) {
 
+    std::unique_ptr<connManagement::QnxChannel>  channel (new connManagement::QnxChannel("test"));
+	dispatcher::dispatcher disp(std::move(channel));
 
-    std::unique_ptr<connManagement::QnxIpcChannel>  t3 (new connManagement::QnxIpcChannel("test"));
-	dispatcher::dispatcher disp(std::move(t3));
-
-
-	auto id = name_open("test", NAME_FLAG_ATTACH_GLOBAL);
-
-    //usleep(100000);
-    MsgSendPulse(id, 2, 53, 12345);
-    auto ch = connManagement::QnxIpcChannel();
-	ch.msg_send_pulse(id, 1, 124,13);
-	std::cout << "sent: id " << std::endl;
+	connManagement::QnxConnection conn("test");
+	conn.msg_send_pulse(2, 53, 12345);
 
 	usleep(100000000);
 	hal::HAL::get_instance().get_stoplight().get()->blink(hal::GREEN,
