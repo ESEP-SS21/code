@@ -14,7 +14,8 @@
 
 #include <sys/dispatch.h>
 
-#include "utils/connManagement/qnxConnectionManagement"
+#include "utils/connManagement/QnxChannel.h"
+
 
 #ifdef TEST_ENABLE
 

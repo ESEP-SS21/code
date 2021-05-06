@@ -1,9 +1,0 @@
-#ifndef SRC_UTILS_CONNMANAGEMENT_QNXCONNECTIONMANAGEMENT_
-#define SRC_UTILS_CONNMANAGEMENT_QNXCONNECTIONMANAGEMENT_
-
-#include "namespacedata"
-#include "IIpcChannel.h"
-#include "IIpcConnection.h"
-//TODO add factory for IIpcConnection
-
-#endif /* SRC_UTILS_CONNMANAGEMENT_QNXCONNECTIONMANAGEMENT_ */

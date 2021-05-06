@@ -5,7 +5,8 @@
 #include <string>
 #include <unordered_set>
 #include <array>
-#include "../utils/connManagement/qnxConnectionManagement" //TODO use the interface instead. This needs a 'IIpcConnectionFactory of some sort'
+#include "../utils/connManagement/QnxChannel.h" //TODO use the interface instead. This needs a 'IIpcConnectionFactory of some sort'
+#include "../utils/connManagement/QnxConnection.h"
 
 namespace dispatcher {
 
