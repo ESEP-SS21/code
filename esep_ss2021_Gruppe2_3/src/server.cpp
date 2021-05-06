@@ -10,11 +10,15 @@
 #include "cb_motor.h"
 #include <thread>
 #include <chrono>
+#include "dispatcher/dispatcher.h"
+#include "utils/connManagement/QnxIpcChannel.h"
 
 #ifdef TEST_ENABLE
 
 #include <gtest/gtest.h>
 #include "tests.h"
+#include "utils/IIpcChannel.h"
+#include <sys/dispatch.h>
 
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
@@ -24,6 +28,21 @@ int main(int argc, char **argv) {
 
 
 int main(int argc, char **argv) {
+
+
+    std::unique_ptr<connManagement::QnxIpcChannel>  t3 (new connManagement::QnxIpcChannel("test"));
+	dispatcher::dispatcher disp(std::move(t3));
+
+
+	auto id = name_open("test", NAME_FLAG_ATTACH_GLOBAL);
+
+    usleep(100000);
+    MsgSendPulse(id, 2, 53, 12345);
+    auto ch = connManagement::QnxIpcChannel();
+	ch.msg_send_pulse(id, 1, 124,13);
+	std::cout << "sent: id " << std::endl;
+
+	usleep(100000000);
 	hal::HAL::get_instance().get_stoplight().get()->blink(hal::GREEN,
 			hal::FAST);
 	std::this_thread::sleep_for (std::chrono::seconds(5));
@@ -33,6 +52,7 @@ int main(int argc, char **argv) {
 	std::this_thread::sleep_for (std::chrono::milliseconds(4500));
 	hal::HAL::get_instance().get_stoplight().get()->enable(hal::GREEN);
 	std::this_thread::sleep_for (std::chrono::seconds(2));
+
 
 
 	/*
