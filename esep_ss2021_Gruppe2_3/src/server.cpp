@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
 
 	auto id = name_open("test", NAME_FLAG_ATTACH_GLOBAL);
 
-    usleep(100000);
+    //usleep(100000);
     MsgSendPulse(id, 2, 53, 12345);
     auto ch = connManagement::QnxIpcChannel();
 	ch.msg_send_pulse(id, 1, 124,13);

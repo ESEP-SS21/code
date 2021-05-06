@@ -54,7 +54,7 @@ void dispatcher::handle_event_subscr(header_t header, int rcvid) {
 }
 
 void dispatcher::handle_event(header_t header, int rcvid) {
-    int evnt_id = header.type;
+    int evnt_id = header.code;
     int evnt_value = header.value.sival_int;
     std::cout << "dispatcher recieved following event:" << std::endl;
     std::cout << "id: " << evnt_id << std::endl;
