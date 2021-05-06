@@ -1,8 +1,8 @@
 #include <iostream>
 #include "simqnxgpioapi.h" // must be last include !!!
-#include "gpiowrapper.h"
-#include "hal.h"
-#include "actuators/cb_motor.h"
+#include "hal/gpiowrapper.h"
+#include "hal/hal.h"
+#include "hal/actuators/cb_motor.h"
 #include <thread>
 #include <chrono>
 #include "dispatcher/dispatcher.h"
