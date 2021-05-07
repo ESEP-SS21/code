@@ -6,6 +6,8 @@
 #include <thread>
 #include <chrono>
 #include "dispatcher/dispatcher.h"
+#include "DemoClient.h"
+#include "dispatcher/Event.h"
 
 #include <sys/dispatch.h>
 
@@ -13,6 +15,7 @@
 
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/basic_file_sink.h"
+
 
 #ifdef TEST_ENABLE
 
@@ -33,13 +36,16 @@ int main(int argc, char **argv) {
         my_logger->error("Hello {} {} !!", "param1", 123.4);
         spdlog::info("Hello, World!");
 
-        std::unique_ptr<connManagement::QnxChannel>  channel (new connManagement::QnxChannel("test"));
-        dispatcher::dispatcher disp(std::move(channel));
+        std::unique_ptr<connManagement::QnxChannel>  disp_channel (new connManagement::QnxChannel("dispatcher"));
+        dispatcher::dispatcher disp(std::move(disp_channel));
 
-        connManagement::QnxConnection conn("test");
-        conn.msg_send_pulse(2, 53, 12345);
-
-         return 0;
+        std::unique_ptr<connManagement::QnxChannel>  client_channel (new connManagement::QnxChannel());
+        DemoClient client("dispatcher",std::move(client_channel));
+        dispatcher::Event event{0,42};
+        client.subscribe_evnt(0);
+        client.send_evnt(event, 3);
+        usleep(1000*1000*2);
+        return 0;
     }
 
 #endif

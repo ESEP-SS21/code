@@ -4,6 +4,7 @@
 #include <sys/dispatch.h>
 #include <string>
 #include <errno.h>
+#include <iostream>
 
 #include "IIpcChannel.h"
 

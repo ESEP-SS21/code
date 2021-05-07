@@ -44,10 +44,13 @@ void dispatcher::run() {
     }
 }
 void dispatcher::handle_sync_msg(connManagement::header_t header, int rcvid) {
-    if (true) {//when is event subscr
-        int event_id = 1;
-        connManagement::chid chid = 1;
-        subscribe(event_id, chid);
+    if (SUB_MSG == header.type) {//when is event subscr
+        int ret[1] = {0};
+        EventSubscription subscription;
+        MsgRead(rcvid, &subscription, sizeof(subscription), sizeof(header));
+        subscribe(subscription.number, subscription.channel_id);
+        MsgReply(rcvid, EOK, ret, sizeof(ret));
+        std::cout<<"subscribed"<<std::endl;
     }
     //maybe other forms of sync communications
 }

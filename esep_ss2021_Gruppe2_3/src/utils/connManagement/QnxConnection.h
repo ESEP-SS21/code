@@ -2,6 +2,7 @@
 #define SRC_UTILS_QNXCONNECTION_H_
 #include <errno.h>
 #include <string>
+#include <iostream>
 
 #include "IIpcConnection.h"
 
@@ -9,6 +10,7 @@ namespace connManagement {
 
 class QnxConnection: public IIpcConnection {
 public:
+    // TODO call ConnectDetach() for correct resource deallocation
     virtual ~QnxConnection() = default;
 
     QnxConnection(const std::string &name) {
@@ -23,8 +25,8 @@ public:
             std::cout << "error while connecting to channel via chid" << std::endl;
     }
 
-    connManagement::status_code msg_send(void* smsg, int smsg_size, void* rmsg, int rmsg_size) {
-        status_code s = MsgSend(_id, smsg, smsg_size, rmsg, rmsg_size);
+    connManagement::status_code msg_send(iov_t *iov, int iov_size, void* rmsg, int rmsg_size) {
+        status_code s = MsgSendvs(_id,iov, iov_size, rmsg, rmsg_size);
         if (-1 == s)
             //An error occurred (errno is set), or the server called MsgError*() (errno is set to the error value passed to MsgError()).
             std::cout << "error while sending" << std::endl;
