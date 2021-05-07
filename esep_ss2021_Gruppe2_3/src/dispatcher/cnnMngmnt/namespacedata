@@ -1,5 +1,4 @@
-#ifndef SRC_UTILS_CONNMANAGEMENT_NAMESPACEDATA_
-#define SRC_UTILS_CONNMANAGEMENT_NAMESPACEDATA_
+#pragma once
 
 #include <sys/dispatch.h>
 
@@ -22,5 +21,3 @@ using conid = int;
 
 }
 } /* connManagement dispatcher */
-
-#endif /* SRC_UTILS_CONNMANAGEMENT_NAMESPACEDATA_ */

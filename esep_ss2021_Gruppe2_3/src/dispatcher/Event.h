@@ -1,5 +1,4 @@
-#ifndef SRC_DISPATCHER_EVENT_H_
-#define SRC_DISPATCHER_EVENT_H_
+#pragma once
 
 namespace dispatcher {
 
@@ -15,4 +14,3 @@ struct EventSubscription {
     int channel_id;
 };
 }
-#endif /* SRC_DISPATCHER_EVENT_H_ */

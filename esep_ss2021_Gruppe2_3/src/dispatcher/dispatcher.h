@@ -1,5 +1,5 @@
-#ifndef SRC_DISPATCHER_DISPATCHER_H_
-#define SRC_DISPATCHER_DISPATCHER_H_
+#pragma once
+
 #include <thread>
 #include <iostream>
 #include <string>
@@ -32,5 +32,3 @@ private:
 };
 
 } /* namespace dispatcher */
-
-#endif /* SRC_DISPATCHER_DISPATCHER_H_ */

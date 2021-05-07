@@ -1,5 +1,4 @@
-#ifndef SRC_UTILS_CONNMANAGEMENT_QNXCONNECTION_H_
-#define SRC_UTILS_CONNMANAGEMENT_QNXCONNECTION_H_
+#pragma once
 
 #include "namespacedata"
 #include <string>
@@ -20,5 +19,3 @@ private:
 
 }
 } /* namespace connManagement */
-
-#endif /* SRC_UTILS_CONNMANAGEMENT_QNXCONNECTION_H_ */

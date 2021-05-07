@@ -1,5 +1,4 @@
-#ifndef SRC_DISPATCHER_IIPC_H_
-#define SRC_DISPATCHER_IIPC_H_
+#pragma once
 
 #include "namespacedata"
 #include <string>
@@ -36,5 +35,3 @@ private:
 };
 }
 } /* namespace utils */
-
-#endif /* SRC_DISPATCHER_IIPC_H_ */
