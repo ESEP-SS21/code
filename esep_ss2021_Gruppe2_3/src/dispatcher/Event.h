@@ -1,17 +1,16 @@
 #ifndef SRC_DISPATCHER_EVENT_H_
 #define SRC_DISPATCHER_EVENT_H_
 
-namespace dispatcher{
+namespace dispatcher {
 
 #define SUB_MSG   (_IO_MAX + 1)
 
-struct Event
-{
+struct Event {
     int number;
     int payload;
 };
 
-struct EventSubscription{
+struct EventSubscription {
     int number;
     int channel_id;
 };

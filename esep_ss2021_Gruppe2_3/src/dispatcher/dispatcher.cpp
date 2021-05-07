@@ -46,13 +46,13 @@ void dispatcher::run() {
     }
 }
 void dispatcher::handle_sync_msg(cnnMngmnt::header_t header) {
-    if (SUB_MSG == header.type) {//when is event subscr
-        int ret[1] = {0};
+    if (SUB_MSG == header.type) { //when is event subscr
+        int ret[1] = { 0 };
         EventSubscription subscription;
         _channel->msg_read(&subscription, sizeof(subscription), sizeof(header));
         subscribe(subscription.number, subscription.channel_id);
         _channel->msg_reply(EOK, ret, sizeof(ret));
-        std::cout<<"subscribed"<<std::endl;
+        std::cout << "subscribed" << std::endl;
     }
     //maybe other forms of sync communications
 }

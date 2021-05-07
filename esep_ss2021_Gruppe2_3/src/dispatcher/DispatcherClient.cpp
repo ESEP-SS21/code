@@ -4,10 +4,11 @@
 
 namespace dispatcher {
 
-
-DispatcherClient::DispatcherClient(const std::string& disp_name, std::unique_ptr<cnnMngmnt::QnxChannel> channel):
-        _dispatcher_name{disp_name}, _channel(std::move(channel)) {
-    _dispatcher_connection = std::unique_ptr<cnnMngmnt::QnxConnection>(new cnnMngmnt::QnxConnection(_dispatcher_name));
+DispatcherClient::DispatcherClient(const std::string& disp_name,
+        std::unique_ptr<cnnMngmnt::QnxChannel> channel) :
+        _dispatcher_name { disp_name }, _channel(std::move(channel)) {
+    _dispatcher_connection = std::unique_ptr<cnnMngmnt::QnxConnection>(
+            new cnnMngmnt::QnxConnection(_dispatcher_name));
     _client_thread = std::thread([this] {this->run();});
 }
 
@@ -17,27 +18,26 @@ DispatcherClient::~DispatcherClient() {
     _client_thread.join();
 }
 
-void DispatcherClient::subscribe_evnt(uint8_t evnt_nr){
+void DispatcherClient::subscribe_evnt(uint8_t evnt_nr) {
     cnnMngmnt::header_t header;
-
 
     header.type = SUB_MSG;
     header.subtype = 0x00;
 
     EventSubscription sub;
-    sub.channel_id =_channel->get_chid();
+    sub.channel_id = _channel->get_chid();
     sub.number = evnt_nr;
 
     iov_t iov[2];
     int r_msg;
-    SETIOV(iov+0, &header, sizeof(header));
-    SETIOV(iov+1, &sub, sizeof(sub));
-    if (-1 == _dispatcher_connection->msg_send(iov, 2, &r_msg, sizeof(r_msg))){
+    SETIOV(iov + 0, &header, sizeof(header));
+    SETIOV(iov + 1, &sub, sizeof(sub));
+    if (-1 == _dispatcher_connection->msg_send(iov, 2, &r_msg, sizeof(r_msg))) {
         perror("Client: MsgSend failed");
         exit(EXIT_FAILURE);
     }
 }
-void DispatcherClient::send_evnt(Event event, int priority){
+void DispatcherClient::send_evnt(Event event, int priority) {
     _dispatcher_connection->msg_send_pulse(priority, event.number, event.payload);
 }
 

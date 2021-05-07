@@ -2,14 +2,15 @@
 #include <errno.h>
 #include <iostream>
 
-namespace dispatcher{ namespace cnnMngmnt {
+namespace dispatcher {
+namespace cnnMngmnt {
 
 // TODO call ConnectDetach() for correct resource deallocation
 
 QnxConnection::QnxConnection(const std::string &name) {
     _id = name_open(name.c_str(), NAME_FLAG_ATTACH_GLOBAL);
     if (-1 == _id)
-    std::cout << "error while connecting to channel via name" << std::endl;
+        std::cout << "error while connecting to channel via name" << std::endl;
 }
 
 QnxConnection::QnxConnection(chid chid) {
@@ -18,8 +19,7 @@ QnxConnection::QnxConnection(chid chid) {
         std::cout << "error while connecting to channel via chid" << std::endl;
 }
 
-status_code QnxConnection::msg_send(iov_t *iov, int iov_size, void* rmsg,
-        int rmsg_size) {
+status_code QnxConnection::msg_send(iov_t *iov, int iov_size, void* rmsg, int rmsg_size) {
     status_code s = MsgSendvs(_id, iov, iov_size, rmsg, rmsg_size);
     if (-1 == s)
         //An error occurred (errno is set), or the server called MsgError*() (errno is set to the error value passed to MsgError()).
@@ -34,5 +34,5 @@ void QnxConnection::msg_send_pulse(int priority, int code, int value) {
     }
 }
 
-
-}}/* namespace dispatcher */
+}
+}/* namespace dispatcher */

@@ -3,9 +3,12 @@
 
 #include "../cnnMngmnt/namespacedata"
 
-namespace dispatcher{ namespace cnnMngmnt {
+namespace dispatcher {
+namespace cnnMngmnt {
 
-enum class MsgType { puls, sync, error };
+enum class MsgType {
+    puls, sync, error
+};
 
 class QnxChannel {
 public:
@@ -17,7 +20,7 @@ public:
     void msg_reply(int status, void* msg, int size);
     void msg_reply_error(int error_code);
     void msg_read(void *msg, _Sizet size, _Sizet offset);
-    chid get_chid(){
+    chid get_chid() {
         return _id;
     }
 
@@ -30,6 +33,7 @@ private:
     name_attach_t* _attach { nullptr };
 
 };
-}} /* namespace utils */
+}
+} /* namespace utils */
 
 #endif /* SRC_DISPATCHER_IIPC_H_ */

@@ -4,7 +4,8 @@
 #include "namespacedata"
 #include <string>
 
-namespace dispatcher{ namespace cnnMngmnt {
+namespace dispatcher {
+namespace cnnMngmnt {
 
 class QnxConnection {
 public:
@@ -17,6 +18,7 @@ private:
     int _id;
 };
 
-}} /* namespace connManagement */
+}
+} /* namespace connManagement */
 
 #endif /* SRC_UTILS_CONNMANAGEMENT_QNXCONNECTION_H_ */
