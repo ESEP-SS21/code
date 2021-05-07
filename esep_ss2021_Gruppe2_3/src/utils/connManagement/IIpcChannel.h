@@ -5,7 +5,7 @@
 
 namespace connManagement {
 
-enum class MsgType { puls, sync, qnx, error };
+enum class MsgType { puls, sync, error };
 
 class IIpcChannel {
 public:
