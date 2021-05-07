@@ -1,32 +1,32 @@
+#include <dispatcher/cnnMngmnt/QnxConnection.h>
 #include "dispatcher.h"
 #include <errno.h>
 #include <sys/dispatch.h>
-#include <utils/connManagement/QnxConnection.h>
 
 namespace dispatcher {
 
-dispatcher::dispatcher(std::unique_ptr<connManagement::QnxChannel> ipc) :
+dispatcher::dispatcher(std::unique_ptr<cnnMngmnt::QnxChannel> ipc) :
         _channel(std::move(ipc)) {
     _dispatcher_thread = std::thread([this] {this->run();});
 }
 
 dispatcher::~dispatcher() {
     _is_running = false;
-    connManagement::QnxConnection(_channel->get_chid()).msg_send_pulse(1, _PULSE_CODE_UNBLOCK, 0);
+    cnnMngmnt::QnxConnection(_channel->get_chid()).msg_send_pulse(1, _PULSE_CODE_UNBLOCK, 0);
     _dispatcher_thread.join();
 }
 
 void dispatcher::run() {
     while (_is_running) {
-        connManagement::header_t header;
-        connManagement::MsgType type = _channel->msg_receive(&header, sizeof(connManagement::header_t));
+        cnnMngmnt::header_t header;
+        cnnMngmnt::MsgType type = _channel->msg_receive(&header, sizeof(cnnMngmnt::header_t));
 
-        if (type == connManagement::MsgType::error) {
+        if (type == cnnMngmnt::MsgType::error) {
             //TODO logging or exception
             break;
         }
 
-        if (type == connManagement::MsgType::puls) { // Pulse was received
+        if (type == cnnMngmnt::MsgType::puls) { // Pulse was received
             if (header.code == _PULSE_CODE_UNBLOCK) {
                 continue;
             }
@@ -45,7 +45,7 @@ void dispatcher::run() {
         handle_sync_msg(header);
     }
 }
-void dispatcher::handle_sync_msg(connManagement::header_t header) {
+void dispatcher::handle_sync_msg(cnnMngmnt::header_t header) {
     if (SUB_MSG == header.type) {//when is event subscr
         int ret[1] = {0};
         EventSubscription subscription;
@@ -57,15 +57,15 @@ void dispatcher::handle_sync_msg(connManagement::header_t header) {
     //maybe other forms of sync communications
 }
 
-void dispatcher::subscribe(int event_id, connManagement::chid chid) {
+void dispatcher::subscribe(int event_id, cnnMngmnt::chid chid) {
     if (_chid_conn_map.find(chid) == _chid_conn_map.end()) { //no connection for this chid yet
-        _chid_conn_map[chid] = std::shared_ptr<connManagement::QnxConnection>(
-                new connManagement::QnxConnection(chid));
+        _chid_conn_map[chid] = std::shared_ptr<cnnMngmnt::QnxConnection>(
+                new cnnMngmnt::QnxConnection(chid));
     }
     _evnt_conn_multimap[event_id].insert(_chid_conn_map[chid]);
 }
 
-void dispatcher::handle_event(connManagement::header_t header) {
+void dispatcher::handle_event(cnnMngmnt::header_t header) {
     int evnt_id = header.code;
     int evnt_value = header.value.sival_int;
     std::cout << "dispatcher recieved following event:" << std::endl;
@@ -77,7 +77,7 @@ void dispatcher::handle_event(connManagement::header_t header) {
     }
 }
 
-void dispatcher::handle_qnx_io_msg(connManagement::header_t header) {
+void dispatcher::handle_qnx_io_msg(cnnMngmnt::header_t header) {
     if (header.type == _IO_CONNECT) {
         // QNX IO msg _IO_CONNECT was received; answer with EOK
         std::cout << "Dispatcher received _IO_CONNECT (sync. msg) \n" << std::endl;

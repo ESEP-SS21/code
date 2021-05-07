@@ -5,20 +5,20 @@
 namespace dispatcher {
 
 
-DispatcherClient::DispatcherClient(const std::string& disp_name, std::unique_ptr<connManagement::QnxChannel> channel):
+DispatcherClient::DispatcherClient(const std::string& disp_name, std::unique_ptr<cnnMngmnt::QnxChannel> channel):
         _dispatcher_name{disp_name}, _channel(std::move(channel)) {
-    _dispatcher_connection = std::unique_ptr<connManagement::QnxConnection>(new connManagement::QnxConnection(_dispatcher_name));
+    _dispatcher_connection = std::unique_ptr<cnnMngmnt::QnxConnection>(new cnnMngmnt::QnxConnection(_dispatcher_name));
     _client_thread = std::thread([this] {this->run();});
 }
 
 DispatcherClient::~DispatcherClient() {
     _is_running = false;
-    connManagement::QnxConnection(_channel->get_chid()).msg_send_pulse(1, _PULSE_CODE_UNBLOCK, 0);
+    cnnMngmnt::QnxConnection(_channel->get_chid()).msg_send_pulse(1, _PULSE_CODE_UNBLOCK, 0);
     _client_thread.join();
 }
 
 void DispatcherClient::subscribe_evnt(uint8_t evnt_nr){
-    connManagement::header_t header;
+    cnnMngmnt::header_t header;
 
 
     header.type = SUB_MSG;
@@ -43,15 +43,15 @@ void DispatcherClient::send_evnt(Event event, int priority){
 
 void DispatcherClient::run() {
     while (_is_running) {
-        connManagement::header_t header;
-        connManagement::MsgType msg_type = _channel->msg_receive(&header, sizeof(connManagement::header_t));
+        cnnMngmnt::header_t header;
+        cnnMngmnt::MsgType msg_type = _channel->msg_receive(&header, sizeof(cnnMngmnt::header_t));
 
-        if (msg_type == connManagement::MsgType::error) {
+        if (msg_type == cnnMngmnt::MsgType::error) {
             //TODO logging or exception
             break;
         }
 
-        if (msg_type == connManagement::MsgType::puls) {
+        if (msg_type == cnnMngmnt::MsgType::puls) {
             if (header.code == _PULSE_CODE_UNBLOCK) {
                 continue;
             }
@@ -70,14 +70,14 @@ void DispatcherClient::run() {
     }
 }
 
-void DispatcherClient::handle_event(connManagement::header_t header) {
+void DispatcherClient::handle_event(cnnMngmnt::header_t header) {
     Event event;
     event.number = header.code;
     event.payload = header.value.sival_int;
     handle(event);
 }
 
-void DispatcherClient::handle_qnx_io_msg(connManagement::header_t header) {
+void DispatcherClient::handle_qnx_io_msg(cnnMngmnt::header_t header) {
     if (header.type == _IO_CONNECT) {
         // QNX IO msg _IO_CONNECT was received; answer with EOK
         std::cout << "Dispatcher received _IO_CONNECT (sync. msg) \n" << std::endl;

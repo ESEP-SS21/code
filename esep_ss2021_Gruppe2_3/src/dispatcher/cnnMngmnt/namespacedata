@@ -3,7 +3,7 @@
 
 #include <sys/dispatch.h>
 
-namespace connManagement {
+namespace dispatcher{ namespace cnnMngmnt {
 
 struct header_t {
     _Uint16t                    type;
@@ -19,6 +19,6 @@ using chid = int;
 using status_code = int;
 using conid = int;
 
-} /* connManagement dispatcher */
+}} /* connManagement dispatcher */
 
 #endif /* SRC_UTILS_CONNMANAGEMENT_NAMESPACEDATA_ */

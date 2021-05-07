@@ -1,9 +1,9 @@
 #ifndef SRC_DISPATCHER_IIPC_H_
 #define SRC_DISPATCHER_IIPC_H_
 
-#include "namespacedata"
+#include "../cnnMngmnt/namespacedata"
 
-namespace connManagement {
+namespace dispatcher{ namespace cnnMngmnt {
 
 enum class MsgType { puls, sync, error };
 
@@ -30,6 +30,6 @@ private:
     name_attach_t* _attach { nullptr };
 
 };
-} /* namespace utils */
+}} /* namespace utils */
 
 #endif /* SRC_DISPATCHER_IIPC_H_ */

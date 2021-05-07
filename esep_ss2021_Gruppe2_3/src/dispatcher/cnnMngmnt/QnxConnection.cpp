@@ -1,8 +1,8 @@
-#include <utils/connManagement/QnxConnection.h>
+#include <dispatcher/cnnMngmnt/QnxConnection.h>
 #include <errno.h>
 #include <iostream>
 
-namespace connManagement {
+namespace dispatcher{ namespace cnnMngmnt {
 
 // TODO call ConnectDetach() for correct resource deallocation
 
@@ -35,4 +35,4 @@ void QnxConnection::msg_send_pulse(int priority, int code, int value) {
 }
 
 
-}/* namespace dispatcher */
+}}/* namespace dispatcher */

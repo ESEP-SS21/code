@@ -10,7 +10,7 @@
 #include "dispatcher/Event.h"
 
 #include <sys/dispatch.h>
-#include <utils/connManagement/QnxChannel.h>
+#include "dispatcher/connManagement/QnxChannel.h"
 
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/basic_file_sink.h"
@@ -35,12 +35,12 @@ int main(int argc, char **argv) {
         my_logger->error("Hello {} {} !!", "param1", 123.4);
         spdlog::info("Hello, World!");
 
-        std::unique_ptr<connManagement::QnxChannel>  disp_channel (new connManagement::QnxChannel("dispatcher"));
+        std::unique_ptr<dispatcher::cnnMngmnt::QnxChannel>  disp_channel (new dispatcher::cnnMngmnt::QnxChannel("dispatcher"));
         dispatcher::dispatcher disp(std::move(disp_channel));
 
-        std::unique_ptr<connManagement::QnxChannel>  client_channel (new connManagement::QnxChannel());
+        std::unique_ptr<dispatcher::cnnMngmnt::QnxChannel>  client_channel (new dispatcher::cnnMngmnt::QnxChannel());
         DemoClient client("dispatcher",std::move(client_channel));
-        std::unique_ptr<connManagement::QnxChannel>  client_channel2 (new connManagement::QnxChannel());
+        std::unique_ptr<dispatcher::cnnMngmnt::QnxChannel>  client_channel2 (new dispatcher::cnnMngmnt::QnxChannel());
         DemoClient client2("dispatcher",std::move(client_channel2));
         client.subscribe_evnt(0);
         client2.subscribe_evnt(0);
