@@ -45,10 +45,12 @@ int main(int argc, char **argv) {
         DemoClient client2("dispatcher",std::move(client_channel2));
         client.subscribe_evnt(0);
         client2.subscribe_evnt(0);
-        dispatcher::Event event{0,42};
+        client2.subscribe_evnt(1);
+        dispatcher::Event event{1,42};
         client.send_evnt(event, 3);
         usleep(1000*1000*1);
-        client2.send_evnt(event, 3);
+        dispatcher::Event event2{0,42};
+        client.send_evnt(event2, 3);
         usleep(1000*1000*2);
         return 0;
     }
