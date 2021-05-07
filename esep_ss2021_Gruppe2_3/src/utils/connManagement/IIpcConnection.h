@@ -5,6 +5,8 @@
 
 namespace connManagement {
 
+
+
 class IIpcConnection {
 public:
     virtual ~IIpcConnection() = default;

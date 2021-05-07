@@ -14,7 +14,7 @@ class QnxChannel: public IIpcChannel {
 
 public:
     QnxChannel() :
-            _chid(ChannelCreate(0)) {
+            _id(ChannelCreate(0)) {
     }
 
     QnxChannel(const std::string &attach_string) {
@@ -24,8 +24,8 @@ public:
         if (nullptr == _attach) {
             std::cout << "error while name_attach" << std::endl;
         }
-        _chid = _attach->chid;
-        std::cout << "chid of named server: " << _chid << std::endl;
+        _id = _attach->chid;
+        std::cout << "chid of named server: " << _id << std::endl;
     }
 
     virtual ~QnxChannel() override {
@@ -33,31 +33,44 @@ public:
             name_detach(_attach, 0);
     }
 
-    rcvid msg_receive(void* msg, int size) override {
-        rcvid r = MsgReceive(_chid, msg, size, nullptr); // TODO msg-info ins interface?
-        if (r == -1) {
-            std::cout << "log(-1) failed: " << std::strerror(errno) << '\n';
-            std::cout << "error while receive" << std::endl;
+    MsgType msg_receive(void* msg, int size) override {
+        _last_message_id = MsgReceive(_id, msg, size, nullptr);
+        switch (_last_message_id){
+        case -1:
+            return MsgType::error;
+        case 0:
+            return MsgType::puls;
+        default:
+            return MsgType::sync;
         }
-        return r;
     }
 
-    void msg_reply(rcvid msg_rcvid, status_code status, void* msg, int size) override {
-        if (-1 == MsgReply(msg_rcvid, status, msg, size))
+    void msg_reply(status_code status, void* msg, int size) override {
+        if (-1 == _last_message_id)
+            std::cout << "no msg to reply to" << std::endl;
+        if (-1 == MsgReply(_last_message_id, status, msg, size))
             std::cout << "error while replying" << std::endl;
     }
 
-    void msg_reply_error(rcvid msg_rcvid, int error_code) override {
-        if (-1 == MsgError(msg_rcvid, error_code))
+    void msg_reply_error(int error_code) override {
+        if (-1 == _last_message_id)
+            std::cout << "no msg to reply to" << std::endl;
+        if (-1 == MsgError(_last_message_id, error_code))
             std::cout << "error while replying with error" << std::endl;
     }
 
+    void msg_read(void *msg, _Sizet size, _Sizet offset){
+        MsgRead(_last_message_id, msg, size, offset);
+    }
+
+
     chid get_chid() override {
-        return _chid;
+        return _id;
     }
 
 private:
-    int _chid;
+    chid _id;
+    rcvid _last_message_id {-1};
     /**
      * nullptr when channel is unnamed
      */

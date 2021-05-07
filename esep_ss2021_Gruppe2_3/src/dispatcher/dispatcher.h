@@ -26,9 +26,9 @@ private:
     std::unique_ptr<connManagement::IIpcChannel> _channel;
     void run();
     void attach();
-    void handle_event(connManagement::header_t header, int rcvid);
-    void handle_qnx_io_msg(connManagement::header_t header, int rcvid);
-    void handle_sync_msg(connManagement::header_t header, int rcvid);
+    void handle_event(connManagement::header_t header);
+    void handle_qnx_io_msg(connManagement::header_t header );
+    void handle_sync_msg(connManagement::header_t header  );
     void subscribe(int event_id, connManagement::chid chid);
 };
 

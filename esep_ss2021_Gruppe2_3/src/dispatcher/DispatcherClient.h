@@ -20,8 +20,8 @@ public:
 private:
     void run();
     void recieve_evnt(Event * event);
-    void handle_event(connManagement::header_t header, int rcvid);
-    void handle_qnx_io_msg(connManagement::header_t header, int rcvid);
+    void handle_event(connManagement::header_t header);
+    void handle_qnx_io_msg(connManagement::header_t header);
     std::string _dispatcher_name;
     std::unique_ptr<connManagement::IIpcChannel> _channel;
     std::unique_ptr<connManagement::IIpcConnection> _dispatcher_connection;
