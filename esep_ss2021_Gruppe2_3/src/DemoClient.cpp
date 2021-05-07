@@ -4,11 +4,11 @@
 #include "dispatcher/cnnMngmnt/QnxChannel.h"
 
 DemoClient::DemoClient(const std::string& name) :
-    DispatcherClient(name) {
+        DispatcherClient(name) {
 }
 
-void DemoClient::handle(dispatcher::Event& event){
-    std::cout<<"event_id:"<<event.number<<"payload: "<<event.payload<<std::endl;
+void DemoClient::handle(dispatcher::Event& event) {
+    std::cout << "event_id:" << event.number << "payload: " << event.payload << std::endl;
 }
 
 DemoClient::~DemoClient() {

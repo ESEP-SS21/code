@@ -15,7 +15,6 @@
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/basic_file_sink.h"
 
-
 #ifdef TEST_ENABLE
 
 #include <gtest/gtest.h>
@@ -35,7 +34,6 @@ int main(int argc, char **argv) {
         my_logger->error("Hello {} {} !!", "param1", 123.4);
         spdlog::info("Hello, World!");
 
-
         dispatcher::dispatcher disp("dispatcher");
 
         DemoClient client("dispatcher");
@@ -44,10 +42,10 @@ int main(int argc, char **argv) {
         client.subscribe_evnt(0);
         client2.subscribe_evnt(0);
         client2.subscribe_evnt(1);
-        dispatcher::Event event{1,42};
+        dispatcher::Event event {1,42};
         client.send_evnt(event, 3);
         usleep(1000*1000*1);
-        dispatcher::Event event2{0,42};
+        dispatcher::Event event2 {0,42};
         client.send_evnt(event2, 3);
         usleep(1000*1000*2);
         return 0;

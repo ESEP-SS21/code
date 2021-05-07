@@ -3,7 +3,8 @@
 #include "QnxChannel.h"
 #include <iostream>
 
-namespace dispatcher{ namespace cnnMngmnt {
+namespace dispatcher {
+namespace cnnMngmnt {
 
 QnxChannel::QnxChannel() :
         _id(ChannelCreate(0)) {
@@ -55,5 +56,6 @@ void QnxChannel::msg_read(void *msg, _Sizet size, _Sizet offset) {
     MsgRead(_last_message_id, msg, size, offset);
 }
 
-}} /* namespace utils */
+}
+} /* namespace utils */
 
