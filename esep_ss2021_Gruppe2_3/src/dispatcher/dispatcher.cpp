@@ -1,12 +1,12 @@
 #include <dispatcher/cnnMngmnt/QnxConnection.h>
 #include "dispatcher.h"
 #include <errno.h>
-#include <sys/dispatch.h>
+#include "Event.h"
 
 namespace dispatcher {
 
-dispatcher::dispatcher(std::unique_ptr<cnnMngmnt::QnxChannel> ipc) :
-        _channel(std::move(ipc)) {
+dispatcher::dispatcher(const std::string &name) :
+        _channel(std::unique_ptr<cnnMngmnt::QnxChannel>(new cnnMngmnt::QnxChannel(name))) {
     _dispatcher_thread = std::thread([this] {this->run();});
 }
 

@@ -1,10 +1,10 @@
 #include <DemoClient.h>
 #include <iostream>
-#include "dispatcher/connManagement/QnxConnection.h"
-#include "dispatcher/connManagement/QnxChannel.h"
+#include "dispatcher/cnnMngmnt/QnxConnection.h"
+#include "dispatcher/cnnMngmnt/QnxChannel.h"
 
-DemoClient::DemoClient(const std::string& disp_name, std::unique_ptr<dispatcher::cnnMngmnt::QnxChannel> channel) :
-    DispatcherClient(disp_name, std::move(channel)) {
+DemoClient::DemoClient(const std::string& name) :
+    DispatcherClient(name) {
 }
 
 void DemoClient::handle(dispatcher::Event& event){

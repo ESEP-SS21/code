@@ -6,14 +6,13 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <array>
-#include "connManagement/QnxChannel.h" //TODO use the interface instead. This needs a 'IIpcConnectionFactory of some sort'
-#include "connManagement/QnxConnection.h"
-#include "Event.h"
+#include "cnnMngmnt/QnxChannel.h"
+#include "cnnMngmnt/QnxConnection.h"
 namespace dispatcher {
 
 class dispatcher {
 public:
-    dispatcher(std::unique_ptr<cnnMngmnt::QnxChannel> ipc);
+    dispatcher(const std::string &name);
     virtual ~dispatcher();
 
 private:

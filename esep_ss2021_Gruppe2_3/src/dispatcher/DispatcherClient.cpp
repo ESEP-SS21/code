@@ -1,12 +1,10 @@
 #include <dispatcher/DispatcherClient.h>
-#include <sys/dispatch.h>
 #include <iostream>
 
 namespace dispatcher {
 
-DispatcherClient::DispatcherClient(const std::string& disp_name,
-        std::unique_ptr<cnnMngmnt::QnxChannel> channel) :
-        _dispatcher_name { disp_name }, _channel(std::move(channel)) {
+DispatcherClient::DispatcherClient(const std::string& dispatcher_name) :
+        _dispatcher_name { dispatcher_name }, _channel(std::unique_ptr<cnnMngmnt::QnxChannel>(new cnnMngmnt::QnxChannel(dispatcher_name))) {
     _dispatcher_connection = std::unique_ptr<cnnMngmnt::QnxConnection>(
             new cnnMngmnt::QnxConnection(_dispatcher_name));
     _client_thread = std::thread([this] {this->run();});

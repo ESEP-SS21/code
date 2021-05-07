@@ -1,7 +1,8 @@
 #ifndef SRC_DISPATCHER_IIPC_H_
 #define SRC_DISPATCHER_IIPC_H_
 
-#include "../cnnMngmnt/namespacedata"
+#include "namespacedata"
+#include <string>
 
 namespace dispatcher {
 namespace cnnMngmnt {

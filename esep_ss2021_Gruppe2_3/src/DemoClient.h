@@ -6,7 +6,7 @@
 
 class DemoClient: public dispatcher::DispatcherClient {
 public:
-    DemoClient(const std::string& disp_name, std::unique_ptr<dispatcher::cnnMngmnt::QnxChannel> channel);
+    DemoClient(const std::string& name);
     void handle(dispatcher::Event& event);
     virtual ~DemoClient();
 };

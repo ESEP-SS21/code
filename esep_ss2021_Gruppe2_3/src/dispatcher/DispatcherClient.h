@@ -3,15 +3,15 @@
 
 #include <string>
 #include <thread>
-#include "connManagement/QnxChannel.h" //TODO use the interface instead. This needs a 'IIpcConnectionFactory of some sort'
-#include "connManagement/QnxConnection.h"
+#include "cnnMngmnt/QnxChannel.h" //TODO use the interface instead. This needs a 'IIpcConnectionFactory of some sort'
+#include "cnnMngmnt/QnxConnection.h"
 #include "Event.h"
 
 namespace dispatcher {
 
 class DispatcherClient {
 public:
-    DispatcherClient(const std::string& disp_name, std::unique_ptr<cnnMngmnt::QnxChannel> channel);
+    DispatcherClient(const std::string& name);
     virtual ~DispatcherClient();
     void subscribe_evnt(uint8_t evnt_nr);
     void send_evnt(Event event, int prio);
