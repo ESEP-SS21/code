@@ -19,18 +19,20 @@ DispatcherClient::~DispatcherClient() {
 
 void DispatcherClient::subscribe_evnt(uint8_t evnt_nr){
     connManagement::header_t header;
-    EventSubscription sub;
-    iov_t iov[2];
-    int r_msg[1];
+
 
     header.type = SUB_MSG;
     header.subtype = 0x00;
+
+    EventSubscription sub;
     sub.channel_id =_channel->get_chid();
     sub.number = evnt_nr;
 
+    iov_t iov[2];
+    int r_msg;
     SETIOV(iov+0, &header, sizeof(header));
     SETIOV(iov+1, &sub, sizeof(sub));
-    if (-1 == _dispatcher_connection->msg_send(iov, 2, r_msg, sizeof(r_msg))){
+    if (-1 == _dispatcher_connection->msg_send(iov, 2, &r_msg, sizeof(r_msg))){
         perror("Client: MsgSend failed");
         exit(EXIT_FAILURE);
     }

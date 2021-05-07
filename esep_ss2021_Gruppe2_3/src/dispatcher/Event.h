@@ -1,9 +1,3 @@
-/*
- * Event.h
- *
- *  Created on: 07.05.2021
- *      Author: jendr
- */
 #ifndef SRC_DISPATCHER_EVENT_H_
 #define SRC_DISPATCHER_EVENT_H_
 
