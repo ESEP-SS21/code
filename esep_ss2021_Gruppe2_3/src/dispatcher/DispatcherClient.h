@@ -12,19 +12,21 @@ class DispatcherClient {
 public:
     DispatcherClient(const std::string& name);
     virtual ~DispatcherClient();
+
+    void send_evnt(Event event, int prio) const;
     void subscribe_evnt(uint8_t evnt_nr);
-    void send_evnt(Event event, int prio);
-    virtual void handle(Event&)=0;
+    virtual void handle(Event&) = 0;
 
 private:
     void run();
     void recieve_evnt(Event * event);
     void handle_event(cnnMngmnt::header_t header);
     void handle_qnx_io_msg(cnnMngmnt::header_t header);
+
+    bool _is_running { true };
     std::string _dispatcher_name;
     std::unique_ptr<cnnMngmnt::QnxChannel> _channel;
     std::unique_ptr<cnnMngmnt::QnxConnection> _dispatcher_connection;
-    bool _is_running { true };
     std::thread _client_thread;
 };
 

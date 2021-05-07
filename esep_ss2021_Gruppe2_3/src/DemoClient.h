@@ -7,6 +7,7 @@
 class DemoClient: public dispatcher::DispatcherClient {
 public:
     DemoClient(const std::string& name);
-    void handle(dispatcher::Event& event);
     virtual ~DemoClient();
+
+    void handle(dispatcher::Event& event);
 };

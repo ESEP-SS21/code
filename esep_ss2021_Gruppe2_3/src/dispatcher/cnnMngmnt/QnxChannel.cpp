@@ -38,21 +38,21 @@ MsgType QnxChannel::msg_receive(void* msg, int size) {
     }
 }
 
-void QnxChannel::msg_reply(status_code status, void* msg, int size) {
+void QnxChannel::msg_reply(status_code status, void* msg, int size) const {
     if (-1 == _last_message_id)
         std::cout << "no msg to reply to" << std::endl;
     if (-1 == MsgReply(_last_message_id, status, msg, size))
         std::cout << "error while replying" << std::endl;
 }
 
-void QnxChannel::msg_reply_error(int error_code) {
+void QnxChannel::msg_reply_error(int error_code) const {
     if (-1 == _last_message_id)
         std::cout << "no msg to reply to" << std::endl;
     if (-1 == MsgError(_last_message_id, error_code))
         std::cout << "error while replying with error" << std::endl;
 }
 
-void QnxChannel::msg_read(void *msg, _Sizet size, _Sizet offset) {
+void QnxChannel::msg_read(void *msg, _Sizet size, _Sizet offset) const {
     MsgRead(_last_message_id, msg, size, offset);
 }
 

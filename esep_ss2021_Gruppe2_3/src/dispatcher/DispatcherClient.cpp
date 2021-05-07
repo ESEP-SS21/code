@@ -36,7 +36,7 @@ void DispatcherClient::subscribe_evnt(uint8_t evnt_nr) {
         exit(EXIT_FAILURE);
     }
 }
-void DispatcherClient::send_evnt(Event event, int priority) {
+void DispatcherClient::send_evnt(Event event, int priority) const{
     _dispatcher_connection->msg_send_pulse(priority, event.number, event.payload);
 }
 

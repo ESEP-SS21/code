@@ -12,17 +12,17 @@ enum class MsgType {
 
 class QnxChannel {
 public:
-    virtual ~QnxChannel();
     QnxChannel();
     QnxChannel(const std::string &attach_string);
+    virtual ~QnxChannel();
 
-    MsgType msg_receive(void* msg, int size);
-    void msg_reply(int status, void* msg, int size);
-    void msg_reply_error(int error_code);
-    void msg_read(void *msg, _Sizet size, _Sizet offset);
-    chid get_chid() {
+    void msg_reply(int status, void* msg, int size) const;
+    void msg_reply_error(int error_code) const;
+    void msg_read(void *msg, _Sizet size, _Sizet offset) const;
+    chid get_chid() const{
         return _id;
     }
+    MsgType msg_receive(void* msg, int size);
 
 private:
     chid _id;

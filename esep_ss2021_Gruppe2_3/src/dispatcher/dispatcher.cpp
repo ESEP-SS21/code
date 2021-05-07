@@ -65,7 +65,7 @@ void dispatcher::subscribe(int event_id, cnnMngmnt::chid chid) {
     _evnt_conn_multimap[event_id].insert(_chid_conn_map[chid]);
 }
 
-void dispatcher::handle_event(cnnMngmnt::header_t header) {
+void dispatcher::handle_event(cnnMngmnt::header_t header) const {
     int evnt_id = header.code;
     int evnt_value = header.value.sival_int;
     std::cout << "dispatcher recieved following event:" << std::endl;
@@ -77,7 +77,7 @@ void dispatcher::handle_event(cnnMngmnt::header_t header) {
     }
 }
 
-void dispatcher::handle_qnx_io_msg(cnnMngmnt::header_t header) {
+void dispatcher::handle_qnx_io_msg(cnnMngmnt::header_t header) const {
     if (header.type == _IO_CONNECT) {
         // QNX IO msg _IO_CONNECT was received; answer with EOK
         std::cout << "Dispatcher received _IO_CONNECT (sync. msg) \n" << std::endl;

@@ -19,7 +19,7 @@ QnxConnection::QnxConnection(chid chid) {
         std::cout << "error while connecting to channel via chid" << std::endl;
 }
 
-status_code QnxConnection::msg_send(iov_t *iov, int iov_size, void* rmsg, int rmsg_size) {
+status_code QnxConnection::msg_send(iov_t *iov, int iov_size, void* rmsg, int rmsg_size) const {
     status_code s = MsgSendvs(_id, iov, iov_size, rmsg, rmsg_size);
     if (-1 == s)
         //An error occurred (errno is set), or the server called MsgError*() (errno is set to the error value passed to MsgError()).
@@ -27,7 +27,7 @@ status_code QnxConnection::msg_send(iov_t *iov, int iov_size, void* rmsg, int rm
     return s;
 }
 
-void QnxConnection::msg_send_pulse(int priority, int code, int value) {
+void QnxConnection::msg_send_pulse(int priority, int code, int value) const {
     if (-1 == MsgSendPulse(_id, priority, code, value)) {
         std::cout << "error while sending puls" << std::endl;
         std::cout << "log(-1) failed: " << errno << '\n';
