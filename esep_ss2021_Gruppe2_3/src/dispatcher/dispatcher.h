@@ -13,17 +13,17 @@ namespace dispatcher {
 
 class dispatcher {
 public:
-    dispatcher(std::unique_ptr<connManagement::IIpcChannel> ipc);
+    dispatcher(std::unique_ptr<connManagement::QnxChannel> ipc);
     virtual ~dispatcher();
 
 private:
     const static int MAX_EVNT_ID { 128 };
     const std::string SERVICE_NAME { "dispatcher" };
     std::thread _dispatcher_thread;
-    std::unordered_map<connManagement::chid, std::shared_ptr<connManagement::IIpcConnection>> _chid_conn_map {};
-    std::array<std::unordered_set<std::shared_ptr<connManagement::IIpcConnection>>, MAX_EVNT_ID> _evnt_conn_multimap;
+    std::unordered_map<connManagement::chid, std::shared_ptr<connManagement::QnxConnection>> _chid_conn_map {};
+    std::array<std::unordered_set<std::shared_ptr<connManagement::QnxConnection>>, MAX_EVNT_ID> _evnt_conn_multimap;
     bool _is_running { true };
-    std::unique_ptr<connManagement::IIpcChannel> _channel;
+    std::unique_ptr<connManagement::QnxChannel> _channel;
     void run();
     void attach();
     void handle_event(connManagement::header_t header);

@@ -10,8 +10,7 @@
 #include "dispatcher/Event.h"
 
 #include <sys/dispatch.h>
-
-#include "utils/connManagement/QnxChannel.h"
+#include <utils/connManagement/QnxChannel.h>
 
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/basic_file_sink.h"

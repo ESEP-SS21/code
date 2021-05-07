@@ -1,10 +1,3 @@
-/*
- * DemoClient.h
- *
- *  Created on: 07.05.2021
- *      Author: jendr
- */
-
 #ifndef SRC_DEMOCLIENT_H_
 #define SRC_DEMOCLIENT_H_
 #include "dispatcher/Event.h"
@@ -13,7 +6,7 @@
 
 class DemoClient: public dispatcher::DispatcherClient {
 public:
-    DemoClient(const std::string& disp_name, std::unique_ptr<connManagement::IIpcChannel> channel);
+    DemoClient(const std::string& disp_name, std::unique_ptr<connManagement::QnxChannel> channel);
     void handle(dispatcher::Event& event);
     virtual ~DemoClient();
 };

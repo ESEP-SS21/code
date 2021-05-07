@@ -1,6 +1,8 @@
 #ifndef SRC_UTILS_CONNMANAGEMENT_NAMESPACEDATA_
 #define SRC_UTILS_CONNMANAGEMENT_NAMESPACEDATA_
 
+#include <sys/dispatch.h>
+
 namespace connManagement {
 
 struct header_t {

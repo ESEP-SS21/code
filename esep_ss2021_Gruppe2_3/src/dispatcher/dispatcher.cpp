@@ -1,11 +1,11 @@
 #include "dispatcher.h"
 #include <errno.h>
-#include "../utils/connManagement/QnxConnection.h"
 #include <sys/dispatch.h>
+#include <utils/connManagement/QnxConnection.h>
 
 namespace dispatcher {
 
-dispatcher::dispatcher(std::unique_ptr<connManagement::IIpcChannel> ipc) :
+dispatcher::dispatcher(std::unique_ptr<connManagement::QnxChannel> ipc) :
         _channel(std::move(ipc)) {
     _dispatcher_thread = std::thread([this] {this->run();});
 }
@@ -59,7 +59,7 @@ void dispatcher::handle_sync_msg(connManagement::header_t header) {
 
 void dispatcher::subscribe(int event_id, connManagement::chid chid) {
     if (_chid_conn_map.find(chid) == _chid_conn_map.end()) { //no connection for this chid yet
-        _chid_conn_map[chid] = std::shared_ptr<connManagement::IIpcConnection>(
+        _chid_conn_map[chid] = std::shared_ptr<connManagement::QnxConnection>(
                 new connManagement::QnxConnection(chid));
     }
     _evnt_conn_multimap[event_id].insert(_chid_conn_map[chid]);

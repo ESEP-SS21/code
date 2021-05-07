@@ -1,14 +1,9 @@
-/*
- * DemoClient.cpp
- *
- *  Created on: 07.05.2021
- *      Author: jendr
- */
-
 #include <DemoClient.h>
 #include <iostream>
+#include "utils/connManagement/QnxConnection.h"
+#include "utils/connManagement/QnxChannel.h"
 
-DemoClient::DemoClient(const std::string& disp_name, std::unique_ptr<connManagement::IIpcChannel> channel) :
+DemoClient::DemoClient(const std::string& disp_name, std::unique_ptr<connManagement::QnxChannel> channel) :
     DispatcherClient(disp_name, std::move(channel)) {
 }
 
