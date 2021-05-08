@@ -37,7 +37,11 @@ void DispatcherClient::subscribe_evnt(EventType event_type) {
     }
 }
 void DispatcherClient::send_evnt(Event event, int priority) const {
-    _dispatcher_connection->msg_send_pulse(priority, static_cast<int>(event.type), event.payload);
+    int code = static_cast<int>(event.type);
+    if(event.broadcast){
+        code = code | 0b01000000;
+    }
+    _dispatcher_connection->msg_send_pulse(priority, code, event.payload);
 }
 
 void DispatcherClient::run() {

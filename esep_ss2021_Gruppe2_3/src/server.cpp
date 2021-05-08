@@ -27,7 +27,37 @@ int main(int argc, char **argv) {
 #else
 
     int main(int argc, char **argv) {
+        int ret;
+        printf("gns must be running.\n");
+        if (argc < 2) {
+            printf("Usage %s -s | -c \n", argv[0]);
+            ret = EXIT_FAILURE;
+        }
+        else if (strcmp(argv[1], "-p") == 0) {
+            dispatcher::dispatcher disp("dispatcherp");
+            disp.connect_to_other("dispatchers");
+            DemoClient client("dispatcherp");
+            dispatcher::Event e ={dispatcher::EventType::Event12, true, 42};
+            client.send_evnt(e, 3);
+            usleep(1000*1000*10);
+        }
+        else if (strcmp(argv[1], "-s") == 0) {
+            dispatcher::dispatcher disp("dispatchers");
+            disp.connect_to_other("dispatcherp");
+            DemoClient client("dispatchers");
+            dispatcher::Event e = {dispatcher::EventType::Event12, true, 42};
+            client.send_evnt(e, 3);
+            usleep(1000*1000*10);
 
+        }
+        else {
+            printf("Usage %s -s | -c \n", argv[0]);
+            ret = EXIT_FAILURE;
+        }
+        return ret;
+    }
+
+    int test(){
         //spdlog::set_default_logger(stdout_logger);
         auto my_logger = spdlog::basic_logger_mt("basic_logger", "logs/basic.txt");
         //spdlog::get("console")->info("loggers can be retrieved from a global registry using the spdlog::get(logger_name)");
@@ -45,11 +75,11 @@ int main(int argc, char **argv) {
         client2.subscribe_evnt(EventType::Event12);
         client2.subscribe_evnt(EventType::AnotherEvent);
 
-        client.send_evnt( {EventType::Event12, 42}, 3);
+        client.send_evnt( {EventType::Event12, false ,42}, 3);
 
         usleep(1000*1000*1);
 
-        client.send_evnt( {EventType::AnotherEvent, 33}, 3);
+        client.send_evnt( {EventType::AnotherEvent, false, 33}, 3);
 
         usleep(1000*1000*2);
         return 0;

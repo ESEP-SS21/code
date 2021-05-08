@@ -25,6 +25,7 @@ inline std::ostream& operator<<(std::ostream& out, const EventType& e) {
 
 struct Event {
     EventType type;
+    bool broadcast;
     int payload;
 };
 
