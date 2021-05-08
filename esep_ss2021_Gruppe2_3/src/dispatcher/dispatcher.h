@@ -12,7 +12,7 @@ namespace dispatcher {
 
 class dispatcher {
 public:
-    dispatcher(const std::string &name);
+    dispatcher(const std::string &name, const std::string &fts2_dispatcher_name="SINGLE");
     virtual ~dispatcher();
 
 private:
@@ -31,6 +31,7 @@ private:
     std::unordered_map<cnnMngmnt::chid, std::shared_ptr<cnnMngmnt::QnxConnection>> _chid_conn_map { };
     std::array<std::unordered_set<std::shared_ptr<cnnMngmnt::QnxConnection>>, MAX_EVNT_ID> _evnt_conn_multimap;
     std::unique_ptr<cnnMngmnt::QnxChannel> _channel;
+    std::unique_ptr<cnnMngmnt::QnxConnection> _fts2_dispatcher_connection;
 
 };
 

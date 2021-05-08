@@ -34,20 +34,47 @@ int main(int argc, char **argv) {
         my_logger->error("Hello {} {} !!", "param1", 123.4);
         spdlog::info("Hello, World!");
 
-        dispatcher::dispatcher disp("dispatcher");
+        printf("gns must be running.\n");
+        if (argc < 2) {
+            printf("Usage %s -s | -c \n", argv[0]);
+            return EXIT_FAILURE;
+        }
+        else if (strcmp(argv[1], "-p") == 0) {
+            dispatcher::dispatcher disp("dispatcher_p","dispatcher_s");
 
-        DemoClient client("dispatcher");
-        DemoClient client2("dispatcher");
+            DemoClient client("dispatcher_p");
+            DemoClient client2("dispatcher_p");
 
-        client.subscribe_evnt(0);
-        client2.subscribe_evnt(0);
-        client2.subscribe_evnt(1);
-        dispatcher::Event event {1,42};
-        client.send_evnt(event, 3);
-        usleep(1000*1000*1);
-        dispatcher::Event event2 {0,42};
-        client.send_evnt(event2, 3);
-        usleep(1000*1000*2);
+            client.subscribe_evnt(0);
+            client2.subscribe_evnt(0);
+            client2.subscribe_evnt(1);
+            dispatcher::Event event {65,42};
+            client.send_evnt(event, 3);
+            usleep(1000*1000*1);
+            dispatcher::Event event2 {1,23};
+            client.send_evnt(event2, 3);
+            usleep(1000*1000*2);
+        }
+        else if (strcmp(argv[1], "-s") == 0) {
+            dispatcher::dispatcher disp("dispatcher_s", "dispatcher_p");
+
+            DemoClient client("dispatcher_s");
+            DemoClient client2("dispatcher_s");
+
+            client.subscribe_evnt(0);
+            client2.subscribe_evnt(0);
+            client2.subscribe_evnt(1);
+            dispatcher::Event event {1,42};
+            client.send_evnt(event, 3);
+            usleep(1000*1000*1);
+            dispatcher::Event event2 {64,23};
+            client.send_evnt(event2, 3);
+            usleep(1000*1000*2);
+        }
+        else {
+            printf("Usage %s -p | -s \n", argv[0]);
+            return EXIT_FAILURE;
+        }
         return 0;
     }
 
