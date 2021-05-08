@@ -34,21 +34,23 @@ int main(int argc, char **argv) {
         my_logger->error("Hello {} {} !!", "param1", 123.4);
         spdlog::info("Hello, World!");
 
-        dispatcher::dispatcher disp("dispatcher");
+        dispatcher::dispatcher disp("dispatcher_p","dispatcher_s");
 
-        DemoClient client("dispatcher");
-        DemoClient client2("dispatcher");
+        DemoClient client("dispatcher_p");
+        DemoClient client2("dispatcher_p");
 
-        client.subscribe_evnt(dispatcher::EventType::Event12);
-        client2.subscribe_evnt(dispatcher::EventType::Event12);
+        using EventType = dispatcher::EventType;
 
-        client2.subscribe_evnt(dispatcher::EventType::AnotherEvent);
+        client.subscribe_evnt(EventType::Event12);
+        client2.subscribe_evnt(EventType::Event12);
 
-        client.send_evnt({dispatcher::EventType::Event12, 42}, 3);
+        client2.subscribe_evnt(EventType::AnotherEvent);
+
+        client.send_evnt( {EventType::Event12, 42}, 3);
 
         usleep(1000*1000*1);
 
-        client.send_evnt({dispatcher::EventType::AnotherEvent, 33}, 3);
+        client.send_evnt( {EventType::AnotherEvent, 33}, 3);
 
         usleep(1000*1000*2);
         return 0;

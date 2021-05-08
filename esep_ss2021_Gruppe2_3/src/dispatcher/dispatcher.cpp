@@ -6,9 +6,17 @@
 
 namespace dispatcher {
 
-dispatcher::dispatcher(const std::string &name) :
+dispatcher::dispatcher(const std::string &name, const std::string &fts2_dispatcher_name) :
         _channel(std::unique_ptr<cnnMngmnt::QnxChannel>(new cnnMngmnt::QnxChannel(name))) {
     _dispatcher_thread = std::thread([this] {this->run();});
+    if (fts2_dispatcher_name != "SINGLE") {
+        // Connect to other dispatcher
+        _fts2_dispatcher_connection = std::unique_ptr<cnnMngmnt::QnxConnection>(
+                new cnnMngmnt::QnxConnection(fts2_dispatcher_name));
+        std::cout<<"connection established"<<std::endl;
+    } else {
+        _fts2_dispatcher_connection = std::unique_ptr<cnnMngmnt::QnxConnection>(nullptr);
+    }
 }
 
 dispatcher::~dispatcher() {
@@ -71,7 +79,15 @@ void dispatcher::subscribe(EventSubscription subscr) {
 void dispatcher::handle_event(cnnMngmnt::header_t header) const {
     int evnt_id = header.code;
     int evnt_value = header.value.sival_int;
-    std::cout << "dispatcher recieved following event:" << std::endl;
+    if ((evnt_id & 0b01000000) != 0) {
+        // mask out transmission bit if message is for other dispatcher
+        evnt_id = evnt_id & (~0b01000000);
+        if (_fts2_dispatcher_connection.get() != nullptr) {
+            // send event to other dispatcher if not in single mode
+            _fts2_dispatcher_connection->msg_send_pulse(1, evnt_id, evnt_value);
+        }
+    }
+    std::cout << "dispatcher received following event:" << std::endl;
     std::cout << "id: " << evnt_id << std::endl;
     std::cout << "value: " << evnt_value << std::endl;
 
