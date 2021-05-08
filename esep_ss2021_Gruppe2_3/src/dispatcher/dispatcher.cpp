@@ -54,13 +54,12 @@ void dispatcher::run() {
 }
 void dispatcher::handle_sync_msg(cnnMngmnt::header_t header) {
     if (SyncMsgType::SUBSCRIBE == SyncMsgType(header.type)) { //when is event subscr
-        int ret[1] = { 0 };
 
         EventSubscription subscription;
         _channel->msg_read(&subscription, sizeof(subscription), sizeof(header));
         subscribe(subscription);
 
-        _channel->msg_reply(EOK, ret, sizeof(ret));
+        _channel->msg_reply(EOK);
         std::cout << "subscribed" << std::endl;
     }
     //maybe other forms of sync communications
@@ -98,7 +97,7 @@ void dispatcher::handle_qnx_io_msg(cnnMngmnt::header_t header) const {
     if (header.type == _IO_CONNECT) {
         // QNX IO msg _IO_CONNECT was received; answer with EOK
         std::cout << "Dispatcher received _IO_CONNECT (sync. msg) \n" << std::endl;
-        _channel->msg_reply(EOK, nullptr, 0);
+        _channel->msg_reply(EOK);
         return;
     }
     // Some other QNX IO message was received; reject it

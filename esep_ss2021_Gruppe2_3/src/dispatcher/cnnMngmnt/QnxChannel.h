@@ -16,7 +16,7 @@ public:
     QnxChannel(const std::string &attach_string);
     virtual ~QnxChannel();
 
-    void msg_reply(int status, void* msg, int size) const;
+    void msg_reply(status_code status) const;
     void msg_reply_error(int error_code) const;
     void msg_read(void *msg, _Sizet size, _Sizet offset) const;
     chid get_chid() const{

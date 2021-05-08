@@ -34,8 +34,8 @@ QnxConnection::QnxConnection(chid chid) {
     }
 }
 
-status_code QnxConnection::msg_send(iov_t *iov, int iov_size, void* rmsg, int rmsg_size) const {
-    status_code s = MsgSendvs(_id, iov, iov_size, rmsg, rmsg_size);
+status_code QnxConnection::msg_send(iov_t *iov, int iov_size) const {
+    status_code s = MsgSendvs(_id, iov, iov_size, nullptr, 0);
     if (-1 == s)
         //An error occurred (errno is set), or the server called MsgError*() (errno is set to the error value passed to MsgError()).
         std::cout << "error while sending" << std::endl;

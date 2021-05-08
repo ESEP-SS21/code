@@ -28,10 +28,10 @@ void DispatcherClient::subscribe_evnt(EventType event_type) {
     EventSubscription sub { event_type,  _channel->get_chid()};
 
     iov_t iov[2];
-    int r_msg;
+
     SETIOV(iov + 0, &header, sizeof(header));
     SETIOV(iov + 1, &sub, sizeof(sub));
-    if (-1 == _dispatcher_connection->msg_send(iov, 2, &r_msg, sizeof(r_msg))) {
+    if (-1 == _dispatcher_connection->msg_send(iov, 2)) {
         perror("Client: MsgSend failed");
         exit(EXIT_FAILURE);
     }
@@ -78,7 +78,7 @@ void DispatcherClient::handle_qnx_io_msg(cnnMngmnt::header_t header) {
     if (header.type == _IO_CONNECT) {
         // QNX IO msg _IO_CONNECT was received; answer with EOK
         std::cout << "Dispatcher received _IO_CONNECT (sync. msg) \n" << std::endl;
-        _channel->msg_reply(EOK, nullptr, 0);
+        _channel->msg_reply(EOK);
         return;
     }
     // Some other QNX IO message was received; reject it

@@ -43,7 +43,6 @@ int main(int argc, char **argv) {
 
         client.subscribe_evnt(EventType::Event12);
         client2.subscribe_evnt(EventType::Event12);
-
         client2.subscribe_evnt(EventType::AnotherEvent);
 
         client.send_evnt( {EventType::Event12, 42}, 3);

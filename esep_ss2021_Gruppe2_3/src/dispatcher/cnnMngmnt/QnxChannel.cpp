@@ -38,10 +38,10 @@ MsgType QnxChannel::msg_receive(void* msg, int size) {
     }
 }
 
-void QnxChannel::msg_reply(status_code status, void* msg, int size) const {
+void QnxChannel::msg_reply(status_code status) const {
     if (-1 == _last_message_id)
         std::cout << "no msg to reply to" << std::endl;
-    if (-1 == MsgReply(_last_message_id, status, msg, size))
+    if (-1 == MsgReply(_last_message_id, status, nullptr, 0))
         std::cout << "error while replying" << std::endl;
 }
 
