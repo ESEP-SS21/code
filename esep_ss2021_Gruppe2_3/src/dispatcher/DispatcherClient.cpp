@@ -51,7 +51,7 @@ void DispatcherClient::run() {
         cnnMngmnt::MsgType msg_type = _channel->msg_receive(&header, sizeof(cnnMngmnt::header_t));
 
         if (msg_type == cnnMngmnt::MsgType::error) {
-            //TODO logging or exception
+            _logger->error("Client '{}' received error", _name);
             break;
         }
 
