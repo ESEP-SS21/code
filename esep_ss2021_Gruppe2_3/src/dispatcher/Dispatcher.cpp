@@ -18,7 +18,7 @@ Dispatcher::~Dispatcher() {
     _dispatcher_thread.join();
 }
 
-void Dispatcher::connect_to_other(const std::string &name){
+void Dispatcher::connect_to_other(const std::string &name) {
     _other_connection = std::unique_ptr<cnnMngmnt::QnxConnection>(
             new cnnMngmnt::QnxConnection(name));
 }
@@ -34,10 +34,12 @@ void Dispatcher::run() {
         }
 
         if (type == cnnMngmnt::MsgType::puls) { // Pulse was received
-            if (header.code == _PULSE_CODE_UNBLOCK) {
+            if (header.code < 0) {
                 continue;
             }
-            handle_event(header);
+
+            Event e(header);
+            handle_event(e);
             continue;
         }
 
@@ -73,25 +75,16 @@ void Dispatcher::subscribe(EventSubscription subscr) {
     _evnt_conn_multimap[static_cast<int>(subscr.type)].insert(_chid_conn_map[subscr.chid]);
 }
 
-void Dispatcher::handle_event(cnnMngmnt::header_t header) const {
-    int evnt_id = header.code;
-    int evnt_value = header.value.sival_int;
-    if(evnt_id<0){
-        return;
-    }
-    if ((evnt_id & 0b01000000) != 0) {
-        // mask out transmission bit if message is for other dispatcher
-        evnt_id = evnt_id & (~0b01000000);
-        if (_other_connection.get() != nullptr) {
-            // send event to other dispatcher if not in single mode
-            _other_connection->msg_send_pulse(1, evnt_id, evnt_value);
-        }
+void Dispatcher::handle_event(Event e) const {
+    int evnt_id = static_cast<int> (e.type);
+    if (e.broadcast && _other_connection != nullptr) {
+        _other_connection->msg_send_pulse(1, evnt_id, e.payload);
     }
 
-    _logger->trace("Dispatcher received: '{}'", Event(header, false).str());
+    _logger->trace("Dispatcher received: '{}'", e.str());
 
     for (auto& connection : _evnt_conn_multimap[evnt_id]) {
-        connection->msg_send_pulse(1, evnt_id, evnt_value);
+        connection->msg_send_pulse(1, evnt_id, e.payload);
     }
 }
 

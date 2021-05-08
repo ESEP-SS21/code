@@ -60,7 +60,7 @@ void DispatcherClient::run() {
                 continue;
             }
 
-            Event e(header, false);
+            Event e(header);
             _logger->trace("Client '{}' received '{}'", _name, e.str());
             handle(e);
             continue;

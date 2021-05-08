@@ -28,15 +28,23 @@ inline std::string str(EventType et) {
 
 struct Event {
     EventType type;
-    bool broadcast;
     int payload;
+    bool broadcast;
 
     Event(EventType type, bool broadcast, int payload) :
-            type(type), broadcast(broadcast), payload(payload) {
+            type(type), payload(payload), broadcast(broadcast) {
     }
 
-    Event(const cnnMngmnt::header_t& header, bool broadcast) :
-            type(EventType(header.code)), broadcast(broadcast), payload(header.value.sival_int) {
+    Event(const cnnMngmnt::header_t& header) :
+            payload(header.value.sival_int), broadcast(false) {
+
+        int evnt_id = header.code;
+        if ((evnt_id & 0b01000000) != 0) {
+            broadcast = true;
+            // mask out transmission bit
+            evnt_id = evnt_id & (~0b01000000);
+        }
+        type = EventType(evnt_id);
     }
 
     std::string str() {

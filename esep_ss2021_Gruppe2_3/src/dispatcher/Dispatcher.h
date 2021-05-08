@@ -22,7 +22,7 @@ private:
     static const int MAX_EVNT_ID { 128 };
 
     void attach() const;
-    void handle_event(cnnMngmnt::header_t header) const;
+    void handle_event(Event e) const;
     void handle_qnx_io_msg(cnnMngmnt::header_t header) const;
     void run();
     void handle_sync_msg(cnnMngmnt::header_t header);
