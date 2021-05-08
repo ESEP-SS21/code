@@ -12,11 +12,11 @@
 
 namespace dispatcher {
 
-class dispatcher {
+class Dispatcher {
 public:
-    dispatcher(const std::string &name);
+    Dispatcher(const std::string &name);
     void connect_to_other(const std::string &name);
-    virtual ~dispatcher();
+    virtual ~Dispatcher();
 
 private:
     static const int MAX_EVNT_ID { 128 };

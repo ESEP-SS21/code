@@ -1,29 +1,29 @@
 #include <dispatcher/cnnMngmnt/QnxConnection.h>
-#include "dispatcher.h"
+#include <dispatcher/Dispatcher.h>
 #include <errno.h>
 #include "Event.h"
 #include "SyncMsg.h"
 
 namespace dispatcher {
 
-dispatcher::dispatcher(const std::string &name) :
+Dispatcher::Dispatcher(const std::string &name) :
         _channel(std::unique_ptr<cnnMngmnt::QnxChannel>(new cnnMngmnt::QnxChannel(name))) {
     _dispatcher_thread = std::thread([this] {this->run();});
     _other_connection.reset();
 }
 
-dispatcher::~dispatcher() {
+Dispatcher::~Dispatcher() {
     _is_running = false;
     cnnMngmnt::QnxConnection(_channel->get_chid()).msg_send_pulse(1, _PULSE_CODE_UNBLOCK, 0);
     _dispatcher_thread.join();
 }
 
-void dispatcher::connect_to_other(const std::string &name){
+void Dispatcher::connect_to_other(const std::string &name){
     _other_connection = std::unique_ptr<cnnMngmnt::QnxConnection>(
             new cnnMngmnt::QnxConnection(name));
 }
 
-void dispatcher::run() {
+void Dispatcher::run() {
     while (_is_running) {
         cnnMngmnt::header_t header;
         cnnMngmnt::MsgType type = _channel->msg_receive(&header, sizeof(cnnMngmnt::header_t));
@@ -52,7 +52,7 @@ void dispatcher::run() {
         handle_sync_msg(header);
     }
 }
-void dispatcher::handle_sync_msg(cnnMngmnt::header_t header) {
+void Dispatcher::handle_sync_msg(cnnMngmnt::header_t header) {
     if (SyncMsgType::SUBSCRIBE == SyncMsgType(header.type)) {
 
         EventSubscription subscription;
@@ -65,7 +65,7 @@ void dispatcher::handle_sync_msg(cnnMngmnt::header_t header) {
     //maybe other forms of sync communications
 }
 
-void dispatcher::subscribe(EventSubscription subscr) {
+void Dispatcher::subscribe(EventSubscription subscr) {
     if (_chid_conn_map.find(subscr.chid) == _chid_conn_map.end()) { //no connection for this chid yet
         _chid_conn_map[subscr.chid] = std::shared_ptr<cnnMngmnt::QnxConnection>(
                 new cnnMngmnt::QnxConnection(subscr.chid));
@@ -73,7 +73,7 @@ void dispatcher::subscribe(EventSubscription subscr) {
     _evnt_conn_multimap[static_cast<int>(subscr.type)].insert(_chid_conn_map[subscr.chid]);
 }
 
-void dispatcher::handle_event(cnnMngmnt::header_t header) const {
+void Dispatcher::handle_event(cnnMngmnt::header_t header) const {
     int evnt_id = header.code;
     int evnt_value = header.value.sival_int;
     if(evnt_id<0){
@@ -95,7 +95,7 @@ void dispatcher::handle_event(cnnMngmnt::header_t header) const {
     }
 }
 
-void dispatcher::handle_qnx_io_msg(cnnMngmnt::header_t header) const {
+void Dispatcher::handle_qnx_io_msg(cnnMngmnt::header_t header) const {
     if (header.type == _IO_CONNECT) {
         // QNX IO msg _IO_CONNECT was received; answer with EOK
         _logger->trace("Dispatcher received _IO_CONNECT '{}'");

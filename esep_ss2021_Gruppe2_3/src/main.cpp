@@ -1,3 +1,4 @@
+#include <dispatcher/Dispatcher.h>
 #include <Logger.h>
 #include <iostream>
 #include "simqnxgpioapi.h" // must be last include !!!
@@ -6,7 +7,6 @@
 #include "hal/actuators/cb_motor.h"
 #include <thread>
 #include <chrono>
-#include "dispatcher/dispatcher.h"
 #include "DemoClient.h"
 #include "dispatcher/Event.h"
 
@@ -66,7 +66,7 @@ int main(int argc, char **argv) {
     }
 
     void primary(){
-        dispatcher::dispatcher disp("dispatcherp");
+        dispatcher::Dispatcher disp("dispatcherp");
         disp.connect_to_other("dispatchers");
         DemoClient client("dispatcherp");
         client.subscribe_evnt(dispatcher::EventType::Event12);
@@ -82,7 +82,7 @@ int main(int argc, char **argv) {
     }
 
     void secondary(){
-        dispatcher::dispatcher disp("dispatchers");
+        dispatcher::Dispatcher disp("dispatchers");
         disp.connect_to_other("dispatcherp");
         DemoClient client("dispatchers");
         client.subscribe_evnt(dispatcher::EventType::Event12);
