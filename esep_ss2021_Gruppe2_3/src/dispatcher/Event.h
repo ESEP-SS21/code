@@ -1,16 +1,20 @@
 #pragma once
 
+#include <string>
+#include "cnnMngmnt/namespacedata"
+
 namespace dispatcher {
 
-#define SUB_MSG   (_IO_MAX + 1)
+enum class EventType{ SomeEvent = 0, AnotherEvent, Event12 = 12, Max = 63};
 
 struct Event {
-    int number;
+    EventType type;
     int payload;
 };
 
 struct EventSubscription {
-    int number;
-    int channel_id;
+    EventType type;
+    cnnMngmnt::chid chid;
 };
+
 }

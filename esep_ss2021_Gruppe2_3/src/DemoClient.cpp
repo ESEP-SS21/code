@@ -8,7 +8,7 @@ DemoClient::DemoClient(const std::string& name) :
 }
 
 void DemoClient::handle(dispatcher::Event& event) {
-    std::cout << "event_id:" << event.number << "payload: " << event.payload << std::endl;
+    std::cout << "Demo Client recieved Event:" << std::endl << "Type:" << static_cast<int>(event.type) << std::endl << "payload: " << event.payload << std::endl << std::endl;
 }
 
 DemoClient::~DemoClient() {

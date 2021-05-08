@@ -39,14 +39,17 @@ int main(int argc, char **argv) {
         DemoClient client("dispatcher");
         DemoClient client2("dispatcher");
 
-        client.subscribe_evnt(0);
-        client2.subscribe_evnt(0);
-        client2.subscribe_evnt(1);
-        dispatcher::Event event {1,42};
-        client.send_evnt(event, 3);
+        client.subscribe_evnt(dispatcher::EventType::Event12);
+        client2.subscribe_evnt(dispatcher::EventType::Event12);
+
+        client2.subscribe_evnt(dispatcher::EventType::AnotherEvent);
+
+        client.send_evnt({dispatcher::EventType::Event12, 42}, 3);
+
         usleep(1000*1000*1);
-        dispatcher::Event event2 {0,42};
-        client.send_evnt(event2, 3);
+
+        client.send_evnt({dispatcher::EventType::AnotherEvent, 33}, 3);
+
         usleep(1000*1000*2);
         return 0;
     }

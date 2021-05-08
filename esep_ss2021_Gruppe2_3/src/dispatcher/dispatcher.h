@@ -8,6 +8,8 @@
 #include <array>
 #include "cnnMngmnt/QnxChannel.h"
 #include "cnnMngmnt/QnxConnection.h"
+#include "Event.h"
+
 namespace dispatcher {
 
 class dispatcher {
@@ -24,7 +26,7 @@ private:
     void handle_qnx_io_msg(cnnMngmnt::header_t header) const;
     void run();
     void handle_sync_msg(cnnMngmnt::header_t header);
-    void subscribe(int event_id, cnnMngmnt::chid chid);
+    void subscribe(EventSubscription subscr);
 
     bool _is_running { true };
     std::thread _dispatcher_thread;

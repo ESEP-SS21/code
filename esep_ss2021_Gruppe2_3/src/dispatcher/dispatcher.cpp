@@ -2,6 +2,7 @@
 #include "dispatcher.h"
 #include <errno.h>
 #include "Event.h"
+#include "SyncMsg.h"
 
 namespace dispatcher {
 
@@ -46,23 +47,25 @@ void dispatcher::run() {
     }
 }
 void dispatcher::handle_sync_msg(cnnMngmnt::header_t header) {
-    if (SUB_MSG == header.type) { //when is event subscr
+    if (SyncMsgType::SUBSCRIBE == SyncMsgType(header.type)) { //when is event subscr
         int ret[1] = { 0 };
+
         EventSubscription subscription;
         _channel->msg_read(&subscription, sizeof(subscription), sizeof(header));
-        subscribe(subscription.number, subscription.channel_id);
+        subscribe(subscription);
+
         _channel->msg_reply(EOK, ret, sizeof(ret));
         std::cout << "subscribed" << std::endl;
     }
     //maybe other forms of sync communications
 }
 
-void dispatcher::subscribe(int event_id, cnnMngmnt::chid chid) {
-    if (_chid_conn_map.find(chid) == _chid_conn_map.end()) { //no connection for this chid yet
-        _chid_conn_map[chid] = std::shared_ptr<cnnMngmnt::QnxConnection>(
-                new cnnMngmnt::QnxConnection(chid));
+void dispatcher::subscribe(EventSubscription subscr) {
+    if (_chid_conn_map.find(subscr.chid) == _chid_conn_map.end()) { //no connection for this chid yet
+        _chid_conn_map[subscr.chid] = std::shared_ptr<cnnMngmnt::QnxConnection>(
+                new cnnMngmnt::QnxConnection(subscr.chid));
     }
-    _evnt_conn_multimap[event_id].insert(_chid_conn_map[chid]);
+    _evnt_conn_multimap[static_cast<int>(subscr.type)].insert(_chid_conn_map[subscr.chid]);
 }
 
 void dispatcher::handle_event(cnnMngmnt::header_t header) const {

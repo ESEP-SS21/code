@@ -1,5 +1,7 @@
 #include <dispatcher/DispatcherClient.h>
 #include <iostream>
+#include "SyncMsg.h"
+#include "Event.h"
 
 namespace dispatcher {
 
@@ -17,15 +19,13 @@ DispatcherClient::~DispatcherClient() {
     _client_thread.join();
 }
 
-void DispatcherClient::subscribe_evnt(uint8_t evnt_nr) {
+void DispatcherClient::subscribe_evnt(EventType event_type) {
     cnnMngmnt::header_t header;
 
-    header.type = SUB_MSG;
+    header.type = static_cast<_Uint16t>(SyncMsgType::SUBSCRIBE);
     header.subtype = 0x00;
 
-    EventSubscription sub;
-    sub.channel_id = _channel->get_chid();
-    sub.number = evnt_nr;
+    EventSubscription sub { event_type,  _channel->get_chid()};
 
     iov_t iov[2];
     int r_msg;
@@ -36,8 +36,8 @@ void DispatcherClient::subscribe_evnt(uint8_t evnt_nr) {
         exit(EXIT_FAILURE);
     }
 }
-void DispatcherClient::send_evnt(Event event, int priority) const{
-    _dispatcher_connection->msg_send_pulse(priority, event.number, event.payload);
+void DispatcherClient::send_evnt(Event event, int priority) const {
+    _dispatcher_connection->msg_send_pulse(priority, static_cast<int>(event.type), event.payload);
 }
 
 void DispatcherClient::run() {
@@ -70,9 +70,7 @@ void DispatcherClient::run() {
 }
 
 void DispatcherClient::handle_event(cnnMngmnt::header_t header) {
-    Event event;
-    event.number = header.code;
-    event.payload = header.value.sival_int;
+    Event event = { EventType(header.code), header.value.sival_int };
     handle(event);
 }
 

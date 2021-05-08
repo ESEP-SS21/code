@@ -14,7 +14,7 @@ public:
     virtual ~DispatcherClient();
 
     void send_evnt(Event event, int prio) const;
-    void subscribe_evnt(uint8_t evnt_nr);
+    void subscribe_evnt(EventType event_type);
     virtual void handle(Event&) = 0;
 
 private:
