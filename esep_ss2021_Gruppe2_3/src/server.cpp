@@ -13,7 +13,6 @@
 #include <sys/dispatch.h>
 #include "dispatcher/cnnMngmnt/QnxChannel.h"
 
-
 #ifdef TEST_ENABLE
 
 #include <gtest/gtest.h>
@@ -25,81 +24,74 @@ int main(int argc, char **argv) {
 
 #else
 
-    int main(int argc, char **argv) {
-        
-        Logger::setup("FTS1", true, "log/log.txt");
-        Logger::Logger _logger = Logger::get();
-        for (int i = 0; i < 69; i++){
-            _logger->error("---------------------------------- {} --------------------------------------",i);
-        }
-        
-        int ret;
-        printf("gns must be running.\n");
-        if (argc < 2) {
-            printf("Usage %s -s | -c \n", argv[0]);
-            ret = EXIT_FAILURE;
-        }
-        else if (strcmp(argv[1], "-p") == 0) {
-            dispatcher::dispatcher disp("dispatcherp");
-            disp.connect_to_other("dispatchers");
-            DemoClient client("dispatcherp");
-            client.subscribe_evnt(dispatcher::EventType::Event12);
-            dispatcher::Event e ={dispatcher::EventType::Event12, true, 23};
-            client.send_evnt(e, 3);
-            usleep(1000*1);
-            client.send_evnt(e, 3);
-            usleep(1000*1);
-            client.send_evnt(e, 3);
-            usleep(1000*1);
-            client.send_evnt(e, 3);
-            usleep(1000*1);
-            ret = 0;
-        }
-        else if (strcmp(argv[1], "-s") == 0) {
-            dispatcher::dispatcher disp("dispatchers");
-            disp.connect_to_other("dispatcherp");
-            DemoClient client("dispatchers");
-            client.subscribe_evnt(dispatcher::EventType::Event12);
-            dispatcher::Event e = {dispatcher::EventType::Event12, true, 42};
-            client.send_evnt(e, 3);
-            usleep(1000*1);
-            client.send_evnt(e, 3);
-            usleep(1000*1);
-            client.send_evnt(e, 3);
-            usleep(1000*1);
-            client.send_evnt(e, 3);
-            usleep(1000*1);
-            ret = 0;
+    void fail_and_exit();
+    void primary();
+    void secondary();
 
+    int main(int argc, char **argv) {
+
+
+
+        enum class Mode {NONE, Primary, Secondary};
+
+        Mode mode = Mode::NONE;
+
+        if (argc < 2)
+            fail_and_exit();
+        mode = strcmp(argv[1], "-p") == 0 ? Mode::Primary :
+               strcmp(argv[1], "-s") == 0 ? Mode::Secondary: Mode::NONE;
+        if (mode == Mode::NONE)
+            fail_and_exit();
+
+        Logger::setup(mode == Mode::Primary ? "PRI" : "SEC", true, "log/log.txt");
+        Logger::Logger _logger = Logger::get();
+        for (int i = 0; i < 69; i++) {
+            _logger->error("---------------- {} ----------------",i);
         }
-        else {
-            printf("Usage %s -s | -c \n", argv[0]);
-            ret = EXIT_FAILURE;
-        }
-        return ret;
+
+        if (mode == Mode::Primary)
+            primary();
+        if (mode == Mode::Secondary)
+            secondary();
+
+        return 0;
     }
 
-    int test(){
+    void fail_and_exit(){
+        printf("Usage %s -s | -c");
+        exit(EXIT_FAILURE);
+    }
 
-        dispatcher::dispatcher disp("dispatcher_p");
+    void primary(){
+        dispatcher::dispatcher disp("dispatcherp");
+        disp.connect_to_other("dispatchers");
+        DemoClient client("dispatcherp");
+        client.subscribe_evnt(dispatcher::EventType::Event12);
+        dispatcher::Event e = {dispatcher::EventType::Event12, true, 23};
+        client.send_evnt(e, 3);
+        usleep(1000*100);
+        client.send_evnt(e, 3);
+        usleep(1000*100);
+        client.send_evnt(e, 3);
+        usleep(1000*100);
+        client.send_evnt(e, 3);
+        usleep(1000*100);
+    }
 
-        DemoClient client("dispatcher_p");
-        DemoClient client2("dispatcher_p");
-
-        using EventType = dispatcher::EventType;
-
-        client.subscribe_evnt(EventType::Event12);
-        client2.subscribe_evnt(EventType::Event12);
-        client2.subscribe_evnt(EventType::AnotherEvent);
-
-        client.send_evnt( {EventType::Event12, false ,42}, 3);
-
-        usleep(1000*1000*1);
-
-        client.send_evnt( {EventType::AnotherEvent, false, 33}, 3);
-
-        usleep(1000*1000*2);
-        return 0;
+    void secondary(){
+        dispatcher::dispatcher disp("dispatchers");
+        disp.connect_to_other("dispatcherp");
+        DemoClient client("dispatchers");
+        client.subscribe_evnt(dispatcher::EventType::Event12);
+        dispatcher::Event e = {dispatcher::EventType::Event12, true, 42};
+        client.send_evnt(e, 3);
+        usleep(1000*100);
+        client.send_evnt(e, 3);
+        usleep(1000*100);
+        client.send_evnt(e, 3);
+        usleep(1000*100);
+        client.send_evnt(e, 3);
+        usleep(1000*100);
     }
 
 #endif
