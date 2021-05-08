@@ -18,7 +18,7 @@ QnxChannel::QnxChannel(const std::string &attach_string) {
         throw;
     }
     _id = _attach->chid;
-    _logger->trace("attached named channel '{}' with chid {}", attach_string, _id);
+    _logger->trace("Attached named channel '{}' with chid {}", attach_string, _id);
 
 }
 
@@ -41,14 +41,14 @@ MsgType QnxChannel::msg_receive(void* msg, int size) {
 
 void QnxChannel::msg_reply(status_code status) const {
     if (-1 == _last_message_id)
-        _logger->error("trying to reply to a msg, but there is no msg to reply to");
+        _logger->error("Trying to reply to a msg, but there is no msg to reply to");
     if (-1 == MsgReply(_last_message_id, status, nullptr, 0))
         _logger->error("while replying");
 }
 
 void QnxChannel::msg_reply_error(int error_code) const {
     if (-1 == _last_message_id)
-        _logger->error("trying to reply to a msg, but there is no msg to reply to");
+        _logger->error("Trying to reply to a msg, but there is no msg to reply to");
     if (-1 == MsgError(_last_message_id, error_code))
         _logger->error("while replying with error '{}'", error_code);
 }

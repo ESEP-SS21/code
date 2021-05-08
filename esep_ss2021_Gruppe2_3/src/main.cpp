@@ -68,7 +68,7 @@ int main(int argc, char **argv) {
     void primary(){
         dispatcher::Dispatcher disp("dispatcherp");
         disp.connect_to_other("dispatchers");
-        DemoClient client("dispatcherp");
+        DemoClient client("dispatcherp", "DemoClient");
         client.subscribe_evnt(dispatcher::EventType::Event12);
         dispatcher::Event e = {dispatcher::EventType::Event12, true, 23};
         client.send_evnt(e, 3);
@@ -84,7 +84,7 @@ int main(int argc, char **argv) {
     void secondary(){
         dispatcher::Dispatcher disp("dispatchers");
         disp.connect_to_other("dispatcherp");
-        DemoClient client("dispatchers");
+        DemoClient client("dispatchers", "DemoClient");
         client.subscribe_evnt(dispatcher::EventType::Event12);
         dispatcher::Event e = {dispatcher::EventType::Event12, true, 42};
         client.send_evnt(e, 3);

@@ -60,7 +60,7 @@ void Dispatcher::handle_sync_msg(cnnMngmnt::header_t header) {
         subscribe(subscription);
         _channel->msg_reply(EOK);
 
-        _logger->trace("dispatcher subscribed to {}", subscription.type);
+        _logger->trace("Dispatcher subscribed to '{}'", str(subscription.type));
     }
     //maybe other forms of sync communications
 }
@@ -88,7 +88,7 @@ void Dispatcher::handle_event(cnnMngmnt::header_t header) const {
         }
     }
 
-    _logger->trace("dispatcher received: '{}' payload: '{}'", evnt_id, evnt_value);
+    _logger->trace("Dispatcher received: '{}'", Event(header, false).str());
 
     for (auto& connection : _evnt_conn_multimap[evnt_id]) {
         connection->msg_send_pulse(1, evnt_id, evnt_value);
@@ -98,7 +98,7 @@ void Dispatcher::handle_event(cnnMngmnt::header_t header) const {
 void Dispatcher::handle_qnx_io_msg(cnnMngmnt::header_t header) const {
     if (header.type == _IO_CONNECT) {
         // QNX IO msg _IO_CONNECT was received; answer with EOK
-        _logger->trace("Dispatcher received _IO_CONNECT '{}'");
+        _logger->trace("Dispatcher received _IO_CONNECT");
         _channel->msg_reply(EOK);
         return;
     }

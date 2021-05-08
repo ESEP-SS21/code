@@ -4,13 +4,12 @@
 #include "dispatcher/cnnMngmnt/QnxChannel.h"
 #include "dispatcher/Event.h"
 
-DemoClient::DemoClient(const std::string& name) :
-        DispatcherClient(name) {
+DemoClient::DemoClient(const std::string& dispatcher_name, const std::string& name) :
+        DispatcherClient(dispatcher_name, name) {
 }
 
 void DemoClient::handle(dispatcher::Event& event) {
 
-    _logger->info("Demo Client recieved Event {} payload {}",event.type, event.payload);
 }
 
 DemoClient::~DemoClient() {

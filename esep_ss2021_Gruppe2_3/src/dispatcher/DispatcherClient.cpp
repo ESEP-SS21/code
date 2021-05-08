@@ -5,9 +5,10 @@
 
 namespace dispatcher {
 
-DispatcherClient::DispatcherClient(const std::string& dispatcher_name) :
-        _dispatcher_name { dispatcher_name }, _channel(
-                std::unique_ptr<cnnMngmnt::QnxChannel>(new cnnMngmnt::QnxChannel(dispatcher_name))) {
+DispatcherClient::DispatcherClient(const std::string& dispatcher_name, const std::string& name) :
+        _name { name }, _dispatcher_name { dispatcher_name }, _channel(nullptr) {
+
+    _channel = std::unique_ptr<cnnMngmnt::QnxChannel>(new cnnMngmnt::QnxChannel(dispatcher_name));
     _dispatcher_connection = std::unique_ptr<cnnMngmnt::QnxConnection>(
             new cnnMngmnt::QnxConnection(_dispatcher_name));
     _client_thread = std::thread([this] {this->run();});
@@ -58,7 +59,10 @@ void DispatcherClient::run() {
             if (header.code == _PULSE_CODE_UNBLOCK) {
                 continue;
             }
-            handle_event(header);
+
+            Event e(header, false);
+            _logger->trace("Client '{}' received '{}'", _name, e.str());
+            handle(e);
             continue;
         }
 
@@ -73,20 +77,16 @@ void DispatcherClient::run() {
     }
 }
 
-void DispatcherClient::handle_event(cnnMngmnt::header_t header) {
-    Event event = { EventType(header.code), false, header.value.sival_int };
-    handle(event);
-}
-
 void DispatcherClient::handle_qnx_io_msg(cnnMngmnt::header_t header) {
     if (header.type == _IO_CONNECT) {
         // QNX IO msg _IO_CONNECT was received; answer with EOK
         _channel->msg_reply(EOK);
-        _logger->trace("Client '{}' received _IO_CONNECT", _dispatcher_name);
+        _logger->trace("Client '{}' received _IO_CONNECT", _name);
         return;
     }
     // Some other QNX IO message was received; reject it
-    _logger->critical("Client '{}' received unexpected (sync.) msg type '{}'", _dispatcher_name, header.type);
+    _logger->critical("Client '{}' received unexpected (sync.) msg type '{}'", _name,
+            header.type);
     _channel->msg_reply_error(ENOSYS);
 }
 

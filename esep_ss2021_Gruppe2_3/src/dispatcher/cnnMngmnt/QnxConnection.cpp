@@ -10,11 +10,11 @@ namespace cnnMngmnt {
 
 QnxConnection::QnxConnection(const std::string &name) {
     int retry_count = 0;
-    _logger->trace("connecting to {}", name);
+    _logger->trace("Connecting to channel '{}'", name);
     while ((_id = name_open(name.c_str(), NAME_FLAG_ATTACH_GLOBAL)) == -1) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         if (retry_count >= 100) {
-            _logger->error("connecting to channel '{}' failed after {} attempts", name,
+            _logger->error("Connecting to channel '{}' failed after {} attempts", name,
                     retry_count);
             break;
         }
@@ -27,7 +27,7 @@ QnxConnection::QnxConnection(chid chid) {
     while ((_id = ConnectAttach(0, 0, chid, _NTO_SIDE_CHANNEL, 0)) == -1) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         if (retry_count >= 100) {
-            _logger->error("connecting to channel with chid {} failed after {} attempts", chid,
+            _logger->error("Connecting to channel with chid '{}' failed after {} attempts", chid,
                     retry_count);
             break;
         }

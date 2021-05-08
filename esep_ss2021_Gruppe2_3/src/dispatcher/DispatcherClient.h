@@ -10,7 +10,7 @@ namespace dispatcher {
 
 class DispatcherClient {
 public:
-    DispatcherClient(const std::string& name);
+    DispatcherClient(const std::string& dispatcher_name, const std::string& name);
     virtual ~DispatcherClient();
 
     void send_evnt(Event event, int prio) const;
@@ -25,6 +25,7 @@ private:
 
     Logger::Logger _logger { Logger::get() };
     bool _is_running { true };
+    std::string _name;
     std::string _dispatcher_name;
     std::unique_ptr<cnnMngmnt::QnxChannel> _channel;
     std::unique_ptr<cnnMngmnt::QnxConnection> _dispatcher_connection;
