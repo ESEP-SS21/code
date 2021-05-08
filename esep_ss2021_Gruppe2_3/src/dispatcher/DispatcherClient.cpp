@@ -25,7 +25,7 @@ void DispatcherClient::subscribe_evnt(EventType event_type) {
     header.type = static_cast<_Uint16t>(SyncMsgType::SUBSCRIBE);
     header.subtype = 0x00;
 
-    EventSubscription sub { event_type,  _channel->get_chid()};
+    EventSubscription sub { event_type, _channel->get_chid() };
 
     iov_t iov[2];
 
@@ -38,7 +38,7 @@ void DispatcherClient::subscribe_evnt(EventType event_type) {
 }
 void DispatcherClient::send_evnt(Event event, int priority) const {
     int code = static_cast<int>(event.type);
-    if(event.broadcast){
+    if (event.broadcast) {
         code = code | 0b01000000;
     }
     _dispatcher_connection->msg_send_pulse(priority, code, event.payload);
@@ -74,19 +74,19 @@ void DispatcherClient::run() {
 }
 
 void DispatcherClient::handle_event(cnnMngmnt::header_t header) {
-    Event event = { EventType(header.code), false ,header.value.sival_int };
+    Event event = { EventType(header.code), false, header.value.sival_int };
     handle(event);
 }
 
 void DispatcherClient::handle_qnx_io_msg(cnnMngmnt::header_t header) {
     if (header.type == _IO_CONNECT) {
         // QNX IO msg _IO_CONNECT was received; answer with EOK
-        std::cout << "Dispatcher received _IO_CONNECT (sync. msg) \n" << std::endl;
         _channel->msg_reply(EOK);
+        _logger->trace("Client '{}' received _IO_CONNECT", _dispatcher_name);
         return;
     }
     // Some other QNX IO message was received; reject it
-    std::cout << "Dispatcher received unexpected (sync.) msg type = " << header.type << std::endl;
+    _logger->critical("Client '{}' received unexpected (sync.) msg type '{}'", _dispatcher_name, header.type);
     _channel->msg_reply_error(ENOSYS);
 }
 

@@ -2,6 +2,7 @@
 
 #include "namespacedata"
 #include <string>
+#include <Logger.h>
 
 namespace dispatcher {
 namespace cnnMngmnt {
@@ -16,6 +17,7 @@ public:
     status_code msg_send(iov_t *iov, int iov_size) const;
 
 private:
+    Logger::Logger _logger { Logger::get() };
     int _id;
 };
 

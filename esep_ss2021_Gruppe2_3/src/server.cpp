@@ -42,17 +42,20 @@ int main(int argc, char **argv) {
                strcmp(argv[1], "-s") == 0 ? Mode::Secondary: Mode::NONE;
         if (mode == Mode::NONE)
             fail_and_exit();
+        std::string mode_str = mode == Mode::Primary ? "PRI" : "SEC";
 
-        Logger::setup(mode == Mode::Primary ? "PRI" : "SEC", true, "log/log.txt");
+        Logger::setup(mode_str, true, "log/log.txt");
         Logger::Logger _logger = Logger::get();
-        for (int i = 0; i < 69; i++) {
-            _logger->error("---------------- {} ----------------",i);
-        }
+        _logger->set_level(spdlog::level::trace);
+
+        _logger->info(">>>>>>>>> running in {} mode <<<<<<<<<", mode_str);
 
         if (mode == Mode::Primary)
             primary();
         if (mode == Mode::Secondary)
             secondary();
+
+
 
         return 0;
     }

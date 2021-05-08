@@ -11,14 +11,15 @@ QnxChannel::QnxChannel() :
 }
 
 QnxChannel::QnxChannel(const std::string &attach_string) {
-    std::cout << attach_string << std::endl;
     name_attach_t* _attach = name_attach(nullptr, attach_string.c_str(),
     NAME_FLAG_ATTACH_GLOBAL);
     if (nullptr == _attach) {
-        std::cout << "error while name_attach" << std::endl;
+        _logger->error("while attaching channel '{}'", attach_string);
+        throw;
     }
     _id = _attach->chid;
-    std::cout << "chid of named server: " << _id << std::endl;
+    _logger->trace("attached named channel '{}' with chid {}", attach_string, _id);
+
 }
 
 QnxChannel::~QnxChannel() {
@@ -40,16 +41,16 @@ MsgType QnxChannel::msg_receive(void* msg, int size) {
 
 void QnxChannel::msg_reply(status_code status) const {
     if (-1 == _last_message_id)
-        std::cout << "no msg to reply to" << std::endl;
+        _logger->error("trying to reply to a msg, but there is no msg to reply to");
     if (-1 == MsgReply(_last_message_id, status, nullptr, 0))
-        std::cout << "error while replying" << std::endl;
+        _logger->error("while replying");
 }
 
 void QnxChannel::msg_reply_error(int error_code) const {
     if (-1 == _last_message_id)
-        std::cout << "no msg to reply to" << std::endl;
+        _logger->error("trying to reply to a msg, but there is no msg to reply to");
     if (-1 == MsgError(_last_message_id, error_code))
-        std::cout << "error while replying with error" << std::endl;
+        _logger->error("while replying with error '{}'", error_code);
 }
 
 void QnxChannel::msg_read(void *msg, _Sizet size, _Sizet offset) const {

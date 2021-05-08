@@ -28,6 +28,7 @@ private:
     void handle_sync_msg(cnnMngmnt::header_t header);
     void subscribe(EventSubscription subscr);
 
+    Logger::Logger _logger { Logger::get() };
     bool _is_running { true };
     std::thread _dispatcher_thread;
     std::unordered_map<cnnMngmnt::chid, std::shared_ptr<cnnMngmnt::QnxConnection>> _chid_conn_map { };

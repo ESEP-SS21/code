@@ -23,6 +23,7 @@ private:
     void handle_event(cnnMngmnt::header_t header);
     void handle_qnx_io_msg(cnnMngmnt::header_t header);
 
+    Logger::Logger _logger { Logger::get() };
     bool _is_running { true };
     std::string _dispatcher_name;
     std::unique_ptr<cnnMngmnt::QnxChannel> _channel;

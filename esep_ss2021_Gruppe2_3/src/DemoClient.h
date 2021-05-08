@@ -9,4 +9,6 @@ public:
     virtual ~DemoClient();
 
     void handle(dispatcher::Event& event);
+private:
+    Logger::Logger _logger { Logger::get() };
 };

@@ -53,14 +53,14 @@ void dispatcher::run() {
     }
 }
 void dispatcher::handle_sync_msg(cnnMngmnt::header_t header) {
-    if (SyncMsgType::SUBSCRIBE == SyncMsgType(header.type)) { //when is event subscr
+    if (SyncMsgType::SUBSCRIBE == SyncMsgType(header.type)) {
 
         EventSubscription subscription;
         _channel->msg_read(&subscription, sizeof(subscription), sizeof(header));
         subscribe(subscription);
-
         _channel->msg_reply(EOK);
-        std::cout << "subscribed" << std::endl;
+
+        _logger->trace("dispatcher subscribed to {}", subscription.type);
     }
     //maybe other forms of sync communications
 }
@@ -87,9 +87,8 @@ void dispatcher::handle_event(cnnMngmnt::header_t header) const {
             _other_connection->msg_send_pulse(1, evnt_id, evnt_value);
         }
     }
-    std::cout << "dispatcher received following event:" << std::endl;
-    std::cout << "id: " << evnt_id << std::endl;
-    std::cout << "value: " << evnt_value << std::endl;
+
+    _logger->trace("dispatcher received: '{}' payload: '{}'", evnt_id, evnt_value);
 
     for (auto& connection : _evnt_conn_multimap[evnt_id]) {
         connection->msg_send_pulse(1, evnt_id, evnt_value);
@@ -99,12 +98,12 @@ void dispatcher::handle_event(cnnMngmnt::header_t header) const {
 void dispatcher::handle_qnx_io_msg(cnnMngmnt::header_t header) const {
     if (header.type == _IO_CONNECT) {
         // QNX IO msg _IO_CONNECT was received; answer with EOK
-        std::cout << "Dispatcher received _IO_CONNECT (sync. msg) \n" << std::endl;
+        _logger->trace("Dispatcher received _IO_CONNECT '{}'");
         _channel->msg_reply(EOK);
         return;
     }
     // Some other QNX IO message was received; reject it
-    std::cout << "Dispatcher received unexpected (sync.) msg type = " << header.type << std::endl;
+    _logger->error("Dispatcher received unexpected (sync.) msg type '{}'", header.type);
     _channel->msg_reply_error(ENOSYS);
 }
 
