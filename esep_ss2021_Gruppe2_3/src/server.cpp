@@ -1,3 +1,4 @@
+#include <Logger.h>
 #include <iostream>
 #include "simqnxgpioapi.h" // must be last include !!!
 #include "hal/gpiowrapper.h"
@@ -12,8 +13,6 @@
 #include <sys/dispatch.h>
 #include "dispatcher/cnnMngmnt/QnxChannel.h"
 
-#include "spdlog/spdlog.h"
-#include "spdlog/sinks/basic_file_sink.h"
 
 #ifdef TEST_ENABLE
 
@@ -28,11 +27,13 @@ int main(int argc, char **argv) {
 
     int main(int argc, char **argv) {
 
-        //spdlog::set_default_logger(stdout_logger);
-        auto my_logger = spdlog::basic_logger_mt("basic_logger", "logs/basic.txt");
-        //spdlog::get("console")->info("loggers can be retrieved from a global registry using the spdlog::get(logger_name)");
-        my_logger->error("Hello {} {} !!", "param1", 123.4);
-        spdlog::info("Hello, World!");
+        Logger::setup("FTS1", true, "log/log.txt");
+
+        Logger::Logger _logger = Logger::get();
+
+        for (int i = 0; i < 999; i++){
+            logger->error("---------------------------------- {} --------------------------------------",i);
+        }
 
         dispatcher::dispatcher disp("dispatcher_p");
 
