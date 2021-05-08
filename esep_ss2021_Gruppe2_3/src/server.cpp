@@ -43,17 +43,33 @@ int main(int argc, char **argv) {
             dispatcher::dispatcher disp("dispatcherp");
             disp.connect_to_other("dispatchers");
             DemoClient client("dispatcherp");
-            dispatcher::Event e ={dispatcher::EventType::Event12, true, 42};
+            client.subscribe_evnt(dispatcher::EventType::Event12);
+            dispatcher::Event e ={dispatcher::EventType::Event12, true, 23};
             client.send_evnt(e, 3);
-            usleep(1000*1000*10);
+            usleep(1000*1);
+            client.send_evnt(e, 3);
+            usleep(1000*1);
+            client.send_evnt(e, 3);
+            usleep(1000*1);
+            client.send_evnt(e, 3);
+            usleep(1000*1);
+            ret = 0;
         }
         else if (strcmp(argv[1], "-s") == 0) {
             dispatcher::dispatcher disp("dispatchers");
             disp.connect_to_other("dispatcherp");
             DemoClient client("dispatchers");
+            client.subscribe_evnt(dispatcher::EventType::Event12);
             dispatcher::Event e = {dispatcher::EventType::Event12, true, 42};
             client.send_evnt(e, 3);
-            usleep(1000*1000*10);
+            usleep(1000*1);
+            client.send_evnt(e, 3);
+            usleep(1000*1);
+            client.send_evnt(e, 3);
+            usleep(1000*1);
+            client.send_evnt(e, 3);
+            usleep(1000*1);
+            ret = 0;
 
         }
         else {

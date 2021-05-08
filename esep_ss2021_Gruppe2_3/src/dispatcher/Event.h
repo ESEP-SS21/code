@@ -17,7 +17,7 @@ inline std::ostream& operator<<(std::ostream& out, const EventType& e) {
     static const std::string strs[static_cast<int>(EventType::SIZE)  + 1] = {
             "SomeEvent",
             "AnotherEvent",
-            "AnotherEvent",
+            "Event12",
     };
     return std::cout << EVNT_PREFIX << strs[static_cast<int>(e)];
 }

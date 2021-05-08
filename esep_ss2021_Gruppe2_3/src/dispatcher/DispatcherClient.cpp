@@ -74,7 +74,7 @@ void DispatcherClient::run() {
 }
 
 void DispatcherClient::handle_event(cnnMngmnt::header_t header) {
-    Event event = { EventType(header.code), header.value.sival_int };
+    Event event = { EventType(header.code), false ,header.value.sival_int };
     handle(event);
 }
 
