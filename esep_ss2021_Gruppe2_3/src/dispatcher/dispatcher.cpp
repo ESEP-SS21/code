@@ -6,23 +6,21 @@
 
 namespace dispatcher {
 
-dispatcher::dispatcher(const std::string &name, const std::string &fts2_dispatcher_name) :
+dispatcher::dispatcher(const std::string &name) :
         _channel(std::unique_ptr<cnnMngmnt::QnxChannel>(new cnnMngmnt::QnxChannel(name))) {
     _dispatcher_thread = std::thread([this] {this->run();});
-    if (fts2_dispatcher_name != "SINGLE") {
-        // Connect to other dispatcher
-        _fts2_dispatcher_connection = std::unique_ptr<cnnMngmnt::QnxConnection>(
-                new cnnMngmnt::QnxConnection(fts2_dispatcher_name));
-        std::cout<<"connection established"<<std::endl;
-    } else {
-        _fts2_dispatcher_connection = std::unique_ptr<cnnMngmnt::QnxConnection>(nullptr);
-    }
+    _other_connection.reset();
 }
 
 dispatcher::~dispatcher() {
     _is_running = false;
     cnnMngmnt::QnxConnection(_channel->get_chid()).msg_send_pulse(1, _PULSE_CODE_UNBLOCK, 0);
     _dispatcher_thread.join();
+}
+
+void dispatcher::connect_to_other(const std::string &name){
+    _other_connection = std::unique_ptr<cnnMngmnt::QnxConnection>(
+            new cnnMngmnt::QnxConnection(name));
 }
 
 void dispatcher::run() {
@@ -82,9 +80,9 @@ void dispatcher::handle_event(cnnMngmnt::header_t header) const {
     if ((evnt_id & 0b01000000) != 0) {
         // mask out transmission bit if message is for other dispatcher
         evnt_id = evnt_id & (~0b01000000);
-        if (_fts2_dispatcher_connection.get() != nullptr) {
+        if (_other_connection.get() != nullptr) {
             // send event to other dispatcher if not in single mode
-            _fts2_dispatcher_connection->msg_send_pulse(1, evnt_id, evnt_value);
+            _other_connection->msg_send_pulse(1, evnt_id, evnt_value);
         }
     }
     std::cout << "dispatcher received following event:" << std::endl;

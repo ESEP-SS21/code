@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
         my_logger->error("Hello {} {} !!", "param1", 123.4);
         spdlog::info("Hello, World!");
 
-        dispatcher::dispatcher disp("dispatcher_p","dispatcher_s");
+        dispatcher::dispatcher disp("dispatcher_p");
 
         DemoClient client("dispatcher_p");
         DemoClient client2("dispatcher_p");

@@ -14,12 +14,12 @@ namespace dispatcher {
 
 class dispatcher {
 public:
-    dispatcher(const std::string &name, const std::string &fts2_dispatcher_name="SINGLE");
+    dispatcher(const std::string &name);
+    void connect_to_other(const std::string &name);
     virtual ~dispatcher();
 
 private:
     static const int MAX_EVNT_ID { 128 };
-    const std::string SERVICE_NAME { "dispatcher" };
 
     void attach() const;
     void handle_event(cnnMngmnt::header_t header) const;
@@ -33,7 +33,7 @@ private:
     std::unordered_map<cnnMngmnt::chid, std::shared_ptr<cnnMngmnt::QnxConnection>> _chid_conn_map { };
     std::array<std::unordered_set<std::shared_ptr<cnnMngmnt::QnxConnection>>, MAX_EVNT_ID> _evnt_conn_multimap;
     std::unique_ptr<cnnMngmnt::QnxChannel> _channel;
-    std::unique_ptr<cnnMngmnt::QnxConnection> _fts2_dispatcher_connection;
+    std::unique_ptr<cnnMngmnt::QnxConnection> _other_connection;
 
 };
 
