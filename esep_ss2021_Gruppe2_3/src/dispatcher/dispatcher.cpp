@@ -76,6 +76,9 @@ void dispatcher::subscribe(EventSubscription subscr) {
 void dispatcher::handle_event(cnnMngmnt::header_t header) const {
     int evnt_id = header.code;
     int evnt_value = header.value.sival_int;
+    if(evnt_id<0){
+        return;
+    }
     if ((evnt_id & 0b01000000) != 0) {
         // mask out transmission bit if message is for other dispatcher
         evnt_id = evnt_id & (~0b01000000);

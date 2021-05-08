@@ -34,6 +34,10 @@ QnxConnection::QnxConnection(chid chid) {
     }
 }
 
+QnxConnection::~QnxConnection(){
+    ConnectDetach(_id);
+}
+
 status_code QnxConnection::msg_send(iov_t *iov, int iov_size) const {
     status_code s = MsgSendvs(_id, iov, iov_size, nullptr, 0);
     if (-1 == s)
