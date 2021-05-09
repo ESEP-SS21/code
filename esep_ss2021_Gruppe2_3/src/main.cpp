@@ -47,9 +47,8 @@ int main(int argc, char **argv) {
             fail_and_exit();
         std::string mode_str = mode == Mode::Primary ? "PRI" : "SEC";
 
-        Logger::setup(mode_str, true, true);
+        Logger::setup(mode_str, spdlog::level::trace, spdlog::level::err);
         Logger::Logger _logger = Logger::get();
-        _logger->set_level(spdlog::level::trace);
 
         _logger->info(">>>>>>>>> running in {} mode <<<<<<<<<", mode_str);
 

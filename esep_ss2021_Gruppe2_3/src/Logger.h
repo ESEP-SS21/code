@@ -1,6 +1,7 @@
 #pragma once
 
 #include "spdlog/spdlog.h"
+#include "spdlog/common.h"
 
 namespace Logger {
 
@@ -22,7 +23,7 @@ public:
     std::shared_ptr<spdlog::logger> get() const{
         return spdlog::get(_name);
     }
-    void setup(const std::string &name, bool console, bool file);
+    void setup(const std::string &name, spdlog::level::level_enum console, spdlog::level::level_enum file);
 
 };
 
@@ -31,7 +32,7 @@ inline std::shared_ptr<spdlog::logger> get() {
     return t.get();
 }
 
-inline void setup(const std::string &name, bool console, bool file) {
+inline void setup(const std::string &name, spdlog::level::level_enum console, spdlog::level::level_enum file) {
     Internal::get_instance().setup(name, console, file);
 }
 
