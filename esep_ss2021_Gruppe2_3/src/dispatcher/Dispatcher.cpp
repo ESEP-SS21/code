@@ -29,11 +29,11 @@ void Dispatcher::run() {
         cnnMngmnt::MsgType type = _channel->msg_receive(&header, sizeof(cnnMngmnt::header_t));
 
         if (type == cnnMngmnt::MsgType::error) {
-            //TODO logging or exception
+            _logger->error("Dispatcher received error '{}'", header.type);
             break;
         }
 
-        if (type == cnnMngmnt::MsgType::puls) { // Pulse was received
+        if (type == cnnMngmnt::MsgType::puls) {
             if (header.code < 0) {
                 continue;
             }
@@ -50,7 +50,6 @@ void Dispatcher::run() {
             handle_qnx_io_msg(header);
             continue;
         }
-
         handle_sync_msg(header);
     }
 }
@@ -81,22 +80,22 @@ void Dispatcher::dispatch(Event e) const {
 
     if (e.broadcast && _other_connection != nullptr) {
         _other_connection->msg_send_pulse(1, evnt_id, e.payload);
+        _logger->trace("Dispatcher broadcasted: '{}'", e.str());
     }
-
 
     for (auto& connection : _evnt_conn_multimap[evnt_id]) {
         connection->msg_send_pulse(1, evnt_id, e.payload);
     }
+    _logger->trace("Dispatcher dispatched: '{}'", e.str());
 }
 
 void Dispatcher::handle_qnx_io_msg(cnnMngmnt::header_t header) const {
     if (header.type == _IO_CONNECT) {
-        // QNX IO msg _IO_CONNECT was received; answer with EOK
-        _logger->trace("Dispatcher received _IO_CONNECT");
         _channel->msg_reply(EOK);
+        _logger->trace("Dispatcher received _IO_CONNECT");
         return;
     }
-    // Some other QNX IO message was received; reject it
+    // Some other QNX IO message was received
     _logger->error("Dispatcher received unexpected (sync.) msg type '{}'", header.type);
     _channel->msg_reply_error(ENOSYS);
 }

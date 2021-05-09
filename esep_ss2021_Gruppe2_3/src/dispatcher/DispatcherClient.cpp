@@ -42,6 +42,8 @@ void DispatcherClient::subscribe(EventType event_type) {
         perror("Client: MsgSend failed");
         exit(EXIT_FAILURE);
     }
+    _logger->trace("Client '{}' subscribed to '{}'", _name, str(event_type));
+
 }
 
 void DispatcherClient::send(Event event, int priority) const {
@@ -50,6 +52,7 @@ void DispatcherClient::send(Event event, int priority) const {
         code = code | 0b01000000;
     }
     _dispatcher_connection->msg_send_pulse(priority, code, event.payload);
+    _logger->debug("Client '{}' send '{}'", _name, event.str());
 }
 
 void DispatcherClient::run() {
@@ -58,7 +61,7 @@ void DispatcherClient::run() {
         cnnMngmnt::MsgType msg_type = _channel->msg_receive(&header, sizeof(cnnMngmnt::header_t));
 
         if (msg_type == cnnMngmnt::MsgType::error) {
-            _logger->error("Client '{}' received error", _name);
+            _logger->error("Client '{}' received error '{}'", _name, header.type);
             break;
         }
 
@@ -68,7 +71,7 @@ void DispatcherClient::run() {
             }
 
             Event e(header);
-            _logger->trace("Client '{}' received '{}'", _name, e.str());
+            _logger->debug("Client '{}' received '{}'", _name, e.str());
             handle(e);
             continue;
         }

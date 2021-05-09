@@ -68,10 +68,13 @@ int main(int argc, char **argv) {
     using EventType = dispatcher::EventType;
     using Event = dispatcher::Event;
 
+    const std::string D_PRI = "PRI";
+    const std::string D_SEC = "SEC";
+
     void primary(){
-        dispatcher::Dispatcher disp("dispatcherp");
-        disp.connect_to_other("dispatchers");
-        DemoClient client("dispatcherp", "DemoClient");
+        dispatcher::Dispatcher disp(D_PRI);
+        disp.connect_to_other(D_SEC);
+        DemoClient client(D_PRI, "Primary");
 
         client.subscribe({EventType::Event12, EventType::SomeEvent});
         Event e = {EventType::Event12, true, 23};
@@ -87,9 +90,9 @@ int main(int argc, char **argv) {
     }
 
     void secondary(){
-        dispatcher::Dispatcher disp("dispatchers");
-        disp.connect_to_other("dispatcherp");
-        DemoClient client("dispatchers", "DemoClient");
+        dispatcher::Dispatcher disp(D_SEC);
+        disp.connect_to_other(D_PRI);
+        DemoClient client(D_SEC, "Secondary");
 
         client.subscribe(EventType::Event12);
 
