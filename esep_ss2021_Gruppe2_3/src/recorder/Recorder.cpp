@@ -2,14 +2,20 @@
 #include <recorder/Recorder.h>
 #include <thread>
 
+#include "utils.h"
+
+
 namespace recorder {
 
-const std::chrono::system_clock::time_point Recorder::start_time {std::chrono::system_clock::now()};
+
+Recorder::Recorder(){
+    _file = std::ofstream("records/" + utils::current_time_and_date + ".json");
+}
 
 void Recorder::record(Event event){
     using nlohmann::json;
     const long ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::system_clock::now() - start_time).count() ;
+            std::chrono::system_clock::now() - utils::start_time).count() ;
     json j =
         {
             ms,

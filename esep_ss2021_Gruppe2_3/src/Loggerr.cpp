@@ -2,16 +2,17 @@
 #include "Logger.h"
 #include "spdlog/sinks/stdout_sinks.h"
 #include "spdlog/sinks/basic_file_sink.h"
+#include "utils.h"
 
 
 namespace Logger {
 
-void Internal::setup(const std::string &name, bool console, const std::string &file){
+void Internal::setup(const std::string &name, bool console, bool file){
     _name = name;
     std::vector<spdlog::sink_ptr> sinks;
 
-    if (file != "") {
-        auto file_logger = std::make_shared<spdlog::sinks::basic_file_sink_mt>(file);
+    if (file) {
+        auto file_logger = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/" + utils::current_time_and_date + ".txt");
         sinks.push_back(file_logger);
     }
 
