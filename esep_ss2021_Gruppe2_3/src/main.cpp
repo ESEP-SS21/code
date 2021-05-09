@@ -1,5 +1,6 @@
 #include <dispatcher/Dispatcher.h>
 #include <Logger.h>
+#include <recorder/Recorder.h>
 #include <iostream>
 #include "simqnxgpioapi.h" // must be last include !!!
 #include "hal/gpiowrapper.h"
@@ -11,7 +12,6 @@
 #include "dispatcher/Event.h"
 #include <sys/dispatch.h>
 #include "dispatcher/cnnMngmnt/QnxChannel.h"
-#include "recorder/JsonTest.h"
 
 #ifdef TEST_ENABLE
 
@@ -31,8 +31,8 @@ int main(int argc, char **argv) {
     int main(int argc, char **argv) {
 
         using namespace recorder;
-        JsonTest t;
-        t.test();
+        Recorder r;
+        r.record(Event(EventType::AnotherEvent, false, 12));
 
 
         enum class Mode {NONE, Primary, Secondary};
@@ -59,7 +59,7 @@ int main(int argc, char **argv) {
             secondary();
 
 
-
+        r.record(Event(EventType::AnotherEvent, false, 13));
         return 0;
     }
 

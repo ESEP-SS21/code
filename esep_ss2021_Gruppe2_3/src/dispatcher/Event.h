@@ -18,7 +18,7 @@ enum class EventType { //make sure to add a string representation for each value
 inline std::ostream& operator<<(std::ostream& out, const EventType& e) {
     static const std::string strs[static_cast<int>(EventType::SIZE) + 1] = { "SomeEvent",
             "AnotherEvent", "Event12", };
-    return out << EVNT_PREFIX << strs[static_cast<int>(e)];
+    return out << strs[static_cast<int>(e)];
 }
 
 inline std::string str(EventType et) {
@@ -64,12 +64,12 @@ struct EventSubscription {
 using nlohmann::json;
 
 inline void to_json(json& j, const Event& e) {
-    j = json{{"EVNT", str(e.type)}, {"payload", e.payload}};
+    j = json{{"EVNT", str(e.type)}, {"PAYL", e.payload}};
 }
 
 inline void from_json(const json& j, Event& e) { //TODO make this work
     j.at("EVNT").get_to(e.type);
-    j.at("payload").get_to(e.payload);
+    j.at("PAYL").get_to(e.payload);
     e.broadcast = false;
 }
 
