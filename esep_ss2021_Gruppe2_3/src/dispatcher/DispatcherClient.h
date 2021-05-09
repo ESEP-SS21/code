@@ -15,6 +15,7 @@ public:
 
     void send(Event event, int prio) const;
     void subscribe(EventType event_type);
+    void subscribe(std::initializer_list<EventType> event_types);
     virtual void handle(Event&) = 0;
 
 private:

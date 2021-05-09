@@ -65,12 +65,17 @@ int main(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
 
+    using EventType = dispatcher::EventType;
+    using Event = dispatcher::Event;
+
     void primary(){
         dispatcher::Dispatcher disp("dispatcherp");
         disp.connect_to_other("dispatchers");
         DemoClient client("dispatcherp", "DemoClient");
-        client.subscribe(dispatcher::EventType::Event12);
-        dispatcher::Event e = {dispatcher::EventType::Event12, true, 23};
+
+        client.subscribe({EventType::Event12, EventType::SomeEvent});
+        Event e = {EventType::Event12, true, 23};
+
         client.send(e, 3);
         usleep(1000*100);
         client.send(e, 3);
@@ -85,15 +90,18 @@ int main(int argc, char **argv) {
         dispatcher::Dispatcher disp("dispatchers");
         disp.connect_to_other("dispatcherp");
         DemoClient client("dispatchers", "DemoClient");
-        client.subscribe(dispatcher::EventType::Event12);
-        dispatcher::Event e = {dispatcher::EventType::Event12, true, 42};
+
+        client.subscribe(EventType::Event12);
+
+        Event e = {EventType::Event12, true, 42};
+        Event e1 = {EventType::SomeEvent, true, 13};
+        Event e2 = {EventType::AnotherEvent, true, 5};
+
         client.send(e, 3);
         usleep(1000*100);
-        client.send(e, 3);
+        client.send(e1, 3);
         usleep(1000*100);
-        client.send(e, 3);
-        usleep(1000*100);
-        client.send(e, 3);
+        client.send(e2, 3);
         usleep(1000*100);
     }
 

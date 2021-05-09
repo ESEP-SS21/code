@@ -20,6 +20,12 @@ DispatcherClient::~DispatcherClient() {
     _client_thread.join();
 }
 
+void DispatcherClient::subscribe(std::initializer_list<EventType> event_types) {
+    for (auto event_type : event_types){
+        subscribe(event_type);
+    }
+}
+
 void DispatcherClient::subscribe(EventType event_type) {
     cnnMngmnt::header_t header;
 
@@ -37,6 +43,7 @@ void DispatcherClient::subscribe(EventType event_type) {
         exit(EXIT_FAILURE);
     }
 }
+
 void DispatcherClient::send(Event event, int priority) const {
     int code = static_cast<int>(event.type);
     if (event.broadcast) {

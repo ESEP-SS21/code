@@ -77,11 +77,12 @@ void Dispatcher::subscribe(EventSubscription subscr) {
 
 void Dispatcher::dispatch(Event e) const {
     int evnt_id = static_cast<int> (e.type);
+    _logger->trace("Dispatcher received: '{}'", e.str());
+
     if (e.broadcast && _other_connection != nullptr) {
         _other_connection->msg_send_pulse(1, evnt_id, e.payload);
     }
 
-    _logger->trace("Dispatcher received: '{}'", e.str());
 
     for (auto& connection : _evnt_conn_multimap[evnt_id]) {
         connection->msg_send_pulse(1, evnt_id, e.payload);
