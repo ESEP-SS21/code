@@ -39,7 +39,7 @@ void Dispatcher::run() {
             }
 
             Event e(header);
-            handle_event(e);
+            dispatch(e);
             continue;
         }
 
@@ -75,7 +75,7 @@ void Dispatcher::subscribe(EventSubscription subscr) {
     _evnt_conn_multimap[static_cast<int>(subscr.type)].insert(_chid_conn_map[subscr.chid]);
 }
 
-void Dispatcher::handle_event(Event e) const {
+void Dispatcher::dispatch(Event e) const {
     int evnt_id = static_cast<int> (e.type);
     if (e.broadcast && _other_connection != nullptr) {
         _other_connection->msg_send_pulse(1, evnt_id, e.payload);
