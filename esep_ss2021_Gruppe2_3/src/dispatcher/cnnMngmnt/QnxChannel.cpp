@@ -1,6 +1,6 @@
+#include "QnxChannel.h"
 #include <sys/dispatch.h>
 #include <errno.h>
-#include "QnxChannel.h"
 #include <iostream>
 
 namespace dispatcher {

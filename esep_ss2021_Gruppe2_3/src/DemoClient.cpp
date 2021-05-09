@@ -1,4 +1,4 @@
-#include <DemoClient.h>
+#include "DemoClient.h"
 #include <iostream>
 #include "dispatcher/cnnMngmnt/QnxConnection.h"
 #include "dispatcher/cnnMngmnt/QnxChannel.h"

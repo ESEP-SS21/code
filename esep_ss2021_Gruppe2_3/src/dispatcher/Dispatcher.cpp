@@ -1,5 +1,5 @@
-#include <dispatcher/cnnMngmnt/QnxConnection.h>
-#include <dispatcher/Dispatcher.h>
+#include "cnnMngmnt/QnxConnection.h"
+#include "Dispatcher.h"
 #include <errno.h>
 #include "Event.h"
 #include "SyncMsg.h"

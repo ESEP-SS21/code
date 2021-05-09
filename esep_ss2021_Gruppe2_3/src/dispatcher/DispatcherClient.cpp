@@ -1,4 +1,4 @@
-#include <dispatcher/DispatcherClient.h>
+#include "DispatcherClient.h"
 #include <iostream>
 #include "SyncMsg.h"
 #include "Event.h"

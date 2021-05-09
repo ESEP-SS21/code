@@ -1,4 +1,4 @@
-#include <dispatcher/cnnMngmnt/QnxConnection.h>
+#include "QnxConnection.h"
 #include <errno.h>
 #include <chrono>
 #include <thread>
