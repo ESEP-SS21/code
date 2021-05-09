@@ -34,7 +34,6 @@ private:
     std::array<std::unordered_set<std::shared_ptr<cnnMngmnt::QnxConnection>>, MAX_EVNT_ID> _evnt_conn_multimap;
     std::unique_ptr<cnnMngmnt::QnxChannel> _channel;
     std::unique_ptr<cnnMngmnt::QnxConnection> _other_connection;
-
 };
 
 } /* namespace dispatcher */

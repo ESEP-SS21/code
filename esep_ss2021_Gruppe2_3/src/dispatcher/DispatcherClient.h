@@ -13,14 +13,12 @@ public:
     DispatcherClient(const std::string& dispatcher_name, const std::string& name);
     virtual ~DispatcherClient();
 
-    void send_evnt(Event event, int prio) const;
-    void subscribe_evnt(EventType event_type);
+    void send(Event event, int prio) const;
+    void subscribe(EventType event_type);
     virtual void handle(Event&) = 0;
 
 private:
     void run();
-    void recieve_evnt(Event * event);
-    void handle_event(cnnMngmnt::header_t header);
     void handle_qnx_io_msg(cnnMngmnt::header_t header);
 
     Logger::Logger _logger { Logger::get() };

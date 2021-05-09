@@ -20,7 +20,7 @@ DispatcherClient::~DispatcherClient() {
     _client_thread.join();
 }
 
-void DispatcherClient::subscribe_evnt(EventType event_type) {
+void DispatcherClient::subscribe(EventType event_type) {
     cnnMngmnt::header_t header;
 
     header.type = static_cast<_Uint16t>(SyncMsgType::SUBSCRIBE);
@@ -37,7 +37,7 @@ void DispatcherClient::subscribe_evnt(EventType event_type) {
         exit(EXIT_FAILURE);
     }
 }
-void DispatcherClient::send_evnt(Event event, int priority) const {
+void DispatcherClient::send(Event event, int priority) const {
     int code = static_cast<int>(event.type);
     if (event.broadcast) {
         code = code | 0b01000000;
