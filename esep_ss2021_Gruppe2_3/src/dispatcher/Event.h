@@ -3,6 +3,7 @@
 #include <map>
 #include <iostream>
 #include <sstream>
+#include <nlohmann/json.hpp> //todo move this to cpp as this is a 25k line include
 
 #include "cnnMngmnt/namespacedata"
 
@@ -59,5 +60,17 @@ struct EventSubscription {
     EventType type;
     cnnMngmnt::chid chid;
 };
+
+using nlohmann::json;
+
+inline void to_json(json& j, const Event& e) {
+    j = json{{"EVNT", str(e.type)}, {"payload", e.payload}};
+}
+
+inline void from_json(const json& j, Event& e) { //TODO make this work
+    j.at("EVNT").get_to(e.type);
+    j.at("payload").get_to(e.payload);
+    e.broadcast = false;
+}
 
 }
