@@ -61,7 +61,7 @@ void Dispatcher::handle_sync_msg(cnnMngmnt::header_t header) {
         subscribe(subscription);
         _channel->msg_reply(EOK);
 
-        _logger->trace("Dispatcher subscribed to '{}'", str(subscription.type));
+        _logger->trace("Dispatcher recieved subscription for '{}'", str(subscription.type));
     }
     //maybe other forms of sync communications
 }
