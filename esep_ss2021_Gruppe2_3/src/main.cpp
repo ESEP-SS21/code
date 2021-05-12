@@ -86,7 +86,7 @@ int main(int argc, char **argv) {
         client.send(e, 3);
         usleep(1000*100);
         client.send(e, 3);
-        usleep(1000*100);
+        usleep(1000*1000);
     }
 
     void secondary(){
@@ -105,7 +105,7 @@ int main(int argc, char **argv) {
         client.send(e1, 3);
         usleep(1000*100);
         client.send(e2, 3);
-        usleep(1000*100);
+        usleep(1000*1000);
     }
 
 #endif
