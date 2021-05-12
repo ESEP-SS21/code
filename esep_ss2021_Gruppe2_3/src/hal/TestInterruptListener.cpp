@@ -20,19 +20,21 @@ TestInterruptListener::TestInterruptListener(std::shared_ptr<GPIOWrapper> gpio) 
 }
 
 void TestInterruptListener::run() {
+    struct sigevent _input_event;
     // creates a pulse message which is sent when the event occurs
     SIGEV_PULSE_INIT(&_input_event, _irq_connection->get_id(), SIGEV_PULSE_PRIO_INHERIT,
             PULSE_GPIO_IRQ, 0);
     // configure our thread
     ThreadCtl( _NTO_TCTL_IO, 0);
     // attach our created event to an interrupt
-    int intIdGPIO = InterruptAttachEvent(GPIO_IRQ_NR, &_input_event, 0);
+    int intIdGPIO = InterruptAttachEvent(GPIO_IRQ_NR, &_input_event, _NTO_INTR_FLAGS_TRK_MSK);
     if (intIdGPIO == -1) {
         perror("fail");
         _logger->error("Attaching Event to Interrupt failed");
         exit(1);
     }
     dispatcher::cnnMngmnt::header_t header;
+
     while (_is_running) {
         dispatcher::cnnMngmnt::MsgType msg_type = _irq_rec_channel->msg_receive(&header,
                 sizeof(dispatcher::cnnMngmnt::header_t));

@@ -1,18 +1,16 @@
 #include <dispatcher/Dispatcher.h>
 #include <Logger.h>
 #include <iostream>
-#include "simqnxgpioapi.h" // must be last include !!!
 #include "hal/gpiowrapper.h"
 #include "hal/hal.h"
-#include "hal/actuators/cb_motor.h"
 #include <thread>
 #include <chrono>
 #include "DemoClient.h"
 #include "dispatcher/Event.h"
-
 #include <sys/dispatch.h>
 #include "dispatcher/cnnMngmnt/QnxChannel.h"
-
+#include "simqnxirqapi.h"
+#include "simqnxgpioapi.h" // must be last include !!!
 #ifdef TEST_ENABLE
 
 #include <gtest/gtest.h>

@@ -3,6 +3,9 @@
 
 #include <cstdint>
 #include <memory>
+#include <sys/neutrino.h>
+#include "simqnxirqapi.h"
+#include "simqnxgpioapi.h"
 
 namespace hal {
 

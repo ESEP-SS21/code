@@ -1,5 +1,7 @@
 #include "hal.h"
 #include <memory>
+#include "simqnxirqapi.h"
+#include "simqnxgpioapi.h" // must be last include !!!
 
 namespace hal {
 

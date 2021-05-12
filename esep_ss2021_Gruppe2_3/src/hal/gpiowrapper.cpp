@@ -1,8 +1,7 @@
-#include "gpiowrapper.h"
-
 #include <iostream>
 #include <sys/mman.h>
-#include "simqnxgpioapi.h"
+#include "gpiowrapper.h"
+
 
 namespace hal {
 
