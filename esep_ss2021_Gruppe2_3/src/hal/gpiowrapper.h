@@ -98,6 +98,7 @@ public:
     void set_debounce_time(uint32_t bank, uint32_t time_ms);
     void enable_interrupt_falling(uint32_t bank, uint32_t pin);
     void enable_interrupt_rising(uint32_t bank, uint32_t pin);
+    void reset_interrupt();
 };
 
 }

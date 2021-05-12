@@ -53,6 +53,7 @@ void Dispatcher::run() {
         handle_sync_msg(header);
     }
 }
+
 void Dispatcher::handle_sync_msg(cnnMngmnt::header_t header) {
     if (SyncMsgType::SUBSCRIBE == SyncMsgType(header.type)) {
 

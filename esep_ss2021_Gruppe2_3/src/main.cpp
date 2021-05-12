@@ -72,6 +72,8 @@ int main(int argc, char **argv) {
     const std::string D_SEC = "SEC";
 
     void primary(){
+        hal::HAL hal;
+        usleep(1000*1000*100);
         dispatcher::Dispatcher disp(D_PRI);
         disp.connect_to_other(D_SEC);
         DemoClient client(D_PRI, "Primary");
