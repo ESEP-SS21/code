@@ -19,7 +19,7 @@ public:
     virtual ~MetalSensor();
     bool was_metal();
 private:
-    int _old_state;
+    uint32_t _old_state;
     std::shared_ptr<GPIOWrapper> _gpio;
 };
 }

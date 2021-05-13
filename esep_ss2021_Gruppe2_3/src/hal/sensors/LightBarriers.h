@@ -18,11 +18,11 @@ enum LBType {
 
 class LightBarriers {
 private:
-    int _old_state_start;
-    int _old_state_heigth;
-    int _old_state_switch;
-    int _old_state_ramp;
-    int _old_state_end;
+    uint32_t _old_state_start;
+    uint32_t _old_state_heigth;
+    uint32_t _old_state_switch;
+    uint32_t _old_state_ramp;
+    uint32_t _old_state_end;
     std::shared_ptr<GPIOWrapper> _gpio;
 public:
     LightBarriers(std::shared_ptr<GPIOWrapper> gpio);

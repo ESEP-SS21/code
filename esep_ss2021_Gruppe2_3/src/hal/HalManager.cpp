@@ -75,6 +75,24 @@ void HalManager::send_event_to_dispatcher(){
     if(_hal->get_estop().get()->was_released()){
         _logger->debug("EStop released");
     }
+    if(_hal->get_cp_buttons().get()->was_pressed(hal::CPSTART)){
+        _logger->debug("CPButton CPSTART pressed");
+    }
+    if(_hal->get_cp_buttons().get()->was_released(hal::CPSTART)){
+        _logger->debug("CPButton CPSTART released");
+    }
+    if(_hal->get_cp_buttons().get()->was_pressed(hal::CPSTOP)){
+        _logger->debug("CPButton CPSTOP pressed");
+    }
+    if(_hal->get_cp_buttons().get()->was_released(hal::CPSTOP)){
+        _logger->debug("CPButton CPSTOP released");
+    }
+    if(_hal->get_cp_buttons().get()->was_pressed(hal::CPRESET)){
+        _logger->debug("CPButton CPRESET pressed");
+    }
+    if(_hal->get_cp_buttons().get()->was_released(hal::CPRESET)){
+         _logger->debug("CPButton CPRESET released");
+    }
 }
 
 void HalManager::handle_qnx_io_msg(dispatcher::cnnMngmnt::header_t header) {

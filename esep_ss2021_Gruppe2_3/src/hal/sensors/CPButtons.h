@@ -18,9 +18,9 @@ enum CPButtonType {
 class CPButtons {
 
 private:
-    int _old_state_start;
-    int _old_state_stop;
-    int _old_state_reset;
+    uint32_t _old_state_start;
+    uint32_t _old_state_stop;
+    uint32_t _old_state_reset;
     std::shared_ptr<GPIOWrapper> _gpio;
 public:
     CPButtons(std::shared_ptr<GPIOWrapper> gpio);

@@ -25,4 +25,5 @@ bool LightBarriers::was_cleared(LBType lb_type){
 LightBarriers::~LightBarriers() {
     // TODO Auto-generated destructor stub
 }
+
 }
