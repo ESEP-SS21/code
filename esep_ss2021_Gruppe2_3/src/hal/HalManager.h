@@ -38,7 +38,6 @@ private:
     bool _is_running;
     void int_rec_fnct();
     void send_event_to_dispatcher();
-
 };
 
 } /* namespace hal */

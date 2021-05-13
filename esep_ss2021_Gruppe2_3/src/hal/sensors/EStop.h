@@ -12,7 +12,7 @@ public:
     bool was_released();
     virtual ~EStop();
 private:
-    uint32_t _bit_state;
+    uint32_t _old_state;
     std::shared_ptr<GPIOWrapper> _gpio;
 };
 
