@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
 
     void primary(){
         hal::HalManager hal_mngr;
-        usleep(1000*1000*100);
+        usleep(1000*1000*1000);
         dispatcher::Dispatcher disp(D_PRI);
         disp.connect_to_other(D_SEC);
         DemoClient client(D_PRI, "Primary");

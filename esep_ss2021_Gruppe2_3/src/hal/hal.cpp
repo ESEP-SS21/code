@@ -30,5 +30,9 @@ std::shared_ptr<Stoplight> HAL::get_stoplight() const {
     return _stoplight;
 }
 
+std::shared_ptr<EStop> HAL::get_estop() const {
+    return _estop;
+}
+
 }
 

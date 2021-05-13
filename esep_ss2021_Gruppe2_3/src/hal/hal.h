@@ -28,6 +28,7 @@ public:
     std::shared_ptr<SortingMechanism> get_sorting_mechanism() const;
     std::shared_ptr<CBMotor> get_cb_motor() const;
     std::shared_ptr<Stoplight> get_stoplight() const;
+    std::shared_ptr<EStop> get_estop() const;
 };
 
 }

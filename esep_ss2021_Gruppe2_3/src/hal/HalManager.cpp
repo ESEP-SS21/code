@@ -17,10 +17,10 @@ HalManager::HalManager() :
             new dispatcher::cnnMngmnt::QnxChannel());
     _irq_connection = std::unique_ptr<dispatcher::cnnMngmnt::QnxConnection>(
             new dispatcher::cnnMngmnt::QnxConnection(_irq_rec_channel->get_chid()));
-    _listener_thread = std::thread([this] {this->run();});
+    _listener_thread = std::thread([this] {this->int_rec_fnct();});
 }
 
-void HalManager::run() {
+void HalManager::int_rec_fnct() {
     struct sigevent _input_event;
     // creates a pulse message which is sent when the event occurs
     SIGEV_PULSE_INIT(&_input_event, _irq_connection->get_id(), SIGEV_PULSE_PRIO_INHERIT,
@@ -52,7 +52,7 @@ void HalManager::run() {
             if (header.code == PULSE_GPIO_IRQ) {
                 _gpio->reset_interrupt();
                 InterruptUnmask(GPIO_IRQ_NR, intIdGPIO);
-                _logger->debug("IRQ handler received Interrupt");
+                send_event_to_dispatcher();
             }
             continue;
         }
@@ -65,6 +65,15 @@ void HalManager::run() {
             continue;
         }
         // TODO handling for unsupported sync message
+    }
+}
+
+void HalManager::send_event_to_dispatcher(){
+    if(_hal->get_estop().get()->was_pressed()){
+        _logger->debug("EStop pressed");
+    }
+    if(_hal->get_estop().get()->was_released()){
+        _logger->debug("EStop released");
     }
 }
 

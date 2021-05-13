@@ -36,7 +36,8 @@ private:
     std::thread _listener_thread;
 
     bool _is_running;
-    void run();
+    void int_rec_fnct();
+    void send_event_to_dispatcher();
 
 };
 
