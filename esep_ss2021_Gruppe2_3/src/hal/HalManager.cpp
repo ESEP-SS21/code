@@ -5,13 +5,14 @@
  *      Author: jendr
  */
 
-#include <hal/TestInterruptListener.h>
+#include <hal/HalManager.h>
 
 namespace hal {
 
-TestInterruptListener::TestInterruptListener(std::shared_ptr<GPIOWrapper> gpio) :
+HalManager::HalManager() :
         _irq_rec_channel(nullptr), _is_running(true) {
-    _gpio = gpio;
+    _gpio = std::make_shared<GPIOWrapper>();
+    _hal = std::unique_ptr<HAL>(new HAL(_gpio));
     _irq_rec_channel = std::unique_ptr<dispatcher::cnnMngmnt::QnxChannel>(
             new dispatcher::cnnMngmnt::QnxChannel());
     _irq_connection = std::unique_ptr<dispatcher::cnnMngmnt::QnxConnection>(
@@ -19,7 +20,7 @@ TestInterruptListener::TestInterruptListener(std::shared_ptr<GPIOWrapper> gpio) 
     _listener_thread = std::thread([this] {this->run();});
 }
 
-void TestInterruptListener::run() {
+void HalManager::run() {
     struct sigevent _input_event;
     // creates a pulse message which is sent when the event occurs
     SIGEV_PULSE_INIT(&_input_event, _irq_connection->get_id(), SIGEV_PULSE_PRIO_INHERIT,
@@ -67,7 +68,7 @@ void TestInterruptListener::run() {
     }
 }
 
-void TestInterruptListener::handle_qnx_io_msg(dispatcher::cnnMngmnt::header_t header) {
+void HalManager::handle_qnx_io_msg(dispatcher::cnnMngmnt::header_t header) {
     if (header.type == _IO_CONNECT) {
         // QNX IO msg _IO_CONNECT was received; answer with EOK
         _irq_rec_channel->msg_reply(EOK);
@@ -79,7 +80,7 @@ void TestInterruptListener::handle_qnx_io_msg(dispatcher::cnnMngmnt::header_t he
     _irq_rec_channel->msg_reply_error(ENOSYS);
 }
 
-TestInterruptListener::~TestInterruptListener() {
+HalManager::~HalManager() {
     _is_running = false;
     dispatcher::cnnMngmnt::QnxConnection(_irq_rec_channel->get_chid()).msg_send_pulse(1,
     _PULSE_CODE_UNBLOCK, 0);

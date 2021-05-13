@@ -8,7 +8,7 @@ namespace dispatcher {
 DispatcherClient::DispatcherClient(const std::string& dispatcher_name, const std::string& name) :
         _name { name }, _dispatcher_name { dispatcher_name }, _channel(nullptr) {
 
-    _channel = std::unique_ptr<cnnMngmnt::QnxChannel>(new cnnMngmnt::QnxChannel(dispatcher_name));
+    _channel = std::unique_ptr<cnnMngmnt::QnxChannel>(new cnnMngmnt::QnxChannel());
     _dispatcher_connection = std::unique_ptr<cnnMngmnt::QnxConnection>(
             new cnnMngmnt::QnxConnection(_dispatcher_name));
     _client_thread = std::thread([this] {this->run();});

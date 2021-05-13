@@ -9,7 +9,6 @@
 #include "actuators/stoplight.h"
 #include "sensors/EStop.h"
 #include "gpiowrapper.h"
-#include "TestInterruptListener.h"
 
 namespace hal {
 
@@ -20,10 +19,9 @@ private:
     std::shared_ptr<CBMotor> _cb_motor;
     std::shared_ptr<Stoplight> _stoplight;
     std::shared_ptr<EStop> _estop;
-    std::unique_ptr<TestInterruptListener> _irq_listener;
 
 public:
-    HAL();
+    HAL(std::shared_ptr<GPIOWrapper>);
     ~HAL() = default;
     HAL(HAL const&) = delete;
     std::shared_ptr<LEDs> get_leds() const;

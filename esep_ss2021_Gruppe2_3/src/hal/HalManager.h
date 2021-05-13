@@ -5,8 +5,8 @@
  *      Author: jendr
  */
 
-#ifndef SRC_HAL_TESTINTERRUPTLISTENER_H_
-#define SRC_HAL_TESTINTERRUPTLISTENER_H_
+#ifndef SRC_HAL_HALMANAGER_H_
+#define SRC_HAL_HALMANAGER_H_
 #include "dispatcher/cnnMngmnt/QnxChannel.h"
 #include "dispatcher/cnnMngmnt/QnxConnection.h"
 #include <stdint.h>
@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include "gpiowrapper.h"
+#include "hal.h"
 
 namespace hal {
 
@@ -21,21 +22,24 @@ static constexpr uint32_t GPIO_IRQ_NR = 97;
 static constexpr uint32_t PULSE_GPIO_IRQ = 17;
 
 
-class TestInterruptListener {
+class HalManager {
 public:
-    TestInterruptListener(std::shared_ptr<GPIOWrapper>);
-    virtual ~TestInterruptListener();
+    HalManager();
+    virtual ~HalManager();
 private:
     Logger::Logger _logger { Logger::get() };
     std::shared_ptr<GPIOWrapper> _gpio;
+    std::unique_ptr<HAL>_hal;
+    void handle_qnx_io_msg(dispatcher::cnnMngmnt::header_t header);
     std::unique_ptr<dispatcher::cnnMngmnt::QnxChannel> _irq_rec_channel;
     std::unique_ptr<dispatcher::cnnMngmnt::QnxConnection> _irq_connection; //connection used by isr
     std::thread _listener_thread;
+
     bool _is_running;
     void run();
-    void handle_qnx_io_msg(dispatcher::cnnMngmnt::header_t header);
+
 };
 
 } /* namespace hal */
 
-#endif /* SRC_HAL_TESTINTERRUPTLISTENER_H_ */
+#endif /* SRC_HAL_HALMANAGER_H_ */

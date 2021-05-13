@@ -9,8 +9,7 @@
 #include "dispatcher/Event.h"
 #include <sys/dispatch.h>
 #include "dispatcher/cnnMngmnt/QnxChannel.h"
-#include "simqnxirqapi.h"
-#include "simqnxgpioapi.h" // must be last include !!!
+#include "hal/HalManager.h"
 #ifdef TEST_ENABLE
 
 #include <gtest/gtest.h>
@@ -70,7 +69,7 @@ int main(int argc, char **argv) {
     const std::string D_SEC = "SEC";
 
     void primary(){
-        hal::HAL hal;
+        hal::HalManager hal_mngr;
         usleep(1000*1000*100);
         dispatcher::Dispatcher disp(D_PRI);
         disp.connect_to_other(D_SEC);
