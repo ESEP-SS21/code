@@ -9,6 +9,8 @@
 #include "actuators/stoplight.h"
 #include "sensors/EStop.h"
 #include "gpiowrapper.h"
+#include "sensors/LightBarriers.h"
+#include "sensors/HeightSensor.h"
 
 namespace hal {
 
@@ -19,6 +21,8 @@ private:
     std::shared_ptr<CBMotor> _cb_motor;
     std::shared_ptr<Stoplight> _stoplight;
     std::shared_ptr<EStop> _estop;
+    std::shared_ptr<LightBarriers> _light_barriers;
+    std::shared_ptr<HeightSensor> _height_sensor;
 
 public:
     HAL(std::shared_ptr<GPIOWrapper>);
@@ -29,6 +33,8 @@ public:
     std::shared_ptr<CBMotor> get_cb_motor() const;
     std::shared_ptr<Stoplight> get_stoplight() const;
     std::shared_ptr<EStop> get_estop() const;
+    std::shared_ptr<LightBarriers> get_light_barriers() const;
+    std::shared_ptr<HeightSensor> get_height_sensor() const;
 };
 
 }
