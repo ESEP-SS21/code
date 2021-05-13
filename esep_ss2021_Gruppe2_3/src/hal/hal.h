@@ -11,6 +11,8 @@
 #include "gpiowrapper.h"
 #include "sensors/LightBarriers.h"
 #include "sensors/HeightSensor.h"
+#include "sensors/CPButtons.h"
+#include "sensors/MetalSensor.h"
 
 namespace hal {
 
@@ -23,6 +25,8 @@ private:
     std::shared_ptr<EStop> _estop;
     std::shared_ptr<LightBarriers> _light_barriers;
     std::shared_ptr<HeightSensor> _height_sensor;
+    std::shared_ptr<CPButtons> _cp_buttons;
+    std::shared_ptr<MetalSensor> _metal_sensor;
 
 public:
     HAL(std::shared_ptr<GPIOWrapper>);
@@ -35,6 +39,9 @@ public:
     std::shared_ptr<EStop> get_estop() const;
     std::shared_ptr<LightBarriers> get_light_barriers() const;
     std::shared_ptr<HeightSensor> get_height_sensor() const;
+    std::shared_ptr<CPButtons> get_cp_buttons() const;
+    std::shared_ptr<MetalSensor> get_metal_sensor() const;
+
 };
 
 }
