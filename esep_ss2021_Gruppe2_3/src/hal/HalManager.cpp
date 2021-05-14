@@ -93,6 +93,39 @@ void HalManager::send_event_to_dispatcher(){
     if(_hal->get_cp_buttons().get()->was_released(hal::CPRESET)){
          _logger->debug("CPButton CPRESET released");
     }
+
+    if(_hal->get_light_barriers().get()->was_blocked(hal::LBSTART)){
+             _logger->debug("LightBarrier Start was blocked");
+    }
+    if(_hal->get_light_barriers().get()->was_cleared(hal::LBSTART)){
+                 _logger->debug("LightBarrier Start was cleared");
+    }
+    if(_hal->get_light_barriers().get()->was_blocked(hal::LBHEIGHT)){
+             _logger->debug("LightBarrier Height was blocked");
+    }
+    if(_hal->get_light_barriers().get()->was_cleared(hal::LBHEIGHT)){
+                 _logger->debug("LightBarrier Height was cleared");
+    }
+    if(_hal->get_light_barriers().get()->was_blocked(hal::LBSWITCH)){
+             _logger->debug("LightBarrier Switch was blocked");
+    }
+    if(_hal->get_light_barriers().get()->was_cleared(hal::LBSWITCH)){
+                 _logger->debug("LightBarrier Switch was cleared");
+    }
+    if(_hal->get_light_barriers().get()->was_blocked(hal::LBRAMP)){
+             _logger->debug("LightBarrier Ramp was blocked");
+    }
+    if(_hal->get_light_barriers().get()->was_cleared(hal::LBRAMP)){
+                 _logger->debug("LightBarrier Ramp was cleared");
+    }
+    if(_hal->get_light_barriers().get()->was_blocked(hal::LBEND)){
+             _logger->debug("LightBarrier End was blocked");
+    }
+    if(_hal->get_light_barriers().get()->was_cleared(hal::LBEND)){
+                 _logger->debug("LightBarrier End was cleared");
+    }
+
+
 }
 
 void HalManager::handle_qnx_io_msg(dispatcher::cnnMngmnt::header_t header) {

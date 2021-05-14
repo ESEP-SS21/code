@@ -35,7 +35,7 @@ bool CPButtons::was_pressed(CPButtonType cp_button_type){
     switch (cp_button_type){
     case CPSTART:
         in = _gpio->in(gpio_adresses::BANK_INPUT, gpio_adresses::TASTE_START_0);
-        ret = in < _old_state_start;
+        ret = in > _old_state_start;
         if(ret){
             _old_state_start = in;
         }
@@ -49,7 +49,7 @@ bool CPButtons::was_pressed(CPButtonType cp_button_type){
         return ret;
     default:
         in = _gpio->in(gpio_adresses::BANK_INPUT, gpio_adresses::TASTE_RESET_0);
-        ret = in < _old_state_reset;
+        ret = in > _old_state_reset;
         if(ret){
             _old_state_reset = in;
         }
@@ -63,7 +63,7 @@ bool CPButtons::was_released(CPButtonType cp_button_type){
     switch (cp_button_type){
     case CPSTART:
         in = _gpio->in(gpio_adresses::BANK_INPUT, gpio_adresses::TASTE_START_0);
-        ret = in > _old_state_start;
+        ret = in < _old_state_start;
         if(ret){
             _old_state_start = in;
         }
@@ -77,7 +77,7 @@ bool CPButtons::was_released(CPButtonType cp_button_type){
         return ret;
     default:
         in = _gpio->in(gpio_adresses::BANK_INPUT, gpio_adresses::TASTE_RESET_0);
-        ret = in > _old_state_reset;
+        ret = in < _old_state_reset;
         if(ret){
             _old_state_reset = in;
         }
