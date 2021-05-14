@@ -12,6 +12,25 @@ namespace hal {
 
 LightBarriers::LightBarriers(std::shared_ptr<GPIOWrapper> gpio) {
     _gpio = gpio;
+    _gpio->enable_interrupt_rising(gpio_adresses::BANK_INPUT,gpio_adresses::LICHTSCHRANKE_EINLAUF_0);
+    _gpio->enable_interrupt_falling(gpio_adresses::BANK_INPUT,gpio_adresses::LICHTSCHRANKE_EINLAUF_0);
+    _gpio->enable_interrupt(gpio_adresses::BANK_INPUT,gpio_adresses::LICHTSCHRANKE_EINLAUF_0);
+
+    _gpio->enable_interrupt_rising(gpio_adresses::BANK_INPUT,gpio_adresses::LICHTSCHRANKE_HOEHENMESSUNG_0);
+    _gpio->enable_interrupt_falling(gpio_adresses::BANK_INPUT,gpio_adresses::LICHTSCHRANKE_HOEHENMESSUNG_0);
+    _gpio->enable_interrupt(gpio_adresses::BANK_INPUT,gpio_adresses::LICHTSCHRANKE_HOEHENMESSUNG_0);
+
+    _gpio->enable_interrupt_rising(gpio_adresses::BANK_INPUT,gpio_adresses::LICHTSCHRANKE_WEICHE_0);
+    _gpio->enable_interrupt_falling(gpio_adresses::BANK_INPUT,gpio_adresses::LICHTSCHRANKE_WEICHE_0);
+    _gpio->enable_interrupt(gpio_adresses::BANK_INPUT,gpio_adresses::LICHTSCHRANKE_WEICHE_0);
+
+    _gpio->enable_interrupt_rising(gpio_adresses::BANK_INPUT,gpio_adresses::LICHTSCHRANKE_RUTSCHE_0);
+    _gpio->enable_interrupt_falling(gpio_adresses::BANK_INPUT,gpio_adresses::LICHTSCHRANKE_RUTSCHE_0);
+    _gpio->enable_interrupt(gpio_adresses::BANK_INPUT,gpio_adresses::LICHTSCHRANKE_RUTSCHE_0);
+
+    _gpio->enable_interrupt_rising(gpio_adresses::BANK_INPUT,gpio_adresses::LICHTSCHRANKE_AUSLAUF_0);
+    _gpio->enable_interrupt_falling(gpio_adresses::BANK_INPUT,gpio_adresses::LICHTSCHRANKE_AUSLAUF_0);
+    _gpio->enable_interrupt(gpio_adresses::BANK_INPUT,gpio_adresses::LICHTSCHRANKE_AUSLAUF_0);
 
     _old_state_start = _gpio->in(gpio_adresses::BANK_INPUT, gpio_adresses::LICHTSCHRANKE_EINLAUF_0);
     _old_state_heigth = _gpio->in(gpio_adresses::BANK_INPUT, gpio_adresses::LICHTSCHRANKE_HOEHENMESSUNG_0);

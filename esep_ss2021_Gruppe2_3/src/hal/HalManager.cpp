@@ -147,6 +147,7 @@ HalManager::~HalManager() {
     _listener_thread.join();
 }
 
+// Temporary
 void HalManager::set_belt_state(bool value){
     if(value){
         _hal->get_cb_motor().get()->set_direction(FAST_FORWARDS);
@@ -155,7 +156,7 @@ void HalManager::set_belt_state(bool value){
         _hal->get_cb_motor().get()->set_direction(STOP);
     }
 }
-
+// Temporary
 void HalManager::set_junc_state(bool value){
     if(value){
         _hal->get_sorting_mechanism()->do_not_discard();
