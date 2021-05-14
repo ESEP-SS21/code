@@ -25,6 +25,8 @@ static constexpr uint32_t PULSE_GPIO_IRQ = 17;
 class HalManager {
 public:
     HalManager();
+    void set_belt_state(bool value);
+    void set_junc_state(bool value);
     virtual ~HalManager();
 private:
     Logger::Logger _logger { Logger::get() };

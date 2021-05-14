@@ -70,6 +70,7 @@ int main(int argc, char **argv) {
 
     void primary(){
         hal::HalManager hal_mngr;
+        hal_mngr.set_belt_state(true);
         usleep(1000*1000*1000);
         dispatcher::Dispatcher disp(D_PRI);
         disp.connect_to_other(D_SEC);

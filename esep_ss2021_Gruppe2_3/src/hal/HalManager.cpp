@@ -147,4 +147,22 @@ HalManager::~HalManager() {
     _listener_thread.join();
 }
 
+void HalManager::set_belt_state(bool value){
+    if(value){
+        _hal->get_cb_motor().get()->set_direction(FAST_FORWARDS);
+    }
+    else{
+        _hal->get_cb_motor().get()->set_direction(STOP);
+    }
+}
+
+void HalManager::set_junc_state(bool value){
+    if(value){
+        _hal->get_sorting_mechanism()->do_not_discard();
+    }
+    else{
+        _hal->get_sorting_mechanism()->discard();
+    }
+}
+
 } /* namespace hal */
