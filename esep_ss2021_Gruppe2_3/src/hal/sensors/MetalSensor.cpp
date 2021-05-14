@@ -10,16 +10,20 @@
 namespace hal {
 
 MetalSensor::MetalSensor(std::shared_ptr<GPIOWrapper> gpio) {
-    // TODO Auto-generated constructor stub
+    _gpio = gpio;
+    _gpio->enable_interrupt(gpio_adresses::BANK_INPUT,gpio_adresses::METALLSENSOR_0);
+    _not_metal_state = _gpio->in(gpio_adresses::BANK_INPUT, gpio_adresses::METALLSENSOR_0);
 
 }
 
 MetalSensor::~MetalSensor() {
-    // TODO Auto-generated destructor stub
+
 }
 
 bool MetalSensor::was_metal(){
-    return true;
+    uint32_t in = _gpio->in(gpio_adresses::BANK_INPUT, gpio_adresses::METALLSENSOR_0);
+    bool ret = in > _not_metal_state;
+    return ret;
 }
 
 }

@@ -75,6 +75,7 @@ void HalManager::send_event_to_dispatcher(){
     if(_hal->get_estop().get()->was_released()){
         _logger->debug("EStop released");
     }
+
     if(_hal->get_cp_buttons().get()->was_pressed(hal::CPSTART)){
         _logger->debug("CPButton CPSTART pressed");
     }
@@ -95,36 +96,39 @@ void HalManager::send_event_to_dispatcher(){
     }
 
     if(_hal->get_light_barriers().get()->was_blocked(hal::LBSTART)){
-             _logger->debug("LightBarrier Start was blocked");
+        _logger->debug("LightBarrier Start was blocked");
     }
     if(_hal->get_light_barriers().get()->was_cleared(hal::LBSTART)){
-                 _logger->debug("LightBarrier Start was cleared");
+        _logger->debug("LightBarrier Start was cleared");
     }
     if(_hal->get_light_barriers().get()->was_blocked(hal::LBHEIGHT)){
-             _logger->debug("LightBarrier Height was blocked");
+        _logger->debug("LightBarrier Height was blocked");
     }
     if(_hal->get_light_barriers().get()->was_cleared(hal::LBHEIGHT)){
-                 _logger->debug("LightBarrier Height was cleared");
+        _logger->debug("LightBarrier Height was cleared");
     }
     if(_hal->get_light_barriers().get()->was_blocked(hal::LBSWITCH)){
-             _logger->debug("LightBarrier Switch was blocked");
+        _logger->debug("LightBarrier Switch was blocked");
     }
     if(_hal->get_light_barriers().get()->was_cleared(hal::LBSWITCH)){
-                 _logger->debug("LightBarrier Switch was cleared");
+        _logger->debug("LightBarrier Switch was cleared");
     }
     if(_hal->get_light_barriers().get()->was_blocked(hal::LBRAMP)){
-             _logger->debug("LightBarrier Ramp was blocked");
+        _logger->debug("LightBarrier Ramp was blocked");
     }
     if(_hal->get_light_barriers().get()->was_cleared(hal::LBRAMP)){
-                 _logger->debug("LightBarrier Ramp was cleared");
+        _logger->debug("LightBarrier Ramp was cleared");
     }
     if(_hal->get_light_barriers().get()->was_blocked(hal::LBEND)){
-             _logger->debug("LightBarrier End was blocked");
+        _logger->debug("LightBarrier End was blocked");
     }
     if(_hal->get_light_barriers().get()->was_cleared(hal::LBEND)){
-                 _logger->debug("LightBarrier End was cleared");
+        _logger->debug("LightBarrier End was cleared");
     }
 
+    if(_hal->get_metal_sensor().get()->was_metal()){
+        _logger->debug("MetalSensor found metal");
+    }
 
 }
 
