@@ -9,8 +9,9 @@
 
 namespace hal {
 
-HalManager::HalManager() :
-        _irq_rec_channel(nullptr), _is_running(true) {
+HalManager::HalManager(const std::string& dispatcher_name) : DispatcherClient(dispatcher_name, "HAL Manager") {
+    _irq_rec_channel = nullptr;
+    _running = true;
     _gpio = std::make_shared<GPIOWrapper>();
     _hal = std::unique_ptr<HAL>(new HAL(_gpio));
     _irq_rec_channel = std::unique_ptr<dispatcher::cnnMngmnt::QnxChannel>(
@@ -18,6 +19,27 @@ HalManager::HalManager() :
     _irq_connection = std::unique_ptr<dispatcher::cnnMngmnt::QnxConnection>(
             new dispatcher::cnnMngmnt::QnxConnection(_irq_rec_channel->get_chid()));
     _listener_thread = std::thread([this] {this->int_rec_fnct();});
+    _start_pressed_time = std::chrono::high_resolution_clock::now();
+    _stop_pressed_time = std::chrono::high_resolution_clock::now();
+    _reset_pressed_time = std::chrono::high_resolution_clock::now();
+    subscribe(
+            {
+            dispatcher::EventType::EVNT_ACT_CTRL_T_STR_LED_ON,
+            dispatcher::EventType::EVNT_ACT_CTRL_T_STR_LED_OFF,
+            dispatcher::EventType::EVNT_ACT_CTRL_T_RST_LED_ON,
+            dispatcher::EventType::EVNT_ACT_CTRL_T_RST_LED_OFF,
+            dispatcher::EventType::EVNT_ACT_BELT_BWD,
+            dispatcher::EventType::EVNT_ACT_BELT_FWD,
+            dispatcher::EventType::EVNT_ACT_BELT_STP,
+            dispatcher::EventType::EVNT_ACT_SORT_DSC,
+            dispatcher::EventType::EVNT_ACT_SORT_NO_DSC,
+            dispatcher::EventType::EVNT_ACT_SORT_RST,
+            dispatcher::EventType::EVNT_ACT_STPL_LED_ON,
+            dispatcher::EventType::EVNT_ACT_STPL_LED_OFF,
+            dispatcher::EventType::EVNT_ACT_STPL_LED_BLNK_FST,
+            dispatcher::EventType::EVNT_ACT_STPL_LED_BLNK_SLW,
+            }
+            );
 }
 
 void HalManager::int_rec_fnct() {
@@ -36,7 +58,7 @@ void HalManager::int_rec_fnct() {
     }
     dispatcher::cnnMngmnt::header_t header;
 
-    while (_is_running) {
+    while (_running) {
         dispatcher::cnnMngmnt::MsgType msg_type = _irq_rec_channel->msg_receive(&header,
                 sizeof(dispatcher::cnnMngmnt::header_t));
 
@@ -70,66 +92,165 @@ void HalManager::int_rec_fnct() {
 
 void HalManager::send_event_to_dispatcher(){
     if(_hal->get_estop().get()->was_pressed()){
+        dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_ESTOP_ON,0,true};
+        send(e,40);
         _logger->debug("EStop pressed");
     }
     if(_hal->get_estop().get()->was_released()){
+        dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_ESTOP_OFF,0,true};
+        send(e,40);
         _logger->debug("EStop released");
     }
-
     if(_hal->get_cp_buttons().get()->was_pressed(hal::CPSTART)){
+        _start_pressed_time = std::chrono::high_resolution_clock::now();
         _logger->debug("CPButton CPSTART pressed");
     }
     if(_hal->get_cp_buttons().get()->was_released(hal::CPSTART)){
+        auto delta = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() -_start_pressed_time).count();
+        if(delta > 3000) {
+            dispatcher::Event e = {dispatcher::EventType::EVNT_CTRL_T_STR_PRS_LNG,0,true};
+            send(e,20);
+        }
+        else{
+            dispatcher::Event e = {dispatcher::EventType::EVNT_CTRL_T_STR_PRS_SRT,0,true};
+            send(e,20);
+        }
         _logger->debug("CPButton CPSTART released");
     }
     if(_hal->get_cp_buttons().get()->was_pressed(hal::CPSTOP)){
+        _stop_pressed_time = std::chrono::high_resolution_clock::now();
         _logger->debug("CPButton CPSTOP pressed");
     }
     if(_hal->get_cp_buttons().get()->was_released(hal::CPSTOP)){
+        auto delta = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() -_stop_pressed_time).count();
+        if(delta > 3000) {
+            dispatcher::Event e = {dispatcher::EventType::EVNT_CTRL_T_STP_PRS_LNG,0,true};
+            send(e,20);
+        }
+        else{
+            dispatcher::Event e = {dispatcher::EventType::EVNT_CTRL_T_STP_PRS_SRT,0,true};
+            send(e,20);
+        }
         _logger->debug("CPButton CPSTOP released");
     }
     if(_hal->get_cp_buttons().get()->was_pressed(hal::CPRESET)){
+        _reset_pressed_time = std::chrono::high_resolution_clock::now();
         _logger->debug("CPButton CPRESET pressed");
     }
     if(_hal->get_cp_buttons().get()->was_released(hal::CPRESET)){
-         _logger->debug("CPButton CPRESET released");
+        auto delta = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() -_reset_pressed_time).count();
+        if(delta > 3000) {
+            dispatcher::Event e = {dispatcher::EventType::EVNT_CTRL_T_RST_PRS_LNG,0,true};
+            send(e,20);
+        }
+        else{
+            dispatcher::Event e = {dispatcher::EventType::EVNT_CTRL_T_RST_PRS_SRT,0,true};
+            send(e,20);
+        }
+        _logger->debug("CPButton CPRESET released");
     }
 
     if(_hal->get_light_barriers().get()->was_blocked(hal::LBSTART)){
+        dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_LB_ST_BLCK,0,false};
+        send(e,20);
         _logger->debug("LightBarrier Start was blocked");
     }
     if(_hal->get_light_barriers().get()->was_cleared(hal::LBSTART)){
+        dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_LB_ST_CLR,0,false};
+        send(e,20);
         _logger->debug("LightBarrier Start was cleared");
     }
     if(_hal->get_light_barriers().get()->was_blocked(hal::LBHEIGHT)){
+        dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_LB_HE_BLCK,0,false};
+        send(e,20);
         _logger->debug("LightBarrier Height was blocked");
     }
     if(_hal->get_light_barriers().get()->was_cleared(hal::LBHEIGHT)){
+        dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_LB_HE_CLR,0,false};
+        send(e,20);
         _logger->debug("LightBarrier Height was cleared");
     }
     if(_hal->get_light_barriers().get()->was_blocked(hal::LBSWITCH)){
+        dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_LB_SW_BLCK,0,false};
+        send(e,20);
         _logger->debug("LightBarrier Switch was blocked");
     }
     if(_hal->get_light_barriers().get()->was_cleared(hal::LBSWITCH)){
+        dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_LB_SW_CLR,0,false};
+        send(e,20);
         _logger->debug("LightBarrier Switch was cleared");
     }
     if(_hal->get_light_barriers().get()->was_blocked(hal::LBRAMP)){
+        dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_LB_RA_BLCK,0,false};
+        send(e,20);
         _logger->debug("LightBarrier Ramp was blocked");
     }
     if(_hal->get_light_barriers().get()->was_cleared(hal::LBRAMP)){
+        dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_LB_RA_CLR,0,false};
+        send(e,20);
         _logger->debug("LightBarrier Ramp was cleared");
     }
     if(_hal->get_light_barriers().get()->was_blocked(hal::LBEND)){
+        dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_LB_EN_BLCK,0,false};
+        send(e,20);
         _logger->debug("LightBarrier End was blocked");
     }
     if(_hal->get_light_barriers().get()->was_cleared(hal::LBEND)){
+        dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_LB_EN_CLR,0,false};
+        send(e,20);
         _logger->debug("LightBarrier End was cleared");
     }
 
     if(_hal->get_metal_sensor().get()->was_metal()){
+        dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_METAL_DTC,0,false};
+        send(e,20);
         _logger->debug("MetalSensor found metal");
     }
+}
 
+void HalManager::handle(dispatcher::Event& event){
+    if(event.type == dispatcher::EventType::EVNT_ACT_BELT_BWD){
+        _hal->get_cb_motor().get()->set_direction(Direction::FAST_BACKWARDS);
+    }
+    if(event.type == dispatcher::EventType::EVNT_ACT_BELT_FWD){
+        _hal->get_cb_motor().get()->set_direction(Direction::FAST_FORWARDS);
+    }
+    if(event.type == dispatcher::EventType::EVNT_ACT_BELT_STP){
+        _hal->get_cb_motor().get()->set_direction(Direction::STOP);
+    }
+    if(event.type == dispatcher::EventType::EVNT_ACT_SORT_DSC){
+        _hal->get_sorting_mechanism().get()->discard();
+    }
+    if(event.type == dispatcher::EventType::EVNT_ACT_SORT_NO_DSC){
+        _hal->get_sorting_mechanism().get()->do_not_discard();
+    }
+    if(event.type == dispatcher::EventType::EVNT_ACT_SORT_RST){
+        _hal->get_sorting_mechanism().get()->reset();
+    }
+    if(event.type == dispatcher::EventType::EVNT_ACT_CTRL_T_STR_LED_ON){
+        _hal->get_leds().get()->enable(LED_type::START);
+    }
+    if(event.type == dispatcher::EventType::EVNT_ACT_CTRL_T_STR_LED_OFF){
+        _hal->get_leds().get()->disable(LED_type::START);
+    }
+    if(event.type == dispatcher::EventType::EVNT_ACT_CTRL_T_RST_LED_ON){
+        _hal->get_leds().get()->enable(LED_type::RESET);
+    }
+    if(event.type == dispatcher::EventType::EVNT_ACT_CTRL_T_RST_LED_OFF){
+        _hal->get_leds().get()->disable(LED_type::RESET);
+    }
+    if(event.type == dispatcher::EventType::EVNT_ACT_STPL_LED_ON){
+        _hal->get_stoplight().get()->enable(Color(event.payload));
+    }
+    if(event.type == dispatcher::EventType::EVNT_ACT_STPL_LED_OFF){
+        _hal->get_stoplight().get()->disable(Color(event.payload));
+    }
+    if(event.type == dispatcher::EventType::EVNT_ACT_STPL_LED_BLNK_FST){
+        _hal->get_stoplight().get()->blink(Color(event.payload),Speed::FAST);
+    }
+    if(event.type == dispatcher::EventType::EVNT_ACT_STPL_LED_BLNK_SLW){
+        _hal->get_stoplight().get()->blink(Color(event.payload),Speed::SLOW);
+    }
 }
 
 void HalManager::handle_qnx_io_msg(dispatcher::cnnMngmnt::header_t header) {
@@ -145,7 +266,7 @@ void HalManager::handle_qnx_io_msg(dispatcher::cnnMngmnt::header_t header) {
 }
 
 HalManager::~HalManager() {
-    _is_running = false;
+    _running = false;
     dispatcher::cnnMngmnt::QnxConnection(_irq_rec_channel->get_chid()).msg_send_pulse(1,
     _PULSE_CODE_UNBLOCK, 0);
     _listener_thread.join();
