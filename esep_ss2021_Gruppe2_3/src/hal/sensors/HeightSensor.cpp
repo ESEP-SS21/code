@@ -31,4 +31,3 @@ char HeightSensor::get_event_number(){
 HeightSensor::~HeightSensor() {
     // TODO Auto-generated destructor stub
 }
-

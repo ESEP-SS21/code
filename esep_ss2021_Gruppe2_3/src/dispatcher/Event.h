@@ -145,7 +145,6 @@ struct Event {
         buffer << type << " payload: " << payload;
         return buffer.str();
     }
-
 };
 
 struct EventSubscription {
