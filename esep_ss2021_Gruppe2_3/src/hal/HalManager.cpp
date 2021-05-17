@@ -94,16 +94,13 @@ void HalManager::send_event_to_dispatcher(){
     if(_hal->get_estop().get()->was_pressed()){
         dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_ESTOP_ON,0,true};
         send(e,40);
-        _logger->debug("EStop pressed");
     }
     if(_hal->get_estop().get()->was_released()){
         dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_ESTOP_OFF,0,true};
         send(e,40);
-        _logger->debug("EStop released");
     }
     if(_hal->get_cp_buttons().get()->was_pressed(hal::CPSTART)){
         _start_pressed_time = std::chrono::high_resolution_clock::now();
-        _logger->debug("CPButton CPSTART pressed");
     }
     if(_hal->get_cp_buttons().get()->was_released(hal::CPSTART)){
         auto delta = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() -_start_pressed_time).count();
@@ -115,11 +112,9 @@ void HalManager::send_event_to_dispatcher(){
             dispatcher::Event e = {dispatcher::EventType::EVNT_CTRL_T_STR_PRS_SRT,0,true};
             send(e,20);
         }
-        _logger->debug("CPButton CPSTART released");
     }
     if(_hal->get_cp_buttons().get()->was_pressed(hal::CPSTOP)){
         _stop_pressed_time = std::chrono::high_resolution_clock::now();
-        _logger->debug("CPButton CPSTOP pressed");
     }
     if(_hal->get_cp_buttons().get()->was_released(hal::CPSTOP)){
         auto delta = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() -_stop_pressed_time).count();
@@ -131,11 +126,9 @@ void HalManager::send_event_to_dispatcher(){
             dispatcher::Event e = {dispatcher::EventType::EVNT_CTRL_T_STP_PRS_SRT,0,true};
             send(e,20);
         }
-        _logger->debug("CPButton CPSTOP released");
     }
     if(_hal->get_cp_buttons().get()->was_pressed(hal::CPRESET)){
         _reset_pressed_time = std::chrono::high_resolution_clock::now();
-        _logger->debug("CPButton CPRESET pressed");
     }
     if(_hal->get_cp_buttons().get()->was_released(hal::CPRESET)){
         auto delta = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() -_reset_pressed_time).count();
@@ -147,64 +140,52 @@ void HalManager::send_event_to_dispatcher(){
             dispatcher::Event e = {dispatcher::EventType::EVNT_CTRL_T_RST_PRS_SRT,0,true};
             send(e,20);
         }
-        _logger->debug("CPButton CPRESET released");
     }
 
     if(_hal->get_light_barriers().get()->was_blocked(hal::LBSTART)){
         dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_LB_ST_BLCK,0,false};
         send(e,20);
-        _logger->debug("LightBarrier Start was blocked");
     }
     if(_hal->get_light_barriers().get()->was_cleared(hal::LBSTART)){
         dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_LB_ST_CLR,0,false};
         send(e,20);
-        _logger->debug("LightBarrier Start was cleared");
     }
     if(_hal->get_light_barriers().get()->was_blocked(hal::LBHEIGHT)){
         dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_LB_HE_BLCK,0,false};
         send(e,20);
-        _logger->debug("LightBarrier Height was blocked");
     }
     if(_hal->get_light_barriers().get()->was_cleared(hal::LBHEIGHT)){
         dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_LB_HE_CLR,0,false};
         send(e,20);
-        _logger->debug("LightBarrier Height was cleared");
     }
     if(_hal->get_light_barriers().get()->was_blocked(hal::LBSWITCH)){
         dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_LB_SW_BLCK,0,false};
         send(e,20);
-        _logger->debug("LightBarrier Switch was blocked");
     }
     if(_hal->get_light_barriers().get()->was_cleared(hal::LBSWITCH)){
         dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_LB_SW_CLR,0,false};
         send(e,20);
-        _logger->debug("LightBarrier Switch was cleared");
     }
     if(_hal->get_light_barriers().get()->was_blocked(hal::LBRAMP)){
         dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_LB_RA_BLCK,0,false};
         send(e,20);
-        _logger->debug("LightBarrier Ramp was blocked");
     }
     if(_hal->get_light_barriers().get()->was_cleared(hal::LBRAMP)){
         dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_LB_RA_CLR,0,false};
         send(e,20);
-        _logger->debug("LightBarrier Ramp was cleared");
     }
     if(_hal->get_light_barriers().get()->was_blocked(hal::LBEND)){
         dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_LB_EN_BLCK,0,false};
         send(e,20);
-        _logger->debug("LightBarrier End was blocked");
     }
     if(_hal->get_light_barriers().get()->was_cleared(hal::LBEND)){
         dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_LB_EN_CLR,0,false};
         send(e,20);
-        _logger->debug("LightBarrier End was cleared");
     }
 
     if(_hal->get_metal_sensor().get()->was_metal()){
         dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_METAL_DTC,0,false};
         send(e,20);
-        _logger->debug("MetalSensor found metal");
     }
 }
 
