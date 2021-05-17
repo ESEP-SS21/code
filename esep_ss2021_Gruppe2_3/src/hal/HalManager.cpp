@@ -38,20 +38,30 @@ HalManager::HalManager(const std::string& dispatcher_name) : DispatcherClient(di
             dispatcher::EventType::EVNT_ACT_STPL_LED_OFF,
             dispatcher::EventType::EVNT_ACT_STPL_LED_BLNK_FST,
             dispatcher::EventType::EVNT_ACT_STPL_LED_BLNK_SLW,
+            dispatcher::EventType::EVNT_SEN_HEIGHT_REQ,
             }
             );
 }
 
 void HalManager::int_rec_fnct() {
     struct sigevent _input_event;
+    struct sigevent _adc_event;
     // creates a pulse message which is sent when the event occurs
     SIGEV_PULSE_INIT(&_input_event, _irq_connection->get_id(), SIGEV_PULSE_PRIO_INHERIT,
             PULSE_GPIO_IRQ, 0);
+    SIGEV_PULSE_INIT(&_adc_event, _irq_connection->get_id(), SIGEV_PULSE_PRIO_INHERIT,
+                PULSE_ADC_IRQ, 0);
     // configure our thread
     ThreadCtl( _NTO_TCTL_IO, 0);
     // attach our created event to an interrupt
     int intIdGPIO = InterruptAttachEvent(GPIO_IRQ_NR, &_input_event, _NTO_INTR_FLAGS_TRK_MSK);
     if (intIdGPIO == -1) {
+        perror("fail");
+        _logger->error("Attaching Event to Interrupt failed");
+        exit(1);
+    }
+    int intIdADC = InterruptAttachEvent(ADC_IRQ_NR, &_adc_event, _NTO_INTR_FLAGS_TRK_MSK);
+    if (intIdADC == -1) {
         perror("fail");
         _logger->error("Attaching Event to Interrupt failed");
         exit(1);
@@ -75,8 +85,17 @@ void HalManager::int_rec_fnct() {
                 _gpio->reset_interrupt();
                 InterruptUnmask(GPIO_IRQ_NR, intIdGPIO);
                 send_event_to_dispatcher();
+                continue;
             }
-            continue;
+            if (header.code == PULSE_ADC_IRQ) {
+                _hal->get_height_sensor().get()->reset_interrupt();
+                InterruptUnmask(ADC_IRQ_NR, intIdADC);
+                int height_raw = _hal->get_height_sensor().get()->get_value();
+                dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_HEIGHT_HE,height_raw,false};
+                send(e,20);
+                continue;
+            }
+
         }
 
         //else sync msg
@@ -231,6 +250,15 @@ void HalManager::handle(dispatcher::Event& event){
     }
     if(event.type == dispatcher::EventType::EVNT_ACT_STPL_LED_BLNK_SLW){
         _hal->get_stoplight().get()->blink(Color(event.payload),Speed::SLOW);
+    }
+    if(event.type == dispatcher::EventType::EVNT_SEN_HEIGHT_REQ){
+        if(event.payload == 0){
+            _hal->get_height_sensor().get()->sample();
+        }
+        else{
+            _hal->get_height_sensor().get()->set_zero_point(event.payload);
+        }
+
     }
 }
 

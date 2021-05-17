@@ -22,7 +22,9 @@
 namespace hal {
 
 static constexpr uint32_t GPIO_IRQ_NR = 97;
+static constexpr uint32_t ADC_IRQ_NR = 16;
 static constexpr uint32_t PULSE_GPIO_IRQ = 17;
+static constexpr uint32_t PULSE_ADC_IRQ = 18;
 
 
 class HalManager : public dispatcher::DispatcherClient{
