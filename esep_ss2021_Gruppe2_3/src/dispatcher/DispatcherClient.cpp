@@ -36,13 +36,15 @@ void DispatcherClient::subscribe(EventType event_type) {
 
     iov_t iov[2];
 
+
     SETIOV(iov + 0, &header, sizeof(header));
     SETIOV(iov + 1, &sub, sizeof(sub));
     if (-1 == _dispatcher_connection->msg_send(iov, 2)) {
         perror("Client: MsgSend failed");
         exit(EXIT_FAILURE);
     }
-    _logger->trace("Client '{}' subscribed to '{}'", _name, str(event_type));
+    static const std::string t = fmt::format("Client '{}' subscribed to", _name);
+    _logger->trace(LOG_FORMAT2, t, _name, str(event_type));
 
 }
 
@@ -52,7 +54,8 @@ void DispatcherClient::send(Event event, int priority) const {
         code = code | 0b01000000;
     }
     _dispatcher_connection->msg_send_pulse(priority, code, event.payload);
-    _logger->debug("Client '{}' send '{}'", _name, event.str());
+    static const std::string t = fmt::format("Client '{}' send", _name);
+    _logger->debug(LOG_FORMAT2, t, event.str());
 }
 
 void DispatcherClient::run() {
@@ -71,7 +74,8 @@ void DispatcherClient::run() {
             }
 
             Event e(header);
-            _logger->debug("Client '{}' received '{}'", _name, e.str());
+            static const std::string t = fmt::format("Client '{}' received", _name);
+            _logger->debug(LOG_FORMAT2, t, e.str());
             handle(e);
             continue;
         }
@@ -91,7 +95,8 @@ void DispatcherClient::handle_qnx_io_msg(cnnMngmnt::header_t header) {
     if (header.type == _IO_CONNECT) {
         // QNX IO msg _IO_CONNECT was received; answer with EOK
         _channel->msg_reply(EOK);
-        _logger->trace("Client '{}' received _IO_CONNECT", _name);
+        static const std::string t = fmt::format("Client '{}' received", _name);
+        _logger->trace(LOG_FORMAT2, t, "_IO_CONNECT");
         return;
     }
     // Some other QNX IO message was received; reject it

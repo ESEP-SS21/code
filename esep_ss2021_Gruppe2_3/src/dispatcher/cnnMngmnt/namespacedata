@@ -21,3 +21,5 @@ using conid = int;
 
 }
 } /* connManagement dispatcher */
+
+#define LOG_FORMAT2 "{:<33} '{}'"
