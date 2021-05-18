@@ -50,6 +50,7 @@ void DispatcherClient::subscribe(EventType event_type) {
 
 void DispatcherClient::send(Event event, int priority) const {
     int code = static_cast<int>(event.type);
+    //add broadcast flag
     if (event.broadcast) {
         code = code | 0b01000000;
     }

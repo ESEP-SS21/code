@@ -6,8 +6,6 @@
 namespace dispatcher {
 namespace cnnMngmnt {
 
-// TODO call ConnectDetach() for correct resource deallocation
-
 QnxConnection::QnxConnection(const std::string &receiver_attach_string) {
     int retry_count = 0;
     _logger->trace("Connecting to channel '{}'", receiver_attach_string);
