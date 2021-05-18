@@ -9,6 +9,7 @@
 #include <chrono>
 #include "DemoClient.h"
 #include "dispatcher/Event.h"
+#include <cstdlib>
 
 #include <sys/dispatch.h>
 #include "dispatcher/cnnMngmnt/QnxChannel.h"
@@ -27,40 +28,47 @@ int main(int argc, char **argv) {
     void fail_and_exit();
     void primary();
     void secondary();
+    int bench_main();
 
     int main(int argc, char **argv) {
 
-
-
-        enum class Mode {NONE, Primary, Secondary};
+        enum class Mode {NONE, Primary, Secondary, Bench};
 
         Mode mode = Mode::NONE;
 
         if (argc < 2)
-            fail_and_exit();
-        mode = strcmp(argv[1], "-p") == 0 ? Mode::Primary :
-               strcmp(argv[1], "-s") == 0 ? Mode::Secondary: Mode::NONE;
+        fail_and_exit();
+
+        mode = strcmp(argv[1], "-p") == 0 ? Mode::Primary   :
+               strcmp(argv[1], "-s") == 0 ? Mode::Secondary :
+               strcmp(argv[1], "-b") == 0 ? Mode::Bench     :  Mode::NONE;
+
         if (mode == Mode::NONE)
             fail_and_exit();
+
+
+
         std::string mode_str = mode == Mode::Primary ? "PRI" : "SEC";
 
         Logger::setup(mode_str, true, "log/log.txt");
         Logger::Logger _logger = Logger::get();
         _logger->set_level(spdlog::level::trace);
 
-        _logger->info(">>>>>>>>> running in {} mode <<<<<<<<<", mode_str);
 
+        if (mode == Mode::Bench){
+            if (argc < 3)
+                fail_and_exit();
+            Logger::bench(atoi(argv[2]));
+        }
         if (mode == Mode::Primary)
             primary();
         if (mode == Mode::Secondary)
             secondary();
 
-
-
         return 0;
     }
 
-    void fail_and_exit(){
+    void fail_and_exit() {
         printf("Usage %s -s | -c");
         exit(EXIT_FAILURE);
     }
@@ -71,12 +79,12 @@ int main(int argc, char **argv) {
     const std::string D_PRI = "PRI";
     const std::string D_SEC = "SEC";
 
-    void primary(){
+    void primary() {
         dispatcher::Dispatcher disp(D_PRI);
         disp.connect_to_other(D_SEC);
         DemoClient client(D_PRI, "Primary");
 
-        client.subscribe({EventType::Event12, EventType::SomeEvent});
+        client.subscribe( {EventType::Event12, EventType::SomeEvent});
         Event e = {EventType::Event12, true, 23};
 
         client.send(e, 3);
@@ -89,7 +97,7 @@ int main(int argc, char **argv) {
         usleep(1000*1000);
     }
 
-    void secondary(){
+    void secondary() {
         dispatcher::Dispatcher disp(D_SEC);
         disp.connect_to_other(D_PRI);
         DemoClient client(D_SEC, "Secondary");

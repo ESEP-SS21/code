@@ -23,8 +23,10 @@ public:
         return spdlog::get(_name);
     }
     void setup(const std::string &name, bool console, const std::string &file = "");
+    void bench(int);
 
 };
+
 
 inline std::shared_ptr<spdlog::logger> get() {
     auto& t = Internal::get_instance();
@@ -34,5 +36,10 @@ inline std::shared_ptr<spdlog::logger> get() {
 inline void setup(const std::string &name, bool console, const std::string &file = "") {
     Internal::get_instance().setup(name, console, file);
 }
+
+inline void bench(int howmany) {
+    Internal::get_instance().bench(howmany);
+}
+
 
 } /* namespace */
