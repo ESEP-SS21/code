@@ -15,7 +15,7 @@ namespace dispatcher {
 class Dispatcher {
 public:
     Dispatcher(const std::string &name);
-    void connect_to_other(const std::string &name);
+    void connect_to_other(const std::string &other_dispacher_name);
     virtual ~Dispatcher();
 
 private:

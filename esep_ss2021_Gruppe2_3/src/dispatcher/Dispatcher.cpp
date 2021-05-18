@@ -18,9 +18,9 @@ Dispatcher::~Dispatcher() {
     _dispatcher_thread.join();
 }
 
-void Dispatcher::connect_to_other(const std::string &name) {
+void Dispatcher::connect_to_other(const std::string &other_dispacher_name) {
     _other_connection = std::unique_ptr<cnnMngmnt::QnxConnection>(
-            new cnnMngmnt::QnxConnection(name));
+            new cnnMngmnt::QnxConnection(other_dispacher_name));
 }
 
 void Dispatcher::run() {
