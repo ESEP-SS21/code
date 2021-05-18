@@ -67,7 +67,8 @@ void Dispatcher::handle_sync_msg(cnnMngmnt::header_t header) {
 }
 
 void Dispatcher::subscribe(EventSubscription subscr) {
-    if (_chid_conn_map.find(subscr.chid) == _chid_conn_map.end()) { //no connection for this chid yet
+    if (_chid_conn_map.find(subscr.chid) == _chid_conn_map.end()) {
+        //no connection for this chid yet, create a new one
         _chid_conn_map[subscr.chid] = std::shared_ptr<cnnMngmnt::QnxConnection>(
                 new cnnMngmnt::QnxConnection(subscr.chid));
     }
@@ -95,8 +96,7 @@ void Dispatcher::handle_qnx_io_msg(cnnMngmnt::header_t header) const {
         _logger->trace(LOG_FORMAT2, "Dispatcher received", "_IO_CONNECT");
         return;
     }
-    // Some other QNX IO message was received
-    _logger->error("Dispatcher received unexpected (sync.) msg type '{}'", header.type);
+    _logger->error("Dispatcher received unexpected sync. QNX IO with type '{}'", header.type);
     _channel->msg_reply_error(ENOSYS);
 }
 

@@ -11,6 +11,12 @@ enum class MsgType {
     puls, sync, error
 };
 
+/**
+ * Used for receiving and replying to messages
+ * If an attach_string is provided in the constructor,
+ * the name is registered in the namespace, otherwise an
+ * unnamed channel is created.
+ */
 class QnxChannel {
 public:
     QnxChannel();
