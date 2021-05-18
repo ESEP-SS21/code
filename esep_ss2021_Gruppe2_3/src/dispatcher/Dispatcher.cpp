@@ -71,7 +71,7 @@ void Dispatcher::subscribe(EventSubscription subscr) {
         _chid_conn_map[subscr.chid] = std::shared_ptr<cnnMngmnt::QnxConnection>(
                 new cnnMngmnt::QnxConnection(subscr.chid));
     }
-    _evnt_conn_multimap[static_cast<int>(subscr.type)].insert(_chid_conn_map[subscr.chid]);
+    _subscriptons[static_cast<int>(subscr.type)].insert(_chid_conn_map[subscr.chid]);
 }
 
 void Dispatcher::dispatch(Event e) const {
@@ -83,7 +83,7 @@ void Dispatcher::dispatch(Event e) const {
         _logger->trace(LOG_FORMAT2, "Dispatcher broadcasted", e.str());
     }
 
-    for (auto& connection : _evnt_conn_multimap[evnt_id]) {
+    for (auto& connection : _subscriptons[evnt_id]) {
         connection->msg_send_pulse(1, evnt_id, e.payload);
     }
     _logger->trace(LOG_FORMAT2, "Dispatcher dispatched", e.str());
