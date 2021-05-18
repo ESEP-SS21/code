@@ -57,6 +57,6 @@ void QnxChannel::msg_read(void *msg, _Sizet size, _Sizet offset) const {
     MsgRead(_last_message_id, msg, size, offset);
 }
 
-}
-} /* namespace utils */
+} /* namespace cnnMngmnt*/
+} /* namespace dispatcher*/
 

@@ -24,5 +24,5 @@ private:
     int _id;
 };
 
-}
-} /* namespace connManagement */
+} /* namespace cnnMngmnt*/
+} /* namespace dispatcher*/

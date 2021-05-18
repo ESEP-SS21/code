@@ -60,4 +60,4 @@ struct EventSubscription {
     cnnMngmnt::chid chid;
 };
 
-}
+} /* namespace dispatcher */

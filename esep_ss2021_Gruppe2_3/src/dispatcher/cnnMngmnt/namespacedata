@@ -19,7 +19,7 @@ using chid = int;
 using status_code = int;
 using conid = int;
 
-}
-} /* connManagement dispatcher */
+} /* namespace */
+} /* namespace */
 
 #define LOG_FORMAT2 "{:<33} '{}'"

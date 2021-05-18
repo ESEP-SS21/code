@@ -39,7 +39,7 @@ private:
      * nullptr when channel is unnamed
      */
     name_attach_t* _attach { nullptr };
-
 };
-}
-} /* namespace utils */
+
+} /* namespace cnnMngmnt*/
+} /* namespace dispatcher*/
