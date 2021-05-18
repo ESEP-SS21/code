@@ -91,7 +91,8 @@ void HalManager::int_rec_fnct() {
                 _hal->get_height_sensor().get()->reset_interrupt();
                 InterruptUnmask(ADC_IRQ_NR, intIdADC);
                 int height_raw = _hal->get_height_sensor().get()->get_value();
-                dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_HEIGHT_HE,height_raw,false};
+                float mm = _hal->get_height_sensor().get()->convert_to_mm(height_raw)*10;
+                dispatcher::Event e = {dispatcher::EventType::EVNT_SEN_HEIGHT_HE,static_cast<int>(mm),false};
                 send(e,20);
                 continue;
             }

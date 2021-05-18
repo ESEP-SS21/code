@@ -20,8 +20,12 @@ void HeightSensor::reset_interrupt(){
     out32(ADC_IRQ_STATUS(_adc_bank), 0x2);
 }
 
-float HeightSensor::convert_to_mm(int height){
-    return 1;
+float HeightSensor::convert_to_mm(int x){
+    float height_mm = 8.8347321472424051e+002;
+    height_mm += -9.0520182685113570e-001 * x;
+    height_mm += 3.1681822091607879e-004 * x * x;
+    height_mm += -3.7026935208953069e-008 *x*x*x;
+    return height_mm;
 }
 
 void HeightSensor::set_zero_point(int zero_point){
