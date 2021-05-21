@@ -1,8 +1,7 @@
-#include "gpiowrapper.h"
-
 #include <iostream>
 #include <sys/mman.h>
-#include "simqnxgpioapi.h"
+#include "gpiowrapper.h"
+
 
 namespace hal {
 
@@ -13,6 +12,7 @@ GPIOWrapper::GPIOWrapper() {
             (uint64_t ) gpio_adresses::GPIO_BASE_BANK1);
     _bank_led = mmap_device_io(gpio_adresses::GPIO_SIZE,
             (uint64_t ) gpio_adresses::GPIO_BASE_BANK2);
+    out32((uintptr_t ) (_bank_input + gpio_adresses::GPIO_OE), 0xFFFFFFFF); //set all pins to input
 }
 
 GPIOWrapper::~GPIOWrapper() {
@@ -55,6 +55,13 @@ void GPIOWrapper::enable_interrupt_falling(uint32_t bank, uint32_t pin) {
 
 void GPIOWrapper::enable_interrupt_rising(uint32_t bank, uint32_t pin) {
     add_bit_to_register(bank, gpio_adresses::GPIO_RAISINGDETECT, pin);
+}
+
+void GPIOWrapper::reset_interrupt(){
+    // before reset we want to read the iir register
+    uint32_t iir = in32(_bank_input+gpio_adresses::GPIO_IRQSTATUS_1);
+    // reset irq register
+    out32(_bank_input+gpio_adresses::GPIO_IRQSTATUS_1, iir);
 }
 
 // Sets a single bit in a register and erases the other ones

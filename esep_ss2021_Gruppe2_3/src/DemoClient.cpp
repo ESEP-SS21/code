@@ -13,5 +13,5 @@ void DemoClient::handle(dispatcher::Event& event) {
 }
 
 DemoClient::~DemoClient() {
-    // TODO Auto-generated destructor stub
+
 }

@@ -11,12 +11,105 @@ namespace dispatcher {
 #define EVNT_PREFIX "EVNT_"
 
 enum class EventType { //make sure to add a string representation for each value
-    SomeEvent = 0, AnotherEvent, Event12, SIZE = 64
+    EVNT_ERR = 0,
+    EVNT_ERR_GONE,
+    EVNT_WRN,
+    EVNT_WRN_GONE,
+    EVNT_HRTB,
+    EVNT_ACK,
+    EVNT_SEN_LB_ST_BLCK,
+    EVNT_SEN_LB_ST_CLR,
+    EVNT_SEN_LB_SW_BLCK,
+    EVNT_SEN_LB_SW_CLR,
+    EVNT_SEN_LB_RA_BLCK,
+    EVNT_SEN_LB_RA_CLR,
+    EVNT_SEN_LB_EN_BLCK,
+    EVNT_SEN_LB_EN_CLR,
+    EVNT_SEN_LB_HE_BLCK,
+    EVNT_SEN_LB_HE_CLR,
+    EVNT_SEN_METAL_DTC,
+    EVNT_SEN_HEIGHT_REQ,
+    EVNT_SEN_HEIGHT_HE,
+    EVNT_SEN_ESTOP_ON,
+    EVNT_SEN_ESTOP_OFF,
+    EVNT_CTRL_T_STR_PRS_LNG,
+    EVNT_CTRL_T_STR_PRS_SRT,
+    EVNT_CTRL_T_STP_PRS_LNG,
+    EVNT_CTRL_T_STP_PRS_SRT,
+    EVNT_CTRL_T_RST_PRS_LNG,
+    EVNT_CTRL_T_RST_PRS_SRT,
+    EVNT_ACT_CTRL_T_STR_LED_ON,
+    EVNT_ACT_CTRL_T_STR_LED_OFF,
+    EVNT_ACT_CTRL_T_RST_LED_ON,
+    EVNT_ACT_CTRL_T_RST_LED_OFF,
+    EVNT_ACT_BELT_BWD,
+    EVNT_ACT_BELT_FWD,
+    EVNT_ACT_BELT_STP,
+    EVNT_ACT_SORT_DSC,
+    EVNT_ACT_SORT_NO_DSC,
+    EVNT_ACT_SORT_RST,
+    EVNT_ACT_STPL_LED_ON,
+    EVNT_ACT_STPL_LED_OFF,
+    EVNT_ACT_STPL_LED_BLNK_FST,
+    EVNT_ACT_STPL_LED_BLNK_SLW,
+    EVNT_WRPC_TRNS_RQ,
+    EVNT_WRPC_FLP,
+    EVNT_MOD_IDL,
+    EVNT_MOD_OP,
+    EVNT_MOD_ERR,
+    SIZE = 64
 };
 
 inline std::ostream& operator<<(std::ostream& out, const EventType& e) {
-    static const std::string strs[static_cast<int>(EventType::SIZE) + 1] = { "SomeEvent",
-            "AnotherEvent", "Event12", };
+    static const std::string strs[static_cast<int>(EventType::SIZE) + 1] = {
+            "EVNT_ERR",
+            "EVNT_ERR_GONE",
+            "EVNT_WRN",
+            "EVNT_WRN_GONE",
+            "EVNT_HRTB",
+            "EVNT_ACK",
+            "EVNT_SEN_LB_ST_BLCK",
+            "EVNT_SEN_LB_ST_CLR",
+            "EVNT_SEN_LB_SW_BLCK",
+            "EVNT_SEN_LB_SW_CLR",
+            "EVNT_SEN_LB_RA_BLCK",
+            "EVNT_SEN_LB_RA_CLR",
+            "EVNT_SEN_LB_EN_BLCK",
+            "EVNT_SEN_LB_EN_CLR",
+            "EVNT_SEN_LB_HE_BLCK",
+            "EVNT_SEN_LB_HE_CLR",
+            "EVNT_SEN_METAL_DTC",
+            "EVNT_SEN_HEIGHT_REQ",
+            "EVNT_SEN_HEIGHT_HE",
+            "EVNT_SEN_ESTOP_ON",
+            "EVNT_SEN_ESTOP_OFF",
+            "EVNT_CTRL_T_STR_PRS_LNG",
+            "EVNT_CTRL_T_STR_PRS_SRT",
+            "EVNT_CTRL_T_STP_PRS_LNG",
+            "EVNT_CTRL_T_STP_PRS_SRT",
+            "EVNT_CTRL_T_RST_PRS_LNG",
+            "EVNT_CTRL_T_RST_PRS_SRT",
+            "EVNT_ACT_CTRL_T_STR_LED_ON",
+            "EVNT_ACT_CTRL_T_STR_LED_OFF",
+            "EVNT_ACT_CTRL_T_RST_LED_ON",
+            "EVNT_ACT_CTRL_T_RST_LED_OFF",
+            "EVNT_ACT_BELT_BWD",
+            "EVNT_ACT_BELT_FWD",
+            "EVNT_ACT_BELT_STP",
+            "EVNT_ACT_SORT_DSC",
+            "EVNT_ACT_SORT_NO_DSC",
+            "EVNT_ACT_SORT_RST",
+            "EVNT_ACT_STPL_LED_ON",
+            "EVNT_ACT_STPL_LED_OFF",
+            "EVNT_ACT_STPL_LED_BLNK_FST",
+            "EVNT_ACT_STPL_LED_BLNK_SLW",
+            "EVNT_WRPC_TRNS_RQ",
+            "EVNT_WRPC_FLP",
+            "EVNT_MOD_IDL",
+            "EVNT_MOD_OP",
+            "EVNT_MOD_ERR",
+
+    };
     return out << EVNT_PREFIX << strs[static_cast<int>(e)];
 }
 
@@ -31,7 +124,7 @@ struct Event {
     int payload;
     bool broadcast;
 
-    Event(EventType type, bool broadcast, int payload) :
+    Event(EventType type, int payload, bool broadcast) :
             type(type), payload(payload), broadcast(broadcast) {
     }
 

@@ -33,6 +33,10 @@ QnxConnection::QnxConnection(chid receiver_chid) {
     }
 }
 
+int QnxConnection::get_id(){
+    return _id;
+}
+
 QnxConnection::~QnxConnection() {
     ConnectDetach(_id);
 }
