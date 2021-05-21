@@ -20,13 +20,13 @@ using id = uint32_t;
 class Workpiece {
 public:
     WorkpieceType type = WorkpieceType::unknown;
-    const id wrpc_id = 0;
+    const id wprc_id = 0;
     float height_1;
     float height_2;
     bool is_metallic;
     bool is_flipped;
 
-    Workpiece();
+    Workpiece(id);
     Workpiece(EncodedWorkpiece);
     virtual ~Workpiece ();
 

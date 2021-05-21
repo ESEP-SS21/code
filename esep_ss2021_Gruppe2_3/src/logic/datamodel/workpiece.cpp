@@ -10,11 +10,12 @@
 namespace logic {
 namespace datamodel {
 
-Workpiece::Workpiece() {
-
+Workpiece::Workpiece(id wprc_id) : wprc_id(wprc_id) {
+    is_metallic = false;
+    is_flipped = false;
 }
 
-Workpiece::Workpiece(EncodedWorkpiece enc_wrpc) {
+Workpiece::Workpiece(EncodedWorkpiece encoded_wrpc) {
 
 }
 
