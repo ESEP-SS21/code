@@ -32,6 +32,8 @@ struct Event {
     int payload;
     bool broadcast;
 
+    Event() = default;
+
     Event(EventType type, bool broadcast, int payload) :
             type(type), payload(payload), broadcast(broadcast) {
     }
@@ -64,13 +66,14 @@ struct EventSubscription {
 using nlohmann::json;
 
 inline void to_json(json& j, const Event& e) {
-    j = json{{"EVNT", str(e.type)}, {"PAYL", e.payload}};
+    j = json{{"TYPE", str(e.type)}, {"PAYL", e.payload}, {"BROAD", e.broadcast}};
 }
 
 inline void from_json(const json& j, Event& e) { //TODO make this work
-    j.at("EVNT").get_to(e.type);
+    j.at("TYPE").get_to(e.type);
     j.at("PAYL").get_to(e.payload);
-    e.broadcast = false;
+    j.at("BROAD").get_to(e.broadcast);
+    //e.broadcast = false;
 }
 
 }

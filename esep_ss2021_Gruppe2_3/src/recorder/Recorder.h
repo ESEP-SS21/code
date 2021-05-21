@@ -11,9 +11,11 @@ public:
     Recorder();
     virtual ~Recorder() = default;
     void record(Event e);
+    void replay(json j);
 
 private:
     std::ofstream _file;
+    std::string _date;
 };
 
 } /* namespace */
