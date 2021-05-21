@@ -72,7 +72,7 @@ int main(int argc, char **argv) {
     void primary(){
         dispatcher::Dispatcher disp(D_PRI);
         //disp.connect_to_other(D_SEC);
-        //timer::AsyncTimerService timer_svc(D_PRI);
+        timer::AsyncTimerService timer_svc(D_PRI);
         hal::HalManager hal_mngr(D_PRI);
         DemoClient client(D_PRI, "DEMO");
         usleep(1000*1000*1000);
