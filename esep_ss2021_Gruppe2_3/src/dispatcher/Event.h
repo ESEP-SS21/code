@@ -57,6 +57,8 @@ enum class EventType { //make sure to add a string representation for each value
     EVNT_MOD_IDL,
     EVNT_MOD_OP,
     EVNT_MOD_ERR,
+    EVNT_TIM_REQ,
+    EVNT_TIM_ALRT,
     SIZE = 64
 };
 
@@ -108,6 +110,8 @@ inline std::ostream& operator<<(std::ostream& out, const EventType& e) {
             "EVNT_MOD_IDL",
             "EVNT_MOD_OP",
             "EVNT_MOD_ERR",
+            "EVNT_TIM_REQ",
+            "EVNT_TIM_ALRT",
 
     };
     return out << EVNT_PREFIX << strs[static_cast<int>(e)];
@@ -143,6 +147,10 @@ struct Event {
         std::ostringstream buffer;
         buffer << type << " payload: " << payload;
         return buffer.str();
+    }
+
+    static int generate_timer_payload(uint16_t return_req, uint16_t val_ms){
+        return (return_req<<16)+val_ms;
     }
 
 private:

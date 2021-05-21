@@ -21,13 +21,13 @@ public:
 private:
     void run();
     void handle_qnx_io_msg(cnnMngmnt::header_t header);
-
     Logger::Logger _logger { Logger::get() };
     bool _is_running { true };
     std::string _name;
     std::string _dispatcher_name;
     std::unique_ptr<cnnMngmnt::QnxChannel> _channel;
     std::unique_ptr<cnnMngmnt::QnxConnection> _dispatcher_connection;
+
     std::thread _client_thread;
 };
 
