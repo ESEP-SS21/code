@@ -7,10 +7,13 @@
 namespace dispatcher {
 namespace cnnMngmnt {
 
+/**
+ * Used for sending messages to a QnxChannel.
+ */
 class QnxConnection {
 public:
-    QnxConnection(const std::string &name);
-    QnxConnection(cnnMngmnt::chid chid);
+    QnxConnection(const std::string &receiver_attach_string);
+    QnxConnection(cnnMngmnt::chid receiver_chid);
     virtual ~QnxConnection();
     int get_id();
     void msg_send_pulse(int priority, int code, int value) const;
@@ -21,5 +24,5 @@ private:
     int _id;
 };
 
-}
-} /* namespace connManagement */
+} /* namespace cnnMngmnt*/
+} /* namespace dispatcher*/

@@ -132,10 +132,9 @@ struct Event {
             payload(header.value.sival_int), broadcast(false) {
 
         int evnt_id = header.code;
-        if ((evnt_id & 0b01000000) != 0) {
+        if (transmission_bit_set(evnt_id)) {
             broadcast = true;
-            // mask out transmission bit
-            evnt_id = evnt_id & (~0b01000000);
+            evnt_id = mask_out_tranmission_bit(evnt_id);
         }
         type = EventType(evnt_id);
     }
@@ -145,6 +144,15 @@ struct Event {
         buffer << type << " payload: " << payload;
         return buffer.str();
     }
+
+private:
+    bool transmission_bit_set(int evnt_id) {
+        return (evnt_id & 0b01000000) != 0;
+    }
+
+    int mask_out_tranmission_bit(int evnt_id) {
+        return evnt_id & (~0b01000000);
+    }
 };
 
 struct EventSubscription {
@@ -152,4 +160,4 @@ struct EventSubscription {
     cnnMngmnt::chid chid;
 };
 
-}
+} /* namespace dispatcher */

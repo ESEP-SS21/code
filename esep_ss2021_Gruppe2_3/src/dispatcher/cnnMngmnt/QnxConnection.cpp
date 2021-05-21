@@ -6,29 +6,27 @@
 namespace dispatcher {
 namespace cnnMngmnt {
 
-// TODO call ConnectDetach() for correct resource deallocation
-
-QnxConnection::QnxConnection(const std::string &name) {
+QnxConnection::QnxConnection(const std::string &receiver_attach_string) {
     int retry_count = 0;
-    _logger->trace("Connecting to channel '{}'", name);
-    while ((_id = name_open(name.c_str(), NAME_FLAG_ATTACH_GLOBAL)) == -1) {
+    _logger->trace("Connecting to channel '{}'", receiver_attach_string);
+    while ((_id = name_open(receiver_attach_string.c_str(), NAME_FLAG_ATTACH_GLOBAL)) == -1) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         if (retry_count >= 100) {
-            _logger->error("Connecting to channel '{}' failed after {} attempts", name,
-                    retry_count);
+            _logger->error("Connecting to channel '{}' failed after {} attempts",
+                    receiver_attach_string, retry_count);
             break;
         }
         retry_count++;
     }
 }
 
-QnxConnection::QnxConnection(chid chid) {
+QnxConnection::QnxConnection(chid receiver_chid) {
     int retry_count = 0;
-    while ((_id = ConnectAttach(0, 0, chid, _NTO_SIDE_CHANNEL, 0)) == -1) {
+    while ((_id = ConnectAttach(0, 0, receiver_chid, _NTO_SIDE_CHANNEL, 0)) == -1) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         if (retry_count >= 100) {
-            _logger->error("Connecting to channel with chid '{}' failed after {} attempts", chid,
-                    retry_count);
+            _logger->error("Connecting to channel with chid '{}' failed after {} attempts",
+                    receiver_chid, retry_count);
             break;
         }
         retry_count++;
@@ -57,5 +55,5 @@ void QnxConnection::msg_send_pulse(int priority, int code, int value) const {
     }
 }
 
-}
-}/* namespace dispatcher */
+}/* namespace cnnMngmnt*/
+}/* namespace dispatcher*/

@@ -18,9 +18,9 @@ Dispatcher::~Dispatcher() {
     _dispatcher_thread.join();
 }
 
-void Dispatcher::connect_to_other(const std::string &name) {
+void Dispatcher::connect_to_other(const std::string &other_dispacher_name) {
     _other_connection = std::unique_ptr<cnnMngmnt::QnxConnection>(
-            new cnnMngmnt::QnxConnection(name));
+            new cnnMngmnt::QnxConnection(other_dispacher_name));
 }
 
 void Dispatcher::run() {
@@ -62,42 +62,42 @@ void Dispatcher::handle_sync_msg(cnnMngmnt::header_t header) {
         subscribe(subscription);
         _channel->msg_reply(EOK);
 
-        _logger->trace("Dispatcher recieved subscription for '{}'", str(subscription.type));
+        _logger->trace(LOG_FORMAT2, "Dispatcher received subscription for", str(subscription.type));
     }
     //maybe other forms of sync communications
 }
 
 void Dispatcher::subscribe(EventSubscription subscr) {
-    if (_chid_conn_map.find(subscr.chid) == _chid_conn_map.end()) { //no connection for this chid yet
+    if (_chid_conn_map.find(subscr.chid) == _chid_conn_map.end()) {
+        //no connection for this chid yet, create a new one
         _chid_conn_map[subscr.chid] = std::shared_ptr<cnnMngmnt::QnxConnection>(
                 new cnnMngmnt::QnxConnection(subscr.chid));
     }
-    _evnt_conn_multimap[static_cast<int>(subscr.type)].insert(_chid_conn_map[subscr.chid]);
+    _subscriptons[static_cast<int>(subscr.type)].insert(_chid_conn_map[subscr.chid]);
 }
 
 void Dispatcher::dispatch(Event e) const {
     int evnt_id = static_cast<int> (e.type);
-    _logger->trace("Dispatcher received: '{}'", e.str());
+    _logger->trace(LOG_FORMAT2, "Dispatcher received", e.str());
 
     if (e.broadcast && _other_connection != nullptr) {
         _other_connection->msg_send_pulse(1, evnt_id, e.payload);
-        _logger->trace("Dispatcher broadcasted: '{}'", e.str());
+        _logger->trace(LOG_FORMAT2, "Dispatcher broadcasted", e.str());
     }
 
-    for (auto& connection : _evnt_conn_multimap[evnt_id]) {
+    for (auto& connection : _subscriptons[evnt_id]) {
         connection->msg_send_pulse(1, evnt_id, e.payload);
     }
-    _logger->trace("Dispatcher dispatched: '{}'", e.str());
+    _logger->trace(LOG_FORMAT2, "Dispatcher dispatched", e.str());
 }
 
 void Dispatcher::handle_qnx_io_msg(cnnMngmnt::header_t header) const {
     if (header.type == _IO_CONNECT) {
         _channel->msg_reply(EOK);
-        _logger->trace("Dispatcher received _IO_CONNECT");
+        _logger->trace(LOG_FORMAT2, "Dispatcher received", "_IO_CONNECT");
         return;
     }
-    // Some other QNX IO message was received
-    _logger->error("Dispatcher received unexpected (sync.) msg type '{}'", header.type);
+    _logger->error("Dispatcher received unexpected sync. QNX IO with type '{}'", header.type);
     _channel->msg_reply_error(ENOSYS);
 }
 
