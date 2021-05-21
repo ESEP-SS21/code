@@ -2,20 +2,17 @@
  * start_height_section.cpp
  *
  *  Created on: 21.05.2021
- *      Author: justi
+ *      Author: Justin Hoffmann
  */
 
 #include <logic/datamodel/start_height_section.h>
 
+namespace logic {
 namespace datamodel {
 
-StartHeightSection::StartHeightSection() {
-    // TODO Auto-generated constructor stub
+void StartHeightSection::enter_workpiece(Workpiece&) {
 
-}
-
-StartHeightSection::~StartHeightSection() {
-    // TODO Auto-generated destructor stub
 }
 
 } /* namespace datamodel */
+} /* namespace logic */
