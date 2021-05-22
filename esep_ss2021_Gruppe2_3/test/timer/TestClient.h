@@ -15,7 +15,6 @@
 #include "../src/dispatcher/Event.h"
 #include "../src/dispatcher/SyncMsg.h"
 
-
 class TestClient {
 public:
     TestClient(const std::string& dispatcher_name, const std::string& name);
@@ -34,6 +33,4 @@ private:
 };
 
 #endif
-
-
 

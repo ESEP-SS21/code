@@ -5,9 +5,9 @@ using namespace dispatcher;
 TestClient::TestClient(const std::string& dispatcher_name, const std::string& name) :
         _name { name }, _dispatcher_name { dispatcher_name }, _channel(nullptr) {
 
-    _channel = std::unique_ptr < cnnMngmnt::QnxChannel > (new cnnMngmnt::QnxChannel());
-    _dispatcher_connection = std::unique_ptr < cnnMngmnt::QnxConnection
-            > (new cnnMngmnt::QnxConnection(_dispatcher_name));
+    _channel = std::unique_ptr<cnnMngmnt::QnxChannel>(new cnnMngmnt::QnxChannel());
+    _dispatcher_connection = std::unique_ptr<cnnMngmnt::QnxConnection>(
+            new cnnMngmnt::QnxConnection(_dispatcher_name));
 }
 
 TestClient::TestClient::~TestClient() {
@@ -47,12 +47,10 @@ void TestClient::send(Event event, int priority) const {
     _dispatcher_connection->msg_send_pulse(priority, code, event.payload);
 }
 
-
 Event TestClient::recieve_event() {
     cnnMngmnt::header_t header;
     cnnMngmnt::MsgType msg_type = _channel->msg_receive(&header, sizeof(cnnMngmnt::header_t));
     Event e(header);
     return e;
 }
-
 
