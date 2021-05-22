@@ -21,11 +21,18 @@ void HeightSensor::reset_interrupt() {
 }
 
 float HeightSensor::convert_to_mm(int x) {
-    float height_mm = 8.8347321472424051e+002;
-    height_mm += -9.0520182685113570e-001 * x;
-    height_mm += 3.1681822091607879e-004 * x * x;
-    height_mm += -3.7026935208953069e-008 * x * x * x;
-    return height_mm + _zero_point;
+    float height_mm = 0;
+    if(x<3400){
+        height_mm += 649.45;
+        height_mm = height_mm - 0.1698241 * x;
+    }else{
+        height_mm += 932.20;
+        height_mm = height_mm - 0.2558823 * x;
+    }
+    if(height_mm<0){
+        height_mm = 0;
+    }
+    return height_mm - _zero_point;
 }
 
 void HeightSensor::set_zero_point(int zero_point) {
