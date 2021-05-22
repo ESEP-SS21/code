@@ -18,19 +18,19 @@ namespace datamodel {
 
 class CBSection {
 public:
-    CBSection(const CBSection& next_section);
-    virtual ~CBSection();
+    CBSection(std::shared_ptr<CBSection> next_section);
 
     int size();
     const Workpiece& back();
     const Workpiece& front();
     void transfer();
+    void enter_workpiece(Workpiece&);
     void exit_first();
 
 protected:
     mutable std::mutex _section_mutex;
     std::unique_ptr<std::queue<Workpiece>> _queue;
-    const CBSection& _next_section;
+    std::shared_ptr<CBSection> _next_section;
 };
 
 } /* namespace datamodel */
