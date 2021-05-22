@@ -10,25 +10,18 @@
 namespace logic {
 namespace datamodel {
 
-EncodedWorkpiece::EncodedWorkpiece(uint32_t code) {
-
-}
-
-EncodedWorkpiece::~EncodedWorkpiece() {
-
-}
-
+EncodedWorkpiece::EncodedWorkpiece(uint32_t code) : code(code) {}
 
 id EncodedWorkpiece::get_id() {
-    return 0;
+    return code & ID_MASK;
 }
 
 float EncodedWorkpiece::get_height() {
-    return 0;
+    return (code & HEIGHT_MASK) >> 21;
 }
 
 WorkpieceType EncodedWorkpiece::get_type() {
-
+    return static_cast<WorkpieceType>((code & TYPE_MASK) >> 30);
 }
 
 } /* namespace datamodel */

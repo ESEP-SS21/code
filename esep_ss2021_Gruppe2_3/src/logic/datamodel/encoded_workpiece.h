@@ -11,6 +11,10 @@
 #include <cstdint>
 #include "workpiece_type.h"
 
+static constexpr uint32_t ID_MASK = 0x1fffff;
+static constexpr uint32_t HEIGHT_MASK = 0x3fe00000;
+static constexpr uint32_t TYPE_MASK = 0xc0000000;
+
 namespace logic {
 namespace datamodel {
 
@@ -18,10 +22,9 @@ using id = uint32_t;
 
 class EncodedWorkpiece {
 public:
-    const uint32_t code = 0;
+    const uint32_t code;
 
     EncodedWorkpiece(uint32_t code);
-    virtual ~EncodedWorkpiece();
 
     id get_id();
     float get_height();
