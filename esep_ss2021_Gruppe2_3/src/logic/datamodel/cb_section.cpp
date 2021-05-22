@@ -10,7 +10,7 @@
 namespace logic {
 namespace datamodel {
 
-CBSection::CBSection(CBSection& next_section) : _next_section(next_section) {
+CBSection::CBSection(const CBSection& next_section) : _next_section(next_section) {
 
 }
 

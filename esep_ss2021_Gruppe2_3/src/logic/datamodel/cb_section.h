@@ -16,7 +16,7 @@ namespace datamodel {
 
 class CBSection {
 public:
-    CBSection(CBSection&);
+    CBSection(const CBSection&);
     virtual ~CBSection();
 
     int size();
@@ -27,7 +27,7 @@ public:
 
 private:
     std::queue<Workpiece> _queue;
-    CBSection& _next_section;
+    const CBSection& _next_section;
 };
 
 } /* namespace datamodel */
