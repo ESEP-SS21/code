@@ -25,7 +25,7 @@ Workpiece::Workpiece(EncodedWorkpiece& encoded_wrpc, int encoded_id) : wprc_id(e
     type = encoded_wrpc.get_type();
 }
 
-EncodedWorkpiece& Workpiece::encode() {
+EncodedWorkpiece& Workpiece::encode() const {
     //return EncodedWorkpiece(id | (height_1 << 21) | (type << 30));
 }
 

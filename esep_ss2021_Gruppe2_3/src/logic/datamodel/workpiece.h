@@ -30,7 +30,7 @@ public:
     Workpiece();
     Workpiece(EncodedWorkpiece&, int encoded_id);
 
-    EncodedWorkpiece& encode();
+    EncodedWorkpiece& encode() const;
     void determine_workpiece_type();
 
 private:
