@@ -15,7 +15,7 @@
 namespace logic {
 namespace datamodel {
 
-#define HEIGHT_TOLERANCE 20
+#define HEIGHT_TOLERANCE 20 //adjustable
 
 #define HIGH_INTERVALL_MIN 250-HEIGHT_TOLERANCE
 #define HIGH_INTERVALL_MAX 254+HEIGHT_TOLERANCE
@@ -49,6 +49,9 @@ public:
     void determine_workpiece_type();
 
 private:
+    /**
+     * automatische ID-Zuweisung
+     */
     static id _last_id;
 };
 
