@@ -16,9 +16,9 @@ namespace datamodel {
 
 class UnitData {
 public:
-    bool belt_is_blocked;
-    bool ramp_full;
-    std::shared_ptr<Workpiece> _pending_transfer;
+    bool belt_is_blocked = false;
+    bool ramp_full = false;
+    Workpiece* _pending_transfer = nullptr;
 
     UnitData();
     virtual ~UnitData();
@@ -32,9 +32,9 @@ public:
     std::shared_ptr<CBSection> get_start_height_sec() const;
 
 protected:
-    const std::shared_ptr<CBSection> switch_end_sec = std::make_shared<CBSection>();
-    const std::shared_ptr<CBSection> height_switch_sec = std::make_shared<CBSection>(switch_end_sec);
-    const std::shared_ptr<CBSection> start_height_sec = std::make_shared<CBSection>(height_switch_sec);
+    const std::shared_ptr<CBSection> _switch_end_sec = std::make_shared<CBSection>();
+    const std::shared_ptr<CBSection> _height_switch_sec = std::make_shared<CBSection>(_switch_end_sec);
+    const std::shared_ptr<CBSection> _start_height_sec = std::make_shared<CBSection>(_start_height_sec);
 
     WorkpieceType _next_in_order = WorkpieceType::WRPC_HM;
     mutable std::mutex _unit_mutex;
