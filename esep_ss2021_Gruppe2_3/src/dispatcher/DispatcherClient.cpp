@@ -45,7 +45,6 @@ void DispatcherClient::subscribe(EventType event_type) {
     }
     const std::string t = fmt::format("Client '{}' subscr to", _name);
     _logger->trace(LOG_FORMAT2, t, str(event_type));
-
 }
 
 void DispatcherClient::send(Event event, int priority) const {
