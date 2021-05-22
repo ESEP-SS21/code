@@ -8,7 +8,7 @@ public:
     DemoClient(const std::string& dispatcher_name, const std::string& name);
     virtual ~DemoClient();
 
-    void handle(dispatcher::Event& event);
 private:
+    void handle(dispatcher::Event& event) override;
     Logger::Logger _logger { Logger::get() };
 };
