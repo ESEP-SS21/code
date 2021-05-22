@@ -11,7 +11,7 @@ public:
     Recorder();
     virtual ~Recorder() = default;
     void record(Event e);
-    void replay(json j);
+    void replay(const std::string &input);
 
 private:
     std::ofstream _file;

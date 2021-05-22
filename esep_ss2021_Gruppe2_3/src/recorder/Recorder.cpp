@@ -1,6 +1,7 @@
 #include <nlohmann/json.hpp>
 #include <recorder/Recorder.h>
 #include <thread>
+#include <ctime>
 
 #include "utils.h"
 
@@ -23,7 +24,7 @@ void Recorder::record(Event event){
     const long ms = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now() - utils::start_time).count() ;
     json j_ev = event;
-    json j_ms = {{"TIME", ms}, {"EVNT", event}};
+    json j_ms = {{"time", ms}, {"evnt", event}};
     j.push_back(j_ms);
 
     _file = std::ofstream("records/" + _date + ".json", std::ofstream::trunc);
@@ -31,14 +32,21 @@ void Recorder::record(Event event){
     _file.close();
 }
 
-void replay(json j){
+void Recorder::replay(const std::string& input){
     using nlohmann::json;
 
-    auto event = j.get<Event>();
+    std::ifstream json_file(input);
+    json j = json::parse(json_file);
 
-    std::cout << "Hello" << std::endl;
+    int prev_ms = 0;
+    for(unsigned i = 0; i < j.size(); i++){
+        int ms = j[i]["time"];
+        auto event = j[i]["evnt"].get<Event>();
+        std::this_thread::sleep_for(std::chrono::milliseconds(ms-prev_ms));
+        ms = prev_ms;
+        //TODO: Dispatch Event
 
-
+    }
 }
 
 } /* namespace */
