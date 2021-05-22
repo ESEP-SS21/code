@@ -14,9 +14,11 @@ constexpr int timerToleranceMs = 10;
 const std::string dispatcherPrefix = "TEST_DISP";
 const std::string clienetPrefix = "TEST_CLIENT";
 
-std::string getUniqueDispatcherName(std::string name) {
+#define __TC_NAME__ ::testing::UnitTest::GetInstance()->current_test_info()->name()
+
+std::string getUniqueDispatcherName() {
     static int i = 0;
-    return fmt::format("{}_{}_{}", dispatcherPrefix, i++, name);
+    return fmt::format("{}_{}_{}", dispatcherPrefix, i++, __TC_NAME__);
 }
 
 class TimerTest: public ::testing::Test {
@@ -25,12 +27,12 @@ protected:
     std::unique_ptr<timer::AsyncTimerService> _timerService;
     std::unique_ptr<TestClient> _testClient;
     TimerTest() {
-        const std::string DISPATCHER_NAME = getUniqueDispatcherName(__FUNCTION__);
+        const std::string DISPATCHER_NAME = getUniqueDispatcherName();
         _dispatcher = std::unique_ptr<Dispatcher>(new Dispatcher(DISPATCHER_NAME));
         _timerService = std::unique_ptr<timer::AsyncTimerService>(
                 new timer::AsyncTimerService(DISPATCHER_NAME));
         _testClient = std::unique_ptr<TestClient>(
-                new TestClient(DISPATCHER_NAME, fmt::format("{}_{}", clienetPrefix, __FUNCTION__)));
+                new TestClient(DISPATCHER_NAME, fmt::format("{}_{}", clienetPrefix, __TC_NAME__)));
         _testClient->subscribe(EventType::EVNT_TIM_ALRT);
     }
 
@@ -62,8 +64,8 @@ protected:
         this->_testClient->send(e1, 20);
         this->_testClient->recieve_event();
         auto time_end = std::chrono::high_resolution_clock::now();
-        auto actual_ms_time =
-                std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_start).count();
+        auto actual_ms_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+                time_end - time_start).count();
 
         ASSERT_TRUE(actual_ms_time < ms_time + timerToleranceMs && actual_ms_time >= ms_time);
     }
@@ -78,6 +80,10 @@ TEST_F(TimerTest, ReturnedEventShouldEqualExpectedEventCode) {
 TEST_F(TimerTest, TimePeriodShouldBeWithinTolerance) {
     this->testSingleTimerTimePeriod(50, 44);
     this->testSingleTimerTimePeriod(1500, 44);
+}
+
+bool timeIsWithinTolerance(long expected, long actual) {
+    return (actual < expected + timerToleranceMs && actual >= expected);
 }
 
 TEST_F(TimerTest, MultipleTimers) {
@@ -98,13 +104,14 @@ TEST_F(TimerTest, MultipleTimers) {
     dispatcher::Event rcv1 = this->_testClient->recieve_event();
     auto time_end = std::chrono::high_resolution_clock::now();
     ASSERT_EQ(rcv1.payload, payload1);
-    auto actual_ms_time =
-            std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_start).count();
-    ASSERT_TRUE(actual_ms_time < expectedTimeShort + timerToleranceMs && actual_ms_time >= expectedTimeShort);
+    auto actual_ms_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+            time_end - time_start).count();
+    timeIsWithinTolerance(expectedTimeShort, actual_ms_time);
 
     dispatcher::Event rcv2 = this->_testClient->recieve_event();
     time_end = std::chrono::high_resolution_clock::now();
     ASSERT_EQ(rcv2.payload, payload2);
-    actual_ms_time = std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_start).count();
-    ASSERT_TRUE(actual_ms_time < expectedTimeLong + timerToleranceMs && actual_ms_time >= expectedTimeLong);
+    actual_ms_time =
+            std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_start).count();
+    timeIsWithinTolerance(expectedTimeLong, actual_ms_time);
 }
