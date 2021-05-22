@@ -27,7 +27,7 @@ public:
     EncodedWorkpiece(uint32_t code);
 
     id get_id();
-    float get_height();
+    int get_height();
     WorkpieceType get_type();
 };
 

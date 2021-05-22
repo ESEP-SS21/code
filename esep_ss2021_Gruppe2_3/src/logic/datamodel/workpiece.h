@@ -19,22 +19,22 @@ using id = uint32_t;
 
 class Workpiece {
 public:
-    WorkpieceType type = WorkpieceType::unknown;
     const id wprc_id = 0;
-    float height_1;
-    float height_2;
-    bool is_metallic;
-    bool is_flipped;
+
+    WorkpieceType type = WorkpieceType::unknown;
+    int height_1 = 0;
+    int height_2 = 0;
+    bool is_metallic = false;
+    bool is_flipped = false;
 
     Workpiece(id);
     Workpiece(EncodedWorkpiece);
-    virtual ~Workpiece ();
 
     EncodedWorkpiece encode();
     void determine_workpiece_type();
 
 private:
-    id _last_id;
+    static id _last_id;
 };
 
 } /* namespace datamodel */

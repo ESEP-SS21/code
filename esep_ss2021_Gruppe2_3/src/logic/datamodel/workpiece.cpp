@@ -10,21 +10,16 @@
 namespace logic {
 namespace datamodel {
 
-Workpiece::Workpiece(id wprc_id) : wprc_id(wprc_id) {
-    is_metallic = false;
-    is_flipped = false;
-}
+Workpiece::Workpiece(id wprc_id) : wprc_id(wprc_id) {}
 
 Workpiece::Workpiece(EncodedWorkpiece encoded_wrpc) {
-
-}
-
-Workpiece::~Workpiece () {
-
+    //wrpc_id = encoded_wrpc.get_id();
+    height_1 = encoded_wrpc.get_height();
+    type = encoded_wrpc.get_type();
 }
 
 EncodedWorkpiece Workpiece::encode() {
-
+    //return id | (height_1 << 21) | (type << 30);
 }
 
 void Workpiece::determine_workpiece_type() {

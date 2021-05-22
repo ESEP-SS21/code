@@ -16,7 +16,7 @@ id EncodedWorkpiece::get_id() {
     return code & ID_MASK;
 }
 
-float EncodedWorkpiece::get_height() {
+int EncodedWorkpiece::get_height() {
     return (code & HEIGHT_MASK) >> 21;
 }
 
