@@ -19,23 +19,23 @@ CBSection::~CBSection() {
 }
 
 int CBSection::size() {
-
+    const std::lock_guard<std::mutex> lock(_section_mutex);
 }
 
 const Workpiece& CBSection::back() {
-
+    const std::lock_guard<std::mutex> lock(_section_mutex);
 }
 
 const Workpiece& CBSection::front() {
-
+    const std::lock_guard<std::mutex> lock(_section_mutex);
 }
 
 void CBSection::transfer() {
-
+    const std::lock_guard<std::mutex> lock(_section_mutex);
 }
 
 void CBSection::exit_first() {
-
+    const std::lock_guard<std::mutex> lock(_section_mutex);
 }
 
 } /* namespace datamodel */

@@ -18,7 +18,7 @@ namespace datamodel {
 
 class CBSection {
 public:
-    CBSection(const CBSection&);
+    CBSection(const CBSection& next_section);
     virtual ~CBSection();
 
     int size();
@@ -27,8 +27,8 @@ public:
     void transfer();
     void exit_first();
 
-private:
-    std::mutex section_mutex;
+protected:
+    mutable std::mutex _section_mutex;
     std::queue<Workpiece> _queue;
     const CBSection& _next_section;
 };

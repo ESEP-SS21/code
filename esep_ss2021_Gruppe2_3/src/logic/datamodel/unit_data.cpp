@@ -19,15 +19,15 @@ UnitData::~UnitData() {
 }
 
 bool UnitData::wrpc_fits_order(const Workpiece& wrpc) const {
-
+    const std::lock_guard<std::mutex> lock(_unit_mutex);
 }
 
 void UnitData::wrpc_order_step() {
-
+    const std::lock_guard<std::mutex> lock(_unit_mutex);
 }
 
 void UnitData::wrpc_order_reset(WorkpieceType wrpc_type) {
-
+    const std::lock_guard<std::mutex> lock(_unit_mutex);
 }
 
 } /* namespace datamodel */

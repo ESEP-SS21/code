@@ -11,7 +11,7 @@ namespace logic {
 namespace datamodel {
 
 void StartHeightSection::enter_workpiece(Workpiece&) {
-
+    const std::lock_guard<std::mutex> lock(_section_mutex);
 }
 
 } /* namespace datamodel */

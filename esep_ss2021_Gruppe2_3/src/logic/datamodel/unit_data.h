@@ -26,8 +26,9 @@ public:
     bool wrpc_fits_order(const Workpiece&) const;
     void wrpc_order_step();
     void wrpc_order_reset(WorkpieceType);
-private:
-    std::mutex unit_mutex;
+
+protected:
+    mutable std::mutex _unit_mutex;
 };
 
 } /* namespace datamodel */
