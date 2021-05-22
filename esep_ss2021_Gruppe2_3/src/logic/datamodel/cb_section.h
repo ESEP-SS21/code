@@ -20,8 +20,8 @@ public:
     virtual ~CBSection();
 
     int size();
-    Workpiece& back();
-    Workpiece& front();
+    const Workpiece& back();
+    const Workpiece& front();
     void transfer();
     void exit_first();
 

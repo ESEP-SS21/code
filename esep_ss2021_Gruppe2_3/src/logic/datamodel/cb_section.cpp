@@ -22,11 +22,11 @@ int CBSection::size() {
 
 }
 
-Workpiece& CBSection::back() {
+const Workpiece& CBSection::back() {
 
 }
 
-Workpiece& CBSection::front() {
+const Workpiece& CBSection::front() {
 
 }
 

@@ -20,14 +20,13 @@ Workpiece::Workpiece() : wprc_id(_last_id) {
     }
 }
 
-Workpiece::Workpiece(EncodedWorkpiece encoded_wrpc) {
-    //wrpc_id = encoded_wrpc.get_id();
+Workpiece::Workpiece(EncodedWorkpiece& encoded_wrpc, int encoded_id) : wprc_id(encoded_id) {
     height_1 = encoded_wrpc.get_height();
     type = encoded_wrpc.get_type();
 }
 
-EncodedWorkpiece Workpiece::encode() {
-    //return id | (height_1 << 21) | (type << 30);
+EncodedWorkpiece& Workpiece::encode() {
+    //return EncodedWorkpiece(id | (height_1 << 21) | (type << 30));
 }
 
 void Workpiece::determine_workpiece_type() {

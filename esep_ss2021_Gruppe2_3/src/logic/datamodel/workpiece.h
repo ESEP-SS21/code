@@ -19,7 +19,7 @@ using id = uint32_t;
 
 class Workpiece {
 public:
-    const id wprc_id = 0;
+    const id wprc_id;
 
     WorkpieceType type = WorkpieceType::unknown;
     int height_1 = 0;
@@ -28,9 +28,9 @@ public:
     bool is_flipped = false;
 
     Workpiece();
-    Workpiece(EncodedWorkpiece);
+    Workpiece(EncodedWorkpiece&, int encoded_id);
 
-    EncodedWorkpiece encode();
+    EncodedWorkpiece& encode();
     void determine_workpiece_type();
 
 private:
