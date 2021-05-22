@@ -23,7 +23,7 @@ public:
     UnitData();
     virtual ~UnitData();
 
-    bool wrpc_fits_order(Workpiece&);
+    bool wrpc_fits_order(const Workpiece&) const;
     void wrpc_order_step();
     void wrpc_order_reset(WorkpieceType);
 };

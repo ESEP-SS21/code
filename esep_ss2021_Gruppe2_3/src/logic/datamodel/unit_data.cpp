@@ -18,7 +18,7 @@ UnitData::~UnitData() {
 
 }
 
-bool UnitData::wrpc_fits_order(Workpiece& wrpc) {
+bool UnitData::wrpc_fits_order(const Workpiece& wrpc) const {
 
 }
 

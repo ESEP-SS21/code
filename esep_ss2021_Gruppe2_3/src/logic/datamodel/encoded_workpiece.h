@@ -26,9 +26,9 @@ public:
 
     EncodedWorkpiece(uint32_t code);
 
-    id get_id();
-    int get_height();
-    WorkpieceType get_type();
+    id get_id() const;
+    int get_height() const;
+    WorkpieceType get_type() const;
 };
 
 } /* namespace datamodel */
