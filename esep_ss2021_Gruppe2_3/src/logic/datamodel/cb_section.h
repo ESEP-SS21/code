@@ -9,7 +9,9 @@
 #define SRC_LOGIC_DATAMODEL_CB_SECTION_H_
 
 #include <queue>
+#include <mutex>
 #include "workpiece.h"
+
 
 namespace logic {
 namespace datamodel {
@@ -26,6 +28,7 @@ public:
     void exit_first();
 
 private:
+    std::mutex section_mutex;
     std::queue<Workpiece> _queue;
     const CBSection& _next_section;
 };

@@ -9,7 +9,6 @@
 #define SRC_LOGIC_DATAMODEL_UNIT_DATA_H_
 
 #include <memory>
-#include <mutex>
 #include "cb_section.h"
 
 namespace logic {
