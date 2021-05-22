@@ -15,7 +15,7 @@ id Workpiece::_last_id = 0;
 
 Workpiece::Workpiece() : wrpc_id(_last_id) {
     static constexpr int max_id_in_bits = 21;
-    _last_id = _last_id % ((1 << max_id_in_bits) + 1);
+    _last_id = (_last_id + 1) % (1 << max_id_in_bits);
 }
 
 Workpiece::Workpiece(EncodedWorkpiece& encoded_wrpc) {
