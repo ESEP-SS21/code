@@ -9,6 +9,7 @@
 #define SRC_LOGIC_DATAMODEL_UNIT_DATA_H_
 
 #include <memory>
+#include <mutex>
 #include "cb_section.h"
 
 namespace logic {
@@ -26,6 +27,8 @@ public:
     bool wrpc_fits_order(const Workpiece&) const;
     void wrpc_order_step();
     void wrpc_order_reset(WorkpieceType);
+private:
+    std::mutex unit_mutex;
 };
 
 } /* namespace datamodel */
