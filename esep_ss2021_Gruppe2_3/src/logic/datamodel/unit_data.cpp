@@ -11,6 +11,9 @@ namespace logic {
 namespace datamodel {
 
 UnitData::UnitData() {
+    //switch_end_sec = std::make_shared<CBSection>();
+    //height_switch_sec = std::make_shared<CBSection>(switch_end_sec);
+    //start_height_sec = std::make_shared<CBSection>(height_switch_sec);
     _pending_transfer = nullptr;
 }
 

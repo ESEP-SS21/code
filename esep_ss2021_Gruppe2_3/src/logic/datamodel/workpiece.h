@@ -34,8 +34,7 @@ using id = uint32_t;
 
 class Workpiece {
 public:
-    const id wprc_id;
-
+    id wrpc_id;
     WorkpieceType type = WorkpieceType::unknown;
     int height_1 = 0;
     int height_2 = 0;
@@ -43,7 +42,7 @@ public:
     bool is_flipped = false;
 
     Workpiece();
-    Workpiece(EncodedWorkpiece&, int encoded_id);
+    Workpiece(EncodedWorkpiece&);
 
     std::shared_ptr<EncodedWorkpiece> encode() const;
     void determine_workpiece_type();

@@ -13,18 +13,19 @@ namespace datamodel {
 
 id Workpiece::_last_id = 0;
 
-Workpiece::Workpiece() : wprc_id(_last_id) {
+Workpiece::Workpiece() : wrpc_id(_last_id) {
     static constexpr int max_id_in_bits = 21;
     _last_id = _last_id % ((1 << max_id_in_bits) + 1);
 }
 
-Workpiece::Workpiece(EncodedWorkpiece& encoded_wrpc, int encoded_id) : wprc_id(encoded_id) {
+Workpiece::Workpiece(EncodedWorkpiece& encoded_wrpc) {
+    wrpc_id = encoded_wrpc.get_id();
     height_1 = encoded_wrpc.get_height();
     type = encoded_wrpc.get_type();
 }
 
 std::shared_ptr<EncodedWorkpiece> Workpiece::encode() const {
-    return std::make_shared<EncodedWorkpiece>(this->wprc_id | (height_1 << 21) | ((int)type << 30));
+    return std::make_shared<EncodedWorkpiece>(this->wrpc_id | (height_1 << 21) | ((int)type << 30));
 }
 
 void Workpiece::determine_workpiece_type() {

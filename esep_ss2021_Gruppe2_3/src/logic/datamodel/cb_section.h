@@ -18,14 +18,15 @@ namespace datamodel {
 
 class CBSection {
 public:
+    CBSection();
     CBSection(std::shared_ptr<CBSection> next_section);
 
-    int size();
-    const Workpiece& back();
-    const Workpiece& front();
-    void transfer();
-    void enter_workpiece(Workpiece&);
-    void exit_first();
+    int size() const;
+    const Workpiece& back() const;
+    const Workpiece& front() const;
+    void transfer() const ;
+    void enter_workpiece(const Workpiece&) const;
+    void exit_first() const;
 
 protected:
     mutable std::mutex _section_mutex;

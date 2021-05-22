@@ -27,7 +27,16 @@ public:
     void wrpc_order_step();
     void wrpc_order_reset(WorkpieceType);
 
+    std::shared_ptr<CBSection> get_switch_end_sec() const;
+    std::shared_ptr<CBSection> get_height_switch_sec() const;
+    std::shared_ptr<CBSection> get_start_height_sec() const;
+
 protected:
+    const std::shared_ptr<CBSection> switch_end_sec = std::make_shared<CBSection>();
+    const std::shared_ptr<CBSection> height_switch_sec = std::make_shared<CBSection>(switch_end_sec);
+    const std::shared_ptr<CBSection> start_height_sec = std::make_shared<CBSection>(height_switch_sec);
+
+    WorkpieceType _next_in_order = WorkpieceType::WRPC_HM;
     mutable std::mutex _unit_mutex;
 };
 
