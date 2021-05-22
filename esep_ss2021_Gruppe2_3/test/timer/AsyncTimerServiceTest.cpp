@@ -47,8 +47,7 @@ protected:
 
     void testSingleTimerEventCode(int ms_time, int payload) {
 
-        dispatcher::Event e1 = { dispatcher::EventType::EVNT_TIM_REQ, Event::generate_timer_payload(
-                payload, ms_time), false };
+        dispatcher::Event e1 = Event::CreateTimer(payload, ms_time);
 
         int msg_pio = 20;
         _testClient->send(e1, msg_pio);
@@ -57,8 +56,7 @@ protected:
     }
 
     void testSingleTimerTimePeriod(int ms_time, int payload) {
-        dispatcher::Event e1 = { dispatcher::EventType::EVNT_TIM_REQ,
-                dispatcher::Event::generate_timer_payload(42, ms_time), false };
+        dispatcher::Event e1 = Event::CreateTimer(42, ms_time);
 
         auto time_start = std::chrono::high_resolution_clock::now();
         this->_testClient->send(e1, 20);
@@ -92,10 +90,8 @@ TEST_F(TimerTest, MultipleTimers) {
     int expectedTimeShort = 100;
     int expectedTimeLong = 200;
 
-    dispatcher::Event e1 = { dispatcher::EventType::EVNT_TIM_REQ,
-            dispatcher::Event::generate_timer_payload(payload1, expectedTimeShort), false };
-    dispatcher::Event e2 = { dispatcher::EventType::EVNT_TIM_REQ,
-            dispatcher::Event::generate_timer_payload(payload2, expectedTimeLong), false };
+    dispatcher::Event e1 = Event::CreateTimer(payload1, expectedTimeShort);
+    dispatcher::Event e2 = Event::CreateTimer(payload2, expectedTimeLong);
 
     auto time_start = std::chrono::high_resolution_clock::now();
     this->_testClient->send(e1, 20);

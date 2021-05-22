@@ -149,8 +149,8 @@ struct Event {
         return buffer.str();
     }
 
-    static int generate_timer_payload(uint16_t return_req, uint16_t val_ms){
-        return (return_req<<16)+val_ms;
+    static inline Event CreateTimer(uint16_t payload, uint16_t time_ms, bool broadcast = false) {
+        return Event { dispatcher::EventType::EVNT_TIM_REQ, (payload << 16) + time_ms, broadcast };
     }
 
 private:
@@ -161,6 +161,7 @@ private:
     int mask_out_tranmission_bit(int evnt_id) {
         return evnt_id & (~0b01000000);
     }
+
 };
 
 struct EventSubscription {
