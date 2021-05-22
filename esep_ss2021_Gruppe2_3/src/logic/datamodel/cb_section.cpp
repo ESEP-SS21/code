@@ -39,6 +39,8 @@ void CBSection::exit_first() {
 
 void CBSection::transfer() {
     const std::lock_guard<std::mutex> lock(_section_mutex);
+    this->_next_section->enter_workpiece(this->_queue->front());
+    this->_queue->pop();
 }
 
 } /* namespace datamodel */
