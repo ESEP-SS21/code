@@ -15,6 +15,21 @@
 namespace logic {
 namespace datamodel {
 
+#define HEIGHT_TOLERANCE 20
+
+#define HIGH_INTERVALL_MIN 250-HEIGHT_TOLERANCE
+#define HIGH_INTERVALL_MAX 254+HEIGHT_TOLERANCE
+
+#define LOW_INTERVALL_MIN 210-HEIGHT_TOLERANCE
+#define LOW_INTERVALL_MAX 210+HEIGHT_TOLERANCE
+
+#define BOHRUNG_INTERVALL_MIN 86-HEIGHT_TOLERANCE
+#define BOHRUNG_INTERVALL_MAX 96+HEIGHT_TOLERANCE
+
+#define IS_HIGH(x) (x >= HIGH_INTERVALL_MIN) && (x <= HIGH_INTERVALL_MAX)
+#define IS_LOW(x) (x >= LOW_INTERVALL_MIN) && (x <= LOW_INTERVALL_MAX)
+#define HAS_BOHRUNG(x) (x >= BOHRUNG_INTERVALL_MIN) && (x <= BOHRUNG_INTERVALL_MAX)
+
 using id = uint32_t;
 
 class Workpiece {
@@ -30,7 +45,7 @@ public:
     Workpiece();
     Workpiece(EncodedWorkpiece&, int encoded_id);
 
-    EncodedWorkpiece& encode() const;
+    std::shared_ptr<EncodedWorkpiece> encode() const;
     void determine_workpiece_type();
 
 private:

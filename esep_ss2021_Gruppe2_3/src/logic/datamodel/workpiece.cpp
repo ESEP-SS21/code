@@ -5,6 +5,7 @@
  *      Author: Justin Hoffmann
  */
 
+#include <memory>
 #include "workpiece.h"
 
 namespace logic {
@@ -25,12 +26,24 @@ Workpiece::Workpiece(EncodedWorkpiece& encoded_wrpc, int encoded_id) : wprc_id(e
     type = encoded_wrpc.get_type();
 }
 
-EncodedWorkpiece& Workpiece::encode() const {
-    //return EncodedWorkpiece(id | (height_1 << 21) | (type << 30));
+std::shared_ptr<EncodedWorkpiece> Workpiece::encode() const {
+    return std::make_shared<EncodedWorkpiece>(this->wprc_id | (height_1 << 21) | ((int)type << 30));
 }
 
 void Workpiece::determine_workpiece_type() {
-
+    if(HAS_BOHRUNG(height_1)) {
+        if(this->is_metallic) {
+            this->type = WorkpieceType::WRPC_HM;
+        } else {
+            this->type = WorkpieceType::WRPC_HB;
+        }
+    } else if(IS_LOW(height_1)) {
+        this->type = WorkpieceType::WRPC_L;
+    } else if(IS_HIGH(height_1)) {
+        this->type = WorkpieceType::WRPC_H;
+    } else {
+        this->type = WorkpieceType::unknown;
+    }
 }
 
 } /* namespace datamodel */
