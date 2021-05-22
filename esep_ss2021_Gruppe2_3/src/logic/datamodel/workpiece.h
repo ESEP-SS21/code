@@ -43,6 +43,7 @@ public:
 
     Workpiece();
     Workpiece(EncodedWorkpiece&);
+    virtual ~Workpiece() = default;
 
     std::shared_ptr<EncodedWorkpiece> encode() const;
     void determine_workpiece_type();

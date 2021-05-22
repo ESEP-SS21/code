@@ -20,6 +20,7 @@ class CBSection {
 public:
     CBSection();
     CBSection(std::shared_ptr<CBSection> next_section);
+    virtual ~CBSection() = default;
 
     /**
      * Anzahl der Workpieces in der CBSection

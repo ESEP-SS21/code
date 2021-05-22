@@ -31,6 +31,7 @@ public:
     const uint32_t code;
 
     EncodedWorkpiece(uint32_t code);
+    virtual ~EncodedWorkpiece() = default;
 
     id get_id() const;
     int get_height() const;

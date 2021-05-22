@@ -20,8 +20,7 @@ public:
     bool ramp_full = false;
     Workpiece* _pending_transfer = nullptr;
 
-    UnitData();
-    virtual ~UnitData();
+    virtual ~UnitData() = default;
 
     bool wrpc_fits_order(const Workpiece&) const;
     void wrpc_order_step();

@@ -2,15 +2,13 @@
  * unit_data.cpp
  *
  *  Created on: 21.05.2021
- *      Author: justi
+ *      Author: Justin Hoffmann
  */
 
 #include <logic/datamodel/unit_data.h>
 
 namespace logic {
 namespace datamodel {
-
-UnitData::UnitData() {}
 
 bool UnitData::wrpc_fits_order(const Workpiece& wrpc) const {
     const std::lock_guard<std::mutex> lock(_unit_mutex);
