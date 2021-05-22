@@ -13,7 +13,7 @@ HAL::HAL(std::shared_ptr<GPIOWrapper> gpio_shptr) {
     _sorting_mechanism = std::shared_ptr<SortingMechanism>(new Switch(gpio_shptr));
     _estop = std::shared_ptr<EStop>(new EStop(gpio_shptr));
     _light_barriers = std::shared_ptr<LightBarriers>(new LightBarriers(gpio_shptr));
-    _height_sensor = std::shared_ptr<HeightSensor>(new HeightSensor()); //TODO chid
+    _height_sensor = std::shared_ptr<HeightSensor>(new HeightSensor());
     _cp_buttons = std::shared_ptr<CPButtons>(new CPButtons(gpio_shptr));
     _metal_sensor = std::shared_ptr<MetalSensor>(new MetalSensor(gpio_shptr));
 }

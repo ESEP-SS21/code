@@ -26,8 +26,7 @@ static constexpr uint32_t ADC_IRQ_NR = 16;
 static constexpr uint32_t PULSE_GPIO_IRQ = 17;
 static constexpr uint32_t PULSE_ADC_IRQ = 18;
 
-
-class HalManager : public dispatcher::DispatcherClient{
+class HalManager: public dispatcher::DispatcherClient {
 public:
     HalManager(const std::string& dispatcher_name);
     void handle(dispatcher::Event& event);
@@ -37,7 +36,7 @@ public:
 private:
     Logger::Logger _logger { Logger::get() };
     std::shared_ptr<GPIOWrapper> _gpio;
-    std::unique_ptr<HAL>_hal;
+    std::unique_ptr<HAL> _hal;
     void handle_qnx_io_msg(dispatcher::cnnMngmnt::header_t header);
     std::unique_ptr<dispatcher::cnnMngmnt::QnxChannel> _irq_rec_channel;
     std::unique_ptr<dispatcher::cnnMngmnt::QnxConnection> _irq_connection; //connection used by isr

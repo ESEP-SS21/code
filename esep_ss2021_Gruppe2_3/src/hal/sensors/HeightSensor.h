@@ -27,7 +27,6 @@ class HeightSensor {
 private:
     uintptr_t _adc_bank;
     int _zero_point;
-    float _scaling_factor;
 public:
     HeightSensor();
     virtual ~HeightSensor();
@@ -35,7 +34,7 @@ public:
     void reset_interrupt();
     float convert_to_mm(int);
     void set_zero_point(int);
-    int get_value();
+    const int get_value();
 };
 
 #endif /* SRC_HAL_SENSORS_HEIGHTSENSOR_H_ */
