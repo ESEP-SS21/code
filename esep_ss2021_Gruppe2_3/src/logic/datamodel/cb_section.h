@@ -29,7 +29,7 @@ public:
 
 protected:
     mutable std::mutex _section_mutex;
-    std::queue<Workpiece> _queue;
+    std::unique_ptr<std::queue<Workpiece>> _queue;
     const CBSection& _next_section;
 };
 
