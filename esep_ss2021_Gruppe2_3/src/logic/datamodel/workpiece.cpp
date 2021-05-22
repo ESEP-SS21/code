@@ -10,7 +10,15 @@
 namespace logic {
 namespace datamodel {
 
-Workpiece::Workpiece(id wprc_id) : wprc_id(wprc_id) {}
+id Workpiece::_last_id = 0;
+
+Workpiece::Workpiece() : wprc_id(_last_id) {
+    if(_last_id >= 0x1fffff) {
+        _last_id = 0;
+    } else {
+        _last_id++;
+    }
+}
 
 Workpiece::Workpiece(EncodedWorkpiece encoded_wrpc) {
     //wrpc_id = encoded_wrpc.get_id();

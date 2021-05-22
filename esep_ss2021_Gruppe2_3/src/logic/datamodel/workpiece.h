@@ -27,7 +27,7 @@ public:
     bool is_metallic = false;
     bool is_flipped = false;
 
-    Workpiece(id);
+    Workpiece();
     Workpiece(EncodedWorkpiece);
 
     EncodedWorkpiece encode();
