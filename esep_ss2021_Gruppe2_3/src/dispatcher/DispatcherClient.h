@@ -13,8 +13,6 @@ public:
     DispatcherClient(const std::string& dispatcher_name, const std::string& name);
     virtual ~DispatcherClient();
     void send(Event event, int prio) const;
-
-protected:
     void subscribe(EventType event_type);
     void subscribe(std::initializer_list<EventType> event_types);
 
