@@ -6,18 +6,32 @@
 
 DemoClient::DemoClient(const std::string& dispatcher_name, const std::string& name) :
         DispatcherClient(dispatcher_name, name) {
-    subscribe({
-        dispatcher::EventType::EVNT_CTRL_T_STR_PRS_SRT,
-        dispatcher::EventType::EVNT_TIM_ALRT
-    });
+    subscribe( { dispatcher::EventType::EVNT_SEN_LB_HE_BLCK,
+            dispatcher::EventType::EVNT_SEN_HEIGHT_HE,
+            dispatcher::EventType::EVNT_CTRL_T_STR_PRS_SRT,
+            dispatcher::EventType::EVNT_CTRL_T_STP_PRS_SRT,
+            dispatcher::EventType::EVNT_CTRL_T_RST_PRS_SRT });
 }
 
 void DemoClient::handle(dispatcher::Event& event) {
-    if(event.type == dispatcher::EventType::EVNT_CTRL_T_STR_PRS_SRT){
-        send(dispatcher::Event::CreateTimer(10, 1000, false),20);
+    if (event.type == dispatcher::EventType::EVNT_SEN_LB_HE_BLCK) {
+        dispatcher::Event e = { dispatcher::EventType::EVNT_SEN_HEIGHT_REQ, 0, false };
+        send(e, 20);
     }
-    if(event.type == dispatcher::EventType::EVNT_TIM_ALRT && event.payload==10){
-        _logger->debug("timer elapsed");
+    if (event.type == dispatcher::EventType::EVNT_SEN_HEIGHT_HE) {
+        _logger->trace("Height = '{}'", event.payload);
+    }
+    if (event.type == dispatcher::EventType::EVNT_CTRL_T_STR_PRS_SRT) {
+        dispatcher::Event e = { dispatcher::EventType::EVNT_ACT_BELT_FWD, 0, false };
+        send(e, 20);
+    }
+    if (event.type == dispatcher::EventType::EVNT_CTRL_T_STP_PRS_SRT) {
+        dispatcher::Event e = { dispatcher::EventType::EVNT_ACT_BELT_STP, 0, false };
+        send(e, 20);
+    }
+    if (event.type == dispatcher::EventType::EVNT_CTRL_T_RST_PRS_SRT) {
+        dispatcher::Event e = { dispatcher::EventType::EVNT_ACT_BELT_BWD, 0, false };
+        send(e, 20);
     }
 }
 

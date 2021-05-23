@@ -12,11 +12,11 @@ class DispatcherClient {
 public:
     DispatcherClient(const std::string& dispatcher_name, const std::string& name);
     virtual ~DispatcherClient();
-
     void send(Event event, int prio) const;
+
+protected:
     void subscribe(EventType event_type);
     void subscribe(std::initializer_list<EventType> event_types);
-    virtual void handle(Event&) = 0;
 
 protected:
     std::unique_ptr<cnnMngmnt::QnxConnection> _dispatcher_connection;
@@ -24,6 +24,8 @@ protected:
 private:
     void run();
     void handle_qnx_io_msg(cnnMngmnt::header_t header);
+    virtual void handle(Event&) = 0;
+
     Logger::Logger _logger { Logger::get() };
     bool _is_running { true };
     std::string _name;
