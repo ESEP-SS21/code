@@ -6,13 +6,14 @@
 namespace logic {
 namespace datamodel {
 
-static constexpr uint32_t ID_MASK = 0x001fffff;       // first 21 bits
-static constexpr uint32_t HEIGHT_MASK = 0x01ff << 21; // 9 bits in between
-static constexpr uint32_t TYPE_MASK = 0b11 << 30;     // last 2 bits
-
 using id = uint32_t;
 
 struct EncodedWorkpiece {
+private:
+    static constexpr uint32_t ID_MASK = 0x001fffff;       // first 21 bits
+    static constexpr uint32_t HEIGHT_MASK = 0x01ff << 21; // 9 bits in between
+    static constexpr uint32_t TYPE_MASK = 0b11 << 30;     // last 2 bits
+public:
     /**
      * Consist of the following information:
      * - 21 bit: ID
