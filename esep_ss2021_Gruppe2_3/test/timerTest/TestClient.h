@@ -1,12 +1,4 @@
-/*
- * TestClient.h
- *
- *  Created on: 22.05.2021
- *      Author: jendr
- */
-
-#ifndef TEST_TIMER_TESTCLIENT_H_
-#define TEST_TIMER_TESTCLIENT_H_
+#pragma once
 
 #include "../src/dispatcher/dispatcher.h"
 #include "../src/timer/ASyncTimerService.h"
@@ -14,6 +6,10 @@
 #include "../src/dispatcher/cnnMngmnt/QnxConnection.h"
 #include "../src/dispatcher/Event.h"
 #include "../src/dispatcher/SyncMsg.h"
+
+namespace test{
+namespace timerTest{
+
 
 class TestClient {
 public:
@@ -32,5 +28,5 @@ private:
     std::unique_ptr<dispatcher::cnnMngmnt::QnxConnection> _dispatcher_connection;
 };
 
-#endif
-
+} /*namespace*/
+} /*namespace*/

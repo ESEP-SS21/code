@@ -1,14 +1,17 @@
+#include <timerTest/TestClient.h>
 #include "tests.h"
 #include "../src/dispatcher/dispatcher.h"
 #include "../src/timer/ASyncTimerService.h"
 #include "../src/dispatcher/cnnMngmnt/QnxChannel.h"
 #include "../src/dispatcher/cnnMngmnt/QnxConnection.h"
 #include "../src/dispatcher/Event.h"
-#include "TestClient.h"
 #include <chrono>
 #include <string>
 
 using namespace dispatcher;
+
+namespace test {
+namespace timerTest {
 
 constexpr int timerToleranceMs = 10;
 const std::string dispatcherPrefix = "TEST_DISP";
@@ -111,3 +114,6 @@ TEST_F(TimerTest, MultipleTimers) {
             std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_start).count();
     timeIsWithinTolerance(expectedTimeLong, actual_ms_time);
 }
+
+} /*namespace*/
+} /*namespace*/

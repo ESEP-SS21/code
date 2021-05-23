@@ -1,6 +1,8 @@
-#include <timer/TestClient.h>
+#include <timerTest/TestClient.h>
 
 using namespace dispatcher;
+namespace test {
+namespace timerTest {
 
 TestClient::TestClient(const std::string& dispatcher_name, const std::string& name) :
         _name { name }, _dispatcher_name { dispatcher_name }, _channel(nullptr) {
@@ -49,8 +51,10 @@ void TestClient::send(Event event, int priority) const {
 
 Event TestClient::recieve_event() {
     cnnMngmnt::header_t header;
-    cnnMngmnt::MsgType msg_type = _channel->msg_receive(&header, sizeof(cnnMngmnt::header_t));
+    _channel->msg_receive(&header, sizeof(cnnMngmnt::header_t));
     Event e(header);
     return e;
 }
 
+} /*namespace*/
+} /*namespace*/
