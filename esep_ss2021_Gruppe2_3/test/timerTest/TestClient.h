@@ -1,11 +1,6 @@
 #pragma once
 
-#include "../src/dispatcher/dispatcher.h"
-#include "../src/timer/ASyncTimerService.h"
-#include "../src/dispatcher/cnnMngmnt/QnxChannel.h"
-#include "../src/dispatcher/cnnMngmnt/QnxConnection.h"
-#include "../src/dispatcher/Event.h"
-#include "../src/dispatcher/SyncMsg.h"
+#include "../src/dispatcher/dispatcherClient.h"
 #include <queue>
 #include <condition_variable>
 
