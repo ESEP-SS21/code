@@ -4,7 +4,10 @@ namespace logic {
 namespace datamodel {
 
 enum class WorkpieceType {
-    WRPC_H = 0, WRPC_HB, WRPC_HM, WRPC_L, unknown
+    WRPC_HM = 0, WRPC_HB, WRPC_H,
+    __NOT_IN_ORDER,
+    WRPC_L,
+    Unknown
 };
 
 } /* namespace datamodel */

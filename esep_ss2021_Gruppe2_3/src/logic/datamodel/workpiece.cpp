@@ -29,7 +29,7 @@ void Workpiece::determine_workpiece_type() {
     this->type =
             height_is_within_tolerance(height_low, height_1) ? WorkpieceType::WRPC_L :
             height_is_within_tolerance(height_high, height_1) ? WorkpieceType::WRPC_H :
-                    WorkpieceType::unknown;
+                    WorkpieceType::Unknown;
 }
 
 } /* namespace datamodel */

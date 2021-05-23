@@ -2,6 +2,7 @@
 
 #include <memory>
 #include "cb_section.h"
+#include <array>
 
 namespace logic {
 namespace datamodel {
@@ -29,7 +30,7 @@ protected:
     const std::shared_ptr<CBSection> _start_height_sec = std::make_shared<CBSection>(
             _start_height_sec);
 
-    WorkpieceType _next_in_order = WorkpieceType::WRPC_HM;
+    WorkpieceType _next_in_order = WorkpieceType(0);
     mutable std::mutex _unit_mutex;
 };
 

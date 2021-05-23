@@ -12,7 +12,7 @@ using id = uint32_t;
 class Workpiece {
 public:
     id wrpc_id;
-    WorkpieceType type = WorkpieceType::unknown;
+    WorkpieceType type = WorkpieceType::Unknown;
     /*
      * In 0.1mm
      */
