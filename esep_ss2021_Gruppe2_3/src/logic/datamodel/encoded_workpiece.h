@@ -15,10 +15,10 @@ using id = uint32_t;
 class EncodedWorkpiece {
 public:
     /**
-     * Code besteht aus Informationen ueber das Werkstueck:
-     * - 21-bit ID
-     * - 9-bit Hoehe in Zehntel-Millimeter
-     * - 2-bit Werkstueck-Typ
+     * Consist of the following information:
+     * - 21 bit: ID
+     * -  9 bit: height in 0.1mm precision
+     * -  2 bit: WorkpieceType
      */
     const uint32_t code;
 

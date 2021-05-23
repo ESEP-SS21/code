@@ -42,7 +42,7 @@ public:
 
 private:
     /**
-     * automatische ID-Zuweisung
+     * used for automatic id assignment in ctor
      */
     static id _last_id;
 };

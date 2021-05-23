@@ -13,35 +13,12 @@ public:
     CBSection(std::shared_ptr<CBSection> next_section);
     virtual ~CBSection() = default;
 
-    /**
-     * Anzahl der Workpieces in der CBSection
-     */
-    int size() const;
-
-    /**
-     * Workpiece an der hintersten Stelle (links) der CBSection
-     */
-    const Workpiece& back() const;
-
-    /**
-     * Workpiece an der vordersten Stelle (rechts) der CBSection
-     */
-    const Workpiece& front() const;
-
-    /**
-     * Transferiert das vorderste Workpiece in die naechste CBSection
-     */
-    void transfer() const;
-
-    /**
-     * Packt ein Workpiece hinten in die CBSectoin
-     */
+    int workpiece_count() const;
+    const Workpiece& first_workpiece() const;
+    const Workpiece& last_workpiece() const;
     void enter_workpiece(const Workpiece&) const;
-
-    /**
-     * Entfernt das vorderste Workpiece aus der CBSection
-     */
-    void exit_first() const;
+    void transfer_first_workpiece() const;
+    void exit_first_workpiece() const;
 
 protected:
     mutable std::mutex _section_mutex;
