@@ -42,10 +42,9 @@ private:
     const id _id;
     WorkpieceType type = WorkpieceType::Unknown;
     static constexpr int max_id = 1 << 21;
-
-
     static constexpr int height_tolerance = 20;
 
+    WorkpieceType determine_type_internal(int height);
     bool height_is_within_tolerance(int expected, int actual){
         return (actual >= expected - height_tolerance) && (actual <= expected + height_tolerance);
     }

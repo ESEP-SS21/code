@@ -31,13 +31,26 @@ id Workpiece::get_id() const{
 }
 
 void Workpiece::determine_type() {
-    if (height_is_within_tolerance(height_bohrung, height_1)) {
-        this->type = is_metallic ? WorkpieceType::WRPC_HM : WorkpieceType::WRPC_HB;
+    if (height_2 == 0){
+        this->type = determine_type_internal(height_1);
         return;
     }
-    this->type =
-            height_is_within_tolerance(height_low, height_1) ? WorkpieceType::WRPC_L :
-            height_is_within_tolerance(height_high, height_1) ?
+
+    WorkpieceType new_type = determine_type_internal(height_2);
+    if (this->type == new_type)
+        return;
+
+    this->is_flipped = true;
+    //todo check for impossible flip
+}
+
+WorkpieceType Workpiece::determine_type_internal(int height) {
+    if (height_is_within_tolerance(height_bohrung, height)) {
+        return this->type = is_metallic ? WorkpieceType::WRPC_HM : WorkpieceType::WRPC_HB;
+    }
+    return
+            height_is_within_tolerance(height_low, height) ? WorkpieceType::WRPC_L :
+            height_is_within_tolerance(height_high, height) ?
                     WorkpieceType::WRPC_H : WorkpieceType::Unknown;
 }
 
