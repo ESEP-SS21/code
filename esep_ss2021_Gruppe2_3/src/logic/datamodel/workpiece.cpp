@@ -8,8 +8,7 @@ id Workpiece::_last_id = 0;
 
 Workpiece::Workpiece() :
         wrpc_id(_last_id) {
-    static constexpr int max_id_in_bits = 21;
-    _last_id = (_last_id + 1) % (1 << max_id_in_bits);
+    _last_id = (_last_id + 1) % (max_id);
 }
 
 Workpiece::Workpiece(EncodedWorkpiece& encoded_wrpc) {
@@ -23,11 +22,13 @@ std::shared_ptr<EncodedWorkpiece> Workpiece::encode() const {
 }
 
 void Workpiece::determine_workpiece_type() {
+    if (height_is_within_tolerance(height_bohrung, height_1)) {
+        this->type = is_metallic ? WorkpieceType::WRPC_HM : WorkpieceType::WRPC_HB;
+        return;
+    }
     this->type =
-            IS_LOW(height_1) ? WorkpieceType::WRPC_L :
-            IS_HIGH(height_1) ? WorkpieceType::WRPC_H :
-            HAS_BOHRUNG(height_1) ?
-                    (is_metallic ? WorkpieceType::WRPC_HM : WorkpieceType::WRPC_HB) :
+            height_is_within_tolerance(height_low, height_1) ? WorkpieceType::WRPC_L :
+            height_is_within_tolerance(height_high, height_1) ? WorkpieceType::WRPC_H :
                     WorkpieceType::unknown;
 }
 

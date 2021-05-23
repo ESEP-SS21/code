@@ -3,12 +3,12 @@
 #include <cstdint>
 #include "workpiece_type.h"
 
-static constexpr uint32_t ID_MASK = 0x1fffff;       // first 21 bits
-static constexpr uint32_t HEIGHT_MASK = 0x3fe00000; // 9 bits in between
-static constexpr uint32_t TYPE_MASK = 0xc0000000;   // last 2 bits
-
 namespace logic {
 namespace datamodel {
+
+static constexpr uint32_t ID_MASK = 0x001fffff;       // first 21 bits
+static constexpr uint32_t HEIGHT_MASK = 0x01ff << 21 ; // 9 bits in between
+static constexpr uint32_t TYPE_MASK = 0b11 << 30;   // last 2 bits
 
 using id = uint32_t;
 
