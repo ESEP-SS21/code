@@ -1,11 +1,10 @@
 #pragma once
 
-#include "../src/dispatcher/dispatcherClient.h"
+#include "../../dispatcher/dispatcherClient.h"
 #include <queue>
 #include <condition_variable>
 
 namespace test {
-namespace timerTest {
 
 class TestClient: public dispatcher::DispatcherClient {
 public:
@@ -18,5 +17,4 @@ private:
     std::condition_variable _queue_cond_var;
 };
 
-} /*namespace*/
 } /*namespace*/

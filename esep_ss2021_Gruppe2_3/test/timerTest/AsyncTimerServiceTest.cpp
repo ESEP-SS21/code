@@ -2,8 +2,8 @@
 #include "../../dispatcher/Event.h"
 #include "../../dispatcher/dispatcher.h"
 #include "../../timer/AsyncTimerService.h"
+#include "../TestUtils.h"
 
-#include <gtest/gtest.h>
 #include <chrono>
 #include <string>
 
@@ -16,16 +16,6 @@ using clock = std::chrono::high_resolution_clock;
 using std::chrono::duration_cast;
 
 constexpr int timerToleranceMs = 10;
-constexpr int msg_prio = 20;
-const std::string dispatcherPrefix = "TEST_DISP";
-const std::string clienetPrefix = "TEST_CLIENT";
-
-#define __TC_NAME__ ::testing::UnitTest::GetInstance()->current_test_info()->name()
-
-std::string getUniqueDispatcherName() {
-    static int i = 0;
-    return fmt::format("{}_{}_{}", dispatcherPrefix, i++, __TC_NAME__);
-}
 
 bool timeIsWithinTolerance(long expected, long actual) {
     return (actual < expected + timerToleranceMs && actual >= expected);

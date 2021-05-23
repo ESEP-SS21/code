@@ -1,8 +1,8 @@
-#include <timerTest/TestClient.h>
+#include "TestClient.h"
+
+namespace test {
 
 using namespace dispatcher;
-namespace test {
-namespace timerTest {
 
 TestClient::TestClient(const std::string& dispatcher_name, const std::string& name) :
         DispatcherClient(dispatcher_name, name) {
@@ -22,5 +22,4 @@ void TestClient::handle(Event& event) {
     _queue_cond_var.notify_one();
 }
 
-} /*namespace*/
 } /*namespace*/
