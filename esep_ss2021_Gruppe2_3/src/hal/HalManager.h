@@ -1,12 +1,5 @@
-/*
- * TestInterruptListener.h
- *
- *  Created on: 12.05.2021
- *      Author: jendr
- */
+#pragma once
 
-#ifndef SRC_HAL_HALMANAGER_H_
-#define SRC_HAL_HALMANAGER_H_
 #include "dispatcher/cnnMngmnt/QnxChannel.h"
 #include "dispatcher/cnnMngmnt/QnxConnection.h"
 #include "dispatcher/DispatcherClient.h"
@@ -51,4 +44,3 @@ private:
 
 } /* namespace hal */
 
-#endif /* SRC_HAL_HALMANAGER_H_ */
