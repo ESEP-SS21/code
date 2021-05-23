@@ -36,6 +36,13 @@ inline Workpiece create_wp_l(){
     return wp_l;
 }
 
+inline Workpiece create_wp_unknown(){
+    Workpiece wp_l;
+    wp_l.height_1 = 1;
+    wp_l.determine_type();
+    return wp_l;
+}
+
 
 } /*namespace*/
 } /*namespace*/

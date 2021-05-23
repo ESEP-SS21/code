@@ -34,11 +34,12 @@ TEST(WorkpieceTest, DeterminedTypeShouldBeCorrct) {
     Workpiece wp_hb = create_wp_hb();
     Workpiece wp_l = create_wp_l();
     Workpiece wp_h = create_wp_h();
+    Workpiece wp_unknown = create_wp_unknown();
 
-    const unsigned int size = 4;
-    std::array<Workpiece, size> workpieces { wp_l, wp_h, wp_hm, wp_hb };
+    const unsigned int size = 5;
+    std::array<Workpiece, size> workpieces { wp_l, wp_h, wp_hm, wp_hb, wp_unknown };
     std::array<WorkpieceType, size> workpieces_types { WorkpieceType::WRPC_L, WorkpieceType::WRPC_H,
-            WorkpieceType::WRPC_HM, WorkpieceType::WRPC_HB, };
+            WorkpieceType::WRPC_HM, WorkpieceType::WRPC_HB, WorkpieceType::Unknown };
 
     testWorkpieceTypes<size>(workpieces, workpieces_types);
 }
