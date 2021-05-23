@@ -2,12 +2,15 @@
 #include <array>
 
 #include "../../logic/datamodel/workpiece.h"
+#include "../../logic/datamodel/encoded_workpiece.h"
+#include "workpiece_helper.h"
 
 namespace test {
 namespace logic {
 namespace datamodel {
 
 using namespace ::logic::datamodel;
+
 
 template<int size>
 void testWorkpieceTypes(std::array<Workpiece, size>& workpieces,
@@ -18,13 +21,19 @@ void testWorkpieceTypes(std::array<Workpiece, size>& workpieces,
     }
 }
 
+void testConstructingFromEncodedWorkpiece(Workpiece &workpiece){
+    Workpiece reencoded_workpiece(workpiece.encode());
+    ASSERT_EQ(workpiece.height_1, reencoded_workpiece.height_1);
+    ASSERT_EQ(workpiece.is_metallic, reencoded_workpiece.is_metallic);
+    ASSERT_EQ(workpiece.get_type(), reencoded_workpiece.get_type());
+    ASSERT_EQ(workpiece.get_id(), reencoded_workpiece.get_id());
+}
+
 TEST(WorkpieceTest, DeterminedTypeShouldBeCorrct) {
-    Workpiece wp_l, wp_h, wp_hm, wp_hb;
-    wp_l.height_1 = Workpiece::height_low;
-    wp_h.height_1 = Workpiece::height_high;
-    wp_hb.height_1 = Workpiece::height_bohrung;
-    wp_hm.height_1 = Workpiece::height_bohrung;
-    wp_hm.is_metallic = true;
+    Workpiece wp_hm = create_wp_hm();
+    Workpiece wp_hb = create_wp_hb();
+    Workpiece wp_l = create_wp_l();
+    Workpiece wp_h = create_wp_h();
 
     const unsigned int size = 4;
     std::array<Workpiece, size> workpieces { wp_l, wp_h, wp_hm, wp_hb };
@@ -35,12 +44,9 @@ TEST(WorkpieceTest, DeterminedTypeShouldBeCorrct) {
 }
 
 TEST(WorkpieceTest, FlippedShouldBeDeterminedCorrectly) {
-    Workpiece wp_hm, wp_hb;
-    wp_hb.height_1 = wp_hm.height_1 = Workpiece::height_bohrung;
-    wp_hm.is_metallic = true;
+    Workpiece wp_hm = create_wp_hm();
+    Workpiece wp_hb = create_wp_hb();
 
-    wp_hb.determine_type();
-    wp_hm.determine_type();
     ASSERT_FALSE(wp_hb.is_flipped);
     ASSERT_FALSE(wp_hm.is_flipped);
 
@@ -50,6 +56,14 @@ TEST(WorkpieceTest, FlippedShouldBeDeterminedCorrectly) {
     wp_hm.determine_type();
     ASSERT_TRUE(wp_hb.is_flipped);
     ASSERT_TRUE(wp_hm.is_flipped);
+}
+
+TEST(WorkpieceTest, CreationFromEncodedWorkpiece) {
+    Workpiece wp_hm = create_wp_hm();
+    Workpiece wp_hb = create_wp_hb();
+
+    testConstructingFromEncodedWorkpiece(wp_hb);
+    testConstructingFromEncodedWorkpiece(wp_hm);
 }
 
 } /*namespace*/
