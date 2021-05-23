@@ -32,7 +32,7 @@ public:
         return code & ID_MASK;
     }
 
-    int get_height() const {
+    int get_height_1() const {
         return (code & HEIGHT_MASK) >> 21;
     }
 

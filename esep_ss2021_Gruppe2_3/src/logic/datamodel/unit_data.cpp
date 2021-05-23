@@ -5,14 +5,14 @@ namespace datamodel {
 
 bool UnitData::wrpc_fits_order(const Workpiece& wrpc) const {
     const std::lock_guard<std::mutex> lock(_unit_mutex);
-    return wrpc.type == this->_next_in_order;
+    return wrpc.get_type() == this->_next_in_order;
 }
 
 void UnitData::wrpc_order_step() {
     const std::lock_guard<std::mutex> lock(_unit_mutex);
     _next_in_order = WorkpieceType(
             ((static_cast<int>(_next_in_order) + 1)
-                    % static_cast<int>(WorkpieceType::__NOT_IN_ORDER)));
+                    % static_cast<int>(WorkpieceType::WRPC_L)));
 }
 
 void UnitData::wrpc_order_reset(WorkpieceType wrpc_type) {

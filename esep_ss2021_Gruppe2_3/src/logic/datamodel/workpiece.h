@@ -12,14 +12,14 @@ using id = uint32_t;
 class Workpiece {
 public:
     Workpiece();
-    Workpiece(EncodedWorkpiece&);
+    Workpiece(EncodedWorkpiece);
     virtual ~Workpiece() = default;
 
-    std::shared_ptr<EncodedWorkpiece> encode() const;
-    void determine_workpiece_type();
+    EncodedWorkpiece encode() const;
+    WorkpieceType get_type() const;
+    id get_id() const;
+    void determine_type();
 
-    id wrpc_id;
-    WorkpieceType type = WorkpieceType::Unknown;
     /*
      * In 0.1mm
      */
@@ -31,17 +31,19 @@ public:
     bool is_metallic = false;
     bool is_flipped = false;
 
-
+    static constexpr int height_high = 252;
+    static constexpr int height_low = 210;
+    static constexpr int height_bohrung = 91;
 private:
     /**
      * used for automatic id assignment in ctor
      */
     static id _last_id;
+    const id _id;
+    WorkpieceType type = WorkpieceType::Unknown;
     static constexpr int max_id = 1 << 21;
 
-    static constexpr int height_high = 252;
-    static constexpr int height_low = 210;
-    static constexpr int height_bohrung = 91;
+
     static constexpr int height_tolerance = 20;
 
     bool height_is_within_tolerance(int expected, int actual){

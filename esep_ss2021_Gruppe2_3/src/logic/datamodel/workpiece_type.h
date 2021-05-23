@@ -5,8 +5,7 @@ namespace datamodel {
 
 enum class WorkpieceType {
     WRPC_HM = 0, WRPC_HB, WRPC_H,
-    __NOT_IN_ORDER,
-    WRPC_L,
+    WRPC_L, //needs to be first, which is not in sorting order
     Unknown
 };
 
