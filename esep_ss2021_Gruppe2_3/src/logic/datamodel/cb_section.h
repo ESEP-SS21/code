@@ -4,7 +4,6 @@
 #include <mutex>
 #include "workpiece.h"
 
-
 namespace logic {
 namespace datamodel {
 
@@ -32,7 +31,7 @@ public:
     /**
      * Transferiert das vorderste Workpiece in die naechste CBSection
      */
-    void transfer() const ;
+    void transfer() const;
 
     /**
      * Packt ein Workpiece hinten in die CBSectoin

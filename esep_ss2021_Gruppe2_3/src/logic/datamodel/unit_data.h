@@ -24,8 +24,10 @@ public:
 
 protected:
     const std::shared_ptr<CBSection> _switch_end_sec = std::make_shared<CBSection>();
-    const std::shared_ptr<CBSection> _height_switch_sec = std::make_shared<CBSection>(_switch_end_sec);
-    const std::shared_ptr<CBSection> _start_height_sec = std::make_shared<CBSection>(_start_height_sec);
+    const std::shared_ptr<CBSection> _height_switch_sec = std::make_shared<CBSection>(
+            _switch_end_sec);
+    const std::shared_ptr<CBSection> _start_height_sec = std::make_shared<CBSection>(
+            _start_height_sec);
 
     WorkpieceType _next_in_order = WorkpieceType::WRPC_HM;
     mutable std::mutex _unit_mutex;

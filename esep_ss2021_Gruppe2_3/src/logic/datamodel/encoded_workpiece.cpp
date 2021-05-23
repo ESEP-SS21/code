@@ -3,7 +3,9 @@
 namespace logic {
 namespace datamodel {
 
-EncodedWorkpiece::EncodedWorkpiece(uint32_t code) : code(code) {}
+EncodedWorkpiece::EncodedWorkpiece(uint32_t code) :
+        code(code) {
+}
 
 id EncodedWorkpiece::get_id() const {
     return code & ID_MASK;

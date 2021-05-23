@@ -3,8 +3,12 @@
 namespace logic {
 namespace datamodel {
 
-CBSection::CBSection() : _next_section(nullptr) {}
-CBSection::CBSection(std::shared_ptr<CBSection> next_section) : _next_section(next_section) {}
+CBSection::CBSection() :
+        _next_section(nullptr) {
+}
+CBSection::CBSection(std::shared_ptr<CBSection> next_section) :
+        _next_section(next_section) {
+}
 
 int CBSection::size() const {
     const std::lock_guard<std::mutex> lock(_section_mutex);
