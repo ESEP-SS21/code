@@ -1,10 +1,3 @@
-/*
- * workpiece.cpp
- *
- *  Created on: 21.05.2021
- *      Author: Justin Hoffmann
- */
-
 #include <memory>
 #include "workpiece.h"
 

@@ -1,12 +1,4 @@
-/*
- * workpiece.h
- *
- *  Created on: 21.05.2021
- *      Author: Justin Hoffmann
- */
-
-#ifndef SRC_LOGIC_DATAMODEL_WORKPIECE_H_
-#define SRC_LOGIC_DATAMODEL_WORKPIECE_H_
+#pragma once
 
 #include <cstdint>
 #include "workpiece_type.h"
@@ -57,5 +49,3 @@ private:
 
 } /* namespace datamodel */
 } /* namespace logic*/
-
-#endif /* SRC_LOGIC_DATAMODEL_WORKPIECE_H_ */

@@ -1,10 +1,3 @@
-/*
- * encoded_workpiece.cpp
- *
- *  Created on: 21.05.2021
- *      Author: justi
- */
-
 #include <logic/datamodel/encoded_workpiece.h>
 
 namespace logic {

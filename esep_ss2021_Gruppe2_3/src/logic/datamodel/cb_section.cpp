@@ -1,10 +1,3 @@
-/*
- * cb_section.cpp
- *
- *  Created on: 21.05.2021
- *      Author: Justin Hoffmann
- */
-
 #include <logic/datamodel/cb_section.h>
 
 namespace logic {

@@ -1,12 +1,4 @@
-/*
- * cb_section.h
- *
- *  Created on: 21.05.2021
- *      Author: justi
- */
-
-#ifndef SRC_LOGIC_DATAMODEL_CB_SECTION_H_
-#define SRC_LOGIC_DATAMODEL_CB_SECTION_H_
+#pragma once
 
 #include <queue>
 #include <mutex>
@@ -60,5 +52,3 @@ protected:
 
 } /* namespace datamodel */
 } /* namespace logic */
-
-#endif /* SRC_LOGIC_DATAMODEL_CB_SECTION_H_ */

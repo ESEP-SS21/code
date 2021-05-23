@@ -1,12 +1,4 @@
-/*
- * encoded_workpiece.h
- *
- *  Created on: 21.05.2021
- *      Author: justi
- */
-
-#ifndef SRC_LOGIC_DATAMODEL_ENCODED_WORKPIECE_H_
-#define SRC_LOGIC_DATAMODEL_ENCODED_WORKPIECE_H_
+#pragma once
 
 #include <cstdint>
 #include "workpiece_type.h"
@@ -41,4 +33,3 @@ public:
 } /* namespace datamodel */
 } /* namespace logic*/
 
-#endif /* SRC_LOGIC_DATAMODEL_ENCODED_WORKPIECE_H_ */

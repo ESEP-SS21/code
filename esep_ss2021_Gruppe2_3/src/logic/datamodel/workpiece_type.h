@@ -1,12 +1,4 @@
-/*
- * workpiece_type.h
- *
- *  Created on: 21.05.2021
- *      Author: Justin Hoffmann
- */
-
-#ifndef SRC_LOGIC_DATAMODEL_WORKPIECE_TYPE_H_
-#define SRC_LOGIC_DATAMODEL_WORKPIECE_TYPE_H_
+#pragma once
 
 namespace logic {
 namespace datamodel {
@@ -17,5 +9,3 @@ enum class WorkpieceType {
 
 } /* namespace datamodel */
 } /* namespace logic*/
-
-#endif /* SRC_LOGIC_DATAMODEL_WORKPIECE_TYPE_H_ */

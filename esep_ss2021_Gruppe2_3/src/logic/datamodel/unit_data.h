@@ -1,12 +1,4 @@
-/*
- * unit_data.h
- *
- *  Created on: 21.05.2021
- *      Author: justi
- */
-
-#ifndef SRC_LOGIC_DATAMODEL_UNIT_DATA_H_
-#define SRC_LOGIC_DATAMODEL_UNIT_DATA_H_
+#pragma once
 
 #include <memory>
 #include "cb_section.h"
@@ -41,5 +33,3 @@ protected:
 
 } /* namespace datamodel */
 } /* namespace logic */
-
-#endif /* SRC_LOGIC_DATAMODEL_UNIT_DATA_H_ */

@@ -1,10 +1,3 @@
-/*
- * unit_data.cpp
- *
- *  Created on: 21.05.2021
- *      Author: Justin Hoffmann
- */
-
 #include <logic/datamodel/unit_data.h>
 
 namespace logic {
