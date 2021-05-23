@@ -6,26 +6,21 @@
 #include "../src/dispatcher/cnnMngmnt/QnxConnection.h"
 #include "../src/dispatcher/Event.h"
 #include "../src/dispatcher/SyncMsg.h"
+#include <queue>
+#include <condition_variable>
 
-namespace test{
-namespace timerTest{
+namespace test {
+namespace timerTest {
 
-
-class TestClient {
+class TestClient: public dispatcher::DispatcherClient {
 public:
     TestClient(const std::string& dispatcher_name, const std::string& name);
-    virtual ~TestClient();
-
-    void send(dispatcher::Event event, int prio) const;
-    void subscribe(dispatcher::EventType event_type);
-    void subscribe(std::initializer_list<dispatcher::EventType> event_types);
+    void handle(dispatcher::Event& event);
     dispatcher::Event recieve_event();
-
 private:
-    std::string _name;
-    std::string _dispatcher_name;
-    std::unique_ptr<dispatcher::cnnMngmnt::QnxChannel> _channel;
-    std::unique_ptr<dispatcher::cnnMngmnt::QnxConnection> _dispatcher_connection;
+    std::queue<dispatcher::Event> _event_queue;
+    std::mutex _queue_mutex;
+    std::condition_variable _queue_cond_var;
 };
 
 } /*namespace*/

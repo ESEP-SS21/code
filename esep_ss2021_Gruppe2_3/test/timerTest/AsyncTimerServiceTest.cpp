@@ -36,7 +36,10 @@ protected:
                 new timer::AsyncTimerService(DISPATCHER_NAME));
         _testClient = std::unique_ptr<TestClient>(
                 new TestClient(DISPATCHER_NAME, fmt::format("{}_{}", clienetPrefix, __TC_NAME__)));
-        _testClient->subscribe(EventType::EVNT_TIM_ALRT);
+        _testClient->subscribe({
+            dispatcher::EventType::EVNT_CTRL_T_STR_PRS_SRT,
+            dispatcher::EventType::EVNT_TIM_ALRT
+        });
     }
 
     void SetUp() {
