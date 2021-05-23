@@ -1,12 +1,4 @@
-/*
- * HeightSensor.h
- *
- *  Created on: 13.05.2021
- *      Author: Lasse
- */
-
-#ifndef SRC_HAL_SENSORS_HEIGHTSENSOR_H_
-#define SRC_HAL_SENSORS_HEIGHTSENSOR_H_
+#pragma once
 
 #include <cstdint>
 #include <memory>
@@ -37,4 +29,3 @@ public:
     const int get_value();
 };
 
-#endif /* SRC_HAL_SENSORS_HEIGHTSENSOR_H_ */
