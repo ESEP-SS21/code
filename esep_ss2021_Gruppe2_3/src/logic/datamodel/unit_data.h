@@ -11,7 +11,7 @@ class UnitData {
 public:
     bool belt_is_blocked = false;
     bool ramp_full = false;
-    Workpiece* _pending_transfer = nullptr;
+    std::shared_ptr<Workpiece> _pending_transfer = nullptr;
 
     virtual ~UnitData() = default;
 
