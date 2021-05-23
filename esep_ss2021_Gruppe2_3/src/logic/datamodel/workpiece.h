@@ -11,6 +11,13 @@ using id = uint32_t;
 
 class Workpiece {
 public:
+    Workpiece();
+    Workpiece(EncodedWorkpiece&);
+    virtual ~Workpiece() = default;
+
+    std::shared_ptr<EncodedWorkpiece> encode() const;
+    void determine_workpiece_type();
+
     id wrpc_id;
     WorkpieceType type = WorkpieceType::Unknown;
     /*
@@ -24,12 +31,6 @@ public:
     bool is_metallic = false;
     bool is_flipped = false;
 
-    Workpiece();
-    Workpiece(EncodedWorkpiece&);
-    virtual ~Workpiece() = default;
-
-    std::shared_ptr<EncodedWorkpiece> encode() const;
-    void determine_workpiece_type();
 
 private:
     /**

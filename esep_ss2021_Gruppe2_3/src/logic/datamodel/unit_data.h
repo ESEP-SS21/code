@@ -9,10 +9,6 @@ namespace datamodel {
 
 class UnitData {
 public:
-    bool belt_is_blocked = false;
-    bool ramp_full = false;
-    std::shared_ptr<Workpiece> _pending_transfer = nullptr;
-
     virtual ~UnitData() = default;
 
     bool wrpc_fits_order(const Workpiece&) const;
@@ -22,6 +18,10 @@ public:
     std::shared_ptr<CBSection> get_switch_end_sec() const;
     std::shared_ptr<CBSection> get_height_switch_sec() const;
     std::shared_ptr<CBSection> get_start_height_sec() const;
+
+    bool belt_is_blocked = false;
+    bool ramp_full = false;
+    std::shared_ptr<Workpiece> _pending_transfer = nullptr;
 
 protected:
     const std::shared_ptr<CBSection> _switch_end_sec = std::make_shared<CBSection>();
