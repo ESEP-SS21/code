@@ -11,9 +11,17 @@ constexpr int msg_prio = 20;
 const std::string dispatcherPrefix = "TEST_DISP";
 const std::string clienetPrefix = "TEST_CLIENT";
 
+struct utils{
+    static std::string getUniqueDispatcherName(){
+        static int i = 0;
+        return fmt::format("{}_{}_{}", dispatcherPrefix, i++, __TC_NAME__);
+    }
+};
+
 static inline std::string getUniqueDispatcherName() {
-    static int i = 0;
-    return fmt::format("{}_{}_{}", dispatcherPrefix, i++, __TC_NAME__);
+    return utils::getUniqueDispatcherName();
 }
+
+
 
 } /* namespace */
