@@ -18,7 +18,7 @@ CXX += -DSIM_REPORT -DSIM_EXT_CTRL
 # CXX += -std=c++14 # only runs with C++ 11
 
 # - - - - - - - - - - - - - - - - - - - - TESTS AN/AUS - - - - - - - - - - - - - - - - - - - -  
-#CXX += -DTEST_ENABLE
+CXX += -DTEST_ENABLE
 # - - - - - - - - - - - - - - - - - - - - ^^^^^^^^^^^^ - - - - - - - - - - - - - - - - - - - -  
 
 LD = $(CXX)

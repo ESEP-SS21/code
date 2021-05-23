@@ -18,7 +18,7 @@
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     auto result = RUN_ALL_TESTS();
-
+}
 #else
 
     void fail_and_exit();
