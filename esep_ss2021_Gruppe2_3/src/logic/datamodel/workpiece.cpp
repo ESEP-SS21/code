@@ -14,7 +14,9 @@ Workpiece::Workpiece() :
 Workpiece::Workpiece(EncodedWorkpiece encoded_wrpc) :
         _id(encoded_wrpc.get_id()),
         type(encoded_wrpc.get_type()),
-        height_1(encoded_wrpc.get_height_1()){
+        height_1(encoded_wrpc.get_height_1())
+    {
+    is_metallic = type == WorkpieceType::WRPC_HM;
 }
 
 WorkpieceType Workpiece::get_type() const{
