@@ -13,10 +13,11 @@ public:
     DispatcherClient(const std::string& dispatcher_name, const std::string& name);
     virtual ~DispatcherClient();
     void send(Event event, int prio) const;
-
-protected:
     void subscribe(EventType event_type);
     void subscribe(std::initializer_list<EventType> event_types);
+
+protected:
+    std::unique_ptr<cnnMngmnt::QnxConnection> _dispatcher_connection;
 
 private:
     void run();
@@ -28,7 +29,7 @@ private:
     std::string _name;
     std::string _dispatcher_name;
     std::unique_ptr<cnnMngmnt::QnxChannel> _channel;
-    std::unique_ptr<cnnMngmnt::QnxConnection> _dispatcher_connection;
+
     std::thread _client_thread;
 };
 
