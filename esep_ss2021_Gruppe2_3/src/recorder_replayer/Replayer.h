@@ -5,7 +5,7 @@
 #include "dispatcher/DispatcherClient.h"
 #include "dispatcher/Event.h"
 
-namespace recorder_replayer{
+namespace recorder_replayer {
 
 class Replayer: public dispatcher::DispatcherClient {
 public:

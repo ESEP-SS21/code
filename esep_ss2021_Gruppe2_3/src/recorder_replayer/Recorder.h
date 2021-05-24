@@ -6,7 +6,7 @@
 #include "dispatcher/Event.h"
 #include <fstream>
 
-namespace recorder_replayer{
+namespace recorder_replayer {
 
 class Recorder: public dispatcher::DispatcherClient {
 public:
