@@ -1,6 +1,7 @@
 #include <dispatcher/Dispatcher.h>
 #include <Logger.h>
-#include <recorder/Recorder.h>
+#include <recorder_replayer/Recorder.h>
+#include <recorder_replayer/Replayer.h>
 #include <iostream>
 #include "simqnxgpioapi.h" // must be last include !!!
 #include "hal/gpiowrapper.h"
@@ -30,9 +31,9 @@ int main(int argc, char **argv) {
 
     int main(int argc, char **argv) {
 
-        using namespace recorder;
-        Recorder r;
-        r.record(Event(EventType::AnotherEvent, false, 12));
+
+
+
 
 
         enum class Mode {NONE, Primary, Secondary};
@@ -58,7 +59,7 @@ int main(int argc, char **argv) {
             secondary();
 
 
-        r.record(Event(EventType::AnotherEvent, false, 13));
+
         return 0;
     }
 
@@ -69,18 +70,22 @@ int main(int argc, char **argv) {
 
     void primary(){
         dispatcher::Dispatcher disp("dispatcherp");
-        disp.connect_to_other("dispatchers");
+        //disp.connect_to_other("dispatchers");
         DemoClient client("dispatcherp", "DemoClient");
-        client.subscribe_evnt(dispatcher::EventType::Event12);
-        dispatcher::Event e = {dispatcher::EventType::Event12, true, 23};
-        client.send_evnt(e, 3);
-        usleep(1000*100);
-        client.send_evnt(e, 3);
-        usleep(1000*100);
-        client.send_evnt(e, 3);
-        usleep(1000*100);
-        client.send_evnt(e, 3);
-        usleep(1000*100);
+
+        recorder_replayer::Recorder recorder("dispatcherp");
+        recorder_replayer::Replayer replayer("dispatcherp", "records/2021-05-24-15-30.json");
+
+//        client.subscribe_evnt(dispatcher::EventType::Event12);
+//        dispatcher::Event e = {dispatcher::EventType::AnotherEvent, true, 23};
+//        client.send_evnt(e, 3);
+//        usleep(1000*100);
+//        client.send_evnt(e, 3);
+//        usleep(1000*100);
+//        client.send_evnt(e, 3);
+//        usleep(1000*100);
+//        client.send_evnt(e, 3);
+          usleep(1000*1000);
     }
 
     void secondary(){
