@@ -15,8 +15,8 @@ public:
     virtual ~Recorder();
 private:
     std::ofstream _file;
-    std::string _date;
-    nlohmann::json _j;
+    std::string _file_name;
+    nlohmann::json _json;
 };
 
 }

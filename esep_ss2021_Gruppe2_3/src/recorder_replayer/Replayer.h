@@ -15,7 +15,7 @@ public:
 private:
     std::thread _replay_thread;
     void replay(const std::string& input);
-    nlohmann::json _json_input;
+    nlohmann::json _json;
 };
 
 }

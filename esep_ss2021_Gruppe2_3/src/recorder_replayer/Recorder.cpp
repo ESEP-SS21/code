@@ -13,10 +13,8 @@ namespace recorder_replayer {
 Recorder::Recorder(const std::string& dispatcher_name) :
                 DispatcherClient(dispatcher_name, "Recorder Manager") {
     subscribe_evnt(dispatcher::EventType::AnotherEvent);
-
-    _date = utils::system_start_time_and_date_string;
-    _file = std::ofstream("records/" + _date + ".json");
-    _j = {};
+    _file_name = utils::system_start_time_and_date_string;
+    _json = {};
 }
 
 void Recorder::handle(dispatcher::Event& event){
@@ -25,12 +23,12 @@ void Recorder::handle(dispatcher::Event& event){
             std::chrono::system_clock::now() - utils::start_time).count() ;
     json j_ev = event;
     json j_ms = {{"time", ms}, {"evnt", event}};
-    _j.push_back(j_ms);
+    _json.push_back(j_ms);
 }
 
 Recorder::~Recorder() {
-    _file << _j.dump(2);
-    _file.close();
+    std::ofstream file("records/" + _file_name + ".json");
+    file << _json.dump(2);
 }
 
 }
