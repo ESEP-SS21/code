@@ -10,6 +10,7 @@
 #include "utils.h"
 
 namespace embedded_recorder {
+
 using nlohmann::json;
 
 Replayer::Replayer(const std::string& dispatcher_name, const std::string& input) :
@@ -19,13 +20,18 @@ Replayer::Replayer(const std::string& dispatcher_name, const std::string& input)
 }
 
 void Replayer::replay(const std::string& input) {
-    long prev_ms = 0;
     for (unsigned i = 0; i < _json.size(); i++) {
-        const long curr_evnt_ms = _json[i]["time"];
-        const auto event = _json[i]["evnt"].get<dispatcher::Event>();
-        std::this_thread::sleep_for(std::chrono::milliseconds(curr_evnt_ms - prev_ms));
+        auto curr_evnt_ms_from_start = std::chrono::milliseconds(_json[i]["time"]);
+        auto next_event_time = utils::start_time + curr_evnt_ms_from_start;
+        auto event = _json[i]["evnt"].get<dispatcher::Event>();
+
+        const auto now = std::chrono::high_resolution_clock::now();
+        if (now < next_event_time) {
+            const auto time_diff = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    next_event_time - now);
+            std::this_thread::sleep_for(time_diff);
+        }
         send_evnt(event);
-        prev_ms = curr_evnt_ms;
     }
 }
 
