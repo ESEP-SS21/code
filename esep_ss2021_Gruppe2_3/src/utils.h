@@ -6,6 +6,8 @@
 
 namespace utils {
 
+auto const start_time = std::chrono::system_clock::now();
+
 inline std::string current_time_and_date_string() {
     auto in_time_t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
