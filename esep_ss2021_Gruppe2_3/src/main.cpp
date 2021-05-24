@@ -74,10 +74,10 @@ int main(int argc, char **argv) {
         DemoClient client("dispatcherp", "DemoClient");
 
         recorder_replayer::Recorder recorder("dispatcherp");
-        recorder_replayer::Replayer replayer("dispatcherp", "records/2021-05-24-15-30.json");
+        recorder_replayer::Replayer replayer("dispatcherp", "records/2021-05-24-17-45.json");
 
-//        client.subscribe_evnt(dispatcher::EventType::Event12);
-//        dispatcher::Event e = {dispatcher::EventType::AnotherEvent, true, 23};
+        client.subscribe_evnt(dispatcher::EventType::Event12);
+        dispatcher::Event e = {dispatcher::EventType::AnotherEvent, true, 23};
 //        client.send_evnt(e, 3);
 //        usleep(1000*100);
 //        client.send_evnt(e, 3);

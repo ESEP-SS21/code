@@ -14,11 +14,11 @@ using nlohmann::json;
 
 Replayer::Replayer(const std::string& dispatcher_name, const std::string& input) :
         DispatcherClient(dispatcher_name, "Replay Manager") {
-    _replay_thread = std::thread([this, input] {this->replay(input);});
-
     std::ifstream file(input, std::ifstream::in);
     _json = json::parse(file);
+    _replay_thread = std::thread([this, input] {this->replay(input);});
 }
+
 void Replayer::replay(const std::string& input) {
     int prev_ms = 0;
     for (unsigned i = 0; i < _json.size(); i++) {
