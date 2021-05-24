@@ -12,7 +12,7 @@ void Internal::setup(const std::string &name, spdlog::level::level_enum console,
     std::vector<spdlog::sink_ptr> sinks;
 
     if (file) {
-        auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/" + utils::current_time_and_date + ".txt");
+        auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/" + utils::system_start_time_and_date_string + ".txt");
         file_sink->set_level(file);
         sinks.push_back(file_sink);
     }

@@ -14,7 +14,7 @@ Recorder::Recorder(const std::string& dispatcher_name) :
                 DispatcherClient(dispatcher_name, "Recorder Manager") {
     subscribe_evnt(dispatcher::EventType::AnotherEvent);
 
-    _date = utils::current_time_and_date;
+    _date = utils::system_start_time_and_date_string;
     _file = std::ofstream("records/" + _date + ".json");
     _j = {};
 }
