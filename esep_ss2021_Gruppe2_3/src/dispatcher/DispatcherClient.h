@@ -13,7 +13,7 @@ public:
     DispatcherClient(const std::string& dispatcher_name, const std::string& name);
     virtual ~DispatcherClient();
 
-    void send_evnt(Event event, int prio) const;
+    void send_evnt(Event event, int prio = 1) const;
     void subscribe_evnt(EventType event_type);
     virtual void handle(Event&) = 0;
 

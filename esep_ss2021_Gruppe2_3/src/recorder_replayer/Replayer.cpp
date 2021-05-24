@@ -13,28 +13,29 @@ namespace recorder_replayer {
 using nlohmann::json;
 
 Replayer::Replayer(const std::string& dispatcher_name, const std::string& input) :
-        DispatcherClient(dispatcher_name, "Replay Manager") {
+        DispatcherClient(dispatcher_name, "Replay Manager"), _file_name(input) {
     std::ifstream file(input, std::ifstream::in);
     _json = json::parse(file);
-    _replay_thread = std::thread([this, input] {this->replay(input);});
 }
 
 void Replayer::replay(const std::string& input) {
-    int prev_ms = 0;
+    long prev_ms = 0;
     for (unsigned i = 0; i < _json.size(); i++) {
-        int ms = _json[i]["time"];
-        auto event = _json[i]["evnt"].get<dispatcher::Event>();
-        std::this_thread::sleep_for(std::chrono::milliseconds(ms - prev_ms));
-        ms = prev_ms;
-        send_evnt(event, 20);
+        const long curr_evnt_ms = _json[i]["time"];
+        const auto event = _json[i]["evnt"].get<dispatcher::Event>();
+        std::this_thread::sleep_for(std::chrono::milliseconds(curr_evnt_ms - prev_ms));
+        send_evnt(event);
+        prev_ms = curr_evnt_ms;
     }
 }
 
-void Replayer::handle(dispatcher::Event& event) {
+void Replayer::start() {
+    _replay_thread = std::thread([this] {replay(_file_name);});
 }
 
 Replayer::~Replayer() {
-    _replay_thread.join();
+    if (_replay_thread.joinable())
+        _replay_thread.join();
 }
 
 }

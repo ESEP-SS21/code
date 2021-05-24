@@ -31,11 +31,6 @@ int main(int argc, char **argv) {
 
     int main(int argc, char **argv) {
 
-
-
-
-
-
         enum class Mode {NONE, Primary, Secondary};
 
         Mode mode = Mode::NONE;
@@ -58,8 +53,6 @@ int main(int argc, char **argv) {
         if (mode == Mode::Secondary)
             secondary();
 
-
-
         return 0;
     }
 
@@ -68,24 +61,25 @@ int main(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
 
+
     void primary(){
         dispatcher::Dispatcher disp("dispatcherp");
         //disp.connect_to_other("dispatchers");
         DemoClient client("dispatcherp", "DemoClient");
 
         recorder_replayer::Recorder recorder("dispatcherp");
-        recorder_replayer::Replayer replayer("dispatcherp", "records/2021-05-24-17-45.json");
+        recorder_replayer::Replayer replayer("dispatcherp", "records/2021-05-24-18-14.json");
+        replayer.start();
 
         client.subscribe_evnt(dispatcher::EventType::Event12);
         dispatcher::Event e = {dispatcher::EventType::AnotherEvent, true, 23};
-//        client.send_evnt(e, 3);
-//        usleep(1000*100);
-//        client.send_evnt(e, 3);
-//        usleep(1000*100);
-//        client.send_evnt(e, 3);
-//        usleep(1000*100);
-//        client.send_evnt(e, 3);
-          usleep(1000*1000);
+
+//        for (int i = 0; i < 5; i++){
+//            client.send_evnt(e, 3);
+//            usleep(1000*100);
+//        }
+
+        usleep(1000*1000);
     }
 
     void secondary(){
@@ -94,15 +88,15 @@ int main(int argc, char **argv) {
         DemoClient client("dispatchers", "DemoClient");
         client.subscribe_evnt(dispatcher::EventType::Event12);
         dispatcher::Event e = {dispatcher::EventType::Event12, true, 42};
-        client.send_evnt(e, 3);
-        usleep(1000*100);
-        client.send_evnt(e, 3);
-        usleep(1000*100);
-        client.send_evnt(e, 3);
-        usleep(1000*100);
-        client.send_evnt(e, 3);
-        usleep(1000*100);
+
+        for (int i = 0; i < 5; i++){
+            client.send_evnt(e, 3);
+            usleep(1000*100);
+        }
+        usleep(1000*1000);
     }
+
+
 
 #endif
 
