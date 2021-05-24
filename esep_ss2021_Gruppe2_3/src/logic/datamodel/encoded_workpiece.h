@@ -37,7 +37,7 @@ public:
     }
 
     WorkpieceType get_type() const {
-        return static_cast<WorkpieceType>((code & TYPE_MASK) >> 30);
+        return WorkpieceType((code & TYPE_MASK) >> 30);
     }
 };
 

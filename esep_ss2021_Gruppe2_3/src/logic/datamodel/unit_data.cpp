@@ -10,9 +10,7 @@ bool UnitData::wrpc_fits_order(const Workpiece& wrpc) const {
 
 void UnitData::wrpc_order_step() {
     const std::lock_guard<std::mutex> lock(_unit_mutex);
-    _next_in_order = WorkpieceType(
-            ((static_cast<int>(_next_in_order) + 1)
-                    % static_cast<int>(WorkpieceType::WRPC_L)));
+    _next_in_order = _next_in_order.next_in_sorting_order();
 }
 
 void UnitData::wrpc_order_reset(WorkpieceType wrpc_type) {
