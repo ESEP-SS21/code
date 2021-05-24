@@ -1,3 +1,4 @@
+#include <embedded_recorder/Recorder.h>
 #include <stdint.h>
 #include <thread>
 #include <stdlib.h>
@@ -6,9 +7,8 @@
 #include <ctime>
 #include <nlohmann/json.hpp>
 #include "utils.h"
-#include <recorder_replayer/Recorder.h>
 
-namespace recorder_replayer {
+namespace embedded_recorder {
 
 Recorder::Recorder(const std::string& dispatcher_name) :
         DispatcherClient(dispatcher_name, "Recorder Manager") {

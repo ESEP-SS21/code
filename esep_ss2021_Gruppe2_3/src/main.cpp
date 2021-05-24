@@ -1,7 +1,7 @@
 #include <dispatcher/Dispatcher.h>
+#include <embedded_recorder/Recorder.h>
+#include <embedded_recorder/Replayer.h>
 #include <Logger.h>
-#include <recorder_replayer/Recorder.h>
-#include <recorder_replayer/Replayer.h>
 #include <iostream>
 #include "simqnxgpioapi.h" // must be last include !!!
 #include "hal/gpiowrapper.h"
@@ -67,19 +67,21 @@ int main(int argc, char **argv) {
         //disp.connect_to_other("dispatchers");
         DemoClient client("dispatcherp", "DemoClient");
 
-        recorder_replayer::Recorder recorder("dispatcherp");
-        recorder_replayer::Replayer replayer("dispatcherp", "records/2021-05-24-18-14.json");
+        embedded_recorder::Recorder recorder("dispatcherp");
+        embedded_recorder::Replayer replayer("dispatcherp", "records/2021-05-24-18-58.json");
         replayer.start();
 
         client.subscribe_evnt(dispatcher::EventType::Event12);
         dispatcher::Event e = {dispatcher::EventType::AnotherEvent, true, 23};
 
-//        for (int i = 0; i < 5; i++){
-//            client.send_evnt(e, 3);
-//            usleep(1000*100);
-//        }
+        int event_count = 1000;
+        int sleep_time = 1000 * 10;
+        for (int i = 0; i < event_count; i++){
+            client.send_evnt(e, 3);
+            usleep(sleep_time);
+        }
 
-        usleep(1000*1000);
+        usleep(2 * event_count * sleep_time);
     }
 
     void secondary(){

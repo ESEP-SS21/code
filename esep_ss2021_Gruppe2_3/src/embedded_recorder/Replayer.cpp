@@ -1,3 +1,4 @@
+#include <embedded_recorder/Replayer.h>
 #include <stdint.h>
 #include <thread>
 #include <stdlib.h>
@@ -7,9 +8,8 @@
 #include <ctime>
 #include <nlohmann/json.hpp>
 #include "utils.h"
-#include <recorder_replayer/Replayer.h>
 
-namespace recorder_replayer {
+namespace embedded_recorder {
 using nlohmann::json;
 
 Replayer::Replayer(const std::string& dispatcher_name, const std::string& input) :
