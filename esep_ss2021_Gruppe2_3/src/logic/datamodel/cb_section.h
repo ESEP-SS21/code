@@ -21,6 +21,7 @@ public:
     void exit_first_workpiece() const;
 
     std::shared_ptr<std::queue<Workpiece>> get_queue();
+    std::shared_ptr<CBSection> get_next_section();
 
 protected:
     mutable std::mutex _section_mutex;

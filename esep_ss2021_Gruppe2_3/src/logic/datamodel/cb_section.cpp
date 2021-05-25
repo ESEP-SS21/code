@@ -47,5 +47,9 @@ std::shared_ptr<std::queue<Workpiece>> CBSection::get_queue() {
     return _queue;
 }
 
+std::shared_ptr<CBSection> CBSection::get_next_section() {
+    return _next_section;
+}
+
 } /* namespace datamodel */
 } /* namespace logic */
