@@ -23,12 +23,14 @@ public:
     bool ramp_full = false;
     std::shared_ptr<Workpiece> _pending_transfer = nullptr;
 
+    WorkpieceType get_next_in_order();
+
 protected:
     const std::shared_ptr<CBSection> _switch_end_sec = std::make_shared<CBSection>();
     const std::shared_ptr<CBSection> _height_switch_sec = std::make_shared<CBSection>(
             _switch_end_sec);
     const std::shared_ptr<CBSection> _start_height_sec = std::make_shared<CBSection>(
-            _start_height_sec);
+            _height_switch_sec);
 
     WorkpieceType _next_in_order = WorkpieceType::first_in_order();
     mutable std::mutex _unit_mutex;

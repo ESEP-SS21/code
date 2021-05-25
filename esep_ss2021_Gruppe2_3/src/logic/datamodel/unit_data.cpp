@@ -30,5 +30,9 @@ std::shared_ptr<CBSection> UnitData::get_start_height_sec() const {
     return _start_height_sec;
 }
 
+WorkpieceType UnitData::get_next_in_order() {
+    return _next_in_order;
+}
+
 } /* namespace datamodel */
 } /* namespace logic */
