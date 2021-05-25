@@ -34,13 +34,19 @@ void CBSection::enter_workpiece(const Workpiece& wrpc) const {
 
 void CBSection::exit_first_workpiece() const {
     const std::lock_guard<std::mutex> lock(_section_mutex);
-    this->_queue->pop();
+    if(!_queue->empty()) {
+        this->_queue->pop();
+    }
 }
 
 void CBSection::transfer_first_workpiece() const {
     const std::lock_guard<std::mutex> lock(_section_mutex);
-    this->_next_section->enter_workpiece(this->_queue->front());
-    this->_queue->pop();
+    if((this->_next_section != nullptr) && (!this->_queue->empty())) {
+        this->_next_section->enter_workpiece(this->_queue->front());
+    }
+    if(!this->_queue->empty()) {
+        this->_queue->pop();
+    }
 }
 
 std::shared_ptr<std::queue<Workpiece>> CBSection::get_queue() {
