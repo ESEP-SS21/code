@@ -5,9 +5,11 @@ namespace datamodel {
 
 CBSection::CBSection() :
         _next_section(nullptr) {
+    _queue = std::make_shared<std::queue<Workpiece>>();
 }
 CBSection::CBSection(std::shared_ptr<CBSection> next_section) :
         _next_section(next_section) {
+    _queue = std::make_shared<std::queue<Workpiece>>();
 }
 
 int CBSection::workpiece_count() const {
