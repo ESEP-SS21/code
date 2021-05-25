@@ -30,7 +30,7 @@ protected:
     const std::shared_ptr<CBSection> _start_height_sec = std::make_shared<CBSection>(
             _start_height_sec);
 
-    WorkpieceType _next_in_order = WorkpieceType::firt_in_order();
+    WorkpieceType _next_in_order = WorkpieceType::first_in_order();
     mutable std::mutex _unit_mutex;
 };
 

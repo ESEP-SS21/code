@@ -15,12 +15,12 @@ public:
         Unknown
     };
 
-    constexpr static WorkpieceType firt_in_order() { return WorkpieceType(Value::WRPC_HM); }
-    constexpr static WorkpieceType firt_not_in_order(){ return WorkpieceType(Value::WRPC_H); }
+    constexpr static WorkpieceType first_in_order() { return WorkpieceType(Value::WRPC_HM); }
+    constexpr static WorkpieceType first_not_in_order(){ return WorkpieceType(Value::WRPC_H); }
 
-    constexpr bool is_to_be_discarded() const { return _value >= firt_not_in_order()._value; }
+    constexpr bool is_to_be_discarded() const { return _value >= first_not_in_order()._value; }
     constexpr WorkpieceType next_in_sorting_order() {
-        return WorkpieceType((_value + 1 ) % firt_not_in_order()._value);
+        return WorkpieceType((_value + 1 ) % first_not_in_order()._value);
     }
 
     constexpr WorkpieceType() : _value(Value::Unknown) { }
