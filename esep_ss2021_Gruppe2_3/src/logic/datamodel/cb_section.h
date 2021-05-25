@@ -20,9 +20,11 @@ public:
     void transfer_first_workpiece() const;
     void exit_first_workpiece() const;
 
+    std::shared_ptr<std::queue<Workpiece>> get_queue();
+
 protected:
     mutable std::mutex _section_mutex;
-    std::unique_ptr<std::queue<Workpiece>> _queue;
+    std::shared_ptr<std::queue<Workpiece>> _queue;
     std::shared_ptr<CBSection> _next_section;
 };
 

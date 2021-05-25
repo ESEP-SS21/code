@@ -41,5 +41,9 @@ void CBSection::transfer_first_workpiece() const {
     this->_queue->pop();
 }
 
+std::shared_ptr<std::queue<Workpiece>> CBSection::get_queue() {
+    return _queue;
+}
+
 } /* namespace datamodel */
 } /* namespace logic */
