@@ -10,7 +10,9 @@ DemoClient::DemoClient(const std::string& dispatcher_name, const std::string& na
             dispatcher::EventType::EVNT_SEN_HEIGHT_HE,
             dispatcher::EventType::EVNT_CTRL_T_STR_PRS_SRT,
             dispatcher::EventType::EVNT_CTRL_T_STP_PRS_SRT,
-            dispatcher::EventType::EVNT_CTRL_T_RST_PRS_SRT });
+            dispatcher::EventType::EVNT_CTRL_T_RST_PRS_SRT,
+            dispatcher::EventType::EVNT_CONN_LOST,
+    });
 }
 
 void DemoClient::handle(dispatcher::Event& event) {

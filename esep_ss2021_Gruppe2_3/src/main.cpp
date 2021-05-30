@@ -88,7 +88,7 @@ const std::string D_SEC = "SEC";
 
 void primary() {
     dispatcher::Dispatcher disp(D_PRI);
-    //disp.connect_to_other(D_SEC);
+    disp.connect_to_other(D_SEC);
     timer::AsyncTimerService timer_svc(D_PRI);
     hal::HalManager hal_mngr(D_PRI);
     DemoClient client(D_PRI, "DEMO");

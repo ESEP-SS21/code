@@ -59,6 +59,7 @@ enum class EventType { //make sure to add a string representation for each value
     EVNT_MOD_ERR,
     EVNT_TIM_REQ,
     EVNT_TIM_ALRT,
+    EVNT_CONN_LOST,
     SIZE = 64
 };
 
@@ -112,6 +113,7 @@ inline std::ostream& operator<<(std::ostream& out, const EventType& e) {
             "EVNT_MOD_ERR",
             "EVNT_TIM_REQ",
             "EVNT_TIM_ALRT",
+            "EVNT_CONN_LOST",
 
     };
     return out << EVNT_PREFIX << strs[static_cast<int>(e)];
