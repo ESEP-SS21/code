@@ -5,10 +5,11 @@
 #include "cnnMngmnt/QnxChannel.h" //TODO use the interface instead. This needs a 'IIpcConnectionFactory of some sort'
 #include "cnnMngmnt/QnxConnection.h"
 #include "Event.h"
+#include "IEventSender.h"
 
 namespace dispatcher {
 
-class DispatcherClient {
+class DispatcherClient : public IEventSender {
 public:
     DispatcherClient(const std::string& dispatcher_name, const std::string& name);
     virtual ~DispatcherClient();
