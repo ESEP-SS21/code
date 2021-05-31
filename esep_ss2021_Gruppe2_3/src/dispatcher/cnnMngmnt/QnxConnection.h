@@ -16,7 +16,7 @@ public:
     QnxConnection(cnnMngmnt::chid receiver_chid);
     virtual ~QnxConnection();
     int get_id();
-    void msg_send_pulse(int priority, int code, int value) const;
+    int msg_send_pulse(int priority, int code, int value) const;
     status_code msg_send(iov_t *iov, int iov_size) const;
 
 private:

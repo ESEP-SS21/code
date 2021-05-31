@@ -81,7 +81,11 @@ void Dispatcher::dispatch(Event e) const {
     _logger->trace(LOG_FORMAT2, "Dispatcher received", e.str());
 
     if (e.broadcast && _other_connection != nullptr) {
-        _other_connection->msg_send_pulse(1, evnt_id, e.payload);
+        int ret_code = _other_connection->msg_send_pulse(1, evnt_id, e.payload);
+        if(ret_code == -1){
+            Event conn_lost_evnt = { EventType::EVNT_CONN_LOST, 0, false };
+            dispatch(conn_lost_evnt);
+        }
         _logger->trace(LOG_FORMAT2, "Dispatcher broadcasted", e.str());
     }
 
