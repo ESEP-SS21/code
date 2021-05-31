@@ -34,5 +34,51 @@ WorkpieceType UnitData::get_next_in_order() {
     return _next_in_order;
 }
 
+bool UnitData::get_belt_blocked() {
+    return _belt_blocked;
+}
+
+bool UnitData::get_ramp_full() {
+    return _ramp_full;
+}
+
+std::shared_ptr<Workpiece> UnitData::get_pending_transfer() {
+    return _pending_transfer;
+}
+
+int UnitData::get_estop_count() {
+    return _estop_count;
+}
+
+int UnitData::get_warning_count() {
+    return _warning_count;
+}
+
+
+void UnitData::set_belt_blocked(bool val) {
+    const std::lock_guard<std::mutex> lock(_unit_mutex);
+    _belt_blocked = val;
+}
+
+void UnitData::set_ramp_full(bool val) {
+    const std::lock_guard<std::mutex> lock(_unit_mutex);
+    _ramp_full = val;
+}
+
+void UnitData::set_pending_transfer(std::shared_ptr<Workpiece> wrpc) {
+    const std::lock_guard<std::mutex> lock(_unit_mutex);
+    _pending_transfer = wrpc;
+}
+
+void UnitData::set_estop_count(int val) {
+    const std::lock_guard<std::mutex> lock(_unit_mutex);
+    _estop_count = val;
+}
+
+void UnitData::set_warning_count(int val) {
+    const std::lock_guard<std::mutex> lock(_unit_mutex);
+    _warning_count = val;
+}
+
 } /* namespace datamodel */
 } /* namespace logic */
