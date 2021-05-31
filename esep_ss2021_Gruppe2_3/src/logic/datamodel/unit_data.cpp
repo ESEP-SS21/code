@@ -54,7 +54,6 @@ int UnitData::get_warning_count() {
     return _warning_count;
 }
 
-
 void UnitData::set_belt_blocked(bool val) {
     const std::lock_guard<std::mutex> lock(_unit_mutex);
     _belt_blocked = val;
