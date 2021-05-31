@@ -14,11 +14,13 @@
 
 #ifdef TEST_ENABLE
 #include <gtest/gtest.h>
+
 #endif
 
 void fail_and_exit();
 void primary();
 void secondary();
+
 
 int main(int argc, char **argv) {
 
