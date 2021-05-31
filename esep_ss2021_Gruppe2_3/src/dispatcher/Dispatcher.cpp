@@ -62,7 +62,7 @@ void Dispatcher::handle_sync_msg(cnnMngmnt::header_t header) {
         subscribe(subscription);
         _channel->msg_reply(EOK);
 
-        _logger->trace(LOG_FORMAT2, "Dispatcher received subscription for", str(subscription.type));
+        _logger->trace(LOG_FORMAT2, "Dispatcher received subscr for", str(subscription.type));
     }
     //maybe other forms of sync communications
 }
@@ -81,7 +81,11 @@ void Dispatcher::dispatch(Event e) const {
     _logger->trace(LOG_FORMAT2, "Dispatcher received", e.str());
 
     if (e.broadcast && _other_connection != nullptr) {
-        _other_connection->msg_send_pulse(1, evnt_id, e.payload);
+        int ret_code = _other_connection->msg_send_pulse(1, evnt_id, e.payload);
+        if(ret_code == -1){
+            Event conn_lost_evnt = { EventType::EVNT_CONN_LOST, 0, false };
+            dispatch(conn_lost_evnt);
+        }
         _logger->trace(LOG_FORMAT2, "Dispatcher broadcasted", e.str());
     }
 

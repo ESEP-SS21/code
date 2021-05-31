@@ -49,10 +49,12 @@ status_code QnxConnection::msg_send(iov_t *iov, int iov_size) const {
     return s;
 }
 
-void QnxConnection::msg_send_pulse(int priority, int code, int value) const {
-    if (-1 == MsgSendPulse(_id, priority, code, value)) {
+int QnxConnection::msg_send_pulse(int priority, int code, int value) const {
+    int ret_code = MsgSendPulse(_id, priority, code, value);
+    if (-1 == ret_code) {
         _logger->error("while sending pulse");
     }
+    return ret_code;
 }
 
 }/* namespace cnnMngmnt*/

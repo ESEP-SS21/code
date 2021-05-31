@@ -57,6 +57,9 @@ enum class EventType { //make sure to add a string representation for each value
     EVNT_MOD_IDL,
     EVNT_MOD_OP,
     EVNT_MOD_ERR,
+    EVNT_TIM_REQ,
+    EVNT_TIM_ALRT,
+    EVNT_CONN_LOST,
     SIZE = 64
 };
 
@@ -108,6 +111,9 @@ inline std::ostream& operator<<(std::ostream& out, const EventType& e) {
             "EVNT_MOD_IDL",
             "EVNT_MOD_OP",
             "EVNT_MOD_ERR",
+            "EVNT_TIM_REQ",
+            "EVNT_TIM_ALRT",
+            "EVNT_CONN_LOST",
 
     };
     return out << EVNT_PREFIX << strs[static_cast<int>(e)];
@@ -145,6 +151,10 @@ struct Event {
         return buffer.str();
     }
 
+    static inline Event CreateTimer(uint16_t payload, uint16_t time_ms, bool broadcast = false) {
+        return Event { dispatcher::EventType::EVNT_TIM_REQ, (payload << 16) + time_ms, broadcast };
+    }
+
 private:
     bool transmission_bit_set(int evnt_id) {
         return (evnt_id & 0b01000000) != 0;
@@ -153,6 +163,7 @@ private:
     int mask_out_tranmission_bit(int evnt_id) {
         return evnt_id & (~0b01000000);
     }
+
 };
 
 struct EventSubscription {
