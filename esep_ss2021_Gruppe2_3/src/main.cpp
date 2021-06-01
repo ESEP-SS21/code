@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
            strcmp(argv[1], "-s") == 0 ? Mode::Secondary :
            strcmp(argv[1], "-t") == 0 ? Mode::Test      : Mode::NONE;
 
-    bool quiet = false;
+    bool quiet = true;
     if (argc > 2){
         quiet = strcmp(argv[2], "-q") == 0;
     }

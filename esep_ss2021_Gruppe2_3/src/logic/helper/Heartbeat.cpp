@@ -1,10 +1,3 @@
-/*
- * Heartbeat.cpp
- *
- *  Created on: 01.06.2021
- *      Author: jendr
- */
-
 #include <logic/helper/Heartbeat.h>
 
 namespace logic {
@@ -28,7 +21,7 @@ void Heartbeat::handle(dispatcher::Event& event) {
 }
 
 Heartbeat::~Heartbeat() {
-    // TODO Auto-generated destructor stub
+
 }
 
 } /* namespace logic */
