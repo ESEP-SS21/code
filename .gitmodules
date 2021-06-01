@@ -1,0 +1,3 @@
+[submodule "googletest"]
+	path = esep_ss2021_Gruppe2_3/test/lib/googletest
+	url = https://github.com/google/googletest.git

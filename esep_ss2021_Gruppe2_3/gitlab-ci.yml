@@ -1,0 +1,13 @@
+image: ubuntu:14.04
+
+job:
+  script:
+    - apt-get update
+    - apt-get install -y git cmake g++ gcovr
+    - git submodule update --init --recursive
+    - mkdir build
+    - cd build
+    - cmake ..
+    - make -j
+    - ./unit_tests
+    - gcovr -r ../src/
