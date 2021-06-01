@@ -55,8 +55,6 @@ std::shared_ptr<Arguments> parse(int argc, const char *const *argv) {
         }
         if (result.count(argument_names::ofile))
             args->filename = result[argument_names::ofile].as<std::string>();
-        if (result.count(argument_names::record))
-            args->filename = result[argument_names::record].as<std::string>();
         if (result.count(argument_names::playback)) {
             args->playback = true;
             args->filename = result[argument_names::playback].as<std::string>();
