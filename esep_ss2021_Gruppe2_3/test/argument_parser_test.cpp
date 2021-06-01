@@ -1,5 +1,5 @@
 #include "TestUtils.h"
-#include "ArgumentParser.hpp"
+#include "argument_parser.hpp"
 
 TEST(ArgumentParser, Test1) {
 
