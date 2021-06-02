@@ -10,6 +10,15 @@ namespace stm {
 using namespace dispatcher;
 using namespace datamodel;
 
+#define NAME(Type) const std::string Type::name = #Type##;\
+std::string Type::get_name() {\
+    return name;\
+}
+
+#define NAME_H static const std::string name;\
+std::string get_name() override;
+
+
 class BaseBaseState {
 protected:
     IEventSender* _eventSender;

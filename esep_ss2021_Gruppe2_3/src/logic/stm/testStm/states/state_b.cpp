@@ -6,6 +6,8 @@ namespace logic {
 namespace stm {
 namespace testStm {
 
+NAME(StateB)
+
 bool StateB::tick(int pa) {
     //buggy, as _substate is never a nullptr
     if (_substate && _substate->tick(pa))
@@ -18,14 +20,9 @@ bool StateB::tick(int pa) {
 }
 
 void StateB::entry_sub_start_node() {
-    new (_substate) StateC;
+    new(_substate) StateC;
 }
 
-const std::string StateB::name = "StateB";
-
-std::string StateB::get_name() {
-    return name;
-}
 }
 }
 }

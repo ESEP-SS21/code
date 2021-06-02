@@ -5,6 +5,8 @@ namespace logic {
 namespace stm {
 namespace testStm {
 
+NAME(StateA)
+
 bool StateA::tick(int pa) {
     _eventSender->send( { EventType::EVNT_ACK, pa, false });
     std::cout << "tick" << std::endl;
@@ -12,11 +14,6 @@ bool StateA::tick(int pa) {
     return true;
 }
 
-const std::string StateA::name = "StateA";
-
-std::string StateA::get_name() {
-    return name;
-}
 
 }
 }
