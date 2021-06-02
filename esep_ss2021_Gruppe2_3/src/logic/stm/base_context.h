@@ -10,6 +10,12 @@ namespace stm {
 
 using namespace dispatcher;
 
+#define CONTEXT_CTOR(Type, StartState) \
+TestContext::TestContext(IEventSender *eventSender, UnitData *datamodel) :\
+    BaseContext(new StateA()) {\
+    _state->SetData(eventSender, datamodel);\
+}
+
 class BaseContext {
 public:
 

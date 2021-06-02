@@ -6,10 +6,7 @@ namespace logic {
 namespace stm {
 namespace testStm {
 
-TestContext::TestContext(IEventSender *eventSender, UnitData *datamodel) :
-    BaseContext(new StateA()) {
-    _state->SetData(eventSender, datamodel);
-}
+CONTEXT_CTOR(TestContext, StateA)
 
 void TestContext::handle(Event e) {
     ((TestBaseState*)_state)->tick(e.payload);
