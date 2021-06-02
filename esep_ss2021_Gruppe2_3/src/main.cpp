@@ -18,17 +18,13 @@
 
 #endif
 
-void fail_and_exit();
 void primary();
 void secondary();
 
-
 int main(int argc, char **argv) {
 
-
-
 #ifdef TEST_ENABLE
-    if (argc>1 && !strcmp(argv[1], "-t")){
+    if (argc > 1 && !strcmp(argv[1], "-t")) {
         ::testing::InitGoogleTest(&argc, argv);
         return RUN_ALL_TESTS();
     }
@@ -52,16 +48,22 @@ int main(int argc, char **argv) {
     return 0;
 }
 
-void fail_and_exit() {
-    printf("Usage %s -s | -c");
-    exit(EXIT_FAILURE);
-}
-
 using EventType = dispatcher::EventType;
 using Event = dispatcher::Event;
 
 const std::string D_PRI = "PRI";
 const std::string D_SEC = "SEC";
+
+void wait_for_exit() {
+    while (true) {
+        char c = getchar();
+        if (c == 'q') {
+            Logger::get()->set_level(spdlog::level::debug);
+            Logger::get()->info(">>>>>>>>> EXIT <<<<<<<<<");
+            exit(0);
+        }
+    }
+}
 
 void primary() {
     dispatcher::Dispatcher disp(D_PRI);
@@ -69,13 +71,13 @@ void primary() {
     timer::AsyncTimerService timer_svc(D_PRI);
     hal::HalManager hal_mngr(D_PRI);
     DemoClient client(D_PRI, "DEMO");
-    usleep(1000 * 1000 * 1000);
+    wait_for_exit();
 }
 
 void secondary() {
     dispatcher::Dispatcher disp(D_SEC);
     disp.connect_to_other(D_PRI);
     hal::HalManager hal_mngr(D_SEC);
-    usleep(1000 * 1000 * 1000);
+    wait_for_exit();
 }
 
