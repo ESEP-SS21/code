@@ -11,7 +11,7 @@
 #include "dispatcher/cnnMngmnt/QnxChannel.h"
 #include "hal/HalManager.h"
 #include "timer/AsyncTimerService.h"
-#include "logic/helper/Heartbeat.h"
+#include "logic/util/Heartbeat.h"
 
 #ifdef TEST_ENABLE
 #include <gtest/gtest.h>
@@ -93,7 +93,7 @@ void primary() {
     dispatcher::Dispatcher disp(D_PRI);
     //disp.connect_to_other(D_SEC);
     timer::AsyncTimerService timer_svc(D_PRI);
-    logic::Heartbeat hrtbt(D_PRI);
+    logic::util::Heartbeat hrtbt(D_PRI);
     hal::HalManager hal_mngr(D_PRI);
     DemoClient client(D_PRI, "DEMO");
     usleep(1000 * 1000 * 1000);

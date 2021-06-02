@@ -1,6 +1,8 @@
-#include <logic/helper/FlipHandler.h>
+#include <logic/util/FlipHandler.h>
 
 namespace logic {
+namespace util {
+
 using namespace dispatcher;
 
 FlipHandler::FlipHandler(const std::string& dispatcher_name, std::shared_ptr<logic::datamodel::UnitData> data):
@@ -17,4 +19,5 @@ void FlipHandler::handle(dispatcher::Event& event) {
     }
 }
 
-} /* namespace logic */
+}
+}

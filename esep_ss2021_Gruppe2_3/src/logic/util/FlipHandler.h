@@ -6,6 +6,7 @@
 #include "logic/datamodel/encoded_workpiece.h"
 
 namespace logic {
+namespace util {
 
 class FlipHandler: public dispatcher::DispatcherClient {
 public:
@@ -18,5 +19,5 @@ private:
     Logger::Logger _logger { Logger::get() };
 };
 
-} /* namespace logic */
-
+}
+}

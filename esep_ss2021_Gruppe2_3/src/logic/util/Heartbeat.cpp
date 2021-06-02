@@ -1,6 +1,7 @@
-#include <logic/helper/Heartbeat.h>
+#include <logic/util/Heartbeat.h>
 
 namespace logic {
+namespace util {
 
 using namespace dispatcher;
 
@@ -21,4 +22,5 @@ void Heartbeat::handle(dispatcher::Event& event) {
     }
 }
 
-} /* namespace logic */
+}
+}

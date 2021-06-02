@@ -3,6 +3,7 @@
 #include "dispatcher/Event.h"
 
 namespace logic {
+namespace util {
 
 class Heartbeat : public dispatcher::DispatcherClient {
 public:
@@ -14,5 +15,6 @@ private:
     Logger::Logger _logger { Logger::get() };
 };
 
-} /* namespace logic */
+}
+}
 
