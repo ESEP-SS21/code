@@ -9,6 +9,7 @@ struct Arguments {
     bool ejector{};
     bool record{};
     bool playback{};
+    bool verbose{};
     std::string filename{};
 };
 
@@ -18,6 +19,7 @@ static const std::string record{"record"};
 static const std::string ejector{"ejector"};
 static const std::string secondary{"secondary"};
 static const std::string playback{"playback"};
+static const std::string verbose{"verbose"};
 }
 
 std::shared_ptr<Arguments> parse(int argc, const char *const *argv);
@@ -39,6 +41,7 @@ std::shared_ptr<Arguments> parse(int argc, const char *const *argv) {
             .add_options()
                 ("h,help", "Print usage")
                 ("s," + argument_names::secondary, "start in secondary mode", cxxopts::value<bool>(args->secondary))
+                ("v," + argument_names::verbose, "start in secondary mode", cxxopts::value<bool>(args->verbose))
                 ("e," + argument_names::ejector, "FTS has ejector instead of switch",
                  cxxopts::value<bool>(args->ejector))
                 ("R," + argument_names::record, "enable recording events to file",

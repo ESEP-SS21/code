@@ -69,3 +69,14 @@ TEST(ArgumentParser, Ejector) {
     auto res = argument_parser::parse(size, messages);
     ASSERT_TRUE(res->ejector);
 }
+
+TEST(ArgumentParser, Verbose) {
+    constexpr int size = 2;
+    const char *messages[size] =
+        {
+            "testmain",
+            "-v",
+        };
+    auto res = argument_parser::parse(size, messages);
+    ASSERT_TRUE(res->verbose);
+}
