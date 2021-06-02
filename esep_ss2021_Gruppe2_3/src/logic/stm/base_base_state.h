@@ -4,6 +4,11 @@
 #include "dispatcher/IEventSender.h"
 #include "../datamodel/unit_data.h"
 
+#define nextState(State) new(this) State(std::move(_eventSender), std::move(_datamodel))
+
+#define Ctor(Type) Type(std::shared_ptr<IEventSender> eventSender, std::shared_ptr<UnitData> datamodel) \
+: TestBaseState(name, std::move(eventSender), std::move(datamodel)) {}
+
 namespace logic {
 namespace stm {
 
@@ -17,7 +22,8 @@ protected:
     std::shared_ptr<UnitData> _datamodel;
 
 public:
-    BaseBaseState(const std::string &name, std::shared_ptr<IEventSender> eventSender, std::shared_ptr<UnitData> datamodel)
+    BaseBaseState(const std::string &name, std::shared_ptr<IEventSender> eventSender,
+                  std::shared_ptr<UnitData> datamodel)
         : _name(name), _eventSender(eventSender), _datamodel(datamodel) {}
 
     virtual ~BaseBaseState() = default;
