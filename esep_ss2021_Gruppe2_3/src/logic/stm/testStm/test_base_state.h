@@ -2,6 +2,8 @@
 
 #include "../base_base_state.h"
 
+#define nextState(State) new(this) State(std::move(_eventSender), std::move(_datamodel))
+
 namespace logic {
 namespace stm {
 namespace testStm {

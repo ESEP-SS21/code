@@ -8,7 +8,7 @@ namespace testStm {
 bool StateB::tick(int pa) {
     _eventSender->send( { EventType::EVNT_ACK, pa, false });
     std::cout << "tick" << std::endl;
-    new (this) StateA(std::move(_eventSender), std::move(_datamodel));
+    nextState(StateA);
     return true;
 }
 
