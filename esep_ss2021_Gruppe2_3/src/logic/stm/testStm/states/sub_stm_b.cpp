@@ -16,10 +16,7 @@ bool SubStmB::tick(int pa) {
     return true;
 }
 
-void SubStmB::entry_sub_start_node() {
-    _substate = new SubStateC();
-    _substate->SetData(_eventSender, _datamodel);
-}
+ENTRY_SUB_START_NODE(SubStmB, SubStateC)
 
 }
 }

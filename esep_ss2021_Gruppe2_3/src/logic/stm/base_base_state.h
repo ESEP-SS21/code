@@ -27,6 +27,11 @@ std::string Type::str() {\
 std::string get_name() override;
 
 
+#define ENTRY_SUB_START_NODE(Type, State) void Type::entry_sub_start_node() {\
+    _substate = new State();\
+    _substate->SetData(_eventSender, _datamodel);\
+}\
+
 class BaseBaseState {
 protected:
     IEventSender *_eventSender;
