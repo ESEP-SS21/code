@@ -12,7 +12,6 @@ public:
 
     void handle(Event e) override;
 
-    std::string currentState();
 };
 
 }
