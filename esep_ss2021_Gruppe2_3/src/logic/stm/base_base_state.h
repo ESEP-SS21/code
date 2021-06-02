@@ -10,17 +10,18 @@ namespace stm {
 using namespace dispatcher;
 using namespace datamodel;
 
-#define STATE_INIT(Type) const std::string Type::name = #Type##;\
+#define STATE_INIT(Type)\
+const std::string Type::name = #Type##;\
 std::string Type::get_name() {\
     return name;\
 }
 
-
-#define STATE_HEADER_INIT static const std::string name;\
+#define STATE_HEADER_INIT \
+static const std::string name;\
 std::string get_name() override;
 
-
-#define INIT_SUB_STM(Type, EntrySubState) const std::string Type::name = #Type##;\
+#define INIT_SUB_STM(Type, EntrySubState)\
+const std::string Type::name = #Type##;\
 std::string Type::get_name() {\
     return _substate->get_name();\
 }\
