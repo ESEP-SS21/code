@@ -8,7 +8,7 @@ namespace testStm {
 
 class StateA : public TestBaseState {
 public:
-    StateA(std::shared_ptr<IEventSender> eventSender) : TestBaseState(name, eventSender) {}
+    StateA(std::shared_ptr<IEventSender> eventSender, std::shared_ptr<UnitData> datamodel) : TestBaseState(name, eventSender, datamodel) {}
 
     bool tick(int pa) override;
 

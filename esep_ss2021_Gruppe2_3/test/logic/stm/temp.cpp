@@ -12,7 +12,7 @@ using namespace ::logic::stm;
 
 TEST(STM, testtest) {
     auto client = std::make_shared<StmTestClient>();
-    testStm::TestContext t(client);
+    testStm::TestContext t(client, nullptr);
 
     std::cout << "current state:" << t.currentState() << std::endl;
     ASSERT_EQ(t.currentState(), testStm::StateA::name);

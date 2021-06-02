@@ -9,8 +9,8 @@ namespace testStm {
 class TestBaseState : public BaseBaseState {
 
 public:
-    TestBaseState(const std::string &name, std::shared_ptr<IEventSender> eventSender)
-        : BaseBaseState(name, eventSender) {};
+    TestBaseState(const std::string &name, std::shared_ptr<IEventSender> eventSender, std::shared_ptr<datamodel::UnitData> datamodel)
+        : BaseBaseState(name, eventSender, datamodel) {};
 
     virtual bool tick(int pa) { return false; }
 
