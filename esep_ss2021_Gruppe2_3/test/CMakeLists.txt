@@ -17,5 +17,5 @@ add_executable(Google_Tests_run
         ../src/logic/stm/testStm/test_base_state.h
         ../src/logic/stm/testStm/states/state_a.h
         logic/stm/temp.cpp
-        )
+        logic/stm/stm_test_client.h)
 target_link_libraries(Google_Tests_run gtest gtest_main)

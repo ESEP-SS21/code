@@ -8,7 +8,7 @@ namespace testStm {
 
 class TestContext : public BaseContext {
 public:
-    TestContext();
+    TestContext(std::shared_ptr<IEventSender> eventSender);
 
     void handle(Event e) override;
 

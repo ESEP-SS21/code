@@ -9,7 +9,8 @@ namespace testStm {
 class TestBaseState : public BaseBaseState {
 
 public:
-    TestBaseState(const std::string &name) : BaseBaseState(name) {};
+    TestBaseState(const std::string &name, std::shared_ptr<IEventSender> eventSender)
+        : BaseBaseState(name, eventSender) {};
 
     virtual bool tick() { return false; }
 

@@ -11,10 +11,11 @@ using namespace dispatcher;
 class BaseBaseState {
 protected:
     const std::string _name;
-    std::shared_ptr<IEventSender> eventSender;
+    std::shared_ptr<IEventSender> _eventSender;
 
 public:
-    BaseBaseState(const std::string &name) : _name(name) {}
+    BaseBaseState(const std::string &name, std::shared_ptr<IEventSender> eventSender)
+        : _name(name), _eventSender(eventSender) {}
 
     virtual ~BaseBaseState() = default;
 
