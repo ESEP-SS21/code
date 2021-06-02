@@ -11,7 +11,7 @@ TestContext::TestContext(std::shared_ptr<IEventSender> eventSender,std::shared_p
 }
 
 void TestContext::handle(Event e) {
-    std::dynamic_pointer_cast<TestBaseState>(_state)->tick(e.payload);
+    _state->tick(e.payload);
 }
 
 }
