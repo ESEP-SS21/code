@@ -1,6 +1,6 @@
 #pragma once
 
-#include <logic/stm/base_base_state.hpp>
+#include "../base_base_state.h"
 
 namespace logic {
 namespace stm {

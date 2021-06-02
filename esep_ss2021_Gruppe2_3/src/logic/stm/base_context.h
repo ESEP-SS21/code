@@ -2,7 +2,7 @@
 
 #include "dispatcher/Event.h"
 #include <string>
-#include "base_base_state.hpp"
+#include "base_base_state.h"
 
 namespace logic {
 namespace stm {
@@ -17,7 +17,7 @@ public:
 
     virtual void handle(Event e) = 0;
 
-    std::string currentState(){
+    std::string currentState() {
         return _state->get_name();
     }
 

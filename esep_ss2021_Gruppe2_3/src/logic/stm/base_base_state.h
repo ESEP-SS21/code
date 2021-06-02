@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <dispatcher/IEventSender.h>
+#include "dispatcher/IEventSender.h"
 
 namespace logic {
 namespace stm {

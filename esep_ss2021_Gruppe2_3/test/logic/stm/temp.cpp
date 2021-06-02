@@ -1,5 +1,5 @@
-#include "logic/stm/testStm/TestBaseState.hpp"
-#include "logic/stm/testStm/TestContext.hpp"
+#include "logic/stm/testStm/test_base_state.h"
+#include "logic/stm/testStm/test_context.h"
 #include <gtest/gtest.h>
 
 
@@ -7,7 +7,7 @@
 
 using namespace ::logic::stm::testStm;
 
-TEST(WorkpieceTest, DeterminedTypeShouldBeCorrct) {
+TEST(STM, testtest) {
     TestContext t;
     t.handle({EventType::EVNT_ACK,0,false});
 }
