@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
            strcmp(argv[1], "-s") == 0 ? Mode::Secondary :
            strcmp(argv[1], "-t") == 0 ? Mode::Test      : Mode::NONE;
 
-    bool quiet = true;
+    bool quiet = false;
     if (argc > 2){
         quiet = strcmp(argv[2], "-q") == 0;
     }
@@ -54,7 +54,7 @@ int main(int argc, char **argv) {
     if (quiet)
         _logger->set_level(spdlog::level::off);
     else
-        _logger->set_level(spdlog::level::trace);
+        _logger->set_level(spdlog::level::debug);
 
     _logger->info(">>>>>>>>> running in {} mode <<<<<<<<<", mode_str);
 

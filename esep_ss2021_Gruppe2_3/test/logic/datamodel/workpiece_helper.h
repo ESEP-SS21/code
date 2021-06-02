@@ -4,7 +4,6 @@
 
 namespace test {
 namespace logic {
-namespace datamodel {
 using namespace ::logic::datamodel;
 
 inline Workpiece create_wp_hm(){
@@ -44,6 +43,5 @@ inline Workpiece create_wp_unknown(){
 }
 
 
-} /*namespace*/
 } /*namespace*/
 } /*namespace*/
