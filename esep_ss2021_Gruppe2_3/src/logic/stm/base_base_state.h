@@ -15,8 +15,12 @@ std::string Type::get_name() {\
     return name;\
 }
 
-#define NAME_SUB(Type) std::string Type::get_name() {\
+#define NAME_SUB(Type) const std::string Type::name = #Type##;\
+std::string Type::get_name() {\
     return _substate->get_name();\
+}\
+std::string Type::str() {\
+    return "SubSTM '" + name + "': " + _substate->get_name();\
 }
 
 #define NAME_H static const std::string name;\
@@ -25,19 +29,22 @@ std::string get_name() override;
 
 class BaseBaseState {
 protected:
-    IEventSender* _eventSender;
-    UnitData* _datamodel;
+    IEventSender *_eventSender;
+    UnitData *_datamodel;
 
 public:
     virtual ~BaseBaseState() = default;
 
-    void SetData(IEventSender* eventSender,
-                 datamodel::UnitData* datamodel) {
+    void SetData(IEventSender *eventSender,
+                 datamodel::UnitData *datamodel) {
         _datamodel = datamodel;
         _eventSender = eventSender;
     }
 
     virtual std::string get_name() = 0;
+    virtual std::string str(){
+        return get_name();
+    };
 
 
 };

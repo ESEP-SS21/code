@@ -21,6 +21,10 @@ public:
         return _state->get_name();
     }
 
+    std::string str() {
+        return _state->str();
+    }
+
     virtual ~BaseContext() = default;
 
 protected:

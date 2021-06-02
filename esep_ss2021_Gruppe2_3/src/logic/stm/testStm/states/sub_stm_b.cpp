@@ -5,9 +5,7 @@ namespace logic {
 namespace stm {
 namespace testStm {
 
-std::string SubStmB::get_name() {
-    return _substate->get_name();
-}
+NAME_SUB(SubStmB)
 
 bool SubStmB::tick(int pa) {
     if (_substate->tick(pa))

@@ -21,6 +21,7 @@ TEST(STM, testtest) {
 
     t.handle(e);
     ASSERT_EQ(t.currentState(), testStm::SubStateC::name);
+    std::cout << "completet name: " << t.str() << std::endl;
     Event recieved = client->get_last_event();
     ASSERT_EQ(recieved, e);
     std::cout << "current state:" << t.currentState() << std::endl;

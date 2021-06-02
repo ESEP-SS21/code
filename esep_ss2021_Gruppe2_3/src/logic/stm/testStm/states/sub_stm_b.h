@@ -12,6 +12,8 @@ class SubStmB : public TestBaseState {
 public:
     bool tick(int pa) override;
     NAME_H
+    std::string str() override;
+
 
 protected:
     void entry_sub_start_node() override;
