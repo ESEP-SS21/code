@@ -24,14 +24,14 @@ static const std::string verbose{"verbose"};
 
 std::shared_ptr<Arguments> parse(int argc, const char *const *argv);
 
-void validate(const Arguments &args) {
+inline void validate(const Arguments &args) {
     if (args.record && args.playback) {
         std::cout << argument_names::ofile << " and " << " cannot be selected at the same time";
         exit(1);
     }
 }
 
-std::shared_ptr<Arguments> parse(int argc, const char *const *argv) {
+inline std::shared_ptr<Arguments> parse(int argc, const char *const *argv) {
     auto args = std::make_shared<Arguments>();
     try {
         cxxopts::Options options(argv[0], " - example command line options");
