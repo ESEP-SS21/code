@@ -81,7 +81,14 @@ void Dispatcher::dispatch(Event e) const {
     _logger->trace(LOG_FORMAT2, "Dispatcher received", e.str());
 
     if (e.broadcast && _other_connection != nullptr) {
-        int ret_code = _other_connection->msg_send_pulse(1, evnt_id, e.payload);
+        int payload = e.payload;
+        if(e.type == EventType::EVNT_ERR){
+            // Clear payload, as the payload of the ERR event is the EventType
+            // which needs to be received to mark the as fixed. Thus receiving that
+            // specific Event is only allowed at the FBS on which the error was caused at.
+            payload = 0;
+        }
+        int ret_code = _other_connection->msg_send_pulse(1, evnt_id, payload);
         if(ret_code == -1){
             Event conn_lost_evnt = { EventType::EVNT_CONN_LOST, 0, false };
             dispatch(conn_lost_evnt);
