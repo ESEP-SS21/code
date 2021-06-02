@@ -11,7 +11,7 @@ namespace testStm {
 class SubStmB : public TestBaseState {
 public:
     bool tick(int pa) override;
-    NAME_H
+    STATE_HEADER_INIT
     std::string str() override;
 
 

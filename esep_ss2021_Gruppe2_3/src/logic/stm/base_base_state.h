@@ -10,27 +10,27 @@ namespace stm {
 using namespace dispatcher;
 using namespace datamodel;
 
-#define NAME(Type) const std::string Type::name = #Type##;\
+#define STATE_INIT(Type) const std::string Type::name = #Type##;\
 std::string Type::get_name() {\
     return name;\
 }
 
-#define NAME_SUB(Type) const std::string Type::name = #Type##;\
+
+#define STATE_HEADER_INIT static const std::string name;\
+std::string get_name() override;
+
+
+#define INIT_SUB_STM(Type, EntrySubState) const std::string Type::name = #Type##;\
 std::string Type::get_name() {\
     return _substate->get_name();\
 }\
 std::string Type::str() {\
     return "SubSTM '" + name + "': " + _substate->get_name();\
-}
-
-#define NAME_H static const std::string name;\
-std::string get_name() override;
-
-
-#define ENTRY_SUB_START_NODE(Type, State) void Type::entry_sub_start_node() {\
-    _substate = new State();\
+}                                                                 \
+void Type::entry_sub_start_node() {\
+    _substate = new EntrySubState();\
     _substate->SetData(_eventSender, _datamodel);\
-}\
+}
 
 class BaseBaseState {
 protected:
@@ -47,7 +47,8 @@ public:
     }
 
     virtual std::string get_name() = 0;
-    virtual std::string str(){
+
+    virtual std::string str() {
         return get_name();
     };
 

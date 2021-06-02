@@ -5,7 +5,7 @@ namespace logic {
 namespace stm {
 namespace testStm {
 
-NAME_SUB(SubStmB)
+INIT_SUB_STM(SubStmB, SubStateC)
 
 bool SubStmB::tick(int pa) {
     if (_substate->tick(pa))
@@ -15,8 +15,6 @@ bool SubStmB::tick(int pa) {
     std::cout << "tick" << std::endl;
     return true;
 }
-
-ENTRY_SUB_START_NODE(SubStmB, SubStateC)
 
 }
 }

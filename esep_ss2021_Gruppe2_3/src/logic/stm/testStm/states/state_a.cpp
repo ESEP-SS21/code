@@ -5,7 +5,7 @@ namespace logic {
 namespace stm {
 namespace testStm {
 
-NAME(StateA)
+STATE_INIT(StateA)
 
 bool StateA::tick(int pa) {
     _eventSender->send( { EventType::EVNT_ACK, pa, false });
