@@ -21,7 +21,7 @@ DispatcherClient::~DispatcherClient() {
 }
 
 void DispatcherClient::subscribe(std::initializer_list<EventType> event_types) {
-    for (auto event_type : event_types){
+    for (auto event_type : event_types) {
         subscribe(event_type);
     }
 }
@@ -35,7 +35,6 @@ void DispatcherClient::subscribe(EventType event_type) {
     EventSubscription sub { event_type, _channel->get_chid() };
 
     iov_t iov[2];
-
 
     SETIOV(iov + 0, &header, sizeof(header));
     SETIOV(iov + 1, &sub, sizeof(sub));
@@ -54,6 +53,9 @@ void DispatcherClient::send(Event event, int priority) const {
         code = code | 0b01000000;
     }
     _dispatcher_connection->msg_send_pulse(priority, code, event.payload);
+    if (event.type == EventType::EVNT_TIM_REQ || event.type == EventType::EVNT_TIM_ALRT
+            || event.type == EventType::EVNT_HRTB)
+        return;
     const std::string t = fmt::format("Client '{}' send", _name);
     _logger->debug(LOG_FORMAT2, t, event.str());
 }
@@ -73,10 +75,14 @@ void DispatcherClient::run() {
                 continue;
             }
 
-            Event e(header);
-            const std::string t = fmt::format("Client '{}' received", _name);
-            _logger->debug(LOG_FORMAT2, t, e.str());
-            handle(e);
+            Event event(header);
+            if (!(event.type == EventType::EVNT_TIM_REQ || event.type == EventType::EVNT_TIM_ALRT
+                    || event.type == EventType::EVNT_HRTB)) {
+                const std::string t = fmt::format("Client '{}' received", _name);
+                _logger->debug(LOG_FORMAT2, t, event.str());
+            }
+
+            handle(event);
             continue;
         }
 
@@ -100,8 +106,7 @@ void DispatcherClient::handle_qnx_io_msg(cnnMngmnt::header_t header) {
         return;
     }
     // Some other QNX IO message was received; reject it
-    _logger->critical("Client '{}' received unexpected (sync.) msg type '{}'", _name,
-            header.type);
+    _logger->critical("Client '{}' received unexpected (sync.) msg type '{}'", _name, header.type);
     _channel->msg_reply_error(ENOSYS);
 }
 
