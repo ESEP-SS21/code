@@ -40,7 +40,7 @@ void Dispatcher::run() {
             }
 
             //todo translate header_t into custom_header_t
-            Event e(header);
+            Event e(header.convert_to_custom());
             dispatch(e);
             continue;
         }
@@ -56,7 +56,7 @@ void Dispatcher::run() {
     }
 }
 
-void Dispatcher::handle_sync_msg(cnnMngmnt::header_t header) {
+void Dispatcher::handle_sync_msg(header_t header) {
     if (SyncMsgType::SUBSCRIBE == SyncMsgType(header.type)) {
 
         EventSubscription subscription;
@@ -104,7 +104,7 @@ void Dispatcher::dispatch(Event e) const {
     _logger->trace(LOG_FORMAT2, "Dispatcher dispatched", e.str());
 }
 
-void Dispatcher::handle_qnx_io_msg(cnnMngmnt::header_t header) const {
+void Dispatcher::handle_qnx_io_msg(header_t header) const {
     if (header.type == _IO_CONNECT) {
         _channel->msg_reply(EOK);
         _logger->trace(LOG_FORMAT2, "Dispatcher received", "_IO_CONNECT");

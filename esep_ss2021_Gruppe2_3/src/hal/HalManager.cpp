@@ -60,11 +60,11 @@ void HalManager::int_rec_fnct() {
         _logger->error("Attaching Event to Interrupt failed");
         exit(1);
     }
-    dispatcher::cnnMngmnt::header_t header;
+    header_t header;
 
     while (_running) {
         dispatcher::cnnMngmnt::MsgType msg_type = _irq_rec_channel->msg_receive(&header,
-                sizeof(dispatcher::cnnMngmnt::header_t));
+                sizeof(header_t));
 
         if (msg_type == dispatcher::cnnMngmnt::MsgType::error) {
             _logger->error("IRQ handler received error '{}'", header.type);
@@ -257,7 +257,7 @@ void HalManager::handle(dispatcher::Event& event) {
     }
 }
 
-void HalManager::handle_qnx_io_msg(dispatcher::cnnMngmnt::header_t header) {
+void HalManager::handle_qnx_io_msg(header_t header) {
     if (header.type == _IO_CONNECT) {
         // QNX IO msg _IO_CONNECT was received; answer with EOK
         _irq_rec_channel->msg_reply(EOK);

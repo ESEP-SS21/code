@@ -6,6 +6,7 @@
 #include "cnnMngmnt/QnxConnection.h"
 #include "Event.h"
 #include "IEventSender.h"
+#include "msg_header.h"
 
 namespace dispatcher {
 
@@ -22,7 +23,7 @@ protected:
 
 private:
     void run();
-    void handle_qnx_io_msg(cnnMngmnt::header_t header);
+    void handle_qnx_io_msg(header_t header);
     virtual void handle(Event&) = 0;
 
     Logger::Logger _logger { Logger::get() };

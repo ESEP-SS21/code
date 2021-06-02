@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdint.h>
+
 namespace dispatcher {
 namespace cnnMngmnt {
 
@@ -12,9 +14,7 @@ struct custom_header_t {
     uint16_t type;
     uint16_t subtype;
     int8_t code;
-    uint8_t zero[3];
     union sigval value;
-    int32_t scoid;
 };
 
 using rcvid = int;

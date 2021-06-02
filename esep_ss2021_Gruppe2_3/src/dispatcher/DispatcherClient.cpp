@@ -27,7 +27,7 @@ void DispatcherClient::subscribe(std::initializer_list<EventType> event_types) {
 }
 
 void DispatcherClient::subscribe(EventType event_type) {
-    cnnMngmnt::header_t header;
+    header_t header;
 
     header.type = static_cast<_Uint16t>(SyncMsgType::SUBSCRIBE);
     header.subtype = 0x00;
@@ -62,8 +62,8 @@ void DispatcherClient::send(Event event, int priority) const {
 
 void DispatcherClient::run() {
     while (_is_running) {
-        cnnMngmnt::header_t header;
-        cnnMngmnt::MsgType msg_type = _channel->msg_receive(&header, sizeof(cnnMngmnt::header_t));
+        header_t header;
+        cnnMngmnt::MsgType msg_type = _channel->msg_receive(&header, sizeof(header_t));
 
         if (msg_type == cnnMngmnt::MsgType::error) {
             _logger->error("Client '{}' received error '{}'", _name, header.type);
@@ -75,7 +75,7 @@ void DispatcherClient::run() {
                 continue;
             }
 
-            Event event(header);
+            Event event(header.convert_to_custom());
             if (!(event.type == EventType::EVNT_TIM_REQ || event.type == EventType::EVNT_TIM_ALRT
                     || event.type == EventType::EVNT_HRTB)) {
                 const std::string t = fmt::format("Client '{}' received", _name);
@@ -97,7 +97,7 @@ void DispatcherClient::run() {
     }
 }
 
-void DispatcherClient::handle_qnx_io_msg(cnnMngmnt::header_t header) {
+void DispatcherClient::handle_qnx_io_msg(header_t header) {
     if (header.type == _IO_CONNECT) {
         // QNX IO msg _IO_CONNECT was received; answer with EOK
         _channel->msg_reply(EOK);

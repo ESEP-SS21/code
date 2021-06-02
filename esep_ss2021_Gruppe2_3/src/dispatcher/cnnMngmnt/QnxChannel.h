@@ -1,6 +1,7 @@
 #pragma once
 
 #include "namespacedata.h"
+#include <sys/dispatch.h>
 #include <string>
 #include "Logger.h"
 
