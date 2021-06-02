@@ -12,7 +12,7 @@ public:
     TestBaseState(const std::string &name, std::shared_ptr<IEventSender> eventSender)
         : BaseBaseState(name, eventSender) {};
 
-    virtual bool tick() { return false; }
+    virtual bool tick(int pa) { return false; }
 
 };
 

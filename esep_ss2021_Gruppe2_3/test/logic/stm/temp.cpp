@@ -11,5 +11,5 @@ using namespace ::logic::stm;
 TEST(STM, testtest) {
     testStm::TestContext t(std::make_shared<StmTestClient>());
     std::cout << "current state:" << t.currentState() << std::endl;
-    t.handle({EventType::EVNT_ACK,0,false});
+    t.handle({EventType::EVNT_ACK, 44, false});
 }
