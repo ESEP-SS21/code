@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utility>
+
 #include "../test_base_state.h"
 
 namespace logic {
@@ -8,7 +10,8 @@ namespace testStm {
 
 class StateB : public TestBaseState {
 public:
-    StateB(std::shared_ptr<IEventSender> eventSender, std::shared_ptr<UnitData> datamodel) : TestBaseState(name, eventSender, datamodel) {}
+    StateB(std::shared_ptr<IEventSender> eventSender, std::shared_ptr<UnitData> datamodel)
+        : TestBaseState(name, std::move(eventSender), std::move(datamodel)) {}
 
     bool tick(int pa) override;
 
