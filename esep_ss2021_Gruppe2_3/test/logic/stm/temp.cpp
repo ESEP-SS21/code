@@ -1,6 +1,7 @@
 #include "logic/stm/testStm/test_base_state.h"
 #include "logic/stm/testStm/test_context.h"
 #include "logic/stm/testStm/states/state_a.h"
+#include "logic/stm/testStm/states/state_b.h"
 #include <gtest/gtest.h>
 #include "stm_test_client.h"
 
@@ -10,8 +11,22 @@
 using namespace ::logic::stm;
 
 TEST(STM, testtest) {
-    testStm::TestContext t(std::make_shared<StmTestClient>());
+    auto client = std::make_shared<StmTestClient>();
+    testStm::TestContext t(client);
+
     std::cout << "current state:" << t.currentState() << std::endl;
     ASSERT_EQ(t.currentState(), testStm::StateA::name);
-    t.handle({EventType::EVNT_ACK, 44, false});
+    Event e{EventType::EVNT_ACK, 44, false};
+
+    t.handle(e);
+    ASSERT_EQ(t.currentState(), testStm::StateB::name);
+    Event recieved = client->get_last_event();
+    ASSERT_EQ(recieved, e);
+    std::cout << "current state:" << t.currentState() << std::endl;
+
+    t.handle(e);
+    ASSERT_EQ(t.currentState(), testStm::StateA::name);
+    recieved = client->get_last_event();
+    ASSERT_EQ(recieved, e);
+    std::cout << "current state:" << t.currentState() << std::endl;
 }

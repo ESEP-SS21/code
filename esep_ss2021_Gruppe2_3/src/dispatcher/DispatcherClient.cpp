@@ -46,7 +46,7 @@ void DispatcherClient::subscribe(EventType event_type) {
     _logger->trace(LOG_FORMAT2, t, str(event_type));
 }
 
-void DispatcherClient::send(Event event, int priority) const {
+void DispatcherClient::send(Event event, int priority) {
     int code = static_cast<int>(event.type);
     //add broadcast flag
     if (event.broadcast) {

@@ -124,6 +124,7 @@ inline std::ostream& operator<<(std::ostream& out, const EventType& e) {
     return out << EVNT_PREFIX << strs[static_cast<int>(e)];
 }
 
+
 inline std::string str(EventType et) {
     std::ostringstream buffer;
     buffer << et;
@@ -156,6 +157,14 @@ struct Event {
         return buffer.str();
     }
 
+    bool operator== (const Event& e) const{
+        return e.type == type && e.payload == payload;
+    }
+
+    bool operator!= (const Event& e) const{
+        return !(*this == e);
+    }
+
     static inline Event CreateTimer(TimerID id, uint16_t time_ms, bool broadcast = false) {
         return Event { dispatcher::EventType::EVNT_TIM_REQ, (static_cast<uint16_t>(id) << 16) + time_ms, broadcast };
     }
@@ -168,6 +177,7 @@ private:
     int mask_out_tranmission_bit(int evnt_id) {
         return evnt_id & (~0b01000000);
     }
+
 
 };
 
