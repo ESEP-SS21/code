@@ -11,7 +11,6 @@ public:
     TestContext();
     void handle(Event e) override;
     std::string currentState();
-
 };
 
 }

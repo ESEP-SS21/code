@@ -8,5 +8,6 @@
 using namespace ::logic::stm::testStm;
 
 TEST(WorkpieceTest, DeterminedTypeShouldBeCorrct) {
-    TestContext t();
+    TestContext t;
+    t.handle({EventType::EVNT_ACK,0,false});
 }

@@ -17,7 +17,9 @@ public:
 
     virtual void handle(Event e) = 0;
 
-    virtual std::string currentState() = 0;
+    std::string currentState(){
+        return _state->get_name();
+    }
 
     virtual ~BaseContext() = default;
 
