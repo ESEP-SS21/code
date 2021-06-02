@@ -1,6 +1,6 @@
 #include "TestClient.h"
 #include "../../dispatcher/Event.h"
-#include "../../logic/util/FlipHandler.h"
+#include "../../logic/util/flip_handler_client.h"
 #include "../../dispatcher/dispatcher.h"
 #include "../TestUtils.h"
 #include "../../logic/datamodel/unit_data.h"
@@ -21,14 +21,14 @@ class FlipHandlerTest: public ::testing::Test {
 protected:
     std::shared_ptr<UnitData> _data;
     std::unique_ptr<Dispatcher> _dispatcher;
-    std::unique_ptr<FlipHandler> _flip_handler;
+    std::unique_ptr<FlipHandlerClient> _flip_handler;
     std::unique_ptr<TestClient> _testClient;
     FlipHandlerTest() {
         const std::string DISPATCHER_NAME = getUniqueDispatcherName();
         _data = std::shared_ptr<UnitData>(new UnitData());
         _dispatcher = std::unique_ptr<Dispatcher>(new Dispatcher(DISPATCHER_NAME));
-        _flip_handler = std::unique_ptr<FlipHandler>(
-                new FlipHandler(DISPATCHER_NAME,_data));
+        _flip_handler = std::unique_ptr<FlipHandlerClient>(
+                new FlipHandlerClient(DISPATCHER_NAME,_data));
         _testClient = std::unique_ptr<TestClient>(
                 new TestClient(DISPATCHER_NAME, fmt::format("{}_{}", clienetPrefix, __TC_NAME__)));
     }

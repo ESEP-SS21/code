@@ -5,10 +5,10 @@
 namespace logic {
 namespace util {
 
-class Heartbeat : public dispatcher::DispatcherClient {
+class HeartbeatClient : public dispatcher::DispatcherClient {
 public:
-    Heartbeat(const std::string& dispatcher_name);
-    virtual ~Heartbeat() = default;
+    HeartbeatClient(const std::string& dispatcher_name);
+    virtual ~HeartbeatClient() = default;
 
 private:
     void handle(dispatcher::Event& event) override;
