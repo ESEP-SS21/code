@@ -5,7 +5,7 @@
 
 #include "../../TestUtils.h"
 
-using namespace ::logic::stm::testStm
+using namespace ::logic::stm::testStm;
 
 TEST(WorkpieceTest, DeterminedTypeShouldBeCorrct) {
     TestContext t();

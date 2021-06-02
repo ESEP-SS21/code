@@ -7,17 +7,18 @@ namespace logic {
 namespace stm {
 namespace testStm {
 
-
 class TestContext : public BaseContext {
 public:
-    TestContext() : BaseContext(std::shared_ptr<BaseBaseState>(std::make_shared<StateA>())) {
+    TestContext() : BaseContext(nullptr) {
 //        std::shared_ptr<BaseBaseState> ptr2 = std::make_shared<StateA>();
 //        BaseBaseState* ptr = static_cast<BaseBaseState*>(new StateA);
     }
 
     void handle(Event e) override {
 
-
+    }
+    std::string currentState(){
+        return "asdf";
     }
 };
 

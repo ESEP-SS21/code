@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TestContext.hpp"
+#include <logic/stm/base_base_state.hpp>
 
 namespace logic {
 namespace stm {
