@@ -8,7 +8,7 @@ namespace logic {
 namespace stm {
 namespace testStm {
 
-class StateB : public TestBaseState {
+class SubStmB : public TestBaseState {
 public:
     bool tick(int pa) override;
     NAME_H

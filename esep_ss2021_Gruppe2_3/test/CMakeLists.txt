@@ -20,10 +20,10 @@ add_executable(Google_Tests_run
         logic/stm/stm_test_client.cpp
         ../src/logic/stm/testStm/states/state_a.h
         ../src/logic/stm/testStm/states/state_a.cpp
-        ../src/logic/stm/testStm/states/state_b.h
-        ../src/logic/stm/testStm/states/state_b.cpp
-        ../src/logic/stm/testStm/states/state_c.h
-        ../src/logic/stm/testStm/states/state_c.cpp
+        ../src/logic/stm/testStm/states/sub_stm_b.h
+        ../src/logic/stm/testStm/states/sub_stm_b.cpp
+        ../src/logic/stm/testStm/states/substate_c.h
+        ../src/logic/stm/testStm/states/substate_c.cpp
         ../src/logic/stm/testStm/states/default.h
 
 

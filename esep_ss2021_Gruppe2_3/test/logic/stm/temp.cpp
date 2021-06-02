@@ -1,9 +1,9 @@
 #include "logic/stm/testStm/test_base_state.h"
 #include "logic/stm/testStm/test_context.h"
 #include "logic/stm/testStm/states/state_a.h"
-#include "logic/stm/testStm/states/state_b.h"
+#include "logic/stm/testStm/states/sub_stm_b.h"
 #include <gtest/gtest.h>
-#include <logic/stm/testStm/states/state_c.h>
+#include <logic/stm/testStm/states/substate_c.h>
 #include "stm_test_client.h"
 
 
@@ -20,13 +20,13 @@ TEST(STM, testtest) {
     Event e{EventType::EVNT_ACK, 44, false};
 
     t.handle(e);
-    ASSERT_EQ(t.currentState(), testStm::StateC::name);
+    ASSERT_EQ(t.currentState(), testStm::SubStateC::name);
     Event recieved = client->get_last_event();
     ASSERT_EQ(recieved, e);
     std::cout << "current state:" << t.currentState() << std::endl;
 
     t.handle(e);
-    ASSERT_EQ(t.currentState(), testStm::StateC::name);
+    ASSERT_EQ(t.currentState(), testStm::SubStateC::name);
     recieved = client->get_last_event();
     ASSERT_EQ(recieved, e);
     std::cout << "current state:" << t.currentState() << std::endl;

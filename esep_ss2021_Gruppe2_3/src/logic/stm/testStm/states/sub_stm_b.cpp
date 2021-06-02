@@ -1,15 +1,15 @@
-#include "state_b.h"
-#include "state_c.h"
+#include "sub_stm_b.h"
+#include "substate_c.h"
 
 namespace logic {
 namespace stm {
 namespace testStm {
 
-std::string StateB::get_name() {
+std::string SubStmB::get_name() {
     return _substate->get_name();
 }
 
-bool StateB::tick(int pa) {
+bool SubStmB::tick(int pa) {
     if (_substate->tick(pa))
         return true;
 
@@ -18,8 +18,8 @@ bool StateB::tick(int pa) {
     return true;
 }
 
-void StateB::entry_sub_start_node() {
-    _substate = new StateC();
+void SubStmB::entry_sub_start_node() {
+    _substate = new SubStateC();
     _substate->SetData(_eventSender, _datamodel);
 }
 
