@@ -1,19 +1,31 @@
 #include "state_b.h"
 #include "state_a.h"
+#include "state_c.h"
 
 namespace logic {
 namespace stm {
 namespace testStm {
 
 bool StateB::tick(int pa) {
-    _eventSender->send( { EventType::EVNT_ACK, pa, false });
+    //buggy, as _substate is never a nullptr
+    if (_substate && _substate->tick(pa))
+        return true;
+
+    _eventSender->send({EventType::EVNT_ACK, pa, false});
     std::cout << "tick" << std::endl;
-    nextState(StateA);
+    entry_sub_start_node();
     return true;
+}
+
+void StateB::entry_sub_start_node() {
+    new (_substate) StateC;
 }
 
 const std::string StateB::name = "StateB";
 
+std::string StateB::get_name() {
+    return name;
+}
 }
 }
 }

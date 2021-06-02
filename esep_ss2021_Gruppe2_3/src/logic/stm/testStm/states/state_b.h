@@ -10,11 +10,16 @@ namespace testStm {
 
 class StateB : public TestBaseState {
 public:
-    Ctor(StateB);
-
     bool tick(int pa) override;
 
+protected:
+    void entry_sub_start_node() override;
+
+public:
+
     static const std::string name;
+
+    std::string get_name() override;
 
 };
 }

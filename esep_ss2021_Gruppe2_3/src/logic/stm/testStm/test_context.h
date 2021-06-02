@@ -11,7 +11,7 @@ namespace testStm {
 
 class TestContext : public BaseContext {
 public:
-    TestContext(std::shared_ptr<IEventSender> eventSender, std::shared_ptr<datamodel::UnitData> datamodel);
+    TestContext(IEventSender* eventSender, UnitData* datamodel);
 
     void handle(Event e) override;
 

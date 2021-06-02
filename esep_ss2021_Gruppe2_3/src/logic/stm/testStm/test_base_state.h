@@ -10,10 +10,12 @@ namespace testStm {
 class TestBaseState : public BaseBaseState {
 
 public:
-    TestBaseState(const std::string &name, std::shared_ptr<IEventSender> eventSender, std::shared_ptr<datamodel::UnitData> datamodel)
-        : BaseBaseState(name, eventSender, datamodel) {};
-
     virtual bool tick(int pa) { return false; }
+
+protected:
+    TestBaseState *_substate{static_cast<TestBaseState *>(calloc(1, sizeof(TestBaseState)))};
+
+    virtual void entry_sub_start_node() {}
 
 };
 

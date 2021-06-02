@@ -6,8 +6,10 @@ namespace logic {
 namespace stm {
 namespace testStm {
 
-TestContext::TestContext(std::shared_ptr<IEventSender> eventSender,std::shared_ptr<UnitData> datamodel) :
-    BaseContext(std::make_shared<StateA>(eventSender,datamodel)) {
+TestContext::TestContext(IEventSender* eventSender, UnitData* datamodel) :
+    BaseContext(std::make_shared<StateA>()) {
+    _state->SetData(eventSender,datamodel);
+
 }
 
 void TestContext::handle(Event e) {
