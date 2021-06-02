@@ -11,7 +11,7 @@ class StateA : public TestBaseState {
 public:
     StateA() : TestBaseState("StateA") {}
 
-    bool tick() {
+    bool tick() override {
         std::cout << "tick" << std::endl;
         return true;
     }

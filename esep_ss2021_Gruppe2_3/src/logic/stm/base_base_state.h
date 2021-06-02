@@ -5,7 +5,6 @@
 
 namespace logic {
 namespace stm {
-namespace testStm {
 
 using namespace dispatcher;
 
@@ -27,6 +26,4 @@ public:
 };
 
 }
-}
-
 }

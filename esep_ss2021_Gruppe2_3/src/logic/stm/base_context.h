@@ -6,7 +6,6 @@
 
 namespace logic {
 namespace stm {
-namespace testStm {
 
 using namespace dispatcher;
 
@@ -27,6 +26,5 @@ protected:
     std::shared_ptr<BaseBaseState> _state;
 };
 
-}
 }
 }
