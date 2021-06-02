@@ -7,12 +7,12 @@ namespace stm {
 namespace testStm {
 
 TestContext::TestContext(IEventSender *eventSender, UnitData *datamodel) :
-    BaseContext(std::make_shared<StateA>()) {
+    BaseContext(new StateA()) {
     _state->SetData(eventSender, datamodel);
 }
 
 void TestContext::handle(Event e) {
-    _state->tick(e.payload);
+    ((TestBaseState*)_state)->tick(e.payload);
 }
 
 }

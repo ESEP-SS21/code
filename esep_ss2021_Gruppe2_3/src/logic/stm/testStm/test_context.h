@@ -7,7 +7,7 @@ namespace logic {
 namespace stm {
 namespace testStm {
 
-#define _state std::dynamic_pointer_cast<TestBaseState>(_state)
+//#define _state (TestBaseState)(_state)
 
 class TestContext : public BaseContext {
 public:

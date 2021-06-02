@@ -2,6 +2,7 @@
 
 #include "dispatcher/Event.h"
 #include <string>
+#include <logic/stm/testStm/states/state_a.h>
 #include "base_base_state.h"
 
 namespace logic {
@@ -12,7 +13,7 @@ using namespace dispatcher;
 class BaseContext {
 public:
 
-    BaseContext(std::shared_ptr<BaseBaseState> state) : _state(state) {}
+    BaseContext(logic::stm::testStm::StateA *state) : _state(state) {}
 
     virtual void handle(Event e) = 0;
 
@@ -23,7 +24,7 @@ public:
     virtual ~BaseContext() = default;
 
 protected:
-    std::shared_ptr<BaseBaseState> _state;
+    BaseBaseState *_state;
 };
 
 }

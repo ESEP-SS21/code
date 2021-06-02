@@ -10,10 +10,12 @@ namespace testStm {
 class TestBaseState : public BaseBaseState {
 
 public:
+    TestBaseState() = default;
+
     virtual bool tick(int pa) { return false; }
 
 protected:
-    TestBaseState *_substate{static_cast<TestBaseState *>(calloc(1, sizeof(TestBaseState)))};
+    TestBaseState *_substate {nullptr};
 
     virtual void entry_sub_start_node() {}
 

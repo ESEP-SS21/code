@@ -15,6 +15,10 @@ std::string Type::get_name() {\
     return name;\
 }
 
+#define NAME_SUB(Type) std::string Type::get_name() {\
+    return _substate->get_name();\
+}
+
 #define NAME_H static const std::string name;\
 std::string get_name() override;
 

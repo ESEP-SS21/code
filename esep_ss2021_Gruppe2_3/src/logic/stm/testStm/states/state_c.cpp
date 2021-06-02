@@ -9,7 +9,7 @@ NAME(StateC)
 
 bool StateC::tick(int pa) {
     _eventSender->send( { EventType::EVNT_ACK, pa, false });
-    std::cout << "tick" << std::endl;
+    std::cout << "tick in C" << std::endl;
     return true;
 }
 

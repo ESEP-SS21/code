@@ -11,6 +11,7 @@ bool StateA::tick(int pa) {
     _eventSender->send( { EventType::EVNT_ACK, pa, false });
     std::cout << "tick" << std::endl;
     new (this) StateB;
+    entry_sub_start_node();
     return true;
 }
 
