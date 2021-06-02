@@ -3,7 +3,7 @@
 
 #include "../../logic/datamodel/workpiece.h"
 #include "../../logic/datamodel/encoded_workpiece.h"
-#include "workpiece_helper.h"
+#include "../workpiece_helper.h"
 
 namespace test {
 namespace logic {

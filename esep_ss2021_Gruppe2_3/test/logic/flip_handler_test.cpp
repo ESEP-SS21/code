@@ -5,7 +5,7 @@
 #include "../TestUtils.h"
 #include "../../logic/datamodel/unit_data.h"
 #include "../../logic/datamodel/workpiece.h"
-#include "datamodel/workpiece_helper.h"
+#include "workpiece_helper.h"
 
 #include <chrono>
 #include <string>
