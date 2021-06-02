@@ -63,6 +63,11 @@ enum class EventType { //make sure to add a string representation for each value
     SIZE = 64
 };
 
+enum class TimerID
+    :uint16_t {
+        HEARTBEAT, SORT_WRPC_STUCK, SORT_WRPC_FULL, WRPC_TRANSFER_BLOCKED,
+};
+
 inline std::ostream& operator<<(std::ostream& out, const EventType& e) {
     static const std::string strs[static_cast<int>(EventType::SIZE) + 1] = {
             "EVNT_ERR",
@@ -151,8 +156,8 @@ struct Event {
         return buffer.str();
     }
 
-    static inline Event CreateTimer(uint16_t payload, uint16_t time_ms, bool broadcast = false) {
-        return Event { dispatcher::EventType::EVNT_TIM_REQ, (payload << 16) + time_ms, broadcast };
+    static inline Event CreateTimer(TimerID id, uint16_t time_ms, bool broadcast = false) {
+        return Event { dispatcher::EventType::EVNT_TIM_REQ, (static_cast<uint16_t>(id) << 16) + time_ms, broadcast };
     }
 
 private:

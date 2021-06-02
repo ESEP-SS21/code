@@ -11,6 +11,7 @@
 #include "dispatcher/cnnMngmnt/QnxChannel.h"
 #include "hal/HalManager.h"
 #include "timer/AsyncTimerService.h"
+#include "logic/util/heartbeat_client.h"
 
 #ifdef TEST_ENABLE
 #include <gtest/gtest.h>
@@ -53,7 +54,7 @@ int main(int argc, char **argv) {
     if (quiet)
         _logger->set_level(spdlog::level::off);
     else
-        _logger->set_level(spdlog::level::trace);
+        _logger->set_level(spdlog::level::debug);
 
     _logger->info(">>>>>>>>> running in {} mode <<<<<<<<<", mode_str);
 
@@ -90,8 +91,9 @@ const std::string D_SEC = "SEC";
 
 void primary() {
     dispatcher::Dispatcher disp(D_PRI);
-    disp.connect_to_other(D_SEC);
+    //disp.connect_to_other(D_SEC);
     timer::AsyncTimerService timer_svc(D_PRI);
+    logic::util::HeartbeatClient hrtbt(D_PRI);
     hal::HalManager hal_mngr(D_PRI);
     DemoClient client(D_PRI, "DEMO");
     usleep(1000 * 1000 * 1000);

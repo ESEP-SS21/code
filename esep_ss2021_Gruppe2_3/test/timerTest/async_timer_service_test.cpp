@@ -23,7 +23,7 @@ bool timeIsWithinTolerance(long expected, long actual) {
 
 struct TimerData {
     int ms_time;
-    int payload;
+    TimerID id;
 };
 
 class TimerTest: public ::testing::Test {
@@ -42,15 +42,15 @@ protected:
     }
 
     void testSingleTimerEventCode(TimerData timer) {
-        Event e1 = Event::CreateTimer(timer.payload, timer.ms_time);
+        Event e1 = Event::CreateTimer(timer.id, timer.ms_time);
 
         _testClient->send(e1, msg_prio);
         Event rcv = _testClient->recieve_event();
-        ASSERT_EQ(timer.payload, rcv.payload);
+        ASSERT_EQ(timer.id, TimerID(rcv.payload));
     }
 
     void testSingleTimerTimePeriod(TimerData timer) {
-        Event e1 = Event::CreateTimer(timer.payload, timer.ms_time);
+        Event e1 = Event::CreateTimer(timer.id, timer.ms_time);
 
         auto time_start = clock::now();
         this->_testClient->send(e1, msg_prio);
@@ -62,8 +62,8 @@ protected:
     }
 
     void testMultipleTimerTimePeriod(TimerData timer1, TimerData timer2) {
-        Event e1 = Event::CreateTimer(timer1.payload, timer1.ms_time);
-        Event e2 = Event::CreateTimer(timer2.payload, timer2.ms_time);
+        Event e1 = Event::CreateTimer(timer1.id, timer1.ms_time);
+        Event e2 = Event::CreateTimer(timer2.id, timer2.ms_time);
 
         auto time_start = clock::now();
         this->_testClient->send(e1, msg_prio);
@@ -71,31 +71,32 @@ protected:
 
         Event rcv1 = this->_testClient->recieve_event();
         auto time_end = clock::now();
-        ASSERT_EQ(timer1.payload, rcv1.payload);
+        ASSERT_EQ(timer1.id, TimerID(rcv1.payload));
         auto actual_ms_time = duration_cast<ms>(time_end - time_start).count();
         timeIsWithinTolerance(timer1.ms_time, actual_ms_time);
 
         Event rcv2 = this->_testClient->recieve_event();
         time_end = clock::now();
-        ASSERT_EQ(timer2.payload, rcv2.payload);
+        ASSERT_EQ(timer2.id, TimerID(rcv2.payload));
         actual_ms_time = duration_cast<ms>(time_end - time_start).count();
         timeIsWithinTolerance(timer2.ms_time, actual_ms_time);
     }
 };
 
 TEST_F(TimerTest, ReturnedEventShouldEqualExpectedEventCode) {
-    this->testSingleTimerEventCode( { 10, 44 });
-    this->testSingleTimerEventCode( { 10, 45 });
-    this->testSingleTimerEventCode( { 10, 44 });
+    this->testSingleTimerEventCode( { 10, TimerID::HEARTBEAT });
+    this->testSingleTimerEventCode( { 10, TimerID::SORT_WRPC_STUCK });
+    this->testSingleTimerEventCode( { 10, TimerID::HEARTBEAT });
 }
 
 TEST_F(TimerTest, TimePeriodShouldBeWithinTolerance) {
-    this->testSingleTimerTimePeriod( { 50, 44 });
-    this->testSingleTimerTimePeriod( { 1500, 44 });
+    this->testSingleTimerTimePeriod( { 50, TimerID::HEARTBEAT });
+    this->testSingleTimerTimePeriod( { 1500, TimerID::HEARTBEAT });
 }
 
 TEST_F(TimerTest, TimePeriodShouldBeWithinToleranceWithMultipleTimers) {
-    this->testMultipleTimerTimePeriod( { 100, 42 }, { 200, 43 });
+    this->testMultipleTimerTimePeriod( { 100, TimerID::SORT_WRPC_STUCK },
+            { 200, TimerID::HEARTBEAT });
 }
 
 } /*namespace*/

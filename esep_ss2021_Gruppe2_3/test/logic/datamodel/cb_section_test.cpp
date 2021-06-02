@@ -2,7 +2,7 @@
 #include <memory>
 
 #include "../../logic/datamodel/cb_section.h"
-#include "workpiece_helper.h"
+#include "../workpiece_helper.h"
 
 namespace test {
 namespace logic {
