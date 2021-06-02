@@ -3,6 +3,7 @@
 #include <errno.h>
 #include "Event.h"
 #include "SyncMsg.h"
+#include <sys/dispatch.h>
 
 namespace dispatcher {
 
@@ -25,8 +26,8 @@ void Dispatcher::connect_to_other(const std::string &other_dispacher_name) {
 
 void Dispatcher::run() {
     while (_is_running) {
-        cnnMngmnt::header_t header;
-        cnnMngmnt::MsgType type = _channel->msg_receive(&header, sizeof(cnnMngmnt::header_t));
+        header_t header;
+        cnnMngmnt::MsgType type = _channel->msg_receive(&header, sizeof(header_t));
 
         if (type == cnnMngmnt::MsgType::error) {
             _logger->error("Dispatcher received error '{}'", header.type);
@@ -38,6 +39,7 @@ void Dispatcher::run() {
                 continue;
             }
 
+            //todo translate header_t into custom_header_t
             Event e(header);
             dispatch(e);
             continue;
