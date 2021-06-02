@@ -17,7 +17,4 @@ void FlipHandler::handle(dispatcher::Event& event) {
     }
 }
 
-FlipHandler::~FlipHandler() {
-
-}
 } /* namespace logic */

@@ -6,11 +6,10 @@ namespace logic {
 
 class Heartbeat : public dispatcher::DispatcherClient {
 public:
-    Heartbeat(const std::string& dispatcher_name, uint16_t timer_id);
-    virtual ~Heartbeat();
+    Heartbeat(const std::string& dispatcher_name);
+    virtual ~Heartbeat() = default;
 
 private:
-    uint16_t _timer_id;
     void handle(dispatcher::Event& event) override;
     Logger::Logger _logger { Logger::get() };
 };

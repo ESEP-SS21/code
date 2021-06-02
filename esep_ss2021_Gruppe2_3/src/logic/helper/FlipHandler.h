@@ -10,7 +10,7 @@ namespace logic {
 class FlipHandler: public dispatcher::DispatcherClient {
 public:
     FlipHandler(const std::string& dispatcher_name, std::shared_ptr<logic::datamodel::UnitData> data);
-    virtual ~FlipHandler();
+    virtual ~FlipHandler() = default;
 
 private:
     std::shared_ptr<logic::datamodel::UnitData> _data;

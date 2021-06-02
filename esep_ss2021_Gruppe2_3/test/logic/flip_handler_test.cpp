@@ -35,7 +35,7 @@ protected:
 
     void testResetToType(datamodel::Workpiece& wrpc) {
         EncodedWorkpiece enc_wrpc = wrpc.encode();
-        Event flipped_event = { EventType::EVNT_WRPC_FLP, enc_wrpc.code, false };
+        Event flipped_event = { EventType::EVNT_WRPC_FLP, (int)enc_wrpc.code, false };
         _testClient->send(flipped_event, msg_prio);
         usleep(1000); // wait a bit for a change
         ASSERT_EQ(wrpc.get_type(), _data->get_next_in_order());
