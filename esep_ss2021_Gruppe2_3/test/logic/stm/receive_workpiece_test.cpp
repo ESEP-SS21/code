@@ -16,22 +16,16 @@ using namespace ::logic::stm::recieveWrpcStm;
 
 INIT_STM_TEST(testRecieveWrpcStm, RecieveWrpcContext)
 
+
 TEST_F(testRecieveWrpcStm, testtest) {
     ASSERT_STATE(Idle);
 
-    context.handle({EventType::EVNT_CTRL_T_STR_PRS_SRT});
-    ASSERT_STATE(BeltNotRunning);
-    ASSERT_EQ(client.get_last_event().type, EventType::EVNT_ACT_BELT_STP);
-    ASSERT_TRUE(client.empty());
+    test_transition_to<BeltNotRunning>({EventType::EVNT_CTRL_T_STR_PRS_SRT}, {{EventType::EVNT_ACT_BELT_STP}});
 
-    context.handle(Event{EventType::EVNT_SEN_LB_ST_BLCK});
-    ASSERT_STATE(BeltRunning);
-    ASSERT_EQ(client.get_last_event().type, EventType::EVNT_ACT_BELT_FWD);
-    ASSERT_TRUE(client.empty());
+    test_transition_to<BeltRunning>({EventType::EVNT_SEN_LB_ST_BLCK}, {{EventType::EVNT_ACT_BELT_FWD}});
 
-    context.handle(Event{EventType::EVNT_SEN_ESTOP_ON});
-    ASSERT_STATE(EStop);
-    ASSERT_TRUE(client.empty());
+    test_transition_to<EStop>({EventType::EVNT_SEN_ESTOP_ON});
+
 
 }
 

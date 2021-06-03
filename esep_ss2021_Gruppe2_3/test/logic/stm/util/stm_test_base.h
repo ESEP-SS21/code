@@ -21,6 +21,17 @@ public:
     StmTestClient client;
     ::logic::datamodel::UnitData data;
     Context context{&client, &data};
+
+    template<typename StateAfter>
+    void test_transition_to(Event event, std::initializer_list<Event> expectedEvents = {}){
+
+        context.handle(event);
+        ASSERT_STATE(StateAfter);
+        for (auto & expectedEvent : expectedEvents){
+            ASSERT_EQ(client.get_last_event(), expectedEvent);
+        }
+        ASSERT_TRUE(client.empty());
+    }
 };
 
 
