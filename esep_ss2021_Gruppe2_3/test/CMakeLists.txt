@@ -6,26 +6,21 @@ include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 # 'Google_Tests_run' is the target name
 # 'test1.cpp tests2.cpp' are source files with tests
+file(GLOB_RECURSE stm_SRC
+        "../src/logic/stm/*.h"
+        "../src/logic/stm/*.cpp"
+        "../src/logic/datamodel/*.h"
+        "../src/logic/datamodel/*.cpp"
+        )
+
 add_executable(Google_Tests_run
+        ${stm_SRC}
         argument_parser_test.cpp
-        ../src/logic/stm/base_context.h
-        ../src/logic/stm/base_base_state.h
-        ../src/dispatcher/Event.h
-        ../src/dispatcher/IEventSender.h
-        ../src/logic/stm/testStm/test_context.h
-        ../src/logic/stm/testStm/test_context.cpp
-        ../src/logic/stm/testStm/test_base_state.h
         logic/stm/temp.cpp
         logic/stm/stm_test_client.h
         logic/stm/stm_test_client.cpp
-        ../src/logic/stm/testStm/states/state_a.h
-        ../src/logic/stm/testStm/states/state_a.cpp
-        ../src/logic/stm/testStm/states/sub_stm_b.h
-        ../src/logic/stm/testStm/states/sub_stm_b.cpp
-        ../src/logic/stm/testStm/states/substate_c.h
-        ../src/logic/stm/testStm/states/substate_c.cpp
-        ../src/logic/stm/testStm/states/default.h
 
-
+        ../src/dispatcher/Event.h
+        ../src/dispatcher/IEventSender.h
         )
 target_link_libraries(Google_Tests_run gtest gtest_main)
