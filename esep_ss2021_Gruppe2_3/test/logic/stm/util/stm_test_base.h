@@ -5,6 +5,9 @@
 #include "stm_test_client.h"
 #include <logic/datamodel/unit_data.h>
 
+namespace test {
+namespace logic {
+namespace stm {
 
 template<typename Context>
 class stm_test_base : public ::testing::Test {
@@ -16,9 +19,11 @@ class FixtureName : public stm_test_base<Context> {};
 
 public:
     StmTestClient client;
-    logic::datamodel::UnitData data;
+    ::logic::datamodel::UnitData data;
     Context context{&client, &data};
 };
 
 
-
+}
+}
+}

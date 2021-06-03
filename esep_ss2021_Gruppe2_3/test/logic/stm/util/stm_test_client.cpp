@@ -2,10 +2,14 @@
 
 using namespace dispatcher;
 
+namespace test {
+namespace logic {
+namespace stm {
+
 StmTestClient::StmTestClient() {
 }
 
-void StmTestClient::send(Event event, int prio){
+void StmTestClient::send(Event event, int prio) {
     _event_queue.push(event);
 }
 
@@ -19,3 +23,6 @@ bool StmTestClient::empty() {
     return _event_queue.empty();
 }
 
+}
+}
+}

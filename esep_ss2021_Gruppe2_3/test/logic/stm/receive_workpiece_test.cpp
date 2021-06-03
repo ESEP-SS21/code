@@ -4,9 +4,13 @@
 #include <logic/stm/StmRecieveWrpc/states/estop.h>
 #include <logic/stm/StmRecieveWrpc/states/idle.h>
 #include "logic/stm/StmRecieveWrpc/recieve_wrpc_context.h"
-#include "stm_test_client.h"
+#include "util/stm_test_client.h"
 
-#include "stm_test_base.h"
+#include "util/stm_test_base.h"
+
+namespace test {
+namespace logic {
+namespace stm {
 
 using namespace ::logic::stm::recieveWrpcStm;
 
@@ -27,4 +31,8 @@ TEST_F(testRecieveWrpcStm, testtest) {
     ASSERT_STATE(EStop);
     ASSERT_TRUE(client.empty());
 
+}
+
+}
+}
 }

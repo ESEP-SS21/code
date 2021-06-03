@@ -1,6 +1,6 @@
 #include "test_context.h"
 #include "states/state_a.h"
-#include "../test/logic/stm/stm_test_client.h"
+#include "../test/logic/stm/util/stm_test_client.h"
 
 namespace logic {
 namespace stm {

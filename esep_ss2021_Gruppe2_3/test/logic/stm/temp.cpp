@@ -4,8 +4,12 @@
 #include "logic/stm/testStm/states/sub_stm_b.h"
 #include <gtest/gtest.h>
 #include <logic/stm/testStm/states/substate_c.h>
-#include "stm_test_client.h"
-#include "stm_test_base.h"
+#include "util/stm_test_client.h"
+#include "util/stm_test_base.h"
+
+namespace test {
+namespace logic {
+namespace stm {
 
 using namespace ::logic::stm;
 
@@ -28,4 +32,8 @@ TEST_F(test_TestSTM, testtest) {
     recieved = client.get_last_event();
     ASSERT_EQ(recieved, e);
     std::cout << "current state:" << context.currentState() << std::endl;
+}
+
+}
+}
 }
