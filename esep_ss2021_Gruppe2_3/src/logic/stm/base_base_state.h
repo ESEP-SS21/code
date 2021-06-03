@@ -11,7 +11,7 @@ using namespace dispatcher;
 using namespace datamodel;
 
 #define STATE_INIT(Type)\
-const std::string Type::name = #Type##;\
+const std::string Type::name = #Type;\
 std::string Type::get_name() {\
     return name;\
 }
@@ -21,7 +21,7 @@ static const std::string name;\
 std::string get_name() override;
 
 #define INIT_SUB_STM(Type, EntrySubState)\
-const std::string Type::name = #Type##;\
+const std::string Type::name = #Type;\
 std::string Type::get_name() {\
     return _substate->get_name();\
 }\
