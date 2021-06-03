@@ -11,13 +11,13 @@ namespace recieveWrpcStm {
 STATE_INIT(Service)
 
 bool Service::estop_on(){
-    new(this) EStop;
+    switch_state<EStop>();
     entry();
     return true;
 }
 
 bool Service::srv_done(){
-    new(this) Idle;
+    switch_state<Idle>();
     entry();
     return true;
 }

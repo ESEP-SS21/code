@@ -12,7 +12,7 @@ STATE_INIT(EStop)
 
 bool EStop::rst_prs_srt(){
     if(_datamodel->get_estop_count() == 0){
-        new (this) Idle;
+        switch_state<Idle>();
         entry();
         return true;
     }

@@ -17,14 +17,14 @@ bool BeltNotRunning::lb_st_blck(){
         _datamodel->get_start_height_sec()->enter_workpiece(new_wrpc);
     }
     if(!belt_blocked){
-        new (this) BeltRunning;
+        switch_state<BeltRunning>();
         entry();
     }
     return true;
 }
 
 bool BeltNotRunning::belt_fwd(){
-    new(this) BeltRunning;
+    switch_state<BeltRunning>();
     entry();
     return true;
 }

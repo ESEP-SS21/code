@@ -11,20 +11,20 @@ namespace recieveWrpcStm {
 STATE_INIT(Idle)
 
 bool Idle::estop_on(){
-    new (this) EStop;
+    switch_state<EStop>();
     entry();
     return true;
 }
 
 bool Idle::str_prs_srt(){
-    new (this) Running;
+    switch_state<Running>();
     entry();
     entry_history();
     return true;
 }
 
 bool Idle::str_prs_lng(){
-    new (this) Service;
+    switch_state<Service>();
     entry();
     return true;
 }

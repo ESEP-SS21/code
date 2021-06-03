@@ -19,7 +19,7 @@ bool BeltRunning::lb_st_blck(){
 }
 
 bool BeltRunning::belt_stp(){
-    new(this) BeltNotRunning;
+    switch_state<BeltNotRunning>();
     entry();
     return true;
 }

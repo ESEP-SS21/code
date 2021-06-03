@@ -15,7 +15,7 @@ INIT_SUB_STM(Running, BeltNotRunning)
 bool Running::err(){
     if(!_substate->err()){
         _substate->exit();
-        new (this) Error;
+        switch_state<Error>();
         exit();
     }
     return true;
@@ -24,7 +24,7 @@ bool Running::err(){
 bool Running::estop_on(){
     if(!_substate->estop_on()){
         _substate->exit();
-        new (this) EStop;
+        switch_state<EStop>();
         exit();
     }
     return true;

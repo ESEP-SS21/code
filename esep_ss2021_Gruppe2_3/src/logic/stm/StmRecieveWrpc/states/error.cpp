@@ -11,13 +11,13 @@ namespace recieveWrpcStm {
 STATE_INIT(Error)
 
 bool Error::estop_on(){
-    new (this) EStop;
+    switch_state<EStop>();
     entry();
     return true;
 }
 
 bool Error::all_err_gone(){
-    new (this) Running;
+    switch_state<Running>();
     entry();
     entry_sub_start_node();
     return true;

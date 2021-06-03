@@ -71,6 +71,13 @@ public:
         return get_name();
     };
 
+    template<typename State>
+    void switch_state() {
+        //todo replace with logger
+        std::cout << "Exiting " << str() << std::endl;
+        new (this) State;
+    }
+
 
 };
 
