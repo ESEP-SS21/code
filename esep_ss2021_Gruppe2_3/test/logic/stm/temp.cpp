@@ -8,27 +8,30 @@
 
 
 #include "../../TestUtils.h"
+#include "stm_test_base.h"
 
 using namespace ::logic::stm;
 
-TEST(STM, testtest) {
-    auto client = std::make_shared<StmTestClient>();
-    testStm::TestContext t(client.get(), nullptr);
+class test_TestSTM : public stm_test_base {
+};
 
-    std::cout << "current state:" << t.currentState() << std::endl;
-    ASSERT_EQ(t.currentState(), testStm::StateA::name);
-    Event e{EventType::EVNT_ACK, 44, false};
+TEST_F(test_TestSTM, testtest) {
+    testStm::TestContext context(client.get(), data.get());
 
-    t.handle(e);
-    ASSERT_EQ(t.currentState(), testStm::SubStateC::name);
-    std::cout << "completet name: " << t.str() << std::endl;
+    std::cout << "current state:" << context.currentState() << std::endl;
+    ASSERT_EQ(context.currentState(), testStm::StateA::name);
+    Event e{EventType::EVNT_ACK, 44};
+
+    context.handle(e);
+    ASSERT_EQ(context.currentState(), testStm::SubStateC::name);
+    std::cout << "completet name: " << context.str() << std::endl;
     Event recieved = client->get_last_event();
     ASSERT_EQ(recieved, e);
-    std::cout << "current state:" << t.currentState() << std::endl;
+    std::cout << "current state:" << context.currentState() << std::endl;
 
-    t.handle(e);
-    ASSERT_EQ(t.currentState(), testStm::SubStateC::name);
+    context.handle(e);
+    ASSERT_EQ(context.currentState(), testStm::SubStateC::name);
     recieved = client->get_last_event();
     ASSERT_EQ(recieved, e);
-    std::cout << "current state:" << t.currentState() << std::endl;
+    std::cout << "current state:" << context.currentState() << std::endl;
 }

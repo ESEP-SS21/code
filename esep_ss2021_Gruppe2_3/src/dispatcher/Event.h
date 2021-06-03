@@ -136,7 +136,7 @@ struct Event {
     int payload;
     bool broadcast;
 
-    Event(EventType type, int payload, bool broadcast) :
+    Event(EventType type, int payload = 0, bool broadcast = false) :
             type(type), payload(payload), broadcast(broadcast) {
     }
 

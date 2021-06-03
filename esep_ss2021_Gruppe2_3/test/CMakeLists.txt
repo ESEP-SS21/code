@@ -22,5 +22,6 @@ add_executable(Google_Tests_run
 
         ../src/dispatcher/Event.h
         ../src/dispatcher/IEventSender.h
-        )
+        logic/stm/receive_workpiece_test.cpp
+        logic/stm/stm_test_base.h)
 target_link_libraries(Google_Tests_run gtest gtest_main)

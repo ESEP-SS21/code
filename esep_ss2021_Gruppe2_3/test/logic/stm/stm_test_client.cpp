@@ -15,3 +15,7 @@ Event StmTestClient::get_last_event() {
     return e;
 }
 
+bool StmTestClient::empty() {
+    return _event_queue.empty();
+}
+
