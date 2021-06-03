@@ -54,6 +54,10 @@ int UnitData::get_warning_count() {
     return _warning_count;
 }
 
+bool UnitData::get_belt_empty() {
+    return _belt_empty;
+}
+
 void UnitData::set_belt_blocked(bool val) {
     const std::lock_guard<std::mutex> lock(_unit_mutex);
     _belt_blocked = val;
@@ -78,6 +82,13 @@ void UnitData::set_warning_count(int val) {
     const std::lock_guard<std::mutex> lock(_unit_mutex);
     _warning_count = val;
 }
+
+void UnitData::set_belt_empty(bool val) {
+    const std::lock_guard<std::mutex> lock(_unit_mutex);
+    _belt_empty = val;
+}
+
+
 
 } /* namespace datamodel */
 } /* namespace logic */

@@ -24,12 +24,14 @@ public:
     std::shared_ptr<Workpiece> get_pending_transfer();
     int get_estop_count();
     int get_warning_count();
+    bool get_belt_empty();
 
     void set_belt_blocked(bool);
     void set_ramp_full(bool);
     void set_pending_transfer(std::shared_ptr<Workpiece>);
     void set_estop_count(int);
     void set_warning_count(int);
+    void set_belt_empty(bool);
 
     WorkpieceType get_next_in_order();
 
@@ -40,6 +42,7 @@ protected:
     const std::shared_ptr<CBSection> _start_height_sec = std::make_shared<CBSection>(
             _height_switch_sec);
 
+    bool _belt_empty = true;
     bool _belt_blocked = false;
     bool _ramp_full = false;
     std::shared_ptr<Workpiece> _pending_transfer = nullptr;
