@@ -6,7 +6,7 @@ namespace logic {
 namespace stm {
 namespace testStm {
 
-CONTEXT_CTOR(TestContext, StateA)
+CONTEXT_CTOR(TestContext)
 
 void TestContext::handle(Event e) {
     ((TestBaseState*)_state)->tick(e.payload);

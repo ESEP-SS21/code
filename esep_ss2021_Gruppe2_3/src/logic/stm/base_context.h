@@ -10,16 +10,17 @@ namespace stm {
 
 using namespace dispatcher;
 
-#define CONTEXT_CTOR(Type, StartState) \
+#define CONTEXT_CTOR(Type) \
 Type::Type(IEventSender *eventSender, UnitData *datamodel) :\
-    BaseContext(new StartState) {\
+    BaseContext() {\
     _state->SetData(eventSender, datamodel);\
 }
 
+template<typename EntryState>
 class BaseContext {
 public:
 
-    BaseContext(logic::stm::BaseBaseState *state) : _state(state) {}
+    BaseContext() : _state(new EntryState) {}
 
     virtual void handle(Event e) = 0;
 
@@ -31,7 +32,9 @@ public:
         return _state->str();
     }
 
-    virtual ~BaseContext() = default;
+    virtual ~BaseContext() {
+        delete _state;
+    };
 
 protected:
     BaseBaseState *_state;

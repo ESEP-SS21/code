@@ -9,7 +9,7 @@ namespace testStm {
 
 //#define _state (TestBaseState)(_state)
 
-class TestContext : public BaseContext {
+class TestContext : public BaseContext<StateA> {
 public:
     TestContext(IEventSender* eventSender, UnitData* datamodel);
 

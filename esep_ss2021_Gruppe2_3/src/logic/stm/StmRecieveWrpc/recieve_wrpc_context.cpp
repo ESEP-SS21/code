@@ -6,7 +6,7 @@ namespace logic {
 namespace stm {
 namespace recieveWrpcStm {
 
-CONTEXT_CTOR(RecieveWrpcContext, Idle)
+CONTEXT_CTOR(RecieveWrpcContext)
 
 using namespace dispatcher;
 
