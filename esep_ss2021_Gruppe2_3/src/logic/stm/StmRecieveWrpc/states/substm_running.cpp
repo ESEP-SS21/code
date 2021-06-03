@@ -43,6 +43,9 @@ bool Running::belt_fwd(){
 }
 
 void Running::entry_history(){
+    //TODO maybe incorrect
+    if (_substate == nullptr)
+        entry_sub_start_node();
     _substate->entry();
 }
 
