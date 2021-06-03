@@ -1,11 +1,14 @@
 #pragma once
-#include "../recieve_wrpc_base_state.h"
+
+#include <logic/stm/base_context.h>
+#include "top_level_base_state.h"
 
 namespace logic {
 namespace stm {
 namespace recieveWrpcStm {
 
-class Error: public RecieveWrpcBaseState {
+template<typename SubstateRunningStart>
+class Error: public TopLevelBaseState<SubstateRunningStart> {
 
 public:
     STATE_HEADER_INIT

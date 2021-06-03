@@ -33,7 +33,7 @@ std::string Type::get_name() {\
 std::string Type::str() {\
     return "SubSTM '" + name + "': " + _substate->get_name();\
 }                                                                 \
-void Type::entry_sub_start_node() {\
+void Type::init_sub_state() {\
     _substate = new EntrySubState();\
     _substate->SetData(_eventSender, _datamodel);\
 }
@@ -76,6 +76,7 @@ public:
         //todo replace with logger
         std::cout << "Exiting " << str() << std::endl;
         new (this) State;
+        std::cout << "Entered " << str() << std::endl;
     }
 
 
