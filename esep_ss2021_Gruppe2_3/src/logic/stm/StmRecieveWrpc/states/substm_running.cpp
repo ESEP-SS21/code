@@ -1,9 +1,9 @@
+#include <logic/stm/StmRecieveWrpc/states/sub_belt_not_running.h>
+#include <logic/stm/StmRecieveWrpc/states/substm_running.h>
 #include "error.h"
-#include "running.h"
 #include "idle.h"
 #include "estop.h"
 #include "service.h"
-#include "BeltNotRunning.h"
 
 namespace logic {
 namespace stm {

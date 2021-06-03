@@ -1,5 +1,5 @@
-#include "BeltRunning.h"
-#include "BeltNotRunning.h"
+#include <logic/stm/StmRecieveWrpc/states/sub_belt_not_running.h>
+#include <logic/stm/StmRecieveWrpc/states/sub_belt_running.h>
 
 namespace logic {
 namespace stm {
