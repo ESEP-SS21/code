@@ -5,10 +5,10 @@
 
 namespace logic {
 namespace stm {
-namespace recieveWrpcStm {
+namespace top_level {
 
-template<typename SubstateRunningStart>
-class Error: public TopLevelBaseState<SubstateRunningStart> {
+template<typename T>
+class Error: public TopLevelBaseState<T> {
 
 public:
     STATE_HEADER_INIT

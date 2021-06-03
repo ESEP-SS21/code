@@ -11,6 +11,13 @@ namespace stm {
 template <typename SubstateRunningStart>
 class TopLevelBaseState : public BaseBaseState {
 
+#define STATE_INIT_T(Type) \
+const std::string Type::name = #Type;\
+template<typename T>                \
+std::string Type::get_name() {\
+    return name;\
+}
+
 public:
     virtual bool lb_st_blck(){return false;}
     virtual bool belt_stp(){return false;}

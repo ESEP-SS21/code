@@ -7,7 +7,7 @@
 
 namespace logic {
 namespace stm {
-namespace recieveWrpcStm {
+namespace top_level {
 
 
 INIT_SUB_STM(Running, BeltNotRunning)

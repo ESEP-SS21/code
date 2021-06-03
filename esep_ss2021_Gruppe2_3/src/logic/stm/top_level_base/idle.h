@@ -3,7 +3,7 @@
 
 namespace logic {
 namespace stm {
-namespace recieveWrpcStm {
+namespace top_level {
 
 template<typename StartState>
 class Idle : public TopLevelBaseState<StartState> {

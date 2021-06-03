@@ -1,4 +1,4 @@
-#include <logic/stm/StmRecieveWrpc/states/substm_running.h>
+#include "substm_running.h"
 #include "error.h"
 #include "idle.h"
 #include "estop.h"
@@ -6,18 +6,23 @@
 
 namespace logic {
 namespace stm {
-namespace recieveWrpcStm {
+namespace top_level {
 
-STATE_INIT(Service)
+template<class T>
+const std::string Service<T>::name = "Error";
+template<typename T>
+std::string Service<T>::get_name() { return name; }
 
-bool Service::estop_on(){
-    switch_state<EStop>();
+template<typename T>
+bool Service<T>::estop_on(){
+    switch_state<EStop<T>>();
     entry();
     return true;
 }
 
-bool Service::srv_done(){
-    switch_state<Idle>();
+template<typename T>
+bool Service<T>::srv_done(){
+    switch_state<Idle<T>>();
     entry();
     return true;
 }

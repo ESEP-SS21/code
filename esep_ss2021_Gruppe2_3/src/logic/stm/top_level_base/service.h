@@ -2,7 +2,7 @@
 #include "top_level_base_state.h"
 namespace logic {
 namespace stm {
-namespace recieveWrpcStm {
+namespace top_level {
 
 template<typename StartState>
 class Service: public TopLevelBaseState<StartState> {

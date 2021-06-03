@@ -6,21 +6,25 @@
 
 namespace logic {
 namespace stm {
-namespace recieveWrpcStm {
+namespace top_level {
 
-STATE_INIT(Error)
+template<class T>
+const std::string Error<T>::name = "Error";
+template<typename T>
+std::string Error<T>::get_name() { return name; }
 
-template<T>
-bool Error::estop_on(){
-    switch_state<EStop>();
+template<typename T>
+bool Error<T>::estop_on(){
+    switch_state<EStop<T>>();
     entry();
     return true;
 }
 
-bool Error::all_err_gone(){
-    switch_state<Running>();
+template<typename T>
+bool Error<T>::all_err_gone(){
+    switch_state<Running<T>>();
     entry();
-    entry_sub_running<>();
+    entry_sub_running();
     return true;
 }
 

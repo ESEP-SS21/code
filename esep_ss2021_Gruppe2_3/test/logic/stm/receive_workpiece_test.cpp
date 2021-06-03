@@ -12,7 +12,7 @@ namespace test {
 namespace logic {
 namespace stm {
 
-using namespace ::logic::stm::recieveWrpcStm;
+using namespace ::logic::stm::top_level;
 
 INIT_STM_TEST(testRecieveWrpcStm, RecieveWrpcContext)
 
