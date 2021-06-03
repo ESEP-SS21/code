@@ -11,7 +11,7 @@ namespace datamodel {
 using namespace ::logic::datamodel;
 
 TEST(UnitDataTest, ConstructorShouldCreateThreeCBSectionsInOrder) {
-    std::shared_ptr<UnitData> unit_data = std::make_shared<UnitData>();
+    std::shared_ptr<UnitData> unit_data = std::make_shared<UnitData>(OperationMode::PRIMARY);
     ASSERT_EQ(unit_data->get_pending_transfer(), nullptr);
     ASSERT_EQ(unit_data->get_belt_blocked(), false);
     ASSERT_EQ(unit_data->get_ramp_full(), false);
@@ -24,7 +24,7 @@ TEST(UnitDataTest, ConstructorShouldCreateThreeCBSectionsInOrder) {
 }
 
 TEST(UnitDataTest, OrderStepShouldStepCorrectly) {
-    std::shared_ptr<UnitData> unit_data = std::make_shared<UnitData>();
+    std::shared_ptr<UnitData> unit_data = std::make_shared<UnitData>(OperationMode::PRIMARY);
     ASSERT_EQ(unit_data->get_next_in_order(), WorkpieceType::WRPC_HM);
     unit_data->wrpc_order_step();
     ASSERT_EQ(unit_data->get_next_in_order(), WorkpieceType::WRPC_HB);
@@ -35,7 +35,7 @@ TEST(UnitDataTest, OrderStepShouldStepCorrectly) {
 }
 
 TEST(UnitDataTest, OrderResetShouldResetCorrectly) {
-    std::shared_ptr<UnitData> unit_data = std::make_shared<UnitData>();
+    std::shared_ptr<UnitData> unit_data = std::make_shared<UnitData>(OperationMode::PRIMARY);
     ASSERT_EQ(unit_data->get_next_in_order(), WorkpieceType::WRPC_HM);
     unit_data->wrpc_order_reset(WorkpieceType::WRPC_L);
     ASSERT_EQ(unit_data->get_next_in_order(), WorkpieceType::WRPC_L);
@@ -44,7 +44,7 @@ TEST(UnitDataTest, OrderResetShouldResetCorrectly) {
 }
 
 TEST(UnitDataTest, FitsOrderShouldWorkCorrectly) {
-    std::shared_ptr<UnitData> unit_data = std::make_shared<UnitData>();
+    std::shared_ptr<UnitData> unit_data = std::make_shared<UnitData>(OperationMode::PRIMARY);
     //in order
     Workpiece wrpc_hm = create_wp_hm();
     Workpiece wrpc_hb = create_wp_hb();

@@ -3,6 +3,10 @@
 namespace logic {
 namespace datamodel {
 
+UnitData::UnitData(OperationMode operation_mode) : _operation_mode(operation_mode) {
+
+}
+
 bool UnitData::wrpc_fits_order(const Workpiece& wrpc) const {
     const std::lock_guard<std::mutex> lock(_unit_mutex);
     return wrpc.get_type() == this->_next_in_order;

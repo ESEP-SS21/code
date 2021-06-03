@@ -7,8 +7,13 @@
 namespace logic {
 namespace datamodel {
 
+enum OperationMode{
+    PRIMARY=0, SECONDARY=1
+};
+
 class UnitData {
 public:
+    UnitData(OperationMode operation_mode);
     virtual ~UnitData() = default;
 
     bool wrpc_fits_order(const Workpiece&) const;
@@ -41,6 +46,8 @@ protected:
             _switch_end_sec);
     const std::shared_ptr<CBSection> _start_height_sec = std::make_shared<CBSection>(
             _height_switch_sec);
+
+    OperationMode _operation_mode;
 
     bool _belt_empty = true;
     bool _belt_blocked = false;
