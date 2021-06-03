@@ -1,52 +1,53 @@
-#include <logic/stm/StmRecieveWrpc/states/sub_belt_not_running.h>
-#include <logic/stm/StmRecieveWrpc/states/substm_running.h>
 #include "error.h"
 #include "idle.h"
 #include "estop.h"
 #include "service.h"
+#include "substm_running.h"
 
 namespace logic {
 namespace stm {
 namespace top_level {
 
 
-INIT_SUB_STM(Running, BeltNotRunning)
 
-bool Running::err(){
-    if(!_substate->err()){
-        _substate->exit();
-        switch_state<Error>();
-        exit();
+template<typename T>
+bool Running<T>::err(){
+    if(!this->_substate->err()){
+        this->_substate->exit();
+        new (this) Error<T>;
+        this->exit();
     }
     return true;
 }
 
-bool Running::estop_on(){
-    if(!_substate->estop_on()){
-        _substate->exit();
-        switch_state<EStop>();
-        exit();
+template<typename T>
+bool Running<T>::estop_on(){
+    if(!this->_substate->estop_on()){
+        this->_substate->exit();
+        new (this) EStop<T>;
+        this->exit();
     }
     return true;
 }
-bool Running::stp_prs_srt(){
-   return _substate->stp_prs_srt();
-}
-bool Running::lb_st_blck(){
-    return _substate->lb_st_blck();
-}
-bool Running::belt_stp(){
-    return _substate->belt_stp();
-}
-bool Running::belt_fwd(){
-    return _substate->belt_fwd();
+
+template<typename T>
+bool Running<T>::stp_prs_srt(){
+   return this->_substate->stp_prs_srt();
 }
 
-void Running::entry_history(){
-    //TODO maybe incorrect
-    if (_substate == nullptr)
-        entry_sub_start_node();
-    _substate->entry();
+template<typename T>
+bool Running<T>::lb_st_blck(){
+    return this->_substate->lb_st_blck();
+}
+
+template<typename T>
+bool Running<T>::belt_stp(){
+    return this->_substate->belt_stp();
+}
+
+template<typename T>
+bool Running<T>::belt_fwd(){
+    return this->_substate->belt_fwd();
 }
 
 } /* namespace recieveWrpcStm */

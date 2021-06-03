@@ -16,9 +16,6 @@ public:
     bool lb_st_blck() override;
     bool belt_stp() override;
     bool belt_fwd() override;
-protected:
-    void entry_sub_start_node() override;
-    void entry_history() override;
 };
 
 } /* namespace recieveWrpcStm */

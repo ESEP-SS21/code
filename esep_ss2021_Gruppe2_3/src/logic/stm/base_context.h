@@ -2,7 +2,6 @@
 
 #include "dispatcher/Event.h"
 #include <string>
-#include <logic/stm/testStm/states/state_a.h>
 #include "base_base_state.h"
 
 namespace logic {

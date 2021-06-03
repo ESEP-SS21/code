@@ -1,4 +1,4 @@
-#include <logic/stm/StmRecieveWrpc/states/substm_running.h>
+#include "substm_running.h"
 #include "error.h"
 #include "idle.h"
 #include "estop.h"

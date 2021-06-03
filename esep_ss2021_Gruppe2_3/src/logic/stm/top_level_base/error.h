@@ -12,6 +12,7 @@ class Error: public TopLevelBaseState<T> {
 
 public:
     STATE_HEADER_INIT
+
     bool estop_on() override;
     bool all_err_gone() override;
 };

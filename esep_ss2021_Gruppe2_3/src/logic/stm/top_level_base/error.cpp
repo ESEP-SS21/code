@@ -15,14 +15,14 @@ std::string Error<T>::get_name() { return name; }
 
 template<typename T>
 bool Error<T>::estop_on(){
-    switch_state<EStop<T>>();
+    new (this) EStop<T>;
     entry();
     return true;
 }
 
 template<typename T>
 bool Error<T>::all_err_gone(){
-    switch_state<Running<T>>();
+    new (this) Running<T>;
     entry();
     entry_sub_running();
     return true;
