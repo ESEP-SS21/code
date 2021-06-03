@@ -13,6 +13,8 @@
 #include "timer/AsyncTimerService.h"
 #include "argument_parser.hpp"
 #include "logic/util/heartbeat_client.h"
+#include <embedded_recorder/Recorder.h>
+#include <embedded_recorder/Replayer.h>
 
 #ifdef TEST_ENABLE
 #include <gtest/gtest.h>
@@ -22,6 +24,10 @@
 void primary();
 void secondary();
 
+bool record;
+bool playback;
+
+
 int main(int argc, char **argv) {
 
 #ifdef TEST_ENABLE
@@ -29,9 +35,12 @@ int main(int argc, char **argv) {
         ::testing::InitGoogleTest(&argc, argv);
         return RUN_ALL_TESTS();
     }
+
 #endif
 
     auto args = argument_parser::parse(argc, argv);
+    record = args->record;
+        //playback = args->playback;
     std::string mode_str = args->secondary ? "SEC" : "PRI";
     Logger::setup(mode_str, true, "log/log.txt");
     Logger::Logger _logger = Logger::get();
@@ -41,10 +50,12 @@ int main(int argc, char **argv) {
     else
         _logger->set_level(spdlog::level::warn);
 
+
     if (args->secondary)
         secondary();
     else
         primary();
+
 
     return 0;
 }
@@ -61,7 +72,7 @@ void wait_for_exit() {
         if (c == 'q') {
             Logger::get()->set_level(spdlog::level::debug);
             Logger::get()->info(">>>>>>>>> EXIT <<<<<<<<<");
-            exit(0);
+            return;
         }
     }
 }
@@ -73,7 +84,13 @@ void primary() {
     logic::util::HeartbeatClient hrtbt(D_PRI);
     hal::HalManager hal_mngr(D_PRI);
     DemoClient client(D_PRI, "DEMO");
-    wait_for_exit();
+    if(record){
+        embedded_recorder::Recorder recorder(D_PRI);
+        wait_for_exit();
+    }else{
+        wait_for_exit();
+    }
+
 }
 
 void secondary() {
