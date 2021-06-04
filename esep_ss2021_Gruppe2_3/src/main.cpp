@@ -48,15 +48,17 @@ struct Clients {
           hal_mngrAct(new hal::HalManagerAct(args->mode.str)),
           hrtbt(new util::HeartbeatClient(args->mode.str)) {
 
-        if (args->playback)
+        if (args->playback){
             replayer = std::unique_ptr<Replayer>(new Replayer(args->mode.str, args->filename));
+            replayer->start();
+        }
         else
             hal_mngrSen = std::unique_ptr<hal::HalManagerSen>(new hal::HalManagerSen(args->mode.str));
 
         if (args->record)
             recorder = std::unique_ptr<Recorder>(new Recorder(args->mode.str));
 
-        dispatcher->connect_to_other(args->mode.other_str);
+        //dispatcher->connect_to_other(args->mode.other_str);
     }
 };
 
@@ -91,7 +93,7 @@ void wait_for_exit() {
         char c = getchar();
         if (c == 'q') {
             Logger::get()->info(">>>>>>>>> EXIT <<<<<<<<<");
-            return;
+            exit(0);
         }
     }
 }

@@ -13,9 +13,9 @@ namespace embedded_recorder {
 
 using nlohmann::json;
 
-Replayer::Replayer(const std::string& dispatcher_name, const std::string& input) :
-        DispatcherClient(dispatcher_name, "Replay Manager"), _file_name(input) {
-    std::ifstream file(input, std::ifstream::in);
+Replayer::Replayer(const std::string& dispatcher_name, const std::string& filename) :
+        DispatcherClient(dispatcher_name, "Replay Manager"), _file_name(filename) {
+    std::ifstream file("records/" + filename, std::ifstream::in);
     _json = json::parse(file);
 }
 
