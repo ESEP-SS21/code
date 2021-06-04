@@ -95,7 +95,6 @@ void HalManagerSen::int_rec_fnct() {
 }
 
 void HalManagerSen::send_event_to_dispatcher() {
-    std::cout << "sensor activated\n";
     if (_hal->get_estop().get()->was_pressed()) {
         dispatcher::Event e = { dispatcher::EventType::EVNT_SEN_ESTOP_ON, 0, true };
         send(e, 40);

@@ -31,7 +31,7 @@ void Replayer::replay(const std::string& input) {
                     next_event_time - now);
             std::this_thread::sleep_for(time_diff);
         }
-        send_evnt(event);
+        send(event);
     }
 }
 
