@@ -12,7 +12,30 @@ namespace embedded_recorder {
 
 Recorder::Recorder(const std::string& dispatcher_name) :
         DispatcherClient(dispatcher_name, "Recorder Manager") {
-    subscribe_evnt(dispatcher::EventType::AnotherEvent);
+
+    subscribe(dispatcher::EventType::EVNT_SEN_ESTOP_ON);
+    subscribe(dispatcher::EventType::EVNT_SEN_ESTOP_OFF);
+    subscribe(dispatcher::EventType::EVNT_CTRL_T_STR_PRS_LNG);
+    subscribe(dispatcher::EventType::EVNT_CTRL_T_STR_PRS_SRT);
+    subscribe(dispatcher::EventType::EVNT_CTRL_T_STP_PRS_LNG);
+    subscribe(dispatcher::EventType::EVNT_CTRL_T_STP_PRS_SRT);
+    subscribe(dispatcher::EventType::EVNT_CTRL_T_STP_PRS_LNG);
+    subscribe(dispatcher::EventType::EVNT_CTRL_T_STP_PRS_SRT);
+    subscribe(dispatcher::EventType::EVNT_CTRL_T_RST_PRS_LNG);
+    subscribe(dispatcher::EventType::EVNT_CTRL_T_RST_PRS_SRT);
+    subscribe(dispatcher::EventType::EVNT_SEN_LB_ST_BLCK);
+    subscribe(dispatcher::EventType::EVNT_SEN_LB_ST_CLR);
+    subscribe(dispatcher::EventType::EVNT_SEN_LB_HE_BLCK);
+    subscribe(dispatcher::EventType::EVNT_SEN_LB_HE_CLR);
+    subscribe(dispatcher::EventType::EVNT_SEN_LB_SW_BLCK);
+    subscribe(dispatcher::EventType::EVNT_SEN_LB_SW_CLR);
+    subscribe(dispatcher::EventType::EVNT_SEN_LB_RA_BLCK);
+    subscribe(dispatcher::EventType::EVNT_SEN_LB_RA_CLR);
+    subscribe(dispatcher::EventType::EVNT_SEN_LB_EN_BLCK);
+    subscribe(dispatcher::EventType::EVNT_SEN_LB_EN_CLR);
+    subscribe(dispatcher::EventType::EVNT_SEN_METAL_DTC);
+    subscribe(dispatcher::EventType::EVNT_SEN_HEIGHT_HE);
+
     _file_name = utils::system_start_time_and_date_string;
     _json = {};
 }
