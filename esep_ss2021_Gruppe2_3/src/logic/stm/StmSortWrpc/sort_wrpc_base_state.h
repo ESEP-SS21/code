@@ -5,16 +5,17 @@
 
 namespace logic {
 namespace stm {
-namespace recieveWrpcStm {
+namespace sortWrpcStm {
 
-class RecieveWrpcBaseState : public BaseBaseState {
+class SortWrpcBaseState : public BaseBaseState {
 
 public:
-    RecieveWrpcBaseState() = default;
+    SortWrpcBaseState() = default;
 
-    virtual bool lb_st_blck(){return false;}
-    virtual bool belt_stp(){return false;}
-    virtual bool belt_fwd(){return false;}
+    virtual bool lb_sw_blck(){return false;}
+    virtual bool lb_sw_clr(){return false;}
+    virtual bool lb_ra_clr(){return false;}
+    virtual bool tim_alrt(int tim_id){return false;}
     virtual bool str_prs_srt(){return false;}
     virtual bool str_prs_lng(){return false;}
     virtual bool stp_prs_srt(){return false;}
@@ -25,13 +26,17 @@ public:
     virtual bool srv_done(){return false;}
     virtual void entry(){}
     virtual void exit(){}
+
     virtual void entry_sub_start_node() {}
     virtual void entry_history(){}
+    virtual void entry_wfstc(){}
+    virtual void entry_discard(){}
 
 protected:
-    RecieveWrpcBaseState *_substate {nullptr};
-
-
+    bool _ramp_already_cleared;
+    SortWrpcBaseState *_substate {nullptr};
+    SortWrpcBaseState *_operating_substate {nullptr};
+    SortWrpcBaseState *_wfstc_substate {nullptr};
 };
 
 }

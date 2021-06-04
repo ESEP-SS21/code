@@ -1,28 +1,31 @@
-#include "recieve_wrpc_context.h"
-#include "recieve_wrpc_base_state.h"
+#include <logic/stm/StmSortWrpc/sort_wrpc_base_state.h>
+#include <logic/stm/StmSortWrpc/sort_wrpc_context.h>
 #include "states/top_level.h"
 
 namespace logic {
 namespace stm {
-namespace recieveWrpcStm {
+namespace sortWrpcStm {
 
 //put the start state of your stm here
-CONTEXT_CTOR(RecieveWrpcContext, Idle)
+CONTEXT_CTOR(SortWrpcContext, Idle)
 
 using namespace dispatcher;
 
-void RecieveWrpcContext::handle(Event e) {
-    auto *state = (RecieveWrpcBaseState *) (_state);
+void SortWrpcContext::handle(Event e) {
+    auto *state = (SortWrpcBaseState *) (_state);
 
     switch (e.type) {
-        case EventType::EVNT_SEN_LB_ST_BLCK:
-            state->lb_st_blck();
+        case EventType::EVNT_SEN_LB_SW_BLCK:
+            state->lb_sw_blck();
             return;
-        case EventType::EVNT_ACT_BELT_STP:
-            state->belt_stp();
+        case EventType::EVNT_SEN_LB_SW_CLR:
+            state->lb_sw_clr();
             return;
-        case EventType::EVNT_ACT_BELT_FWD:
-            state->belt_fwd();
+        case EventType::EVNT_SEN_LB_RA_CLR:
+            state->lb_ra_clr();
+            return;
+        case EventType::EVNT_TIM_ALRT:
+            state->tim_alrt(e.payload);
             return;
         case EventType::EVNT_CTRL_T_STR_PRS_SRT:
             state->str_prs_srt();

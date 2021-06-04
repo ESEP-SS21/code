@@ -1,26 +1,27 @@
 #pragma once
-#include "../recieve_wrpc_base_state.h"
+#include "../sort_wrpc_base_state.h"
 
 namespace logic {
 namespace stm {
 // change namespace here
-namespace recieveWrpcStm {
+namespace sortWrpcStm {
 
 //change the base class of all states to your base state class
-class Running: public RecieveWrpcBaseState {
+class Running: public SortWrpcBaseState {
 public:
     SUBSTM_HEADER_INIT
-    bool err() override;
+    bool lb_sw_blck() override;
+    bool lb_sw_clr() override;
+    bool lb_ra_clr() override;
+    bool tim_alrt(int tim_id) override;
     bool estop_on() override;
     bool stp_prs_srt() override;
-    bool lb_st_blck() override;
-    bool belt_stp() override;
-    bool belt_fwd() override;
+    bool err() override;
 protected:
     void entry_history() override;
 };
 
-class Idle : public RecieveWrpcBaseState {
+class Idle : public SortWrpcBaseState {
 public:
     STATE_HEADER_INIT
     bool estop_on() override;
@@ -28,22 +29,23 @@ public:
     bool str_prs_lng() override;
 };
 
-class EStop: public RecieveWrpcBaseState {
+class EStop: public SortWrpcBaseState {
 
 public:
     STATE_HEADER_INIT
     bool rst_prs_srt() override;
 };
 
-class Error: public RecieveWrpcBaseState {
+class Error: public SortWrpcBaseState {
 
 public:
     STATE_HEADER_INIT
     bool estop_on() override;
     bool all_err_gone() override;
+    bool lb_ra_clr();
 };
 
-class Service: public RecieveWrpcBaseState {
+class Service: public SortWrpcBaseState {
 
 public:
     STATE_HEADER_INIT

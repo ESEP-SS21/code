@@ -23,7 +23,8 @@ std::string get_name() override;
 #define SUBSTM_HEADER_INIT \
 static const std::string name;\
 std::string get_name() override;\
-std::string str();
+std::string str();\
+void entry_sub_start_node() override;
 
 #define INIT_SUB_STM(Type, EntrySubState)\
 const std::string Type::name = #Type;\
@@ -38,17 +39,30 @@ void Type::entry_sub_start_node() {\
     _substate->SetData(_eventSender, _datamodel);\
 }
 
-#define INIT_SUB_SUB_STM(Type, EntrySubState)\
+#define INIT_OPERATING_SUB_STM(Type, EntrySubState)\
 const std::string Type::name = #Type;\
 std::string Type::get_name() {\
-    return _subsubstate->get_name();\
+    return _operating_substate->get_name();\
 }\
 std::string Type::str() {\
-    return "SubSTM '" + name + "': " + _substate->get_name() + _subsubstate->get_name();\
+    return "SubSTM '" + name + "': " + _substate->get_name() + _operating_substate->get_name();\
 }                                                                 \
 void Type::entry_sub_start_node() {\
-    _subsubstate = new EntrySubState();\
-    _subsubstate->SetData(_eventSender, _datamodel);\
+	_operating_substate = new EntrySubState();\
+	_operating_substate->SetData(_eventSender, _datamodel);\
+}
+
+#define INIT_WFSTC_SUB_STM(Type, EntrySubState)\
+const std::string Type::name = #Type;\
+std::string Type::get_name() {\
+    return _wfstc_substate->get_name();\
+}\
+std::string Type::str() {\
+    return "SubSTM '" + name + "': " + _substate->get_name() + _wfstc_substate->get_name();\
+}                                                                 \
+void Type::entry_sub_start_node() {\
+	_wfstc_substate = new EntrySubState();\
+	_wfstc_substate->SetData(_eventSender, _datamodel);\
 }
 
 class BaseBaseState {
