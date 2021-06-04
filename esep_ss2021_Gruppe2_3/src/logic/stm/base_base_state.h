@@ -26,18 +26,6 @@ std::string get_name() override;\
 std::string str();\
 void entry_sub_start_node() override;
 
-#define INIT_SUB_STM(Type, EntrySubState)\
-const std::string Type::name = #Type;\
-std::string Type::get_name() {\
-    return _substate->get_name();\
-}\
-std::string Type::str() {\
-    return "SubSTM '" + name + "': " + _substate->get_name();\
-}                                                                 \
-void Type::entry_sub_start_node() {\
-    _substate = new EntrySubState();\
-    _substate->SetData(_eventSender, _datamodel);\
-}
 
 #define INIT_OPERATING_SUB_STM(Type, EntrySubState)\
 const std::string Type::name = #Type;\
@@ -45,7 +33,7 @@ std::string Type::get_name() {\
     return _operating_substate->get_name();\
 }\
 std::string Type::str() {\
-    return "SubSTM '" + name + "': " + _substate->get_name() + _operating_substate->get_name();\
+    return "SubSTM '" + name + "': " + _operating_substate->get_name();\
 }                                                                 \
 void Type::entry_sub_start_node() {\
 	_operating_substate = new EntrySubState();\
@@ -58,7 +46,7 @@ std::string Type::get_name() {\
     return _wfstc_substate->get_name();\
 }\
 std::string Type::str() {\
-    return "SubSTM '" + name + "': " + _substate->get_name() + _wfstc_substate->get_name();\
+    return "SubSTM '" + name + "': " + _wfstc_substate->get_name();\
 }                                                                 \
 void Type::entry_sub_start_node() {\
 	_wfstc_substate = new EntrySubState();\

@@ -8,6 +8,7 @@ namespace recieveWrpcStm {
 STATE_INIT(BeltNotRunning)
 
 bool BeltNotRunning::lb_st_blck(){
+    // todo get state from datamodel
     bool secondary = false;
     bool belt_blocked = _datamodel->get_belt_blocked();
     if(secondary){
@@ -30,6 +31,7 @@ bool BeltNotRunning::belt_fwd(){
 }
 
 void BeltNotRunning::entry(){
+    _datamodel->set_belt_state(datamodel::BeltState::RUNNING);
     _eventSender->send( { EventType::EVNT_ACT_BELT_STP, 0, false } );
 };
 

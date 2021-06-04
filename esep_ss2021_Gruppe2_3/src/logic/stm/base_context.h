@@ -2,7 +2,6 @@
 
 #include "dispatcher/Event.h"
 #include <string>
-#include <logic/stm/testStm/states/state_a.h>
 #include "base_base_state.h"
 
 namespace logic {
@@ -12,14 +11,15 @@ using namespace dispatcher;
 
 #define CONTEXT_CTOR(Type, StartState) \
 Type::Type(IEventSender *eventSender, UnitData *datamodel) :\
-    BaseContext(new StartState) {\
+    BaseContext(new StartState, datamodel) {\
     _state->SetData(eventSender, datamodel);\
+    _datamodel = datamodel;\
 }
 
 class BaseContext {
 public:
 
-    BaseContext(logic::stm::BaseBaseState *state) : _state(state) {}
+    BaseContext(logic::stm::BaseBaseState *state, UnitData *datamodel) : _state(state), _datamodel(datamodel){}
 
     virtual void handle(Event e) = 0;
 
@@ -35,6 +35,7 @@ public:
 
 protected:
     BaseBaseState *_state;
+    UnitData* _datamodel;
 };
 
 }
