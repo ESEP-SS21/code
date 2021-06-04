@@ -22,12 +22,44 @@
 
 #endif
 
-void primary();
-void secondary();
+using namespace embedded_recorder;
+using namespace logic;
+using EventType = dispatcher::EventType;
+using Event = dispatcher::Event;
 
-bool record;
-bool playback;
-std::string filename;
+void wait_for_exit();
+
+const std::shared_ptr<Arguments> args;
+
+struct Clients {
+    const std::unique_ptr<dispatcher::Dispatcher> dispatcher;
+    const std::unique_ptr<timer::AsyncTimerService> timer_svc;
+    const std::unique_ptr<hal::HalManagerAct> hal_mngrAct;
+    const std::unique_ptr<hal::HalManagerSen> hal_mngrSen{nullptr};
+    const std::unique_ptr<embedded_recorder::Recorder> recorder{nullptr};
+    const std::unique_ptr<embedded_recorder::Replayer> replayer{nullptr};
+
+    //STMS
+    const std::unique_ptr<logic::util::HeartbeatClient> hrtbt;
+
+    Clients(const std::string &dispatcher_name, const std::string &other_name, bool replay, bool record,
+            const std::string &filename)
+        : dispatcher(new dispatcher::Dispatcher(dispatcher_name)),
+          timer_svc(new timer::AsyncTimerService(dispatcher_name)),
+          hal_mngrAct(new hal::HalManagerAct(dispatcher_name)),
+          hrtbt(new util::HeartbeatClient(dispatcher_name)) {
+
+        if (replay)
+            replayer = std::unique_ptr<Replayer>(new Replayer(dispatcher_name, filename));
+        else
+            hal_mngrSen = std::unique_ptr<hal::HalManagerSen>(new hal::HalManagerSen(dispatcher_name);
+
+        if (record)
+            recorder = std::unique_ptr<Recorder>(new Recorder(dispatcher_name));
+
+        dispatcher->connect_to_other(other_name);
+    }
+}
 
 
 int main(int argc, char **argv) {
@@ -39,35 +71,22 @@ int main(int argc, char **argv) {
     }
 #endif
 
-    auto args = argument_parser::parse(argc, argv);
-    record = args->record;
-    playback = args->playback;
-    filename = args->filename;
-    std::string mode_str = args->secondary ? "SEC" : "PRI";
+    args = argument_parser::parse(argc, argv);
 
-    Logger::setup(mode_str, true, true);
+    Logger::setup(args->mode.str, true, true);
     Logger::Logger _logger = Logger::get();
-    _logger->info(">>>>>>>>> running in {} mode <<<<<<<<<", mode_str);
+    _logger->info(">>>>>>>>> running in {} mode <<<<<<<<<", args->mode.str);
     if (args->verbose)
         _logger->set_level(spdlog::level::debug);
     else
         _logger->set_level(spdlog::level::info);
 
 
-    if (args->secondary)
-        secondary();
-    else
-        primary();
-
-
-    return 0;
+    Clients clients(args->mode.str, args->mode.other_str, args->replay, args->playback, args->filename);
+    DemoClient client(args->mode.str, "DEMO");
+    wait_for_exit();
 }
 
-using EventType = dispatcher::EventType;
-using Event = dispatcher::Event;
-
-const std::string D_PRI = "PRI";
-const std::string D_SEC = "SEC";
 
 void wait_for_exit() {
     while (true) {
@@ -77,55 +96,5 @@ void wait_for_exit() {
             return;
         }
     }
-}
-
-void primary() {
-    dispatcher::Dispatcher disp(D_PRI);
-    //disp.connect_to_other(D_SEC);
-    timer::AsyncTimerService timer_svc(D_PRI);
-    logic::util::HeartbeatClient hrtbt(D_PRI);
-    DemoClient client(D_PRI, "DEMO");
-
-    if(record){
-        hal::HalManagerAct hal_mngrAct(D_PRI);
-        hal::HalManagerSen hal_mngrSen(D_PRI);
-        embedded_recorder::Recorder recorder(D_PRI);
-
-        wait_for_exit();
-    }
-    else if(playback){
-        hal::HalManagerAct hal_mngrAct(D_PRI);
-        embedded_recorder::Replayer replayer(D_PRI, filename);
-        replayer.start();
-        wait_for_exit();
-    }else{
-        hal::HalManagerAct hal_mngrAct(D_PRI);
-        hal::HalManagerSen hal_mngrSen(D_PRI);
-        wait_for_exit();
-    }
-
-}
-
-void secondary() {
-    dispatcher::Dispatcher disp(D_SEC);
-    disp.connect_to_other(D_PRI);
-    //hal::HalManager hal_mngr(D_SEC);
-    if(record){
-            hal::HalManagerAct hal_mngrAct(D_PRI);
-            hal::HalManagerSen hal_mngrSen(D_PRI);
-            embedded_recorder::Recorder recorder(D_PRI);
-
-            wait_for_exit();
-        }
-        else if(playback){
-            hal::HalManagerAct hal_mngrAct(D_PRI);
-            embedded_recorder::Replayer replayer(D_PRI, filename);
-            replayer.start();
-            wait_for_exit();
-        }else{
-            hal::HalManagerAct hal_mngrAct(D_PRI);
-            hal::HalManagerSen hal_mngrSen(D_PRI);
-            wait_for_exit();
-        }
 }
 
