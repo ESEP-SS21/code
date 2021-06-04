@@ -29,15 +29,15 @@ using Event = dispatcher::Event;
 
 void wait_for_exit();
 
-const std::shared_ptr<Arguments> args;
+std::shared_ptr<argument_parser::Arguments> args{nullptr};
 
 struct Clients {
     const std::unique_ptr<dispatcher::Dispatcher> dispatcher;
     const std::unique_ptr<timer::AsyncTimerService> timer_svc;
     const std::unique_ptr<hal::HalManagerAct> hal_mngrAct;
-    const std::unique_ptr<hal::HalManagerSen> hal_mngrSen{nullptr};
-    const std::unique_ptr<embedded_recorder::Recorder> recorder{nullptr};
-    const std::unique_ptr<embedded_recorder::Replayer> replayer{nullptr};
+    std::unique_ptr<hal::HalManagerSen> hal_mngrSen{nullptr};
+    std::unique_ptr<embedded_recorder::Recorder> recorder{nullptr};
+    std::unique_ptr<embedded_recorder::Replayer> replayer{nullptr};
 
     //STMS
     const std::unique_ptr<logic::util::HeartbeatClient> hrtbt;
@@ -52,14 +52,14 @@ struct Clients {
         if (replay)
             replayer = std::unique_ptr<Replayer>(new Replayer(dispatcher_name, filename));
         else
-            hal_mngrSen = std::unique_ptr<hal::HalManagerSen>(new hal::HalManagerSen(dispatcher_name);
+            hal_mngrSen = std::unique_ptr<hal::HalManagerSen>(new hal::HalManagerSen(dispatcher_name));
 
         if (record)
             recorder = std::unique_ptr<Recorder>(new Recorder(dispatcher_name));
 
         dispatcher->connect_to_other(other_name);
     }
-}
+};
 
 
 int main(int argc, char **argv) {
@@ -82,7 +82,7 @@ int main(int argc, char **argv) {
         _logger->set_level(spdlog::level::info);
 
 
-    Clients clients(args->mode.str, args->mode.other_str, args->replay, args->playback, args->filename);
+    Clients clients(args->mode.str, args->mode.other_str, args->playback, args->record, args->filename);
     DemoClient client(args->mode.str, "DEMO");
     wait_for_exit();
 }
