@@ -15,27 +15,28 @@ namespace dispatcher {
 class Dispatcher {
 public:
     Dispatcher(const std::string &name);
-    void connect_to_other(const std::string &name);
+    void connect_to_other(const std::string &other_dispacher_name);
     virtual ~Dispatcher();
 
 private:
-    static const int MAX_EVNT_ID { 128 };
-
-    void attach() const;
-    void handle_event(Event e) const;
-    void handle_qnx_io_msg(cnnMngmnt::header_t header) const;
     void run();
-    void handle_sync_msg(cnnMngmnt::header_t header);
     void subscribe(EventSubscription subscr);
+    void dispatch(Event e) const;
+    void handle_sync_msg(cnnMngmnt::header_t header);
+    void handle_qnx_io_msg(cnnMngmnt::header_t header) const;
 
     Logger::Logger _logger { Logger::get() };
     bool _is_running { true };
     std::thread _dispatcher_thread;
     std::unordered_map<cnnMngmnt::chid, std::shared_ptr<cnnMngmnt::QnxConnection>> _chid_conn_map { };
-    std::array<std::unordered_set<std::shared_ptr<cnnMngmnt::QnxConnection>>, MAX_EVNT_ID> _evnt_conn_multimap;
+    /**
+     * Multimap of subscriptions.
+     * The array is indexed by the EventType Enum, which returns a set of QnxConnections.
+     * These represent all the QnxConnections which are subscribed to said EventType.
+     */
+    std::array<std::unordered_set<std::shared_ptr<cnnMngmnt::QnxConnection>>, static_cast<int>(EventType::SIZE)> _subscriptons;
     std::unique_ptr<cnnMngmnt::QnxChannel> _channel;
     std::unique_ptr<cnnMngmnt::QnxConnection> _other_connection;
-
 };
 
 } /* namespace dispatcher */

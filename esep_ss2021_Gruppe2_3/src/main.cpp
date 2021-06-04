@@ -1,104 +1,132 @@
 #include <dispatcher/Dispatcher.h>
-#include <embedded_recorder/Recorder.h>
-#include <embedded_recorder/Replayer.h>
 #include <Logger.h>
 #include <iostream>
-#include "simqnxgpioapi.h" // must be last include !!!
 #include "hal/gpiowrapper.h"
 #include "hal/hal.h"
-#include "hal/actuators/cb_motor.h"
 #include <thread>
 #include <chrono>
 #include "DemoClient.h"
 #include "dispatcher/Event.h"
 #include <sys/dispatch.h>
 #include "dispatcher/cnnMngmnt/QnxChannel.h"
+#include "hal/HalManagerAct.h"
+#include "hal/HalManagerSen.h"
+#include "timer/AsyncTimerService.h"
+#include "argument_parser.hpp"
+#include "logic/util/heartbeat_client.h"
+#include <embedded_recorder/Recorder.h>
+#include <embedded_recorder/Replayer.h>
 
 #ifdef TEST_ENABLE
-
 #include <gtest/gtest.h>
-#include "tests.h"
-
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    auto result = RUN_ALL_TESTS();
-
-#else
-
-    void fail_and_exit();
-    void primary();
-    void secondary();
-
-    int main(int argc, char **argv) {
-
-        enum class Mode {NONE, Primary, Secondary};
-
-        Mode mode = Mode::NONE;
-
-        if (argc < 2)
-            fail_and_exit();
-        mode = strcmp(argv[1], "-p") == 0 ? Mode::Primary :
-               strcmp(argv[1], "-s") == 0 ? Mode::Secondary: Mode::NONE;
-        if (mode == Mode::NONE)
-            fail_and_exit();
-        std::string mode_str = mode == Mode::Primary ? "PRI" : "SEC";
-
-        Logger::setup(mode_str, spdlog::level::trace, spdlog::level::err);
-        Logger::Logger _logger = Logger::get();
-
-        _logger->info(">>>>>>>>> running in {} mode <<<<<<<<<", mode_str);
-
-        if (mode == Mode::Primary)
-            primary();
-        if (mode == Mode::Secondary)
-            secondary();
-
-        return 0;
-    }
-
-    void fail_and_exit(){
-        printf("Usage %s -s | -c");
-        exit(EXIT_FAILURE);
-    }
-
-
-    void primary(){
-        dispatcher::Dispatcher disp("dispatcherp");
-        //disp.connect_to_other("dispatchers");
-        DemoClient client("dispatcherp", "DemoClient");
-
-        embedded_recorder::Recorder recorder("dispatcherp");
-        embedded_recorder::Replayer replayer("dispatcherp", "records/2021-05-24-18-58.json");
-        replayer.start();
-
-        client.subscribe_evnt(dispatcher::EventType::Event12);
-        dispatcher::Event e = {dispatcher::EventType::AnotherEvent, true, 23};
-
-        int event_count = 1000;
-        int sleep_time = 1000 * 10;
-        for (int i = 0; i < event_count; i++){
-            client.send_evnt(e, 3);
-            usleep(sleep_time);
-        }
-
-        usleep(2 * event_count * sleep_time);
-    }
-
-    void secondary(){
-        dispatcher::Dispatcher disp("dispatchers");
-        disp.connect_to_other("dispatcherp");
-        DemoClient client("dispatchers", "DemoClient");
-        client.subscribe_evnt(dispatcher::EventType::Event12);
-        dispatcher::Event e = {dispatcher::EventType::Event12, true, 42};
-
-        for (int i = 0; i < 5; i++){
-            client.send_evnt(e, 3);
-            usleep(1000*100);
-        }
-        usleep(1000*1000);
-    }
-
-
 
 #endif
+
+void primary();
+void secondary();
+
+bool record;
+bool playback;
+std::string filename;
+
+
+int main(int argc, char **argv) {
+
+#ifdef TEST_ENABLE
+    if (argc > 1 && !strcmp(argv[1], "-t")) {
+        ::testing::InitGoogleTest(&argc, argv);
+        return RUN_ALL_TESTS();
+    }
+
+#endif
+
+    auto args = argument_parser::parse(argc, argv);
+    record = args->record;
+    playback = args->playback;
+    filename = args->filename;
+    std::string mode_str = args->secondary ? "SEC" : "PRI";
+    Logger::setup(mode_str, true, "log/log.txt");
+    Logger::Logger _logger = Logger::get();
+    _logger->info(">>>>>>>>> running in {} mode <<<<<<<<<", mode_str);
+    if (args->verbose)
+        _logger->set_level(spdlog::level::debug);
+    else
+        _logger->set_level(spdlog::level::warn);
+
+
+    if (args->secondary)
+        secondary();
+    else
+        primary();
+
+
+    return 0;
+}
+
+using EventType = dispatcher::EventType;
+using Event = dispatcher::Event;
+
+const std::string D_PRI = "PRI";
+const std::string D_SEC = "SEC";
+
+void wait_for_exit() {
+    while (true) {
+        char c = getchar();
+        if (c == 'q') {
+            Logger::get()->set_level(spdlog::level::debug);
+            Logger::get()->info(">>>>>>>>> EXIT <<<<<<<<<");
+            return;
+        }
+    }
+}
+
+void primary() {
+    dispatcher::Dispatcher disp(D_PRI);
+    //disp.connect_to_other(D_SEC);
+    timer::AsyncTimerService timer_svc(D_PRI);
+    logic::util::HeartbeatClient hrtbt(D_PRI);
+    DemoClient client(D_PRI, "DEMO");
+
+    if(record){
+        hal::HalManagerAct hal_mngrAct(D_PRI);
+        hal::HalManagerSen hal_mngrSen(D_PRI);
+        embedded_recorder::Recorder recorder(D_PRI);
+
+        wait_for_exit();
+    }
+    else if(playback){
+        hal::HalManagerAct hal_mngrAct(D_PRI);
+        embedded_recorder::Replayer replayer(D_PRI, filename);
+        replayer.start();
+        wait_for_exit();
+    }else{
+        hal::HalManagerAct hal_mngrAct(D_PRI);
+        hal::HalManagerSen hal_mngrSen(D_PRI);
+        wait_for_exit();
+    }
+
+}
+
+void secondary() {
+    dispatcher::Dispatcher disp(D_SEC);
+    disp.connect_to_other(D_PRI);
+    //hal::HalManager hal_mngr(D_SEC);
+    if(record){
+            hal::HalManagerAct hal_mngrAct(D_PRI);
+            hal::HalManagerSen hal_mngrSen(D_PRI);
+            embedded_recorder::Recorder recorder(D_PRI);
+
+            wait_for_exit();
+        }
+        else if(playback){
+            hal::HalManagerAct hal_mngrAct(D_PRI);
+            embedded_recorder::Replayer replayer(D_PRI, filename);
+            replayer.start();
+            wait_for_exit();
+        }else{
+            hal::HalManagerAct hal_mngrAct(D_PRI);
+            hal::HalManagerSen hal_mngrSen(D_PRI);
+            wait_for_exit();
+        }
+}
 

@@ -43,11 +43,14 @@ SimulationStarterQNX::SimulationStarterQNX() {
     if (handler != nullptr) {
 #ifndef SIM_TWIN_B
 
-        handler->addAction(SimItemHandlingAction(1000, ItemKinds::flat));
+        handler->addAction(SimItemHandlingAction(1000, ItemKinds::holeup));
+        handler->addAction(SimItemHandlingAction(4000, ItemKinds::holedown));
+        handler->addAction(SimItemHandlingAction(7000, ItemKinds::flat));
+        /*
         handler->addAction(SimItemHandlingAction(3000, ItemKinds::flat));
         handler->addAction(SimItemHandlingAction(5000, ItemKinds::flat));
         handler->addAction(SimItemHandlingAction(7000, ItemKinds::flat));
-        /*
+
         handler->addAction(
                 SimItemHandlingAction(16000,
                         SimItemHandlingActionKind::removeallslide));

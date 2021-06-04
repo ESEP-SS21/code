@@ -8,7 +8,7 @@ namespace dispatcher {
 DispatcherClient::DispatcherClient(const std::string& dispatcher_name, const std::string& name) :
         _name { name }, _dispatcher_name { dispatcher_name }, _channel(nullptr) {
 
-    _channel = std::unique_ptr<cnnMngmnt::QnxChannel>(new cnnMngmnt::QnxChannel(dispatcher_name));
+    _channel = std::unique_ptr<cnnMngmnt::QnxChannel>(new cnnMngmnt::QnxChannel());
     _dispatcher_connection = std::unique_ptr<cnnMngmnt::QnxConnection>(
             new cnnMngmnt::QnxConnection(_dispatcher_name));
     _client_thread = std::thread([this] {this->run();});
@@ -20,7 +20,13 @@ DispatcherClient::~DispatcherClient() {
     _client_thread.join();
 }
 
-void DispatcherClient::subscribe_evnt(EventType event_type) {
+void DispatcherClient::subscribe(std::initializer_list<EventType> event_types) {
+    for (auto event_type : event_types) {
+        subscribe(event_type);
+    }
+}
+
+void DispatcherClient::subscribe(EventType event_type) {
     cnnMngmnt::header_t header;
 
     header.type = static_cast<_Uint16t>(SyncMsgType::SUBSCRIBE);
@@ -36,13 +42,22 @@ void DispatcherClient::subscribe_evnt(EventType event_type) {
         perror("Client: MsgSend failed");
         exit(EXIT_FAILURE);
     }
+    const std::string t = fmt::format("Client '{}' subscr to", _name);
+    _logger->trace(LOG_FORMAT2, t, str(event_type));
 }
-void DispatcherClient::send_evnt(Event event, int priority) const {
+
+void DispatcherClient::send(Event event, int priority) const {
     int code = static_cast<int>(event.type);
+    //add broadcast flag
     if (event.broadcast) {
         code = code | 0b01000000;
     }
     _dispatcher_connection->msg_send_pulse(priority, code, event.payload);
+    if (event.type == EventType::EVNT_TIM_REQ || event.type == EventType::EVNT_TIM_ALRT
+            || event.type == EventType::EVNT_HRTB)
+        return;
+    const std::string t = fmt::format("Client '{}' send", _name);
+    _logger->debug(LOG_FORMAT2, t, event.str());
 }
 
 void DispatcherClient::run() {
@@ -51,7 +66,7 @@ void DispatcherClient::run() {
         cnnMngmnt::MsgType msg_type = _channel->msg_receive(&header, sizeof(cnnMngmnt::header_t));
 
         if (msg_type == cnnMngmnt::MsgType::error) {
-            _logger->error("Client '{}' received error", _name);
+            _logger->error("Client '{}' received error '{}'", _name, header.type);
             break;
         }
 
@@ -60,9 +75,14 @@ void DispatcherClient::run() {
                 continue;
             }
 
-            Event e(header);
-            _logger->trace("Client '{}' received '{}'", _name, e.str());
-            handle(e);
+            Event event(header);
+            if (!(event.type == EventType::EVNT_TIM_REQ || event.type == EventType::EVNT_TIM_ALRT
+                    || event.type == EventType::EVNT_HRTB)) {
+                const std::string t = fmt::format("Client '{}' received", _name);
+                _logger->debug(LOG_FORMAT2, t, event.str());
+            }
+
+            handle(event);
             continue;
         }
 
@@ -81,12 +101,12 @@ void DispatcherClient::handle_qnx_io_msg(cnnMngmnt::header_t header) {
     if (header.type == _IO_CONNECT) {
         // QNX IO msg _IO_CONNECT was received; answer with EOK
         _channel->msg_reply(EOK);
-        _logger->trace("Client '{}' received _IO_CONNECT", _name);
+        const std::string t = fmt::format("Client '{}' received", _name);
+        _logger->trace(LOG_FORMAT2, t, "_IO_CONNECT");
         return;
     }
     // Some other QNX IO message was received; reject it
-    _logger->critical("Client '{}' received unexpected (sync.) msg type '{}'", _name,
-            header.type);
+    _logger->critical("Client '{}' received unexpected (sync.) msg type '{}'", _name, header.type);
     _channel->msg_reply_error(ENOSYS);
 }
 
