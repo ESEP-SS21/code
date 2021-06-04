@@ -37,7 +37,6 @@ int main(int argc, char **argv) {
         ::testing::InitGoogleTest(&argc, argv);
         return RUN_ALL_TESTS();
     }
-
 #endif
 
     auto args = argument_parser::parse(argc, argv);
@@ -45,13 +44,14 @@ int main(int argc, char **argv) {
     playback = args->playback;
     filename = args->filename;
     std::string mode_str = args->secondary ? "SEC" : "PRI";
-    Logger::setup(mode_str, true, "log/log.txt");
+
+    Logger::setup(mode_str, true, true);
     Logger::Logger _logger = Logger::get();
     _logger->info(">>>>>>>>> running in {} mode <<<<<<<<<", mode_str);
     if (args->verbose)
         _logger->set_level(spdlog::level::debug);
     else
-        _logger->set_level(spdlog::level::warn);
+        _logger->set_level(spdlog::level::info);
 
 
     if (args->secondary)
@@ -73,7 +73,6 @@ void wait_for_exit() {
     while (true) {
         char c = getchar();
         if (c == 'q') {
-            Logger::get()->set_level(spdlog::level::debug);
             Logger::get()->info(">>>>>>>>> EXIT <<<<<<<<<");
             return;
         }
