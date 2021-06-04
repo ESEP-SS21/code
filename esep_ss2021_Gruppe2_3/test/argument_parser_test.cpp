@@ -80,3 +80,14 @@ TEST(ArgumentParser, Verbose) {
     auto res = argument_parser::parse(size, messages);
     ASSERT_TRUE(res->verbose);
 }
+
+TEST(ArgumentParser, Single) {
+    constexpr int size = 2;
+    const char *messages[size] =
+        {
+            "testmain",
+            "--single",
+        };
+    auto res = argument_parser::parse(size, messages);
+    ASSERT_TRUE(res->single);
+}

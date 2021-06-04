@@ -58,7 +58,8 @@ struct Clients {
         if (args->record)
             recorder = std::unique_ptr<Recorder>(new Recorder(args->mode.str));
 
-        //dispatcher->connect_to_other(args->mode.other_str);
+        if (!args->single)
+            dispatcher->connect_to_other(args->mode.other_str);
     }
 };
 

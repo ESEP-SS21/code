@@ -31,6 +31,7 @@ struct Arguments {
     bool record{};
     bool playback{};
     bool verbose{};
+    bool single{};
     std::string filename{};
 
     explicit Arguments(bool secondary) : mode(secondary) {}
@@ -44,6 +45,7 @@ static const std::string ejector{"ejector"};
 static const std::string secondary{"secondary"};
 static const std::string playback{"playback"};
 static const std::string verbose{"verbose"};
+static const std::string single{"single"};
 }
 
 std::shared_ptr<Arguments> parse(int argc, const char *const *argv);
@@ -67,6 +69,7 @@ inline std::shared_ptr<Arguments> parse(int argc, const char *const *argv) {
                 ("v," + argument_names::verbose, "start in secondary mode")
                 ("e," + argument_names::ejector, "FTS has ejector instead of switch")
                 ("R," + argument_names::record, "enable recording events to file")
+                (argument_names::single, "do not connect to other dispatcher")
                 ("o," + argument_names::ofile, "output file", cxxopts::value<std::string>(),
                  "[FILENAME]")
                 ("P," + argument_names::playback, "playback a record", cxxopts::value<std::string>(),
@@ -82,6 +85,7 @@ inline std::shared_ptr<Arguments> parse(int argc, const char *const *argv) {
         args->verbose = result.count(argument_names::verbose);
         args->ejector = result.count(argument_names::ejector);
         args->record = result.count(argument_names::record);
+        args->single = result.count(argument_names::single);
 
         if (result.count(argument_names::ofile))
             args->filename = result[argument_names::ofile].as<std::string>();
