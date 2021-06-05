@@ -23,7 +23,7 @@ public:
 
 protected:
     mutable std::mutex _section_mutex;
-    const std::shared_ptr<std::queue<Workpiece>> _queue;
+    const std::unique_ptr<std::queue<Workpiece>> _queue;
     const std::shared_ptr<CBSection> _next_section;
 };
 
