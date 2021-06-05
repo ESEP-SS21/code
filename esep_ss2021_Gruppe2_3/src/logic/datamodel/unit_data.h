@@ -40,14 +40,14 @@ public:
 
     WorkpieceType get_next_in_order();
 
-protected:
+private:
     const std::shared_ptr<CBSection> _switch_end_sec = std::make_shared<CBSection>();
     const std::shared_ptr<CBSection> _height_switch_sec = std::make_shared<CBSection>(
             _switch_end_sec);
     const std::shared_ptr<CBSection> _start_height_sec = std::make_shared<CBSection>(
             _height_switch_sec);
 
-    OperationMode _operation_mode;
+    const OperationMode _operation_mode;
 
     bool _belt_empty = true;
     bool _belt_blocked = false;
