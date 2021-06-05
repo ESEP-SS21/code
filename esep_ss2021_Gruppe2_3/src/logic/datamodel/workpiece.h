@@ -14,7 +14,7 @@ public:
     Workpiece();
     Workpiece(EncodedWorkpiece);
     virtual ~Workpiece() = default;
-    bool operator==(const Workpiece&);
+    bool operator==(const Workpiece&) const;
 
     EncodedWorkpiece encode() const;
     WorkpieceType get_type() const;

@@ -19,7 +19,7 @@ Workpiece::Workpiece(EncodedWorkpiece encoded_wrpc) :
     is_metallic = type == WorkpieceType::WRPC_HM;
 }
 
-bool Workpiece::operator==(const Workpiece& cmp) {
+bool Workpiece::operator==(const Workpiece& cmp) const {
     return this->_id == cmp.get_id();
 }
 

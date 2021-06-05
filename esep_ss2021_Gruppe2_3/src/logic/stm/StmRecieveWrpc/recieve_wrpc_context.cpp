@@ -13,7 +13,7 @@ using namespace dispatcher;
 
 void RecieveWrpcContext::handle(Event e) {
     auto *state = (RecieveWrpcBaseState *) (_state);
-    if(_datamodel->get_operating_mode() != datamodel::OperatingMode::RUNNING){
+    if(_datamodel->_operating_mode != datamodel::OperatingMode::RUNNING){
         return;
     }
     switch (e.type) {

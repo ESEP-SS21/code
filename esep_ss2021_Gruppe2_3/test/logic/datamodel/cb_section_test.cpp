@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <memory>
 
-#include "../../logic/datamodel/cb_section.h"
+#include "logic/datamodel/cb_section.h"
 #include "../workpiece_helper.h"
 
 namespace test {
@@ -17,26 +17,26 @@ TEST(CBSectionTest, CBSectionCreationShouldLinkMultipleSectionsCorrectly) {
     ASSERT_EQ(p_sec_3->get_next_section(), nullptr);
     ASSERT_EQ(p_sec_2->get_next_section(), p_sec_3);
     ASSERT_EQ(p_sec_1->get_next_section(), p_sec_2);
-    ASSERT_EQ(p_sec_3->get_queue()->size(), 0);
-    ASSERT_EQ(p_sec_2->get_queue()->size(), 0);
-    ASSERT_EQ(p_sec_1->get_queue()->size(), 0);
+    ASSERT_EQ(p_sec_3->workpiece_count(), 0);
+    ASSERT_EQ(p_sec_2->workpiece_count(), 0);
+    ASSERT_EQ(p_sec_1->workpiece_count(), 0);
 }
 
 TEST(CBSectionTest, WorkpieceCountShouldCountWorkpiecesCorrectly) {
     std::shared_ptr<CBSection> p_sec = std::make_shared<CBSection>();
     //add 1
-    p_sec->get_queue()->push(create_wp_l());
+    p_sec->enter_workpiece(create_wp_l());
     ASSERT_EQ(p_sec->workpiece_count(), 1);
     //add 2
-    p_sec->get_queue()->push(create_wp_h());
-    p_sec->get_queue()->push(create_wp_hb());
+    p_sec->enter_workpiece(create_wp_h());
+    p_sec->enter_workpiece(create_wp_hb());
     ASSERT_EQ(p_sec->workpiece_count(), 3);
     //pop 1
-    p_sec->get_queue()->pop();
+    p_sec->exit_first_workpiece();
     ASSERT_EQ(p_sec->workpiece_count(), 2);
     //pop to 0
-    p_sec->get_queue()->pop();
-    p_sec->get_queue()->pop();
+    p_sec->exit_first_workpiece();
+    p_sec->exit_first_workpiece();
     ASSERT_EQ(p_sec->workpiece_count(), 0);
 }
 
@@ -47,18 +47,18 @@ TEST(CBSectionTest, FirstAndLastWorkpieceShouldReadCorrectSectionContent) {
     Workpiece wrpc_3 = create_wp_l();
 
     //add wrpc_1
-    p_sec->get_queue()->push(wrpc_1);
+    p_sec->enter_workpiece(wrpc_1);
     ASSERT_EQ(p_sec->first_workpiece().get_id(), wrpc_1.get_id());
     ASSERT_EQ(p_sec->last_workpiece().get_id(), wrpc_1.get_id());
 
     //add wrpc_2
-    p_sec->get_queue()->push(wrpc_2);
+    p_sec->enter_workpiece(wrpc_2);
     ASSERT_EQ(p_sec->first_workpiece().get_id(), wrpc_1.get_id());
     ASSERT_EQ(p_sec->last_workpiece().get_id(), wrpc_2.get_id());
 
     //add wrpc_3, pop wrpc_1
-    p_sec->get_queue()->push(wrpc_3);
-    p_sec->get_queue()->pop();
+    p_sec->enter_workpiece(wrpc_3);
+    p_sec->exit_first_workpiece();
     ASSERT_EQ(p_sec->first_workpiece().get_id(), wrpc_2.get_id());
     ASSERT_EQ(p_sec->last_workpiece().get_id(), wrpc_3.get_id());
 }

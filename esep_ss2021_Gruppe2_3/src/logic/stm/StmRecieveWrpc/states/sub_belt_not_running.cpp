@@ -10,7 +10,7 @@ STATE_INIT(BeltNotRunning)
 bool BeltNotRunning::lb_st_blck(){
     // todo get state from datamodel
     bool secondary = false;
-    bool belt_blocked = _datamodel->get_belt_blocked();
+    bool belt_blocked = _datamodel->_belt_blocked;
     if(secondary){
         _datamodel->get_start_height_sec()->enter_workpiece(*_datamodel->get_pending_transfer());
     }else{
@@ -31,7 +31,7 @@ bool BeltNotRunning::belt_fwd(){
 }
 
 void BeltNotRunning::entry(){
-    _datamodel->set_belt_state(datamodel::BeltState::RUNNING);
+    _datamodel->_belt_state = datamodel::BeltState::RUNNING;
     _eventSender->send( { EventType::EVNT_ACT_BELT_STP, 0, false } );
 };
 

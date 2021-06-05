@@ -8,8 +8,7 @@ namespace recieveWrpcStm {
 STATE_INIT(BeltRunning)
 
 bool BeltRunning::lb_st_blck(){
-    bool secondary = false;
-    if(secondary){
+    if(_datamodel->_unit_type == UnitType::SECONDARY){
         _datamodel->get_start_height_sec()->enter_workpiece(*_datamodel->get_pending_transfer());
     }else{
         datamodel::Workpiece new_wrpc;
@@ -25,7 +24,7 @@ bool BeltRunning::belt_stp(){
 }
 
 void BeltRunning::entry(){
-    _datamodel->set_belt_state(datamodel::BeltState::RUNNING);
+    _datamodel->_belt_state = datamodel::BeltState::RUNNING;
     _eventSender->send( { EventType::EVNT_ACT_BELT_FWD, 0, false } );
 };
 
