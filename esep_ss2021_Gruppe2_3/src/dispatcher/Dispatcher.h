@@ -1,5 +1,6 @@
 #pragma once
 
+#include <sys/dispatch.h>
 #include <thread>
 #include <iostream>
 #include <string>
@@ -9,6 +10,7 @@
 #include "cnnMngmnt/QnxChannel.h"
 #include "cnnMngmnt/QnxConnection.h"
 #include "Event.h"
+#include "msg_header.h"
 
 namespace dispatcher {
 
@@ -22,8 +24,8 @@ private:
     void run();
     void subscribe(EventSubscription subscr);
     void dispatch(Event e) const;
-    void handle_sync_msg(cnnMngmnt::header_t header);
-    void handle_qnx_io_msg(cnnMngmnt::header_t header) const;
+    void handle_sync_msg(header_t header);
+    void handle_qnx_io_msg(header_t header) const;
 
     Logger::Logger _logger { Logger::get() };
     bool _is_running { true };

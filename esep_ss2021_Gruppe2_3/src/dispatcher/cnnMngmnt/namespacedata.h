@@ -1,17 +1,20 @@
 #pragma once
 
-#include <sys/dispatch.h>
+#include <stdint.h>
 
 namespace dispatcher {
 namespace cnnMngmnt {
 
-struct header_t {
-    _Uint16t type;
-    _Uint16t subtype;
-    _Int8t code;
-    _Uint8t zero[3];
+union sigval {
+    int sival_int;
+    void *sival_ptr;
+};
+
+struct custom_header_t {
+    uint16_t type;
+    uint16_t subtype;
+    int8_t code;
     union sigval value;
-    _Int32t scoid;
 };
 
 using rcvid = int;
