@@ -3,6 +3,7 @@
 #include <errno.h>
 #include "Event.h"
 #include "SyncMsg.h"
+#include <sys/dispatch.h>
 
 namespace dispatcher {
 
@@ -25,8 +26,8 @@ void Dispatcher::connect_to_other(const std::string &other_dispacher_name) {
 
 void Dispatcher::run() {
     while (_is_running) {
-        cnnMngmnt::header_t header;
-        cnnMngmnt::MsgType type = _channel->msg_receive(&header, sizeof(cnnMngmnt::header_t));
+        header_t header;
+        cnnMngmnt::MsgType type = _channel->msg_receive(&header, sizeof(header_t));
 
         if (type == cnnMngmnt::MsgType::error) {
             _logger->error("Dispatcher received error '{}'", header.type);
@@ -38,7 +39,8 @@ void Dispatcher::run() {
                 continue;
             }
 
-            Event e(header);
+            //todo translate header_t into custom_header_t
+            Event e(header.convert_to_custom());
             dispatch(e);
             continue;
         }
@@ -54,7 +56,7 @@ void Dispatcher::run() {
     }
 }
 
-void Dispatcher::handle_sync_msg(cnnMngmnt::header_t header) {
+void Dispatcher::handle_sync_msg(header_t header) {
     if (SyncMsgType::SUBSCRIBE == SyncMsgType(header.type)) {
 
         EventSubscription subscription;
@@ -102,7 +104,7 @@ void Dispatcher::dispatch(Event e) const {
     _logger->trace(LOG_FORMAT2, "Dispatcher dispatched", e.str());
 }
 
-void Dispatcher::handle_qnx_io_msg(cnnMngmnt::header_t header) const {
+void Dispatcher::handle_qnx_io_msg(header_t header) const {
     if (header.type == _IO_CONNECT) {
         _channel->msg_reply(EOK);
         _logger->trace(LOG_FORMAT2, "Dispatcher received", "_IO_CONNECT");

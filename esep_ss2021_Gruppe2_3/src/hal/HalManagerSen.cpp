@@ -5,12 +5,12 @@
  *      Author: jendr
  */
 
-#include <hal/HalManager.h>
+#include <hal/HalManagerSen.h>
 
 namespace hal {
 
-HalManager::HalManager(const std::string& dispatcher_name) :
-        DispatcherClient(dispatcher_name, "HAL Manager") {
+HalManagerSen::HalManagerSen(const std::string& dispatcher_name) :
+        DispatcherClient(dispatcher_name, "HAL Manager Sen") {
     _irq_rec_channel = nullptr;
     _running = true;
     _gpio = std::make_shared<GPIOWrapper>();
@@ -23,21 +23,10 @@ HalManager::HalManager(const std::string& dispatcher_name) :
     _start_pressed_time = std::chrono::high_resolution_clock::now();
     _stop_pressed_time = std::chrono::high_resolution_clock::now();
     _reset_pressed_time = std::chrono::high_resolution_clock::now();
-    subscribe( { dispatcher::EventType::EVNT_ACT_CTRL_T_STR_LED_ON,
-            dispatcher::EventType::EVNT_ACT_CTRL_T_STR_LED_OFF,
-            dispatcher::EventType::EVNT_ACT_CTRL_T_RST_LED_ON,
-            dispatcher::EventType::EVNT_ACT_CTRL_T_RST_LED_OFF,
-            dispatcher::EventType::EVNT_ACT_BELT_BWD, dispatcher::EventType::EVNT_ACT_BELT_FWD,
-            dispatcher::EventType::EVNT_ACT_BELT_STP, dispatcher::EventType::EVNT_ACT_SORT_DSC,
-            dispatcher::EventType::EVNT_ACT_SORT_NO_DSC, dispatcher::EventType::EVNT_ACT_SORT_RST,
-            dispatcher::EventType::EVNT_ACT_STPL_LED_ON,
-            dispatcher::EventType::EVNT_ACT_STPL_LED_OFF,
-            dispatcher::EventType::EVNT_ACT_STPL_LED_BLNK_FST,
-            dispatcher::EventType::EVNT_ACT_STPL_LED_BLNK_SLW,
-            dispatcher::EventType::EVNT_SEN_HEIGHT_REQ, });
+
 }
 
-void HalManager::int_rec_fnct() {
+void HalManagerSen::int_rec_fnct() {
     struct sigevent _input_event;
     struct sigevent _adc_event;
     // creates a pulse message which is sent when the event occurs
@@ -60,11 +49,11 @@ void HalManager::int_rec_fnct() {
         _logger->error("Attaching Event to Interrupt failed");
         exit(1);
     }
-    dispatcher::cnnMngmnt::header_t header;
+    header_t header;
 
     while (_running) {
         dispatcher::cnnMngmnt::MsgType msg_type = _irq_rec_channel->msg_receive(&header,
-                sizeof(dispatcher::cnnMngmnt::header_t));
+                sizeof(header_t));
 
         if (msg_type == dispatcher::cnnMngmnt::MsgType::error) {
             _logger->error("IRQ handler received error '{}'", header.type);
@@ -105,7 +94,7 @@ void HalManager::int_rec_fnct() {
     }
 }
 
-void HalManager::send_event_to_dispatcher() {
+void HalManagerSen::send_event_to_dispatcher() {
     if (_hal->get_estop().get()->was_pressed()) {
         dispatcher::Event e = { dispatcher::EventType::EVNT_SEN_ESTOP_ON, 0, true };
         send(e, 40);
@@ -204,60 +193,7 @@ void HalManager::send_event_to_dispatcher() {
     }
 }
 
-void HalManager::handle(dispatcher::Event& event) {
-    if (event.type == dispatcher::EventType::EVNT_ACT_BELT_BWD) {
-        _hal->get_cb_motor().get()->set_direction(Direction::FAST_BACKWARDS);
-    }
-    if (event.type == dispatcher::EventType::EVNT_ACT_BELT_FWD) {
-        _hal->get_cb_motor().get()->set_direction(Direction::FAST_FORWARDS);
-    }
-    if (event.type == dispatcher::EventType::EVNT_ACT_BELT_STP) {
-        _hal->get_cb_motor().get()->set_direction(Direction::STOP);
-    }
-    if (event.type == dispatcher::EventType::EVNT_ACT_SORT_DSC) {
-        _hal->get_sorting_mechanism().get()->discard();
-    }
-    if (event.type == dispatcher::EventType::EVNT_ACT_SORT_NO_DSC) {
-        _hal->get_sorting_mechanism().get()->do_not_discard();
-    }
-    if (event.type == dispatcher::EventType::EVNT_ACT_SORT_RST) {
-        _hal->get_sorting_mechanism().get()->reset();
-    }
-    if (event.type == dispatcher::EventType::EVNT_ACT_CTRL_T_STR_LED_ON) {
-        _hal->get_leds().get()->enable(LED_type::START);
-    }
-    if (event.type == dispatcher::EventType::EVNT_ACT_CTRL_T_STR_LED_OFF) {
-        _hal->get_leds().get()->disable(LED_type::START);
-    }
-    if (event.type == dispatcher::EventType::EVNT_ACT_CTRL_T_RST_LED_ON) {
-        _hal->get_leds().get()->enable(LED_type::RESET);
-    }
-    if (event.type == dispatcher::EventType::EVNT_ACT_CTRL_T_RST_LED_OFF) {
-        _hal->get_leds().get()->disable(LED_type::RESET);
-    }
-    if (event.type == dispatcher::EventType::EVNT_ACT_STPL_LED_ON) {
-        _hal->get_stoplight().get()->enable(Color(event.payload));
-    }
-    if (event.type == dispatcher::EventType::EVNT_ACT_STPL_LED_OFF) {
-        _hal->get_stoplight().get()->disable(Color(event.payload));
-    }
-    if (event.type == dispatcher::EventType::EVNT_ACT_STPL_LED_BLNK_FST) {
-        _hal->get_stoplight().get()->blink(Color(event.payload), Speed::FAST);
-    }
-    if (event.type == dispatcher::EventType::EVNT_ACT_STPL_LED_BLNK_SLW) {
-        _hal->get_stoplight().get()->blink(Color(event.payload), Speed::SLOW);
-    }
-    if (event.type == dispatcher::EventType::EVNT_SEN_HEIGHT_REQ) {
-        if (event.payload == 0) {
-            _hal->get_height_sensor().get()->sample();
-        } else {
-            _hal->get_height_sensor().get()->set_zero_point(event.payload);
-        }
-
-    }
-}
-
-void HalManager::handle_qnx_io_msg(dispatcher::cnnMngmnt::header_t header) {
+void HalManagerSen::handle_qnx_io_msg(header_t header) {
     if (header.type == _IO_CONNECT) {
         // QNX IO msg _IO_CONNECT was received; answer with EOK
         _irq_rec_channel->msg_reply(EOK);
@@ -269,28 +205,11 @@ void HalManager::handle_qnx_io_msg(dispatcher::cnnMngmnt::header_t header) {
     _irq_rec_channel->msg_reply_error(ENOSYS);
 }
 
-HalManager::~HalManager() {
+HalManagerSen::~HalManagerSen() {
     _running = false;
     dispatcher::cnnMngmnt::QnxConnection(_irq_rec_channel->get_chid()).msg_send_pulse(1,
     _PULSE_CODE_UNBLOCK, 0);
     _listener_thread.join();
-}
-
-// Temporary
-void HalManager::set_belt_state(bool value) {
-    if (value) {
-        _hal->get_cb_motor().get()->set_direction(FAST_FORWARDS);
-    } else {
-        _hal->get_cb_motor().get()->set_direction(STOP);
-    }
-}
-// Temporary
-void HalManager::set_junc_state(bool value) {
-    if (value) {
-        _hal->get_sorting_mechanism()->do_not_discard();
-    } else {
-        _hal->get_sorting_mechanism()->discard();
-    }
 }
 
 } /* namespace hal */

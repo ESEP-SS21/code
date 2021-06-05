@@ -7,13 +7,34 @@
 namespace logic {
 namespace datamodel {
 
-enum OperationMode{
-    PRIMARY=0, SECONDARY=1
+
+enum class UnitType{
+    PRIMARY,
+    SECONDARY,
+};
+
+enum class OperatingMode{
+    IDLE,
+    RUNNING,
+    ERROR,
+    ESTOP,
+    SERVICE,
+};
+
+enum class SorterState{
+    NOTSET,
+    DISCARD,
+    NODISCARD,
+};
+
+enum class BeltState{
+    STOP,
+    RUNNING,
 };
 
 class UnitData {
 public:
-    UnitData(OperationMode operation_mode);
+    UnitData(UnitType unit_type);
     virtual ~UnitData() = default;
 
     bool wrpc_fits_order(const Workpiece&) const;
@@ -38,6 +59,14 @@ public:
     void set_warning_count(int);
     void set_belt_empty(bool);
 
+    UnitType get_unit_type();
+    void set_unit_type(UnitType unit_type);
+    OperatingMode get_operating_mode();
+    void set_operating_mode(OperatingMode mode);
+    BeltState get_belt_state();
+    void set_belt_state(BeltState state);
+    SorterState get_sorter_state();
+    void set_sorter_state(SorterState state);
     WorkpieceType get_next_in_order();
 
 private:
@@ -47,7 +76,8 @@ private:
     const std::shared_ptr<CBSection> _start_height_sec = std::make_shared<CBSection>(
             _height_switch_sec);
 
-    const OperationMode _operation_mode;
+    OperatingMode _operating_mode;
+    const UnitType _unit_type;
 
     bool _belt_empty = true;
     bool _belt_blocked = false;
@@ -55,6 +85,12 @@ private:
     std::shared_ptr<Workpiece> _pending_transfer = nullptr;
     int _estop_count = 0;
     int _warning_count = 0;
+
+    OperatingMode _mode = OperatingMode::IDLE;
+
+    // to save the state when reentering running mode from error
+    BeltState _belt_state = BeltState::STOP;
+    SorterState _sorter_state = SorterState::NOTSET;
 
     WorkpieceType _next_in_order = WorkpieceType::first_in_order();
     mutable std::mutex _unit_mutex;

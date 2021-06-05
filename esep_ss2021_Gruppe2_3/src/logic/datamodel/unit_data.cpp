@@ -3,7 +3,7 @@
 namespace logic {
 namespace datamodel {
 
-UnitData::UnitData(OperationMode operation_mode) : _operation_mode(operation_mode) {
+UnitData::UnitData(UnitType unit_type) : _unit_type(unit_type) {
 
 }
 
@@ -85,6 +85,36 @@ void UnitData::set_estop_count(int val) {
 void UnitData::set_warning_count(int val) {
     const std::lock_guard<std::mutex> lock(_unit_mutex);
     _warning_count = val;
+}
+
+void UnitData::set_operating_mode(OperatingMode mode){
+    const std::lock_guard<std::mutex> lock(_unit_mutex);
+    _mode = mode;
+}
+
+OperatingMode UnitData::get_operating_mode(){
+    const std::lock_guard<std::mutex> lock(_unit_mutex);
+    return _mode;
+}
+
+void UnitData::set_belt_state(BeltState state){
+    const std::lock_guard<std::mutex> lock(_unit_mutex);
+    _belt_state = state;
+}
+
+BeltState UnitData::get_belt_state(){
+    const std::lock_guard<std::mutex> lock(_unit_mutex);
+    return _belt_state;
+}
+
+void UnitData::set_sorter_state(SorterState state){
+    const std::lock_guard<std::mutex> lock(_unit_mutex);
+    _sorter_state = state;
+}
+
+SorterState UnitData::get_sorter_state(){
+    const std::lock_guard<std::mutex> lock(_unit_mutex);
+    return _sorter_state;
 }
 
 void UnitData::set_belt_empty(bool val) {
