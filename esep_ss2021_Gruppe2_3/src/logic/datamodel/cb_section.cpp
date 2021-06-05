@@ -6,13 +6,13 @@ namespace logic {
 namespace datamodel {
 
 CBSection::CBSection() :
-    _queue(std::make_unique<std::queue<Workpiece>>()),
+    _queue(std::unique_ptr<std::queue<Workpiece>>(new std::queue<Workpiece>)),
     _next_section(nullptr) {
 }
 
 CBSection::CBSection(std::shared_ptr<CBSection> next_section) :
-    _next_section(std::move(next_section)),
-    _queue(std::make_unique<std::queue<Workpiece>>()) {
+     _queue(std::unique_ptr<std::queue<Workpiece>>(new std::queue<Workpiece>)),
+    _next_section(std::move(next_section)) {
 }
 
 int CBSection::workpiece_count() const {
