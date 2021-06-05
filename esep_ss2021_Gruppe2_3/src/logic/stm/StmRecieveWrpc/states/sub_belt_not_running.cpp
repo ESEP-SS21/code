@@ -35,6 +35,14 @@ void BeltNotRunning::entry(){
     _eventSender->send( { EventType::EVNT_ACT_BELT_STP, 0, false } );
 };
 
+void BeltNotRunning::entry_history(){
+    entry();
+}
+
+void BeltNotRunning::reset_to_start(){
+    entry();
+}
+
 } /* namespace recieveWrpcStm */
 } /* namespace stm */
 } /* namespace logic */

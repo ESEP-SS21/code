@@ -26,9 +26,6 @@ void RecieveWrpcContext::handle(Event e) {
         case EventType::EVNT_ACT_BELT_FWD:
             state->belt_fwd();
             return;
-        case EventType::EVNT_SEN_ESTOP_ON:
-            state->estop_on();
-            return;
         default:
             return;
     }

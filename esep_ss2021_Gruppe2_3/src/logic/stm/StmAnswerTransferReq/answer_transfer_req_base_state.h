@@ -8,8 +8,10 @@ namespace StmAnswerTransferReq {
 
 class AnswerTransferReqBaseState: public BaseBaseState {
 public:
-    virtual bool wrpc_trns_rq(){return false;}
+    virtual bool wrpc_trns_rq(int payload){return false;}
     virtual bool lb_he_blck(){return false;}
+    virtual void entry_history(){};
+    virtual void reset_to_start(){};
 };
 
 } /* namespace StmAnswerTransferReq */

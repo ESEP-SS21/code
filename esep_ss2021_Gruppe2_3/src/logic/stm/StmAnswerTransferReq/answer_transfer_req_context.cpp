@@ -21,7 +21,7 @@ void AnswerTransferReqContext::handle(Event e) {
             state->lb_he_blck();
             return;
         case EventType::EVNT_WRPC_TRNS_RQ:
-            state->wrpc_trns_rq();
+            state->wrpc_trns_rq(e.payload);
             return;
         default:
             return;

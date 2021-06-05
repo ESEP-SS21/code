@@ -28,6 +28,15 @@ void BeltRunning::entry(){
     _eventSender->send( { EventType::EVNT_ACT_BELT_FWD, 0, false } );
 };
 
+void BeltRunning::entry_history(){
+    entry();
+}
+
+void BeltRunning::reset_to_start(){
+    switch_state<BeltNotRunning>();
+    entry();
+}
+
 } /* namespace recieveWrpcStm */
 } /* namespace stm */
 } /* namespace logic */

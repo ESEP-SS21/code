@@ -12,6 +12,8 @@ public:
     bool belt_fwd() override;
 protected:
     void entry() override;
+    void entry_history() override;
+    void reset_to_start() override;
 };
 
 } /* namespace recieveWrpcStm */
