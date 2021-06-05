@@ -22,7 +22,7 @@ public:
     std::shared_ptr<spdlog::logger> get() const{
         return spdlog::get(_name);
     }
-    void setup(const std::string &name, bool console, const std::string &file = "");
+    void setup(const std::string &name, bool console, bool file);
 
 };
 
@@ -31,7 +31,7 @@ inline std::shared_ptr<spdlog::logger> get() {
     return t.get();
 }
 
-inline void setup(const std::string &name, bool console, const std::string &file = "") {
+inline void setup(const std::string &name, bool console, bool file) {
     Internal::get_instance().setup(name, console, file);
 }
 

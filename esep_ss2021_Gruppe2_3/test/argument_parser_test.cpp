@@ -27,7 +27,7 @@ TEST(ArgumentParser, RecordPrimary) {
         };
     auto res = argument_parser::parse(size, messages);
     ASSERT_TRUE(res->record);
-    ASSERT_FALSE(res->secondary);
+    ASSERT_FALSE(res->mode.secondary);
     ASSERT_EQ(res->filename, filename);
 }
 
@@ -44,7 +44,7 @@ TEST(ArgumentParser, RecordSecondary) {
         };
     auto res = argument_parser::parse(size, messages);
     ASSERT_TRUE(res->record);
-    ASSERT_TRUE(res->secondary);
+    ASSERT_TRUE(res->mode.secondary);
     ASSERT_EQ(res->filename, filename);
 }
 
@@ -56,7 +56,7 @@ TEST(ArgumentParser, Secondary) {
             "-s",
         };
     auto res = argument_parser::parse(size, messages);
-    ASSERT_TRUE(res->secondary);
+    ASSERT_TRUE(res->mode.secondary);
 }
 
 TEST(ArgumentParser, Ejector) {
@@ -79,4 +79,15 @@ TEST(ArgumentParser, Verbose) {
         };
     auto res = argument_parser::parse(size, messages);
     ASSERT_TRUE(res->verbose);
+}
+
+TEST(ArgumentParser, Single) {
+    constexpr int size = 2;
+    const char *messages[size] =
+        {
+            "testmain",
+            "--single",
+        };
+    auto res = argument_parser::parse(size, messages);
+    ASSERT_TRUE(res->single);
 }
