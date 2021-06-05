@@ -86,6 +86,8 @@ int main(int argc, char **argv) {
     Clients clients;
     DemoClient client(args->mode.str, "DEMO");
     wait_for_exit();
+
+    return 0;
 }
 
 
@@ -94,7 +96,7 @@ void wait_for_exit() {
         char c = getchar();
         if (c == 'q') {
             Logger::get()->info(">>>>>>>>> EXIT <<<<<<<<<");
-            exit(0);
+            return;
         }
     }
 }
