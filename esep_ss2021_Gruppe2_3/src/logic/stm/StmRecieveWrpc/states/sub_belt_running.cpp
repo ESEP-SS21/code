@@ -25,7 +25,7 @@ bool BeltRunning::belt_stp(){
 }
 
 void BeltRunning::entry(){
-    _datamodel->set_belt_state(datamodel::BeltState::RUNNING);
+    _datamodel->_belt_state = datamodel::BeltState::RUNNING;
     _eventSender->send( { EventType::EVNT_ACT_BELT_FWD, 0, false } );
 };
 

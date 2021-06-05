@@ -13,10 +13,10 @@ using namespace ::logic::datamodel;
 TEST(UnitDataTest, ConstructorShouldCreateThreeCBSectionsInOrder) {
     std::shared_ptr<UnitData> unit_data = std::make_shared<UnitData>(UnitType::PRIMARY);
     ASSERT_EQ(unit_data->get_pending_transfer(), nullptr);
-    ASSERT_EQ(unit_data->get_belt_blocked(), false);
-    ASSERT_EQ(unit_data->get_ramp_full(), false);
-    ASSERT_EQ(unit_data->get_estop_count(), 0);
-    ASSERT_EQ(unit_data->get_warning_count(), 0);
+    ASSERT_EQ(unit_data->_belt_blocked, false);
+    ASSERT_EQ(unit_data->_ramp_full, false);
+    ASSERT_EQ(unit_data->_estop_count, 0);
+    ASSERT_EQ(unit_data->_warning_count, 0);
 
     ASSERT_EQ(unit_data->get_start_height_sec()->get_next_section(), unit_data->get_height_switch_sec());
     ASSERT_EQ(unit_data->get_height_switch_sec()->get_next_section(), unit_data->get_switch_end_sec());
