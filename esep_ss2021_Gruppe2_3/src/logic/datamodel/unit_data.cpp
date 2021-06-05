@@ -1,5 +1,7 @@
 #include <logic/datamodel/unit_data.h>
 
+#include <utility>
+
 namespace logic {
 namespace datamodel {
 
@@ -34,36 +36,18 @@ std::shared_ptr<CBSection> UnitData::get_start_height_sec() const {
     return _start_height_sec;
 }
 
-WorkpieceType UnitData::get_next_in_order() {
+WorkpieceType UnitData::get_next_in_order() const {
     return _next_in_order;
 }
 
-//bool UnitData::get_belt_blocked() {
-//    return _belt_blocked;
-//}
-//
-//void UnitData::set_belt_blocked(bool val) {
-//    const std::lock_guard<std::mutex> lock(_unit_mutex);
-//    _belt_blocked = val;
-//}
-
-
-std::shared_ptr<Workpiece> UnitData::get_pending_transfer() {
+std::shared_ptr<Workpiece> UnitData::get_pending_transfer() const {
     return _pending_transfer;
 }
 
-
-
 void UnitData::set_pending_transfer(std::shared_ptr<Workpiece> wrpc) {
     const std::lock_guard<std::mutex> lock(_unit_mutex);
-    _pending_transfer = wrpc;
+    _pending_transfer = std::move(wrpc);
 }
-
-void UnitData::set_sorter_state(SorterState state){
-    const std::lock_guard<std::mutex> lock(_unit_mutex);
-    _sorter_state = state;
-}
-
 
 } /* namespace datamodel */
 } /* namespace logic */

@@ -3,10 +3,10 @@
 #include <memory>
 #include "cb_section.h"
 #include <array>
+#include <atomic>
 
 namespace logic {
 namespace datamodel {
-
 
 enum class UnitType{
     PRIMARY,
@@ -37,13 +37,15 @@ public:
     UnitData(UnitType unit_type);
     virtual ~UnitData() = default;
 
-    bool wrpc_fits_order(const Workpiece&) const;
-    void wrpc_order_step();
-    void wrpc_order_reset(WorkpieceType);
-
     std::shared_ptr<CBSection> get_switch_end_sec() const;
     std::shared_ptr<CBSection> get_height_switch_sec() const;
     std::shared_ptr<CBSection> get_start_height_sec() const;
+    std::shared_ptr<Workpiece> get_pending_transfer() const;
+    WorkpieceType get_next_in_order() const;
+    void set_pending_transfer(std::shared_ptr<Workpiece>);
+    bool wrpc_fits_order(const Workpiece&) const;
+    void wrpc_order_step();
+    void wrpc_order_reset(WorkpieceType);
 
     std::atomic<bool> _belt_blocked{false};
     std::atomic<bool> _belt_empty{true};
@@ -55,26 +57,13 @@ public:
     std::atomic<BeltState> _belt_state {BeltState::STOP};
     std::atomic<SorterState> _sorter_state {SorterState::NOTSET};
 
-    std::shared_ptr<Workpiece> get_pending_transfer();
-
-
-    void set_pending_transfer(std::shared_ptr<Workpiece>);
-    void set_sorter_state(SorterState state);
-
-    WorkpieceType get_next_in_order();
-
 private:
     const std::shared_ptr<CBSection> _switch_end_sec = std::make_shared<CBSection>();
     const std::shared_ptr<CBSection> _height_switch_sec = std::make_shared<CBSection>(
             _switch_end_sec);
     const std::shared_ptr<CBSection> _start_height_sec = std::make_shared<CBSection>(
             _height_switch_sec);
-
-
     std::shared_ptr<Workpiece> _pending_transfer = nullptr;
-
-
-    // to save the state when reentering running mode from error
 
     WorkpieceType _next_in_order = WorkpieceType::first_in_order();
     mutable std::mutex _unit_mutex;

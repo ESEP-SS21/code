@@ -19,13 +19,12 @@ public:
     void enter_workpiece(const Workpiece&) const;
     void transfer_first_workpiece() const;
     void exit_first_workpiece() const;
-
-    std::shared_ptr<CBSection> get_next_section();
+    std::shared_ptr<CBSection> get_next_section() const;
 
 protected:
     mutable std::mutex _section_mutex;
-    std::shared_ptr<std::queue<Workpiece>> _queue;
-    std::shared_ptr<CBSection> _next_section;
+    const std::shared_ptr<std::queue<Workpiece>> _queue;
+    const std::shared_ptr<CBSection> _next_section;
 };
 
 } /* namespace datamodel */
