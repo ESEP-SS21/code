@@ -9,17 +9,17 @@ namespace test {
 namespace logic {
 namespace stm {
 
-template<typename Context>
+template<typename Context, ::logic::datamodel::UnitType UnitType>
 class stm_test_base : public ::testing::Test {
 
-#define INIT_STM_TEST(FixtureName, Context)\
-class FixtureName : public stm_test_base<Context> {};
+#define INIT_STM_TEST(FixtureName, Context, UnitType)\
+class FixtureName : public stm_test_base<Context, UnitType> {};
 
 #define ASSERT_STATE(STATE) ASSERT_EQ(context.currentState(),STATE::name)
 
 public:
     StmTestClient client;
-    ::logic::datamodel::UnitData data;
+    ::logic::datamodel::UnitData data{UnitType};
     Context context{&client, &data};
 
     template<typename StateAfter>

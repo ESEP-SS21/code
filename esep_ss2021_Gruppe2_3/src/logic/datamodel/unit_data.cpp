@@ -3,6 +3,10 @@
 namespace logic {
 namespace datamodel {
 
+UnitData::UnitData(UnitType unit_type) : _unit_type(unit_type) {
+
+}
+
 bool UnitData::wrpc_fits_order(const Workpiece& wrpc) const {
     const std::lock_guard<std::mutex> lock(_unit_mutex);
     return wrpc.get_type() == this->_next_in_order;
@@ -52,6 +56,10 @@ int UnitData::get_estop_count() {
 
 int UnitData::get_warning_count() {
     return _warning_count;
+}
+
+bool UnitData::get_belt_empty() {
+    return _belt_empty;
 }
 
 void UnitData::set_belt_blocked(bool val) {
@@ -108,6 +116,13 @@ SorterState UnitData::get_sorter_state(){
     const std::lock_guard<std::mutex> lock(_unit_mutex);
     return _sorter_state;
 }
+
+void UnitData::set_belt_empty(bool val) {
+    const std::lock_guard<std::mutex> lock(_unit_mutex);
+    _belt_empty = val;
+}
+
+
 
 } /* namespace datamodel */
 } /* namespace logic */

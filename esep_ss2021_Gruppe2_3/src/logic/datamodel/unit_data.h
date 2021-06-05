@@ -7,6 +7,12 @@
 namespace logic {
 namespace datamodel {
 
+
+enum class UnitType{
+    PRIMARY,
+    SECONDARY,
+};
+
 enum class OperatingMode{
     IDLE,
     RUNNING,
@@ -28,6 +34,7 @@ enum class BeltState{
 
 class UnitData {
 public:
+    UnitData(UnitType unit_type);
     virtual ~UnitData() = default;
 
     bool wrpc_fits_order(const Workpiece&) const;
@@ -43,12 +50,17 @@ public:
     std::shared_ptr<Workpiece> get_pending_transfer();
     int get_estop_count();
     int get_warning_count();
+    bool get_belt_empty();
 
     void set_belt_blocked(bool);
     void set_ramp_full(bool);
     void set_pending_transfer(std::shared_ptr<Workpiece>);
     void set_estop_count(int);
     void set_warning_count(int);
+    void set_belt_empty(bool);
+
+    UnitType get_unit_type();
+    void set_unit_type(UnitType unit_type);
     OperatingMode get_operating_mode();
     void set_operating_mode(OperatingMode mode);
     BeltState get_belt_state();
@@ -57,13 +69,17 @@ public:
     void set_sorter_state(SorterState state);
     WorkpieceType get_next_in_order();
 
-protected:
+private:
     const std::shared_ptr<CBSection> _switch_end_sec = std::make_shared<CBSection>();
     const std::shared_ptr<CBSection> _height_switch_sec = std::make_shared<CBSection>(
             _switch_end_sec);
     const std::shared_ptr<CBSection> _start_height_sec = std::make_shared<CBSection>(
             _height_switch_sec);
 
+    OperatingMode _operating_mode;
+    const UnitType _unit_type;
+
+    bool _belt_empty = true;
     bool _belt_blocked = false;
     bool _ramp_full = false;
     std::shared_ptr<Workpiece> _pending_transfer = nullptr;

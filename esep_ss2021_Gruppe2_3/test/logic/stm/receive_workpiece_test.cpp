@@ -12,7 +12,7 @@ namespace stm {
 
 using namespace ::logic::stm::recieveWrpcStm;
 
-INIT_STM_TEST(testRecieveWrpcStm, RecieveWrpcContext)
+INIT_STM_TEST(testRecieveWrpcStm, RecieveWrpcContext, ::logic::datamodel::UnitType::PRIMARY)
 
 
 TEST_F(testRecieveWrpcStm, BeginsInRightState){
