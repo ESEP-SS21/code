@@ -41,7 +41,6 @@ public:
     void wrpc_order_step();
     void wrpc_order_reset(WorkpieceType);
 
-
     std::shared_ptr<CBSection> get_switch_end_sec() const;
     std::shared_ptr<CBSection> get_height_switch_sec() const;
     std::shared_ptr<CBSection> get_start_height_sec() const;
