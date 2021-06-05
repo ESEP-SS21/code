@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../logic/datamodel/workpiece.h"
+#include "logic/datamodel/workpiece.h"
 
 namespace test {
 namespace logic {

@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <memory>
 
-#include "../../logic/datamodel/cb_section.h"
+#include "logic/datamodel/cb_section.h"
 #include "../workpiece_helper.h"
 
 namespace test {
