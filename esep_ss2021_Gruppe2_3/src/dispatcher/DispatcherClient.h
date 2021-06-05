@@ -19,13 +19,13 @@ public:
 
 protected:
     std::unique_ptr<cnnMngmnt::QnxConnection> _dispatcher_connection;
+    Logger::Logger _logger { Logger::get() };
 
 private:
     void run();
     void handle_qnx_io_msg(cnnMngmnt::header_t header);
     virtual void handle(Event&) = 0;
 
-    Logger::Logger _logger { Logger::get() };
     bool _is_running { true };
     std::string _name;
     std::string _dispatcher_name;

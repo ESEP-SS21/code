@@ -10,12 +10,11 @@ namespace embedded_recorder {
 
 class Recorder: public dispatcher::DispatcherClient {
 public:
-    Recorder(const std::string& dispatcher_name);
+    Recorder(const std::string& dispatcher_name, const std::string& filename);
     void handle(dispatcher::Event& event);
     virtual ~Recorder();
 private:
-    std::ofstream _file;
-    std::string _file_name;
+    std::string _path;
     nlohmann::json _json;
 };
 

@@ -9,7 +9,7 @@ namespace embedded_recorder {
 
 class Replayer: public dispatcher::DispatcherClient {
 public:
-    Replayer(const std::string& dispatcher_name, const std::string& input);
+    Replayer(const std::string& dispatcher_name, const std::string& filename);
     void handle(dispatcher::Event& event){};
     void start();
     virtual ~Replayer();

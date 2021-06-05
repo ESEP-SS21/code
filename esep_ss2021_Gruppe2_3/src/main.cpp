@@ -1,4 +1,6 @@
 #include <dispatcher/Dispatcher.h>
+#include <embedded_recorder/recorder.h>
+#include <embedded_recorder/replayer.h>
 #include <Logger.h>
 #include <iostream>
 #include "hal/gpiowrapper.h"
@@ -14,8 +16,6 @@
 #include "timer/AsyncTimerService.h"
 #include "argument_parser.hpp"
 #include "logic/util/heartbeat_client.h"
-#include <embedded_recorder/Recorder.h>
-#include <embedded_recorder/Replayer.h>
 
 #ifdef TEST_ENABLE
 #include <gtest/gtest.h>
@@ -56,7 +56,7 @@ struct Clients {
             hal_mngrSen = std::unique_ptr<hal::HalManagerSen>(new hal::HalManagerSen(args->mode.str));
 
         if (args->record)
-            recorder = std::unique_ptr<Recorder>(new Recorder(args->mode.str));
+            recorder = std::unique_ptr<Recorder>(new Recorder(args->mode.str, args->filename));
 
         if (!args->single)
             dispatcher->connect_to_other(args->mode.other_str);

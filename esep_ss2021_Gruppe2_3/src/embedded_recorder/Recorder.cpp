@@ -1,4 +1,4 @@
-#include <embedded_recorder/Recorder.h>
+#include <embedded_recorder/recorder.h>
 #include <stdint.h>
 #include <thread>
 #include <stdlib.h>
@@ -10,7 +10,7 @@
 
 namespace embedded_recorder {
 
-Recorder::Recorder(const std::string& dispatcher_name) :
+Recorder::Recorder(const std::string& dispatcher_name, const std::string& filename) :
         DispatcherClient(dispatcher_name, "Recorder Manager") {
 
     subscribe(dispatcher::EventType::EVNT_SEN_ESTOP_ON);
@@ -36,7 +36,9 @@ Recorder::Recorder(const std::string& dispatcher_name) :
     subscribe(dispatcher::EventType::EVNT_SEN_METAL_DTC);
     subscribe(dispatcher::EventType::EVNT_SEN_HEIGHT_HE);
 
-    _file_name = utils::system_start_time_and_date_string;
+    std::string file_name = filename == "" ? utils::system_start_time_and_date_string : filename;
+    _path = "records/" + file_name + ".json";
+    _logger->info("Recorder will save to '{}'" , _path);
     _json = {};
 }
 
@@ -50,7 +52,8 @@ void Recorder::handle(dispatcher::Event& event) {
 }
 
 Recorder::~Recorder() {
-    std::ofstream file("records/" + _file_name + ".json");
+    _logger->info("Saving to '{}'" , _path);
+    std::ofstream file(_path);
     file << _json.dump(2);
 }
 
