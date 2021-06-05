@@ -10,49 +10,28 @@
 
 namespace embedded_recorder {
 
-Recorder::Recorder(const std::string& dispatcher_name, const std::string& filename) :
-        DispatcherClient(dispatcher_name, "Recorder Manager") {
-
-    subscribe(dispatcher::EventType::EVNT_SEN_ESTOP_ON);
-    subscribe(dispatcher::EventType::EVNT_SEN_ESTOP_OFF);
-    subscribe(dispatcher::EventType::EVNT_CTRL_T_STR_PRS_LNG);
-    subscribe(dispatcher::EventType::EVNT_CTRL_T_STR_PRS_SRT);
-    subscribe(dispatcher::EventType::EVNT_CTRL_T_STP_PRS_LNG);
-    subscribe(dispatcher::EventType::EVNT_CTRL_T_STP_PRS_SRT);
-    subscribe(dispatcher::EventType::EVNT_CTRL_T_STP_PRS_LNG);
-    subscribe(dispatcher::EventType::EVNT_CTRL_T_STP_PRS_SRT);
-    subscribe(dispatcher::EventType::EVNT_CTRL_T_RST_PRS_LNG);
-    subscribe(dispatcher::EventType::EVNT_CTRL_T_RST_PRS_SRT);
-    subscribe(dispatcher::EventType::EVNT_SEN_LB_ST_BLCK);
-    subscribe(dispatcher::EventType::EVNT_SEN_LB_ST_CLR);
-    subscribe(dispatcher::EventType::EVNT_SEN_LB_HE_BLCK);
-    subscribe(dispatcher::EventType::EVNT_SEN_LB_HE_CLR);
-    subscribe(dispatcher::EventType::EVNT_SEN_LB_SW_BLCK);
-    subscribe(dispatcher::EventType::EVNT_SEN_LB_SW_CLR);
-    subscribe(dispatcher::EventType::EVNT_SEN_LB_RA_BLCK);
-    subscribe(dispatcher::EventType::EVNT_SEN_LB_RA_CLR);
-    subscribe(dispatcher::EventType::EVNT_SEN_LB_EN_BLCK);
-    subscribe(dispatcher::EventType::EVNT_SEN_LB_EN_CLR);
-    subscribe(dispatcher::EventType::EVNT_SEN_METAL_DTC);
-    subscribe(dispatcher::EventType::EVNT_SEN_HEIGHT_HE);
+Recorder::Recorder(const std::string &dispatcher_name, const std::string &filename) :
+    DispatcherClient(dispatcher_name, "Recorder Manager") {
+    subscribe(_event_types);
 
     std::string file_name = filename == "" ? utils::system_start_time_and_date_string : filename;
     _path = "records/" + file_name + ".json";
-    _logger->info("Recorder will save to '{}'" , _path);
+    _logger->info("Recorder will save to '{}'", _path);
     _json = {};
 }
 
-void Recorder::handle(dispatcher::Event& event) {
+void Recorder::handle(dispatcher::Event &event) {
     using nlohmann::json;
     const long ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::high_resolution_clock::now() - utils::start_time).count();
+        std::chrono::high_resolution_clock::now() - utils::start_time).count();
     json j_ev = event;
-    json j_ms = { { "time", ms }, { "evnt", event } };
+    json j_ms = {{"time", ms},
+                 {"evnt", event}};
     _json.push_back(j_ms);
 }
 
 Recorder::~Recorder() {
-    _logger->info("Saving to '{}'" , _path);
+    _logger->info("Saving to '{}'", _path);
     std::ofstream file(_path);
     file << _json.dump(2);
 }
