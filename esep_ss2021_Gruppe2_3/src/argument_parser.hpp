@@ -68,10 +68,9 @@ inline std::shared_ptr<Arguments> parse(int argc, const char *const *argv) {
                 ("s," + argument_names::secondary, "start in secondary mode")
                 ("v," + argument_names::verbose, "start in secondary mode")
                 ("e," + argument_names::ejector, "FTS has ejector instead of switch")
-                ("R," + argument_names::record, "enable recording events to file")
+                ("R," + argument_names::record, "enable recording events to file",
+                    cxxopts::value<std::string>()->implicit_value(""), "[FILENAME]")
                 (argument_names::single, "do not connect to other dispatcher")
-                ("o," + argument_names::ofile, "output file", cxxopts::value<std::string>(),
-                 "[FILENAME]")
                 ("P," + argument_names::playback, "playback a record", cxxopts::value<std::string>(),
                  "[FILENAME]");
 
@@ -87,8 +86,10 @@ inline std::shared_ptr<Arguments> parse(int argc, const char *const *argv) {
         args->record = result.count(argument_names::record);
         args->single = result.count(argument_names::single);
 
-        if (result.count(argument_names::ofile))
-            args->filename = result[argument_names::ofile].as<std::string>();
+        if (result.count(argument_names::record)) {
+            args->record = true;
+            args->filename = result[argument_names::record].as<std::string>();
+        }
         if (result.count(argument_names::playback)) {
             args->playback = true;
             args->filename = result[argument_names::playback].as<std::string>();

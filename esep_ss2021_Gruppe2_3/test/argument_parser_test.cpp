@@ -17,12 +17,11 @@ TEST(ArgumentParser, Playback) {
 
 TEST(ArgumentParser, RecordPrimary) {
     std::string filename = "file";
-    constexpr int size = 4;
+    constexpr int size = 3;
     const char *messages[size] =
         {
             "testmain",
             "-R",
-            "-o",
             filename.c_str()
         };
     auto res = argument_parser::parse(size, messages);
@@ -31,15 +30,27 @@ TEST(ArgumentParser, RecordPrimary) {
     ASSERT_EQ(res->filename, filename);
 }
 
+TEST(ArgumentParser, RecordDefaultValue) {
+    constexpr int size = 2;
+    const char *messages[size] =
+        {
+            "testmain",
+            "-R",
+        };
+    auto res = argument_parser::parse(size, messages);
+    ASSERT_TRUE(res->record);
+    ASSERT_FALSE(res->mode.secondary);
+    ASSERT_EQ(res->filename, "");
+}
+
 TEST(ArgumentParser, RecordSecondary) {
     std::string filename = "file";
-    constexpr int size = 5;
+    constexpr int size = 4;
     const char *messages[size] =
         {
             "testmain",
             "-s",
             "-R",
-            "-o",
             filename.c_str()
         };
     auto res = argument_parser::parse(size, messages);
