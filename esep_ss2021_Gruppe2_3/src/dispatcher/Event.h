@@ -5,7 +5,7 @@
 #include <sstream>
 #include <nlohmann/json.hpp> //todo move this to cpp as this is a 25k line include
 
-#include "cnnMngmnt/namespacedata"
+#include "cnnMngmnt/namespacedata.h"
 
 namespace dispatcher {
 
@@ -61,6 +61,7 @@ enum class EventType { //make sure to add a string representation for each value
     EVNT_TIM_REQ,
     EVNT_TIM_ALRT,
     EVNT_CONN_LOST,
+    EVNT_SRV_DONE,
     SIZE = 64
 };
 
@@ -120,10 +121,12 @@ inline std::ostream& operator<<(std::ostream& out, const EventType& e) {
             "EVNT_TIM_REQ",
             "EVNT_TIM_ALRT",
             "EVNT_CONN_LOST",
+            "EVNT_SRV_DONE",
 
     };
     return out << EVNT_PREFIX << strs[static_cast<int>(e)];
 }
+
 
 inline std::string str(EventType et) {
     std::ostringstream buffer;
@@ -136,13 +139,14 @@ struct Event {
     int payload;
     bool broadcast;
 
+
     Event() = default;
 
-    Event(EventType type, int payload, bool broadcast) :
+    Event(EventType type, int payload = 0, bool broadcast = false) :
             type(type), payload(payload), broadcast(broadcast) {
     }
 
-    Event(const cnnMngmnt::header_t& header) :
+    Event(const cnnMngmnt::custom_header_t& header) :
             payload(header.value.sival_int), broadcast(false) {
 
         int evnt_id = header.code;
@@ -159,6 +163,14 @@ struct Event {
         return buffer.str();
     }
 
+    bool operator== (const Event& e) const{
+        return e.type == type && e.payload == payload;
+    }
+
+    bool operator!= (const Event& e) const{
+        return !(*this == e);
+    }
+
     static inline Event CreateTimer(TimerID id, uint16_t time_ms, bool broadcast = false) {
         return Event { dispatcher::EventType::EVNT_TIM_REQ, (static_cast<uint16_t>(id) << 16) + time_ms, broadcast };
     }
@@ -171,6 +183,7 @@ private:
     int mask_out_tranmission_bit(int evnt_id) {
         return evnt_id & (~0b01000000);
     }
+
 
 };
 

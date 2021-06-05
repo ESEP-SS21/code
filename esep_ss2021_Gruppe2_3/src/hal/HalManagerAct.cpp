@@ -87,7 +87,7 @@ void HalManagerAct::handle(dispatcher::Event& event) {
     }
 }
 
-void HalManagerAct::handle_qnx_io_msg(dispatcher::cnnMngmnt::header_t header) {
+void HalManagerAct::handle_qnx_io_msg(header_t header) {
     if (header.type == _IO_CONNECT) {
         // QNX IO msg _IO_CONNECT was received; answer with EOK
         _irq_rec_channel->msg_reply(EOK);

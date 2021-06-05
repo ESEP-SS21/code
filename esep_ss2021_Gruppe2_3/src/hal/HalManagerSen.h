@@ -11,6 +11,7 @@
 #include "gpiowrapper.h"
 #include "hal.h"
 #include <chrono>
+#include <sys/dispatch.h>
 
 namespace hal {
 
@@ -28,7 +29,7 @@ private:
     Logger::Logger _logger { Logger::get() };
     std::shared_ptr<GPIOWrapper> _gpio;
     std::unique_ptr<HAL> _hal;
-    void handle_qnx_io_msg(dispatcher::cnnMngmnt::header_t header);
+    void handle_qnx_io_msg(header_t header);
     std::unique_ptr<dispatcher::cnnMngmnt::QnxChannel> _irq_rec_channel;
     std::unique_ptr<dispatcher::cnnMngmnt::QnxConnection> _irq_connection; //connection used by isr
     std::thread _listener_thread;

@@ -7,6 +7,25 @@
 namespace logic {
 namespace datamodel {
 
+enum class OperatingMode{
+    IDLE,
+    RUNNING,
+    ERROR,
+    ESTOP,
+    SERVICE,
+};
+
+enum class SorterState{
+    NOTSET,
+    DISCARD,
+    NODISCARD,
+};
+
+enum class BeltState{
+    STOP,
+    RUNNING,
+};
+
 class UnitData {
 public:
     virtual ~UnitData() = default;
@@ -30,7 +49,12 @@ public:
     void set_pending_transfer(std::shared_ptr<Workpiece>);
     void set_estop_count(int);
     void set_warning_count(int);
-
+    OperatingMode get_operating_mode();
+    void set_operating_mode(OperatingMode mode);
+    BeltState get_belt_state();
+    void set_belt_state(BeltState state);
+    SorterState get_sorter_state();
+    void set_sorter_state(SorterState state);
     WorkpieceType get_next_in_order();
 
 protected:
@@ -45,6 +69,12 @@ protected:
     std::shared_ptr<Workpiece> _pending_transfer = nullptr;
     int _estop_count = 0;
     int _warning_count = 0;
+
+    OperatingMode _mode = OperatingMode::IDLE;
+
+    // to save the state when reentering running mode from error
+    BeltState _belt_state = BeltState::STOP;
+    SorterState _sorter_state = SorterState::NOTSET;
 
     WorkpieceType _next_in_order = WorkpieceType::first_in_order();
     mutable std::mutex _unit_mutex;
