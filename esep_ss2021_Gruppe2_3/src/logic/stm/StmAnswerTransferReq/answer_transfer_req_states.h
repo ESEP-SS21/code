@@ -13,6 +13,7 @@ public:
 };
 
 class WaitingForSpace: public AnswerTransferReqBaseState {
+public:
     STATE_HEADER_INIT
     bool lb_he_blck() override;
     void reset_to_start() override;

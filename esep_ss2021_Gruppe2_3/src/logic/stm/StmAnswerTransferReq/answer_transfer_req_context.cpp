@@ -23,6 +23,12 @@ void AnswerTransferReqContext::handle(Event e) {
         case EventType::EVNT_WRPC_TRNS_RQ:
             state->wrpc_trns_rq(e.payload);
             return;
+        case EventType::EVNT_HIST:
+            state->entry_history();
+            return;
+        case EventType::EVNT_RST_TO_SRT:
+            state->reset_to_start();
+            return;
         default:
             return;
     }

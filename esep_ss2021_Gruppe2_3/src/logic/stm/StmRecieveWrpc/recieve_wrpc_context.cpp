@@ -26,6 +26,12 @@ void RecieveWrpcContext::handle(Event e) {
         case EventType::EVNT_ACT_BELT_FWD:
             state->belt_fwd();
             return;
+        case EventType::EVNT_HIST:
+            state->entry_history();
+            return;
+        case EventType::EVNT_RST_TO_SRT:
+            state->reset_to_start();
+            return;
         default:
             return;
     }
