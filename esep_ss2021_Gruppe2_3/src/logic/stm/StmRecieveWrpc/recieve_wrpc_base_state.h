@@ -12,8 +12,8 @@ class RecieveWrpcBaseState : public BaseBaseState {
 public:
     RecieveWrpcBaseState() = default;
 
-    virtual void entry(){}
-    virtual void exit(){}
+    virtual void entry() {}
+    virtual void exit() {}
 };
 
 }

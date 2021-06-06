@@ -12,7 +12,7 @@ CONTEXT_CTOR(RecieveWrpcContext, BeltNotRunning)
 using namespace dispatcher;
 
 void RecieveWrpcContext::handle(Event e) {
-    if(_datamodel->_operating_mode != datamodel::OperatingMode::RUNNING){
+    if (_datamodel->_operating_mode != datamodel::OperatingMode::RUNNING) {
         return;
     }
     _state->handle(e);

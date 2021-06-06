@@ -37,9 +37,9 @@ bool BeltNotRunning::handle(const Event &event) {
     }
 }
 
-void BeltNotRunning::entry(){
+void BeltNotRunning::entry() {
     _datamodel->_belt_state = datamodel::BeltState::RUNNING;
-    _eventSender->send( { EventType::EVNT_ACT_BELT_STP, 0, false } );
+    _eventSender->send({EventType::EVNT_ACT_BELT_STP, 0, false});
 }
 
 STATE_INIT(BeltRunning)
@@ -52,9 +52,9 @@ bool BeltRunning::handle(const Event &event) {
             switch_state<BeltNotRunning>();
             entry();
         case EventType::EVNT_SEN_LB_ST_BLCK:
-            if(_datamodel->_unit_type == UnitType::SECONDARY){
+            if (_datamodel->_unit_type == UnitType::SECONDARY) {
                 _datamodel->get_start_height_sec()->enter_workpiece(*_datamodel->get_pending_transfer());
-            }else{
+            } else {
                 datamodel::Workpiece new_wrpc;
                 _datamodel->get_start_height_sec()->enter_workpiece(new_wrpc);
             }
@@ -66,9 +66,9 @@ bool BeltRunning::handle(const Event &event) {
     }
 }
 
-void BeltRunning::entry(){
+void BeltRunning::entry() {
     _datamodel->_belt_state = datamodel::BeltState::RUNNING;
-    _eventSender->send( { EventType::EVNT_ACT_BELT_FWD, 0, false } );
+    _eventSender->send({EventType::EVNT_ACT_BELT_FWD, 0, false});
 }
 
 } /* namespace recieveWrpcStm */
