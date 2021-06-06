@@ -4,8 +4,6 @@ namespace logic {
 namespace stm {
 namespace StmAnswerTransferReq {
 
-
-
 using namespace dispatcher;
 
 STATE_INIT(Waiting)
