@@ -135,23 +135,16 @@ bool EStop::estop_off() {
 void EStop::entry(){
     _datamodel->_operating_mode = OperatingMode::ESTOP;
     _eventSender->send({ EventType::EVNT_ACT_STPL_LED_BLNK_SLW, Color::RED, false });
-}
-
-void EStop::exit(){
-    _eventSender->send({ EventType::EVNT_ACT_STPL_LED_OFF, Color::RED, false });
-}
-
-bool EStop::conn_lost() {
-    exit();
-    if(_datamodel->_estop_count < 100){
+    if(_datamodel->_estop_count>2){
         std::cout<< "FATAL ERROR" <<std::endl;
         std::cout<< "The Communication with the other System was interrupted or could not be established"<<std::endl;
         std::cout<< "Check the physical connection and make sure GNS is configured correctly"<<std::endl;
         std::cout<< "This error is irrecoverable and requires a restart to be solved"<<std::endl;
     }
-    _datamodel->_estop_count = 100;
-    entry();
-    return true;
+}
+
+void EStop::exit(){
+    _eventSender->send({ EventType::EVNT_ACT_STPL_LED_OFF, Color::RED, false });
 }
 
 STATE_INIT(PendingUnacknowledged)

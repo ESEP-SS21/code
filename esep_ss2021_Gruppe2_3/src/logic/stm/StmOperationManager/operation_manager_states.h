@@ -36,7 +36,6 @@ public:
     STATE_HEADER_INIT
     bool estop_on() override;
     bool estop_off() override;
-    bool conn_lost() override;
     bool rst_prs_srt() override;
     void entry() override;
     void exit() override;
