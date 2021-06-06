@@ -64,6 +64,9 @@ protected:
 public:
     virtual ~BaseBaseState() = default;
 
+    //TODO make this virtual once everybody uses this
+    virtual bool handle(const Event &event) {return false;}
+
     void SetData(IEventSender *eventSender,
                  datamodel::UnitData *datamodel,
                  char* contextName) {
