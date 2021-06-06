@@ -12,29 +12,10 @@ CONTEXT_CTOR(RecieveWrpcContext, BeltNotRunning)
 using namespace dispatcher;
 
 void RecieveWrpcContext::handle(Event e) {
-    auto *state = (RecieveWrpcBaseState *) (_state);
     if(_datamodel->_operating_mode != datamodel::OperatingMode::RUNNING){
         return;
     }
-    switch (e.type) {
-        case EventType::EVNT_SEN_LB_ST_BLCK:
-            state->lb_st_blck();
-            return;
-        case EventType::EVNT_ACT_BELT_STP:
-            state->belt_stp();
-            return;
-        case EventType::EVNT_ACT_BELT_FWD:
-            state->belt_fwd();
-            return;
-        case EventType::EVNT_HIST:
-            state->entry_history();
-            return;
-        case EventType::EVNT_RST_TO_SRT:
-            state->reset_to_start();
-            return;
-        default:
-            return;
-    }
+    _state->handle(e);
 }
 
 }
