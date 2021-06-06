@@ -14,6 +14,7 @@ bool BeltNotRunning::handle(const Event &event) {
         case EventType::EVNT_HIST:
         case EventType::EVNT_RST_TO_SRT:
             entry();
+            return true;
         case EventType::EVNT_ACT_BELT_FWD:
             switch_state<BeltRunning>();
             entry();
@@ -48,11 +49,11 @@ bool BeltRunning::handle(const Event &event) {
     switch (event.type) {
         case EventType::EVNT_HIST:
             entry();
-            break;
+            return true;
         case EventType::EVNT_RST_TO_SRT:
             switch_state<BeltNotRunning>();
             entry();
-            break;
+            return true;
         case EventType::EVNT_SEN_LB_ST_BLCK:
             if (_datamodel->_unit_type == UnitType::SECONDARY) {
                 _datamodel->get_start_height_sec()->enter_workpiece(*_datamodel->get_pending_transfer());
