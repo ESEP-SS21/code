@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <logic/stm/StmRecieveWrpc/sub_belt_states.h>
+#include <logic/stm/StmRecieveWrpc/receive_wrpc_states.h>
 
 #include "logic/stm/StmRecieveWrpc/recieve_wrpc_context.h"
 #include "util/stm_test_client.h"
