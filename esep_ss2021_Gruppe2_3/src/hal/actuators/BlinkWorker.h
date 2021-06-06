@@ -26,7 +26,6 @@ private:
     useconds_t _duty_cycle;
     hal::Color _color;
     std::mutex _blink_lock;
-
 };
 
 } /* namespace hal */

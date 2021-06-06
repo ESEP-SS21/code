@@ -1,67 +1,316 @@
 #include "operation_manager_states.h"
+#include "hal/hal.h"
 
 namespace logic {
 namespace stm {
 namespace operationManagerStm {
 
+using namespace hal;
+
 STATE_INIT(Running)
-bool Running::err(){
-    switch_state<Error>();
-}
 
-//ERROR
-STATE_INIT(Error)
-bool Error::estop_on(){
+bool Running::estop_on() {
+    exit();
+    _datamodel->_estop_count = 1;
     switch_state<EStop>();
     entry();
     return true;
 }
 
-bool Error::err_gone(){
-    switch_state<Running>();
+bool Running::conn_lost() {
+    exit();
+    _datamodel->_estop_count = 3;
+    switch_state<EStop>();
     entry();
     return true;
 }
 
-STATE_INIT(EStop)
-bool EStop::rst_prs_srt(){
-    if(_datamodel->_estop_count == 0){
+bool Running::stp_prs_srt() {
+    exit();
+    if(_datamodel->_warning_count == 0){
         switch_state<Idle>();
-        entry();
-        return true;
+    }else{
+        switch_state<GoneUnacknowledged>();
     }
-    return false;
+    entry();
+    return true;
 }
 
-//IDLE
+bool Running::err() {
+    exit();
+    switch_state<PendingUnacknowledged>();
+    entry();
+    return true;
+}
+
+bool Running::wrn() {
+    _datamodel->_warning_count++;
+    _eventSender->send({ EventType::EVNT_ACT_STPL_LED_BLNK_SLW, Color::YELLOW, false });
+    return true;
+}
+
+bool Running::wrn_gone() {
+    _datamodel->_warning_count--;
+    _eventSender->send({ EventType::EVNT_ACT_STPL_LED_ON, Color::GREEN, false });
+    return true;
+}
+
+void Running::entry() {
+    _eventSender->send({ EventType::EVNT_ACT_STPL_LED_ON, Color::GREEN, false });
+}
+
+void Running::exit() {
+    _eventSender->send({ EventType::EVNT_ACT_STPL_LED_OFF, Color::GREEN, false });
+    _eventSender->send({ EventType::EVNT_ACT_SORT_RST, 0, false });
+    _eventSender->send({ EventType::EVNT_ACT_BELT_STP, 0, false });
+}
+
 STATE_INIT(Idle)
-bool Idle::estop_on(){
-    switch_state<EStop>();
-    entry();
-    return true;
-}
 
-bool Idle::str_prs_srt(){
+bool Idle::str_prs_srt() {
+    exit();
+    _datamodel->_operating_mode = OperatingMode::RUNNING;
     switch_state<Running>();
+    _eventSender->send({EventType::EVNT_RST_TO_SRT});
     entry();
     return true;
 }
 
-bool Idle::str_prs_lng(){
+bool Idle::str_prs_lng() {
+    exit();
     switch_state<Service>();
     entry();
     return true;
 }
-//SERVICE
-STATE_INIT(Service)
 
-bool Service::estop_on(){
+
+bool Idle::estop_on() {
+    exit();
+    _datamodel->_estop_count = 1;
     switch_state<EStop>();
     entry();
     return true;
 }
 
-bool Service::srv_done(){
+bool Idle::conn_lost() {
+    exit();
+    _datamodel->_estop_count = 3;
+    switch_state<EStop>();
+    entry();
+    return true;
+}
+
+void Idle::entry() {
+    _datamodel->_operating_mode = OperatingMode::IDLE;
+    _eventSender->send({EventType::EVNT_ACT_CTRL_T_STR_LED_ON});
+    _eventSender->send({ EventType::EVNT_ACT_STPL_LED_ON, Color::YELLOW, false });
+}
+
+void Idle::exit() {
+    _eventSender->send({ EventType::EVNT_ACT_STPL_LED_OFF, Color::YELLOW, false });
+    _eventSender->send({EventType::EVNT_ACT_CTRL_T_STR_LED_OFF});
+}
+
+STATE_INIT(EStop)
+
+bool EStop::rst_prs_srt() {
+    if(_datamodel->_estop_count == 0){
+        exit();
+        switch_state<Idle>();
+        entry();
+    }
+    return true;
+}
+
+bool EStop::estop_on() {
+    _datamodel->_estop_count++;
+    return true;
+}
+
+bool EStop::estop_off() {
+    _datamodel->_estop_count--;
+    return true;
+}
+
+void EStop::entry(){
+    _datamodel->_operating_mode = OperatingMode::ESTOP;
+    _eventSender->send({ EventType::EVNT_ACT_STPL_LED_BLNK_SLW, Color::RED, false });
+}
+
+void EStop::exit(){
+    _eventSender->send({ EventType::EVNT_ACT_STPL_LED_OFF, Color::RED, false });
+}
+
+bool EStop::conn_lost() {
+    exit();
+    if(_datamodel->_estop_count < 100){
+        std::cout<< "FATAL ERROR" <<std::endl;
+        std::cout<< "The Communication with the other System was interrupted or could not be established"<<std::endl;
+        std::cout<< "Check the physical connection and make sure GNS is configured correctly"<<std::endl;
+        std::cout<< "This error is irrecoverable and requires a restart to be solved"<<std::endl;
+    }
+    _datamodel->_estop_count = 100;
+    entry();
+    return true;
+}
+
+STATE_INIT(PendingUnacknowledged)
+
+bool PendingUnacknowledged::estop_on() {
+    exit();
+    _datamodel->_estop_count = 1;
+    switch_state<EStop>();
+    entry();
+    return true;
+}
+
+bool PendingUnacknowledged::conn_lost() {
+    exit();
+    _datamodel->_estop_count = 3;
+    switch_state<EStop>();
+    entry();
+    return true;
+}
+
+bool PendingUnacknowledged::rst_prs_srt() {
+    exit();
+    switch_state<PendingAcknowledged>();
+    _eventSender->send({EventType::EVNT_ACT_CTRL_T_RST_LED_OFF});
+    entry();
+    return true;
+}
+
+bool PendingUnacknowledged::err_gone() {
+    exit();
+    switch_state<GoneUnacknowledged>();
+    entry();
+    return true;
+}
+
+void PendingUnacknowledged::entry() {
+    _datamodel->_operating_mode = OperatingMode::ERROR;
+    _eventSender->send({EventType::EVNT_ACT_CTRL_T_RST_LED_ON});
+}
+
+STATE_INIT(PendingAcknowledged)
+
+bool PendingAcknowledged::estop_on() {
+    exit();
+    _datamodel->_estop_count = 1;
+    switch_state<EStop>();
+    entry();
+    return true;
+}
+
+bool PendingAcknowledged::conn_lost() {
+    exit();
+    _datamodel->_estop_count = 3;
+    switch_state<EStop>();
+    entry();
+    return true;
+}
+
+bool PendingAcknowledged::err_gone() {
+    exit();
+    switch_state<OK>();
+    entry();
+    return true;
+}
+
+void PendingAcknowledged::entry() {
+    _eventSender->send({EventType::EVNT_ACT_STPL_LED_ON,Color::RED});
+}
+
+STATE_INIT(GoneUnacknowledged)
+
+bool GoneUnacknowledged::estop_on() {
+    exit();
+    _datamodel->_estop_count = 1;
+    switch_state<EStop>();
+    entry();
+    return true;
+}
+
+bool GoneUnacknowledged::conn_lost() {
+    exit();
+    _datamodel->_estop_count = 3;
+    switch_state<EStop>();
+    entry();
+    return true;
+}
+
+bool GoneUnacknowledged::str_prs_srt() {
+    exit();
+    switch_state<OK>();
+    _eventSender->send({EventType::EVNT_ACT_CTRL_T_RST_LED_OFF});
+    entry();
+    return true;
+}
+
+void GoneUnacknowledged::entry() {
+    _datamodel->_operating_mode = OperatingMode::ERROR;
+    _eventSender->send({EventType::EVNT_ACT_STPL_LED_BLNK_SLW,Color::RED});
+    _eventSender->send({EventType::EVNT_ACT_CTRL_T_RST_LED_ON});
+}
+
+STATE_INIT(OK)
+
+bool OK::estop_on() {
+    exit();
+    _datamodel->_estop_count = 1;
+    switch_state<EStop>();
+    entry();
+    return true;
+}
+
+bool OK::conn_lost() {
+    exit();
+    _datamodel->_estop_count = 3;
+    switch_state<EStop>();
+    entry();
+    return true;
+}
+
+bool OK::rst_prs_srt() {
+    _datamodel->_operating_mode = OperatingMode::RUNNING;
+    _datamodel->_warning_count = 0;
+    _eventSender->send({EventType::EVNT_HIST});
+    return true;
+}
+
+void OK::entry() {
+    _eventSender->send({EventType::EVNT_ACT_STPL_LED_OFF, Color::RED});
+    _eventSender->send({EventType::EVNT_ACT_CTRL_T_STR_LED_ON});
+}
+
+void OK::exit() {
+    _eventSender->send({EventType::EVNT_ACT_CTRL_T_STR_LED_OFF});
+}
+
+STATE_INIT(Service)
+
+void Service::entry() {
+    _datamodel->_operating_mode = OperatingMode::SERVICE;
+}
+
+bool Service::estop_on() {
+    exit();
+    _datamodel->_estop_count = 1;
+    switch_state<EStop>();
+    entry();
+    return true;
+}
+
+bool Service::conn_lost(){
+    exit();
+    _datamodel->_estop_count = 3;
+    switch_state<EStop>();
+    entry();
+    return true;
+}
+
+bool Service::srv_done() {
+    exit();
     switch_state<Idle>();
     entry();
     return true;
@@ -70,7 +319,3 @@ bool Service::srv_done(){
 }
 }
 }
-
-
-
-
