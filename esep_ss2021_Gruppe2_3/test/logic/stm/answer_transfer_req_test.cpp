@@ -24,7 +24,7 @@ TEST_F(testAnswerTransferReq, PendingIsSetRight) {
     wrpc.determine_type();
     auto encoded = wrpc.encode();
     data._operating_mode = ::logic::datamodel::OperatingMode::RUNNING;
-    test_transition_to<Waiting>( { EventType::EVNT_WRPC_TRNS_RQ, encoded.code }, { {
+    test_transition_to<Waiting>( { EventType::EVNT_WRPC_TRNS_RQ, static_cast<int>(encoded.code) }, { {
             EventType::EVNT_ACK }, { EventType::EVNT_ACT_BELT_FWD } });
     auto recieved = *data.get_pending_transfer();
     ASSERT_EQ(wrpc, recieved);

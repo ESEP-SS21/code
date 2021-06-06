@@ -36,8 +36,8 @@ std::string Type::str() {\
     return "SubSTM '" + name + "': " + _operating_substate->get_name();\
 }                                                                 \
 void Type::entry_sub_start_node() {\
-	_operating_substate = new EntrySubState();\
-	_operating_substate->SetData(_eventSender, _datamodel);\
+    _operating_substate = new EntrySubState();\
+    _operating_substate->SetData(_eventSender, _datamodel, #Type);\
 }
 
 #define INIT_WFSTC_SUB_STM(Type, EntrySubState)\
@@ -49,22 +49,27 @@ std::string Type::str() {\
     return "SubSTM '" + name + "': " + _wfstc_substate->get_name();\
 }                                                                 \
 void Type::entry_sub_start_node() {\
-	_wfstc_substate = new EntrySubState();\
-	_wfstc_substate->SetData(_eventSender, _datamodel);\
+    _wfstc_substate = new EntrySubState();\
+    _wfstc_substate->SetData(_eventSender, _datamodel, #Type);\
 }
 
 class BaseBaseState {
 protected:
+    //Destructor of members will be called on state switch,
+    // due to new(this) -> do not use smart pointers or containers here
     IEventSender *_eventSender;
     UnitData *_datamodel;
+    char* _context_name;
 
 public:
     virtual ~BaseBaseState() = default;
 
     void SetData(IEventSender *eventSender,
-                 datamodel::UnitData *datamodel) {
+                 datamodel::UnitData *datamodel,
+                 char* contextName) {
         _datamodel = datamodel;
         _eventSender = eventSender;
+        _context_name = contextName;
     }
 
     virtual std::string get_name() const = 0;
@@ -76,8 +81,9 @@ public:
     template<typename State>
     void switch_state() {
         //todo replace with logger
-        std::cout << "Exiting " << str() << std::endl;
-        new (this) State;
+        const std::string old_state = str();
+        new(this) State;
+        std::cout << "["<<_context_name<< "] " << old_state << " -> " << str() << std::endl;
     }
 };
 
