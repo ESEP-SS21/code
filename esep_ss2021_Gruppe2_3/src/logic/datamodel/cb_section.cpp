@@ -20,12 +20,12 @@ int CBSection::workpiece_count() const {
     return static_cast<int>(this->_queue->size());
 }
 
-const Workpiece &CBSection::last_workpiece() const {
+Workpiece &CBSection::last_workpiece() const {
     const std::lock_guard<std::mutex> lock(_section_mutex);
     return this->_queue->back();
 }
 
-const Workpiece &CBSection::first_workpiece() const {
+Workpiece &CBSection::first_workpiece() const {
     const std::lock_guard<std::mutex> lock(_section_mutex);
     return this->_queue->front();
 }
