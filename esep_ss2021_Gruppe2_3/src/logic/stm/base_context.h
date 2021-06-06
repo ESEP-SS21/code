@@ -35,7 +35,7 @@ public:
 
 protected:
     BaseBaseState *_state;
-    UnitData* _datamodel;
+    const UnitData* _datamodel;
 };
 
 }
