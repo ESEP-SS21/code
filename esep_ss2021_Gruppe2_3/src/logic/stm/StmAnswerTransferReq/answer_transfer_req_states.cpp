@@ -5,7 +5,6 @@ namespace stm {
 namespace StmAnswerTransferReq {
 
 STATE_INIT(Waiting)
-STATE_INIT(WaitingForSpace)
 
 bool Waiting::wrpc_trns_rq(int payload) {
     if(_datamodel->_unit_type==datamodel::UnitType::SECONDARY){
@@ -24,6 +23,7 @@ bool Waiting::wrpc_trns_rq(int payload) {
     return true;
 }
 
+STATE_INIT(WaitingForSpace)
 
 bool WaitingForSpace::lb_he_blck() {
     _eventSender->send({ EventType::EVNT_ACK, 0, true });
