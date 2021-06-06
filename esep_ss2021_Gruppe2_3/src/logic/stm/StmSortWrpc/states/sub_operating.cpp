@@ -1,6 +1,7 @@
 #include "sub_operating.h"
 #include "operating_substates/WaitingForWrpc.h"
 #include "sub_wfstc.h"
+#include "operating_substates/WaitingForRampToClear.h"
 
 namespace logic {
 namespace stm {
@@ -48,6 +49,11 @@ bool SubOperating::tim_alrt(int tim_id){
 }
 
 void SubOperating::entry_history(){
+    _operating_substate->entry();
+}
+
+void SubOperating::entry_waiting_for_ramp_to_clear(){
+    new(_operating_substate) WaitingForRampToClear;
     _operating_substate->entry();
 }
 

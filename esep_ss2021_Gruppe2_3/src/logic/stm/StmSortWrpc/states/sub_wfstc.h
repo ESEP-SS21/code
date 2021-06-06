@@ -13,6 +13,7 @@ public:
 protected:
     void exit() override;
     void entry_discard() override;
+
 };
 
 } /* namespace recieveWrpcStm */

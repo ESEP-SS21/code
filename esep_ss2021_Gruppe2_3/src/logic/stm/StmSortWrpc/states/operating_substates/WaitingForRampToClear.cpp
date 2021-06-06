@@ -9,17 +9,19 @@ namespace sortWrpcStm {
 STATE_INIT(WaitingForRampToClear)
 
 bool WaitingForRampToClear::tim_alrt(int tim_id){
+    bool handled = false;
     if(tim_id == static_cast<uint16_t>(dispatcher::TimerID::SORT_WRPC_FULL)) {
         exit();
-        new(_operating_substate) RampFull;
+        new(this) RampFull;
         entry();
+        handled = true;
     }
-    return false;
+    return handled;
 }
 
 bool WaitingForRampToClear::lb_ra_clr(){
     exit();
-    new(_operating_substate) WaitingForWrpc;
+    new(this) WaitingForWrpc;
     entry();
     return true;
 }
