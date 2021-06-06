@@ -9,7 +9,10 @@ INIT_WFSTC_SUB_STM(SubWfstc,NoDiscard)
 
 bool SubWfstc::lb_sw_clr(){
     bool handled = _operating_substate->lb_sw_clr();
-    if(!handled && _operating_substate->has_super_exit_with_lb_sw_clr()){
+    if(!handled && _operating_substate->has_super_exit_with_lb_sw_clr_from_discard()){
+
+    }
+    if(!handled && _operating_substate->has_super_exit_with_lb_sw_clr_from_wrpc_stuck()){
 
     }
     return handled;

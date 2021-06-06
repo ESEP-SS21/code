@@ -5,6 +5,8 @@ namespace logic {
 namespace stm {
 namespace sortWrpcStm {
 
+static constexpr int PASS_TIME_MS = 500;
+
 class WaitingToPass: public SortWrpcBaseState {
 public:
     STATE_HEADER_INIT

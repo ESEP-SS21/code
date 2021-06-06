@@ -9,7 +9,7 @@ class WrpcStuck: public SortWrpcBaseState {
 public:
     STATE_HEADER_INIT
 
-    bool has_super_exit_with_lb_sw_clr() override;
+    bool has_super_exit_with_lb_sw_clr_from_wrpc_stuck() override;
 protected:
     void entry() override;
     void exit() override;

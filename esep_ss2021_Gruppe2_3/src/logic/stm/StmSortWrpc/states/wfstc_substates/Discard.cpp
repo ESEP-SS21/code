@@ -14,7 +14,7 @@ bool Discard::tim_alrt(int tim_id){
     return false;
 }
 
-bool Discard::has_super_exit_with_lb_sw_clr() {
+bool Discard::has_super_exit_with_lb_sw_clr_from_discard() {
     return true;
 }
 

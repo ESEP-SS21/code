@@ -6,8 +6,6 @@ namespace logic {
 namespace stm {
 namespace sortWrpcStm {
 
-static constexpr int RA_CLR_TIME_TOLERANCE_MS = 200;
-
 STATE_INIT(WaitingForRampToClear)
 
 bool WaitingForRampToClear::tim_alrt(int tim_id){

@@ -14,7 +14,7 @@ void WrpcStuck::exit(){
 
 }
 
-bool WrpcStuck::has_super_exit_with_lb_sw_clr() {
+bool WrpcStuck::has_super_exit_with_lb_sw_clr_from_wrpc_stuck() {
     return true;;
 }
 

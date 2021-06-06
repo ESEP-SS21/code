@@ -22,6 +22,7 @@ bool RampFull::lb_sw_blck(){
 bool RampFull::lb_ra_clr(){
     exit();
     new(_operating_substate) WaitingForWrpc;
+    _datamodel->_ramp_full = false;
     entry();
     return true;
 }
@@ -32,6 +33,7 @@ void RampFull::exit(){
 
 void RampFull::entry(){
     _eventSender->send( { EventType::EVNT_WRN, 0, false } );
+    _datamodel->_ramp_full = true;
 }
 
 bool RampFull::has_super_exit_with_lb_sw_blck_from_ramp_full() {
