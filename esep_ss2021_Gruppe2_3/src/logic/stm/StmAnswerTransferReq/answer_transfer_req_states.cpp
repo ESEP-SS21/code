@@ -4,11 +4,11 @@ namespace logic {
 namespace stm {
 namespace StmAnswerTransferReq {
 
-STATE_INIT(Waiting)
 
-STATE_INIT(WaitingForSpace)
 
 using namespace dispatcher;
+
+STATE_INIT(Waiting)
 
 bool Waiting::handle(const Event &event) {
     switch (event.type) {
@@ -30,6 +30,8 @@ bool Waiting::handle(const Event &event) {
             return false;
     }
 }
+
+STATE_INIT(WaitingForSpace)
 
 bool WaitingForSpace::handle(const Event &event) {
     switch (event.type) {
