@@ -179,6 +179,10 @@ struct Event {
         return Event { dispatcher::EventType::EVNT_TIM_REQ, (static_cast<uint16_t>(id) << 16) + time_ms, broadcast };
     }
 
+    static inline Event CreateError(dispatcher::EventType fix) {
+        return Event { dispatcher::EventType::EVNT_ERR, static_cast<uint16_t>(fix), true};
+    }
+
 private:
     bool transmission_bit_set(int evnt_id) {
         return (evnt_id & 0b01000000) != 0;

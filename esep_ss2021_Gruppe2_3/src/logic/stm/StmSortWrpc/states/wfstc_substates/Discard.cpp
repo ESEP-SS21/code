@@ -14,6 +14,11 @@ bool Discard::tim_alrt(int tim_id){
     return false;
 }
 
+bool Discard::has_super_exit_with_lb_sw_clr() {
+    return true;
+}
+
+
 } /* namespace recieveWrpcStm */
 } /* namespace stm */
 } /* namespace logic */

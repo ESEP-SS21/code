@@ -9,6 +9,8 @@ class WaitingToPass: public SortWrpcBaseState {
 public:
     STATE_HEADER_INIT
 
+    bool has_super_exit_with_tim_alrt() override;
+
 protected:
     void entry() override;
 };

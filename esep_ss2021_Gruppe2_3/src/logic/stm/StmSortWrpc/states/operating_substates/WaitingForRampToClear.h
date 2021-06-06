@@ -8,8 +8,9 @@ namespace sortWrpcStm {
 class WaitingForRampToClear: public SortWrpcBaseState {
 public:
     STATE_HEADER_INIT
-    bool tim_alrt(int payload) override;
+    bool tim_alrt(int tim_id) override;
     bool lb_ra_clr() override;
+    void entry() override;
 };
 
 } /* namespace recieveWrpcStm */

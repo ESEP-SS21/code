@@ -10,7 +10,7 @@ public:
     STATE_HEADER_INIT
 
 protected:
-    void entry() override;
+    bool has_super_exit_with_lb_sw_blck_from_waiting_for_wrpc() override;
 };
 
 } /* namespace recieveWrpcStm */

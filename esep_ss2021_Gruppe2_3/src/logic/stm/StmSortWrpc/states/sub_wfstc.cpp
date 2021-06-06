@@ -7,14 +7,20 @@ namespace sortWrpcStm {
 
 INIT_WFSTC_SUB_STM(SubWfstc,NoDiscard)
 
-bool SubWfstc::lb_sw_blck(){
-    return false;
+bool SubWfstc::lb_sw_clr(){
+    bool handled = _operating_substate->lb_sw_clr();
+    if(!handled && _operating_substate->has_super_exit_with_lb_sw_clr()){
+
+    }
+    return handled;
 }
-bool SubWfstc::lb_ra_clr(){
-    return false;
-}
+
 bool SubWfstc::tim_alrt(int tim_id){
-    return false;
+    bool handled = _operating_substate->tim_alrt(tim_id);
+    if(!handled && _operating_substate->has_super_exit_with_tim_alrt()){
+
+    }
+    return handled;
 }
 void SubWfstc::entry_discard(){
 

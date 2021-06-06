@@ -10,6 +10,8 @@ public:
     STATE_HEADER_INIT
     bool tim_alrt(int tim_id) override;
 
+    bool has_super_exit_with_lb_sw_clr() override;
+
 protected:
     void entry() override;
 

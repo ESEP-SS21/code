@@ -8,8 +8,7 @@ namespace sortWrpcStm {
 class SubWfstc: public SortWrpcBaseState {
 public:
     SUBSTM_HEADER_INIT
-    bool lb_sw_blck() override;
-    bool lb_ra_clr() override;
+    bool lb_sw_clr() override;
     bool tim_alrt(int tim_id) override;
 protected:
     void exit() override;
