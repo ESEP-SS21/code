@@ -3,9 +3,9 @@
 
 namespace logic {
 namespace stm {
-namespace recieveWrpcStm {
+namespace receiveWrpcStm {
 
-class BeltNotRunning: public RecieveWrpcBaseState {
+class BeltNotRunning: public ReceiveWrpcBaseState {
 public:
     STATE_HEADER_INIT
     bool handle(const Event &event) override;
@@ -14,7 +14,7 @@ protected:
 };
 
 
-class BeltRunning: public RecieveWrpcBaseState {
+class BeltRunning: public ReceiveWrpcBaseState {
 public:
     STATE_HEADER_INIT
     bool handle(const Event &event) override;

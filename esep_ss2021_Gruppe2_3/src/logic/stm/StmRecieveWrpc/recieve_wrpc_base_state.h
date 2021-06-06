@@ -5,12 +5,12 @@
 
 namespace logic {
 namespace stm {
-namespace recieveWrpcStm {
+namespace receiveWrpcStm {
 
-class RecieveWrpcBaseState : public BaseBaseState {
+class ReceiveWrpcBaseState : public BaseBaseState {
 
 public:
-    RecieveWrpcBaseState() = default;
+    ReceiveWrpcBaseState() = default;
 
     virtual void entry() {}
     virtual void exit() {}

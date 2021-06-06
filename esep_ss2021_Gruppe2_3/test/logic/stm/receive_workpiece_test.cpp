@@ -10,22 +10,22 @@ namespace test {
 namespace logic {
 namespace stm {
 
-using namespace ::logic::stm::recieveWrpcStm;
+using namespace ::logic::stm::receiveWrpcStm;
 
-INIT_STM_TEST(testRecieveWrpcStm, RecieveWrpcContext, ::logic::datamodel::UnitType::PRIMARY)
+INIT_STM_TEST(testReceiveWrpcStm, ReceiveWrpcContext, ::logic::datamodel::UnitType::PRIMARY)
 
 
-TEST_F(testRecieveWrpcStm, BeginsInRightState){
+TEST_F(testReceiveWrpcStm, BeginsInRightState){
     ASSERT_STATE(BeltNotRunning);
 }
 
-TEST_F(testRecieveWrpcStm, Transition) {
+TEST_F(testReceiveWrpcStm, Transition) {
     data._operating_mode = ::logic::datamodel::OperatingMode::RUNNING;
     test_transition_to<BeltRunning>({EventType::EVNT_SEN_LB_ST_BLCK}, {{EventType::EVNT_ACT_BELT_FWD}});
     test_transition_to<BeltNotRunning>({EventType::EVNT_ACT_BELT_STP}, {EventType::EVNT_ACT_BELT_STP});
 }
 
-TEST_F(testRecieveWrpcStm, BlockingIfNotRunning) {
+TEST_F(testReceiveWrpcStm, BlockingIfNotRunning) {
     data._operating_mode = ::logic::datamodel::OperatingMode::ESTOP;
     test_transition_to<BeltNotRunning>({EventType::EVNT_SEN_LB_ST_BLCK}, {});
 }

@@ -4,14 +4,14 @@
 
 namespace logic {
 namespace stm {
-namespace recieveWrpcStm {
+namespace receiveWrpcStm {
 
 //put the start state of your stm here
-CONTEXT_CTOR(RecieveWrpcContext, BeltNotRunning)
+CONTEXT_CTOR(ReceiveWrpcContext, BeltNotRunning)
 
 using namespace dispatcher;
 
-void RecieveWrpcContext::handle(Event e) {
+void ReceiveWrpcContext::handle(Event e) {
     if (_datamodel->_operating_mode != datamodel::OperatingMode::RUNNING) {
         return;
     }

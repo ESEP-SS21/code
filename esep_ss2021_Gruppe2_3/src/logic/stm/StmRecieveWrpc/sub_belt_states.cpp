@@ -3,7 +3,7 @@
 
 namespace logic {
 namespace stm {
-namespace recieveWrpcStm {
+namespace receiveWrpcStm {
 
 using namespace dispatcher;
 
