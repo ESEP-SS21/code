@@ -5,35 +5,45 @@ namespace stm {
 namespace StmAnswerTransferReq {
 
 STATE_INIT(Waiting)
+
 STATE_INIT(WaitingForSpace)
 
-bool Waiting::wrpc_trns_rq(int payload) {
-    if(_datamodel->_unit_type==datamodel::UnitType::SECONDARY){
-        auto enc_wrpc = datamodel::EncodedWorkpiece(payload);
-        auto wrpc = std::make_shared<datamodel::Workpiece>(enc_wrpc);
-        _datamodel->set_pending_transfer(wrpc);
+using namespace dispatcher;
 
-        if(_datamodel->_belt_blocked == false){
-            _eventSender->send({ EventType::EVNT_ACK, 0, true });
-            _eventSender->send({ EventType::EVNT_ACT_BELT_FWD, 0, true });
-        }
-        else{
-            switch_state<WaitingForSpace>();
-        }
+bool Waiting::handle(const Event &event) {
+    switch (event.type) {
+        case EventType::EVNT_WRPC_TRNS_RQ:
+            if (_datamodel->_unit_type == datamodel::UnitType::SECONDARY) {
+                auto enc_wrpc = datamodel::EncodedWorkpiece(event.payload);
+                auto wrpc = std::make_shared<datamodel::Workpiece>(enc_wrpc);
+                _datamodel->set_pending_transfer(wrpc);
+
+                if (!_datamodel->_belt_blocked) {
+                    _eventSender->send({EventType::EVNT_ACK, 0, true});
+                    _eventSender->send({EventType::EVNT_ACT_BELT_FWD, 0, true});
+                } else {
+                    switch_state<WaitingForSpace>();
+                }
+            }
+            return true;
+        default:
+            return false;
     }
-    return true;
 }
 
-
-bool WaitingForSpace::lb_he_blck() {
-    _eventSender->send({ EventType::EVNT_ACK, 0, true });
-    _eventSender->send({ EventType::EVNT_ACT_BELT_FWD, 0, true });
-    switch_state<Waiting>();
-    return true;
-}
-
-void WaitingForSpace::reset_to_start() {
-    switch_state<Waiting>();
+bool WaitingForSpace::handle(const Event &event) {
+    switch (event.type) {
+        case dispatcher::EventType::EVNT_RST_TO_SRT:
+            switch_state<Waiting>();
+            return true;
+        case EventType::EVNT_SEN_LB_HE_BLCK:
+            _eventSender->send({EventType::EVNT_ACK, 0, true});
+            _eventSender->send({EventType::EVNT_ACT_BELT_FWD, 0, true});
+            switch_state<Waiting>();
+            return true;
+        default:
+            return false;
+    }
 }
 
 } /* namespace StmAnswerTransferReq */

@@ -61,6 +61,9 @@ protected:
 public:
     virtual ~BaseBaseState() = default;
 
+    //TODO make this virtual once everybody uses this
+    virtual bool handle(const Event &event) {return false;}
+
     void SetData(IEventSender *eventSender,
                  datamodel::UnitData *datamodel) {
         _datamodel = datamodel;
@@ -79,7 +82,6 @@ public:
         std::cout << "Exiting " << str() << std::endl;
         new (this) State;
     }
-
 
 };
 
