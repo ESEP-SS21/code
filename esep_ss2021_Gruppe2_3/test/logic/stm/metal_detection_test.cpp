@@ -23,7 +23,7 @@ TEST_F(testMetalDetection, MetalWasDetected) {
     Workpiece wrpc;
     data.get_start_height_sec()->enter_workpiece(wrpc);
     test_transition_to<MetalDetection>( { EventType::EVNT_SEN_METAL_DTC});
-    ASSERT_EQ(data.get_start_height_sec()->first_workpiece()->is_metallic, true);
+    ASSERT_EQ(data.get_start_height_sec()->first_workpiece().is_metallic, true);
 }
 
 TEST_F(testMetalDetection, NoWrpcsInSection) {
