@@ -23,12 +23,22 @@ TEST_F(testMetalDetection, MetalWasDetected) {
     Workpiece wrpc;
     data.get_start_height_sec()->enter_workpiece(wrpc);
     test_transition_to<MetalDetection>( { EventType::EVNT_SEN_METAL_DTC});
-    ASSERT_EQ(data.get_start_height_sec()->first_workpiece().is_metallic, true);
+    ASSERT_TRUE(data.get_start_height_sec()->first_workpiece().is_metallic);
 }
 
 TEST_F(testMetalDetection, NoWrpcsInSection) {
     data._operating_mode = OperatingMode::RUNNING;
     test_transition_to<MetalDetection>( { EventType::EVNT_SEN_METAL_DTC});
+}
+
+TEST_F(testMetalDetection, NotInRunning) {
+    Workpiece wrpc;
+    data.get_start_height_sec()->enter_workpiece(wrpc);
+    for (auto mode : OperatingModesNotRunning) {
+        data._operating_mode = mode;
+        test_transition_to<MetalDetection>({EventType::EVNT_SEN_METAL_DTC});
+        ASSERT_FALSE(data.get_start_height_sec()->first_workpiece().is_metallic);
+    }
 }
 
 }
