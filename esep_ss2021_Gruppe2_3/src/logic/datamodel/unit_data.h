@@ -21,6 +21,13 @@ enum class OperatingMode{
     SERVICE,
 };
 
+
+const std::initializer_list<OperatingMode> OperatingModesNotRunning =
+    {OperatingMode::IDLE,
+     OperatingMode::ESTOP,
+     OperatingMode::ERROR,
+     OperatingMode::SERVICE};
+
 enum class SorterState{
     NOTSET,
     DISCARD,

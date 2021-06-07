@@ -9,14 +9,13 @@ namespace StmAnswerTransferReq {
 class Waiting: public AnswerTransferReqBaseState {
 public:
     STATE_HEADER_INIT
-    bool wrpc_trns_rq(int payload) override;
+    bool handle(const Event &event) override;
 };
 
 class WaitingForSpace: public AnswerTransferReqBaseState {
 public:
     STATE_HEADER_INIT
-    bool lb_he_blck() override;
-    void reset_to_start() override;
+    bool handle(const Event &event) override;
 };
 
 } /* namespace StmAnswerTransferReq */
