@@ -56,5 +56,9 @@ std::shared_ptr<CBSection> CBSection::get_next_section() const {
     return _next_section;
 }
 
+bool CBSection::empty() const {
+    return _queue->empty();
+}
+
 } /* namespace datamodel */
 } /* namespace logic */

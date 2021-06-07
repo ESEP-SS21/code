@@ -7,7 +7,13 @@ namespace StmMetalDetection {
 STATE_INIT(MetalDetection)
 
 bool MetalDetection::metal_dtc() {
-    _datamodel->get_start_height_sec()->first_workpiece().is_metallic = true;
+
+    auto section = _datamodel->get_start_height_sec();
+    if (section->empty()) {
+        std::cout << name << " Detected metal but there was no workpiece in the section" << std::endl;
+        return true;
+    }
+    section->first_workpiece().is_metallic = true;
     return true;
 }
 
