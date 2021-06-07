@@ -33,8 +33,14 @@ TEST_F(testSortWrpc, WrpcFitsInSortingOrder) {
     wrpc.determine_type();
     data._operating_mode = OperatingMode::RUNNING;
     data.get_height_switch_sec()->enter_workpiece(wrpc);
-    test_transition_to<NoDiscard>( { EventType::EVNT_SEN_LB_SW_BLCK },
-            { { EventType::EVNT_ACT_SORT_NO_DSC } });
+    test_transition_to<NoDiscard>( { EventType::EVNT_SEN_LB_SW_BLCK }, { {
+            EventType::EVNT_ACT_SORT_NO_DSC } });
+    test_transition_to<WaitingToPass>( { EventType::EVNT_SEN_LB_SW_CLR }, { });
+    test_transition_to<WaitingForWrpc>( { EventType::EVNT_TIM_ALRT,
+                                        static_cast<int>(dispatcher::TimerID::SORT_WRPC_NO_DISCARD_PASS) },
+                                        { { EventType::EVNT_ACT_SORT_RST } });
+    ASSERT_FALSE(wrpc == data.get_height_switch_sec()->first_workpiece());
+    ASSERT_TRUE(wrpc == data.get_switch_end_sec()->last_workpiece());
 }
 
 } /* namespace stm */
