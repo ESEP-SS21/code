@@ -14,7 +14,7 @@ Type::Type(IEventSender *eventSender, UnitData *datamodel) :\
     BaseContext(new StartState, datamodel) {\
     _state->SetData(eventSender, datamodel);\
     _datamodel = datamodel;\
-    ((StartState*)_state)->entry();\
+    _state->entry();\
 }
 
 class BaseContext {
