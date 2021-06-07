@@ -9,6 +9,10 @@ namespace sortWrpcStm {
 
 INIT_OPERATING_SUB_STM(SubOperating, WaitingForWrpc)
 
+SubOperating::SubOperating() {
+    entry_sub_start_node();
+}
+
 bool SubOperating::lb_sw_blck() {
     bool handled = _operating_substate->lb_sw_blck();
     // WaitingForWrpc -> NoDiscard / Discard

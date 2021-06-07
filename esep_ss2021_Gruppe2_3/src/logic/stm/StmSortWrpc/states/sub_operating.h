@@ -8,6 +8,7 @@ namespace sortWrpcStm {
 class SubOperating: public SortWrpcBaseState {
 public:
     SUBSTM_HEADER_INIT
+    SubOperating();
     bool lb_sw_blck() override;
     bool lb_ra_clr() override;
     bool tim_alrt(int tim_id) override;
