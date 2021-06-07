@@ -15,7 +15,7 @@ bool Waiting::wrpc_trns_rq(int payload) {
 
         if(_datamodel->_belt_blocked == false){
             _eventSender->send({ EventType::EVNT_ACK, 0, true });
-            _eventSender->send({ EventType::EVNT_ACT_BELT_FWD, 0, true });
+            _eventSender->send({ EventType::EVNT_ACT_BELT_FWD, 0, false });
         }
         else{
             switch_state<WaitingForSpace>();
@@ -27,7 +27,7 @@ bool Waiting::wrpc_trns_rq(int payload) {
 
 bool WaitingForSpace::lb_he_blck() {
     _eventSender->send({ EventType::EVNT_ACK, 0, true });
-    _eventSender->send({ EventType::EVNT_ACT_BELT_FWD, 0, true });
+    _eventSender->send({ EventType::EVNT_ACT_BELT_FWD, 0, false });
     switch_state<Waiting>();
     return true;
 }

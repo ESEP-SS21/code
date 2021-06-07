@@ -6,12 +6,13 @@ namespace logic {
 namespace stm {
 namespace StmHeightMeasurement {
 
-class StmHeightMeasurementBaseState: public BaseBaseState {
+class HeightMeasurementBaseState: public BaseBaseState {
 public:
+    virtual void entry_history(){};
     virtual bool lb_he_block(){return false;}
-    virtual bool he_sensor_he(){};
-    virtual bool lb_he_clear(){return false;}
+    virtual bool he_sensor_he(int payload){};
     virtual bool wrpc_flp(){return false;}
+    virtual void reset_to_start(){};
 };
 
 } /* namespace StmHeightMeasurement */
