@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include <logic/stm/StmRecieveWrpc/states/sub_belt_not_running.h>
-#include <logic/stm/StmRecieveWrpc/states/sub_belt_running.h>
+#include <logic/stm/StmRecieveWrpc/sub_belt_states.h>
+
 #include "logic/stm/StmRecieveWrpc/recieve_wrpc_context.h"
 #include "util/stm_test_client.h"
 
