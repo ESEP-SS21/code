@@ -18,12 +18,12 @@ public:
     virtual void entry(){}
     virtual void exit(){}
 
-    virtual void entry_sub_start_node(){}
     virtual void entry_history(){}
     virtual void entry_wfstc(){}
     virtual void entry_discard(){}
     virtual void entry_waiting_for_ramp_to_clear(){}
 
+    void init_sub_states() override;
 
     virtual bool has_super_exit_with_lb_sw_blck_from_waiting_for_wrpc() {return false;}
     virtual bool has_super_exit_with_lb_sw_blck_from_ramp_full() {return false;}

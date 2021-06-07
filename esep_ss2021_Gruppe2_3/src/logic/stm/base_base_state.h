@@ -23,7 +23,6 @@ std::string get_name() override;
 #define SUBSTM_HEADER_INIT \
 STATE_HEADER_INIT \
 std::string str();\
-void entry_sub_start_node() override;
 
 #define INIT_SUB_STM(Type, EntrySubState, SubStmName)\
 const std::string Type::name = #Type;\
@@ -33,10 +32,6 @@ std::string Type::get_name() {\
 std::string Type::str() {\
     return "SubSTM '" + name + "': " + SubStmName->get_name();\
 }                                                                 \
-void Type::entry_sub_start_node() {\
-	SubStmName = new EntrySubState();\
-	SubStmName->SetData(_eventSender, _datamodel);\
-}
 
 class BaseBaseState {
 protected:
@@ -46,13 +41,15 @@ protected:
 public:
     virtual ~BaseBaseState() = default;
 
-    void SetData(IEventSender *eventSender,
+    virtual void SetData(IEventSender *eventSender,
                  datamodel::UnitData *datamodel) {
         _datamodel = datamodel;
         _eventSender = eventSender;
     }
 
     virtual std::string get_name() = 0;
+
+    virtual void init_sub_states(){};
 
     virtual std::string str() {
         return get_name();
