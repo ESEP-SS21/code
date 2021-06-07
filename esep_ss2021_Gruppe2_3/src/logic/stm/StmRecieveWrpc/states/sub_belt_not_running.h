@@ -10,8 +10,8 @@ public:
     STATE_HEADER_INIT
     bool lb_st_blck() override;
     bool belt_fwd() override;
-protected:
     void entry() override;
+protected:
     void entry_history() override;
     void reset_to_start() override;
 };

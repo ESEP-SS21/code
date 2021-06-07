@@ -68,7 +68,7 @@ public:
     STATE_HEADER_INIT
     bool estop_on() override;
     bool conn_lost() override;
-    bool str_prs_srt() override;
+    bool rst_prs_srt() override;
     void entry() override;
 };
 
@@ -78,7 +78,7 @@ public:
     STATE_HEADER_INIT
     bool estop_on() override;
     bool conn_lost() override;
-    bool rst_prs_srt() override;
+    bool str_prs_srt() override;
     void entry() override;
     void exit() override;
 };

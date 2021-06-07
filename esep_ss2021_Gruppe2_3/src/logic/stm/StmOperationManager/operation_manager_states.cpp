@@ -60,9 +60,9 @@ void Running::entry() {
 }
 
 void Running::exit() {
-    _eventSender->send({ EventType::EVNT_ACT_STPL_LED_OFF, Color::GREEN, false });
-    _eventSender->send({ EventType::EVNT_ACT_SORT_RST, 0, false });
     _eventSender->send({ EventType::EVNT_ACT_BELT_STP, 0, false });
+    _eventSender->send({ EventType::EVNT_ACT_SORT_RST, 0, false });
+    _eventSender->send({ EventType::EVNT_ACT_STPL_LED_OFF, Color::GREEN, false });
 }
 
 STATE_INIT(Idle)
@@ -102,8 +102,8 @@ bool Idle::conn_lost() {
 
 void Idle::entry() {
     _datamodel->_operating_mode = OperatingMode::IDLE;
-    _eventSender->send({EventType::EVNT_ACT_CTRL_T_STR_LED_ON});
     _eventSender->send({ EventType::EVNT_ACT_STPL_LED_ON, Color::YELLOW, false });
+    _eventSender->send({EventType::EVNT_ACT_CTRL_T_STR_LED_ON});
 }
 
 void Idle::exit() {
@@ -135,6 +135,7 @@ bool EStop::estop_off() {
 void EStop::entry(){
     _datamodel->_operating_mode = OperatingMode::ESTOP;
     _eventSender->send({ EventType::EVNT_ACT_STPL_LED_BLNK_SLW, Color::RED, false });
+    _eventSender->send({ EventType::EVNT_ACT_CTRL_T_RST_LED_ON});
     if(_datamodel->_estop_count>2){
         std::cout<< "FATAL ERROR" <<std::endl;
         std::cout<< "The Communication with the other System was interrupted or could not be established"<<std::endl;
@@ -145,6 +146,7 @@ void EStop::entry(){
 
 void EStop::exit(){
     _eventSender->send({ EventType::EVNT_ACT_STPL_LED_OFF, Color::RED, false });
+    _eventSender->send({ EventType::EVNT_ACT_CTRL_T_RST_LED_OFF});
 }
 
 STATE_INIT(PendingUnacknowledged)
@@ -183,6 +185,7 @@ bool PendingUnacknowledged::err_gone() {
 void PendingUnacknowledged::entry() {
     _datamodel->_operating_mode = OperatingMode::ERROR;
     _eventSender->send({EventType::EVNT_ACT_CTRL_T_RST_LED_ON});
+    _eventSender->send({EventType::EVNT_ACT_STPL_LED_BLNK_FST, Color::RED});
 }
 
 STATE_INIT(PendingAcknowledged)
@@ -232,7 +235,7 @@ bool GoneUnacknowledged::conn_lost() {
     return true;
 }
 
-bool GoneUnacknowledged::str_prs_srt() {
+bool GoneUnacknowledged::rst_prs_srt() {
     exit();
     switch_state<OK>();
     _eventSender->send({EventType::EVNT_ACT_CTRL_T_RST_LED_OFF});
@@ -264,10 +267,13 @@ bool OK::conn_lost() {
     return true;
 }
 
-bool OK::rst_prs_srt() {
+bool OK::str_prs_srt() {
+    exit();
     _datamodel->_operating_mode = OperatingMode::RUNNING;
     _datamodel->_warning_count = 0;
+    switch_state<Running>();
     _eventSender->send({EventType::EVNT_HIST});
+    entry();
     return true;
 }
 
@@ -284,7 +290,7 @@ STATE_INIT(Service)
 
 void Service::entry() {
     _datamodel->_operating_mode = OperatingMode::SERVICE;
-    _eventSender->send({EventType::EVNT_ACT_STPL_LED_BLNK_SLW,Color::YELLOW});
+    _eventSender->send({EventType::EVNT_ACT_STPL_LED_BLNK_SLW,Color::GREEN});
 }
 
 bool Service::estop_on() {
