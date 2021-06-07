@@ -7,7 +7,7 @@ namespace logic {
 namespace stm {
 namespace sortWrpcStm {
 
-INIT_OPERATING_SUB_STM(SubOperating, WaitingForWrpc)
+INIT_SUB_STM(SubOperating, WaitingForWrpc, _operating_substate)
 
 SubOperating::SubOperating() {
     entry_sub_start_node();

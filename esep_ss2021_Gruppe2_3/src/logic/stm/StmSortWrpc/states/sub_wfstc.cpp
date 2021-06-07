@@ -7,7 +7,7 @@ namespace logic {
 namespace stm {
 namespace sortWrpcStm {
 
-INIT_WFSTC_SUB_STM(SubWfstc, NoDiscard)
+INIT_SUB_STM(SubWfstc, NoDiscard, _wfstc_substate)
 
 bool SubWfstc::lb_sw_clr() {
     bool handled = _wfstc_substate->lb_sw_clr();
