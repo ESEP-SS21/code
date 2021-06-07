@@ -48,19 +48,19 @@ TEST(CBSectionTest, FirstAndLastWorkpieceShouldReadCorrectSectionContent) {
 
     //add wrpc_1
     p_sec->enter_workpiece(wrpc_1);
-    ASSERT_EQ(p_sec->first_workpiece().get_id(), wrpc_1.get_id());
-    ASSERT_EQ(p_sec->last_workpiece().get_id(), wrpc_1.get_id());
+    ASSERT_EQ(*p_sec->first_workpiece(), wrpc_1);
+    ASSERT_EQ(*p_sec->last_workpiece(), wrpc_1);
 
     //add wrpc_2
     p_sec->enter_workpiece(wrpc_2);
-    ASSERT_EQ(p_sec->first_workpiece().get_id(), wrpc_1.get_id());
-    ASSERT_EQ(p_sec->last_workpiece().get_id(), wrpc_2.get_id());
+    ASSERT_EQ(*p_sec->first_workpiece(), wrpc_1);
+    ASSERT_EQ(*p_sec->last_workpiece(), wrpc_2);
 
     //add wrpc_3, pop wrpc_1
     p_sec->enter_workpiece(wrpc_3);
     p_sec->exit_first_workpiece();
-    ASSERT_EQ(p_sec->first_workpiece().get_id(), wrpc_2.get_id());
-    ASSERT_EQ(p_sec->last_workpiece().get_id(), wrpc_3.get_id());
+    ASSERT_EQ(*p_sec->first_workpiece(), wrpc_2);
+    ASSERT_EQ(*p_sec->last_workpiece(), wrpc_3);
 }
 
 TEST(CBSectionTest, EnteringAndExitingWorkpiecesShouldManifestSectionContent) {
@@ -71,14 +71,14 @@ TEST(CBSectionTest, EnteringAndExitingWorkpiecesShouldManifestSectionContent) {
 
     //add wrpc_1
     p_sec->enter_workpiece(wrpc_1);
-    ASSERT_EQ(p_sec->first_workpiece().get_id(), wrpc_1.get_id());
-    ASSERT_EQ(p_sec->last_workpiece().get_id(), wrpc_1.get_id());
+    ASSERT_EQ(*p_sec->first_workpiece(), wrpc_1);
+    ASSERT_EQ(*p_sec->last_workpiece(), wrpc_1);
     ASSERT_EQ(p_sec->workpiece_count(), 1);
 
     //add wrpc_2
     p_sec->enter_workpiece(wrpc_2);
-    ASSERT_EQ(p_sec->first_workpiece().get_id(), wrpc_1.get_id());
-    ASSERT_EQ(p_sec->last_workpiece().get_id(), wrpc_2.get_id());
+    ASSERT_EQ(*p_sec->first_workpiece(), wrpc_1);
+    ASSERT_EQ(*p_sec->last_workpiece(), wrpc_2);
     ASSERT_EQ(p_sec->workpiece_count(), 2);
 
     //add wrpc_3, pop wrpc_1
@@ -86,8 +86,8 @@ TEST(CBSectionTest, EnteringAndExitingWorkpiecesShouldManifestSectionContent) {
     ASSERT_EQ(p_sec->workpiece_count(), 3);
     p_sec->exit_first_workpiece();
     ASSERT_EQ(p_sec->workpiece_count(), 2);
-    ASSERT_EQ(p_sec->first_workpiece().get_id(), wrpc_2.get_id());
-    ASSERT_EQ(p_sec->last_workpiece().get_id(), wrpc_3.get_id());
+    ASSERT_EQ(*p_sec->first_workpiece(), wrpc_2);
+    ASSERT_EQ(*p_sec->last_workpiece(), wrpc_3);
 
     //pop section to 0
     p_sec->exit_first_workpiece();
@@ -114,40 +114,40 @@ TEST(CBSectionTest, TransferWorkpieceShouldManifestInSectionContent) {
 
     //transfer wrpc_1 from sec_1 to sec_2
     p_sec_1->transfer_first_workpiece();
-    ASSERT_EQ(p_sec_2->last_workpiece().get_id(), wrpc_1.get_id());
-    ASSERT_EQ(p_sec_1->first_workpiece().get_id(), wrpc_2.get_id());
+    ASSERT_EQ(*p_sec_2->last_workpiece(), wrpc_1);
+    ASSERT_EQ(*p_sec_1->first_workpiece(), wrpc_2);
     ASSERT_EQ(p_sec_1->workpiece_count(), 2);
     ASSERT_EQ(p_sec_2->workpiece_count(), 1);
     ASSERT_EQ(p_sec_3->workpiece_count(), 0);
 
     //transfer wrpc_2 from sec_1 to sec_2
     p_sec_1->transfer_first_workpiece();
-    ASSERT_EQ(p_sec_2->first_workpiece().get_id(), wrpc_1.get_id());
-    ASSERT_EQ(p_sec_2->last_workpiece().get_id(), wrpc_2.get_id());
-    ASSERT_EQ(p_sec_1->first_workpiece().get_id(), wrpc_3.get_id());
-    ASSERT_EQ(p_sec_1->last_workpiece().get_id(), wrpc_3.get_id());
+    ASSERT_EQ(*p_sec_2->first_workpiece(), wrpc_1);
+    ASSERT_EQ(*p_sec_2->last_workpiece(), wrpc_2);
+    ASSERT_EQ(*p_sec_1->first_workpiece(), wrpc_3);
+    ASSERT_EQ(*p_sec_1->last_workpiece(), wrpc_3);
     ASSERT_EQ(p_sec_1->workpiece_count(), 1);
     ASSERT_EQ(p_sec_2->workpiece_count(), 2);
     ASSERT_EQ(p_sec_3->workpiece_count(), 0);
 
     //transfer wrpc_1 from sec_2 to sec_3
     p_sec_2->transfer_first_workpiece();
-    ASSERT_EQ(p_sec_3->first_workpiece().get_id(), wrpc_1.get_id());
-    ASSERT_EQ(p_sec_3->last_workpiece().get_id(), wrpc_1.get_id());
-    ASSERT_EQ(p_sec_2->first_workpiece().get_id(), wrpc_2.get_id());
-    ASSERT_EQ(p_sec_2->last_workpiece().get_id(), wrpc_2.get_id());
-    ASSERT_EQ(p_sec_1->first_workpiece().get_id(), wrpc_3.get_id());
-    ASSERT_EQ(p_sec_1->last_workpiece().get_id(), wrpc_3.get_id());
+    ASSERT_EQ(*p_sec_3->first_workpiece(), wrpc_1);
+    ASSERT_EQ(*p_sec_3->last_workpiece(), wrpc_1);
+    ASSERT_EQ(*p_sec_2->first_workpiece(), wrpc_2);
+    ASSERT_EQ(*p_sec_2->last_workpiece(), wrpc_2);
+    ASSERT_EQ(*p_sec_1->first_workpiece(), wrpc_3);
+    ASSERT_EQ(*p_sec_1->last_workpiece(), wrpc_3);
     ASSERT_EQ(p_sec_1->workpiece_count(), 1);
     ASSERT_EQ(p_sec_2->workpiece_count(), 1);
     ASSERT_EQ(p_sec_3->workpiece_count(), 1);
 
     //transfer wrpc_3 from sec_1 to sec_2
     p_sec_1->transfer_first_workpiece();
-    ASSERT_EQ(p_sec_3->first_workpiece().get_id(), wrpc_1.get_id());
-    ASSERT_EQ(p_sec_3->last_workpiece().get_id(), wrpc_1.get_id());
-    ASSERT_EQ(p_sec_2->first_workpiece().get_id(), wrpc_2.get_id());
-    ASSERT_EQ(p_sec_2->last_workpiece().get_id(), wrpc_3.get_id());
+    ASSERT_EQ(*p_sec_3->first_workpiece(), wrpc_1);
+    ASSERT_EQ(*p_sec_3->last_workpiece(), wrpc_1);
+    ASSERT_EQ(*p_sec_2->first_workpiece(), wrpc_2);
+    ASSERT_EQ(*p_sec_2->last_workpiece(), wrpc_3);
     ASSERT_EQ(p_sec_1->workpiece_count(), 0);
     ASSERT_EQ(p_sec_2->workpiece_count(), 2);
     ASSERT_EQ(p_sec_3->workpiece_count(), 1);

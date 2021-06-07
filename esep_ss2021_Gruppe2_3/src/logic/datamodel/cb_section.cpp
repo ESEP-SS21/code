@@ -1,6 +1,7 @@
 #include <logic/datamodel/cb_section.h>
 #include <utility>
 #include <memory>
+#include <iostream>
 
 namespace logic {
 namespace datamodel {
@@ -20,14 +21,18 @@ int CBSection::workpiece_count() const {
     return static_cast<int>(this->_queue->size());
 }
 
-Workpiece &CBSection::last_workpiece() const {
+std::shared_ptr<Workpiece> CBSection::last_workpiece() const {
     const std::lock_guard<std::mutex> lock(_section_mutex);
-    return this->_queue->back();
+    if (log_if_empty())
+        return nullptr;
+    return std::shared_ptr<Workpiece>(&this->_queue->back());
 }
 
-Workpiece &CBSection::first_workpiece() const {
+std::shared_ptr<Workpiece> CBSection::first_workpiece() const {
     const std::lock_guard<std::mutex> lock(_section_mutex);
-    return this->_queue->front();
+    if (log_if_empty())
+        return nullptr;
+    return std::shared_ptr<Workpiece>(&this->_queue->front());
 }
 
 void CBSection::enter_workpiece(const Workpiece &wrpc) const {
@@ -54,6 +59,15 @@ void CBSection::transfer_first_workpiece() const {
 
 std::shared_ptr<CBSection> CBSection::get_next_section() const {
     return _next_section;
+}
+
+bool CBSection::log_if_empty() const {
+    if (_queue->empty()) {
+        //todo replace with logger
+        std::cout << "Called '" << __FUNCTION__ << "' but section was empty" << std::endl;
+        return true;
+    }
+    return false;
 }
 
 } /* namespace datamodel */
