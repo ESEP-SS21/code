@@ -7,14 +7,17 @@ namespace sortWrpcStm {
 
 STATE_INIT(Discard)
 
+using namespace ::dispatcher;
+
 void Discard::entry(){
     _eventSender->send( { EventType::EVNT_ACT_SORT_DSC, 0, false } );
-    dispatcher::Event::CreateTimer(dispatcher::TimerID::SORT_WRPC_STUCK, SW_CLR_TIME_TOLERANCE_MS, false);
+    Event e = Event::CreateTimer(TimerID::SORT_WRPC_STUCK, SW_CLR_TIME_TOLERANCE_MS, false);
+    _eventSender->send(e);
 }
 
 bool Discard::tim_alrt(int tim_id){
     bool handled = false;
-    if(tim_id == static_cast<uint16_t>(dispatcher::TimerID::SORT_WRPC_STUCK)) {
+    if(tim_id == static_cast<uint16_t>(TimerID::SORT_WRPC_STUCK)) {
         exit();
         switch_state<WrpcStuck>();
         entry();

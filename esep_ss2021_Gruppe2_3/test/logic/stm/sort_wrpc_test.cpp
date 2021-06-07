@@ -37,7 +37,6 @@ TEST_F(testSortWrpc, WrpcFitsInSortingOrder) {
             EventType::EVNT_ACT_SORT_NO_DSC } });
     test_transition_to<WaitingToPass>( { EventType::EVNT_SEN_LB_SW_CLR },
             { Event::CreateTimer(TimerID::SORT_WRPC_NO_DISCARD_PASS, 500) });
-
     test_transition_to<WaitingForWrpc>( { EventType::EVNT_TIM_ALRT,
                                         static_cast<int>(TimerID::SORT_WRPC_NO_DISCARD_PASS) },
                                         { { EventType::EVNT_ACT_SORT_RST } });
@@ -46,10 +45,12 @@ TEST_F(testSortWrpc, WrpcFitsInSortingOrder) {
 }
 
 TEST_F(testSortWrpc, WrpcStuck) {
-    Workpiece wrpc;
-    wrpc.height_1 = Workpiece::height_bohrung;
-    wrpc.is_metallic = true;
-    wrpc.determine_type();
+    data._operating_mode = OperatingMode::RUNNING;
+    Workpiece wrpc = create_wp_l();
+    data.get_height_switch_sec()->enter_workpiece(wrpc);
+
+    //test_transition_to<Discard>( { EventType::EVNT_SEN_LB_EN_BLCK },
+    //                            { EventType::EVNT_ACT_SORT_DSC });
 }
 
 } /* namespace stm */
