@@ -18,11 +18,13 @@ bool SubOperating::lb_sw_blck(){
             _operating_substate->exit();
             exit();
             new(this) SubWfstc;
-            entry_sub_start_node();
+            entry();
+            entry_wfstc();
         } else { // not in sorting order
             _operating_substate->exit();
             exit();
             new(this) SubWfstc;
+            entry();
             entry_discard();
         }
     }
@@ -32,7 +34,8 @@ bool SubOperating::lb_sw_blck(){
             _operating_substate->exit();
             exit();
             new(this) SubWfstc;
-            entry_sub_start_node();
+            entry();
+            entry_wfstc();
         }
     }
     return handled;
