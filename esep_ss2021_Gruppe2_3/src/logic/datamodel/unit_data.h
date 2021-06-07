@@ -22,7 +22,7 @@ enum class OperatingMode{
 };
 
 
-const std::initializer_list<OperatingMode> OperatingModesNotRunning =
+constexpr std::initializer_list<OperatingMode> OperatingModesNotRunning =
     {OperatingMode::IDLE,
      OperatingMode::ESTOP,
      OperatingMode::ERROR,
