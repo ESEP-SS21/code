@@ -8,7 +8,7 @@ STATE_INIT(WaitingForWorkpiece)
 STATE_INIT(WaitingForHeight)
 
 bool WaitingForWorkpiece::lb_he_blck() {
-    _datamodel->get_start_height_sec().transfer_first_workpiece();
+    _datamodel->get_start_height_sec()->transfer_first_workpiece();
     exit();
     switch_state<WaitingForHeight>();
     entry();
@@ -37,5 +37,8 @@ bool WaitingForHeight::he_sensor_he(int payload) {
         entry();
     }
     return true;
+}
+}
+}
 }
 
