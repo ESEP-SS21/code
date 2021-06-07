@@ -3,6 +3,7 @@
 
 #include <mutex>
 #include <thread>
+#include <atomic>
 #include "../gpiowrapper.h"
 #include "color.h"
 #include <chrono>
@@ -22,11 +23,12 @@ public:
 
 private:
     std::shared_ptr<GPIOWrapper> _gpio;
-    bool _running;
+    std::atomic<bool> _running;
+    std::atomic<bool> _interrupted;
     useconds_t _duty_cycle;
     hal::Color _color;
-    std::mutex _blink_lock;
-
+    std::mutex _mutex;
+    std::condition_variable _cv;
 };
 
 } /* namespace hal */

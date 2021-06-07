@@ -81,6 +81,9 @@ public:
         return get_name();
     };
 
+    virtual void entry(){};
+    virtual void exit(){};
+
     template<typename State>
     void switch_state() {
         //todo replace with logger
