@@ -32,6 +32,15 @@ public:
         }
         ASSERT_TRUE(client.empty());
     }
+
+    template<typename StartState>
+    void test_start_state(std::initializer_list<Event> expectedEvents = {}){
+        ASSERT_STATE(StartState);
+        for (auto & expectedEvent : expectedEvents){
+            ASSERT_EQ(client.get_last_event(), expectedEvent);
+        }
+        ASSERT_TRUE(client.empty());
+    }
 };
 
 

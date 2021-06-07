@@ -16,16 +16,24 @@ INIT_STM_TEST(testReceiveWrpcStm, ReceiveWrpcContext, ::logic::datamodel::UnitTy
 
 
 TEST_F(testReceiveWrpcStm, BeginsInRightState){
-    ASSERT_STATE(BeltNotRunning);
+    test_start_state<BeltNotRunning>({
+        {EventType::EVNT_ACT_BELT_STP}
+    });
 }
 
 TEST_F(testReceiveWrpcStm, Transition) {
+    test_start_state<BeltNotRunning>({
+        {EventType::EVNT_ACT_BELT_STP}
+    });
     data._operating_mode = ::logic::datamodel::OperatingMode::RUNNING;
     test_transition_to<BeltRunning>({EventType::EVNT_SEN_LB_ST_BLCK}, {{EventType::EVNT_ACT_BELT_FWD}});
     test_transition_to<BeltNotRunning>({EventType::EVNT_ACT_BELT_STP}, {EventType::EVNT_ACT_BELT_STP});
 }
 
 TEST_F(testReceiveWrpcStm, BlockingIfNotRunning) {
+    test_start_state<BeltNotRunning>({
+        {EventType::EVNT_ACT_BELT_STP}
+    });
     data._operating_mode = ::logic::datamodel::OperatingMode::ESTOP;
     test_transition_to<BeltNotRunning>({EventType::EVNT_SEN_LB_ST_BLCK}, {});
 }

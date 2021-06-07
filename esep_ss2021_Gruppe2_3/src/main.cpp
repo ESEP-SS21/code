@@ -8,6 +8,7 @@
 #include <thread>
 #include <chrono>
 #include "DemoClient.h"
+#include "logic/stm/StmOperationManager/operation_manager_client.h"
 #include "dispatcher/Event.h"
 #include <sys/dispatch.h>
 #include "dispatcher/cnnMngmnt/QnxChannel.h"
@@ -16,6 +17,7 @@
 #include "timer/AsyncTimerService.h"
 #include "argument_parser.hpp"
 #include "logic/util/heartbeat_client.h"
+#include "logic/datamodel/unit_data.h"
 
 #ifdef TEST_ENABLE
 #include <gtest/gtest.h>
@@ -84,7 +86,9 @@ int main(int argc, char **argv) {
         _logger->set_level(spdlog::level::info);
 
     Clients clients;
-    DemoClient client(args->mode.str, "DEMO");
+    //DemoClient client(args->mode.str, "DEMO");
+    logic::datamodel::UnitData data(logic::datamodel::UnitType::PRIMARY);
+    logic::stm::operationManagerStm::OperationManagerClient op_mngr(args->mode.str, &data);
     wait_for_exit();
 
     return 0;

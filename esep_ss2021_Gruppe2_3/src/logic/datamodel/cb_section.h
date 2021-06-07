@@ -14,8 +14,9 @@ public:
     virtual ~CBSection() = default;
 
     int workpiece_count() const;
-    const Workpiece& first_workpiece() const;
-    const Workpiece& last_workpiece() const;
+    bool empty() const;
+    Workpiece& first_workpiece() const;
+    Workpiece& last_workpiece() const;
     void enter_workpiece(const Workpiece&) const;
     void transfer_first_workpiece() const;
     void exit_first_workpiece() const;
