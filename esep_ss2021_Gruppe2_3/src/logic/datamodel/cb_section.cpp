@@ -20,12 +20,12 @@ int CBSection::workpiece_count() const {
     return static_cast<int>(this->_queue->size());
 }
 
-const Workpiece &CBSection::last_workpiece() const {
+Workpiece &CBSection::last_workpiece() const {
     const std::lock_guard<std::mutex> lock(_section_mutex);
     return this->_queue->back();
 }
 
-const Workpiece &CBSection::first_workpiece() const {
+Workpiece &CBSection::first_workpiece() const {
     const std::lock_guard<std::mutex> lock(_section_mutex);
     return this->_queue->front();
 }
@@ -54,6 +54,10 @@ void CBSection::transfer_first_workpiece() const {
 
 std::shared_ptr<CBSection> CBSection::get_next_section() const {
     return _next_section;
+}
+
+bool CBSection::empty() const {
+    return _queue->empty();
 }
 
 } /* namespace datamodel */
