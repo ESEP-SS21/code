@@ -10,22 +10,26 @@ namespace logic {
 namespace stm {
 
 using namespace ::logic::stm::StmMetalDetection;
+using namespace ::logic::datamodel;
 
-INIT_STM_TEST(testMetalDetection, MetalDetectionContext,
-        ::logic::datamodel::UnitType::PRIMARY)
+INIT_STM_TEST(testMetalDetection, MetalDetectionContext, UnitType::PRIMARY)
 
 TEST_F(testMetalDetection, BeginsInRightState) {
     ASSERT_STATE(MetalDetection);
 }
 
 TEST_F(testMetalDetection, MetalWasDetected) {
-    ::logic::datamodel::Workpiece wrpc;
+    data._operating_mode = OperatingMode::RUNNING;
+    Workpiece wrpc;
     data.get_start_height_sec()->enter_workpiece(wrpc);
-    data._operating_mode = ::logic::datamodel::OperatingMode::RUNNING;
     test_transition_to<MetalDetection>( { EventType::EVNT_SEN_METAL_DTC});
     ASSERT_EQ(data.get_start_height_sec()->first_workpiece().is_metallic, true);
 }
 
+TEST_F(testMetalDetection, NoWrpcsInSection) {
+    data._operating_mode = OperatingMode::RUNNING;
+    test_transition_to<MetalDetection>( { EventType::EVNT_SEN_METAL_DTC});
+}
 
 }
 }
