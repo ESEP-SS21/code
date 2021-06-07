@@ -1,6 +1,6 @@
 #include "recieve_wrpc_context.h"
 #include "recieve_wrpc_base_state.h"
-#include "states/sub_belt_not_running.h"
+#include "sub_belt_states.h"
 
 namespace logic {
 namespace stm {
