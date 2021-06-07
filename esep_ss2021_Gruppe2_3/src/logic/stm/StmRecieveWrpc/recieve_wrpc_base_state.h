@@ -5,20 +5,15 @@
 
 namespace logic {
 namespace stm {
-namespace recieveWrpcStm {
+namespace receiveWrpcStm {
 
-class RecieveWrpcBaseState : public BaseBaseState {
+class ReceiveWrpcBaseState : public BaseBaseState {
 
 public:
-    RecieveWrpcBaseState() = default;
+    ReceiveWrpcBaseState() = default;
 
-    virtual bool lb_st_blck(){return false;}
-    virtual bool belt_stp(){return false;}
-    virtual bool belt_fwd(){return false;}
-    virtual void entry(){}
-    virtual void exit(){}
-    virtual void entry_history(){};
-    virtual void reset_to_start(){};
+    virtual void entry() {}
+    virtual void exit() {}
 };
 
 }
