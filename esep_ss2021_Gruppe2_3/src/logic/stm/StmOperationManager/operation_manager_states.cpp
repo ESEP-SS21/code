@@ -284,6 +284,7 @@ STATE_INIT(Service)
 
 void Service::entry() {
     _datamodel->_operating_mode = OperatingMode::SERVICE;
+    _eventSender->send({EventType::EVNT_ACT_STPL_LED_BLNK_SLW,Color::YELLOW});
 }
 
 bool Service::estop_on() {
