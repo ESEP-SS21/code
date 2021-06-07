@@ -1,6 +1,7 @@
 #include <logic/datamodel/unit_data.h>
 
 #include <utility>
+#include <iostream>
 
 namespace logic {
 namespace datamodel {

@@ -16,7 +16,7 @@ bool Discard::tim_alrt(int tim_id){
     bool handled = false;
     if(tim_id == static_cast<uint16_t>(dispatcher::TimerID::SORT_WRPC_STUCK)) {
         exit();
-        new(this) WrpcStuck;
+        switch_state<WrpcStuck>();
         entry();
         handled = true;
     }

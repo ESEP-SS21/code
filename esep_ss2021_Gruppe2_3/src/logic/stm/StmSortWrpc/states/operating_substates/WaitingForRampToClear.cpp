@@ -10,9 +10,9 @@ STATE_INIT(WaitingForRampToClear)
 
 bool WaitingForRampToClear::tim_alrt(int tim_id){
     bool handled = false;
-    if(tim_id == static_cast<uint16_t>(dispatcher::TimerID::SORT_WRPC_FULL)) {
+    if(dispatcher::TimerID(tim_id) == dispatcher::TimerID::SORT_WRPC_FULL) {
         exit();
-        new(this) RampFull;
+        switch_state<RampFull>();
         entry();
         handled = true;
     }
@@ -21,7 +21,7 @@ bool WaitingForRampToClear::tim_alrt(int tim_id){
 
 bool WaitingForRampToClear::lb_ra_clr(){
     exit();
-    new(this) WaitingForWrpc;
+    switch_state<WaitingForWrpc>();
     entry();
     return true;
 }

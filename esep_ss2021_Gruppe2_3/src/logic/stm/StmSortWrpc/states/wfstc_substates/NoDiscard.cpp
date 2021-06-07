@@ -14,7 +14,7 @@ void NoDiscard::entry(){
 bool NoDiscard::lb_sw_clr(){
     _datamodel->get_height_switch_sec()->transfer_first_workpiece();
     exit();
-    new(this) WaitingToPass;
+    switch_state<WaitingToPass>();
     entry();
     return true;
 }

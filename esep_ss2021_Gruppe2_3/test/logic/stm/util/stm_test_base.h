@@ -4,6 +4,7 @@
 #include <gtest/gtest.h>
 #include "stm_test_client.h"
 #include <logic/datamodel/unit_data.h>
+#include <iostream>
 
 namespace test {
 namespace logic {
@@ -29,6 +30,10 @@ public:
         ASSERT_STATE(StateAfter);
         for (auto & expectedEvent : expectedEvents){
             ASSERT_EQ(client.get_last_event(), expectedEvent);
+        }
+        if(!client.empty()){
+            std::cout << client.get_last_event().str() << std::endl;
+            ASSERT_TRUE(false && "event was send unexpectedly");
         }
         ASSERT_TRUE(client.empty());
     }

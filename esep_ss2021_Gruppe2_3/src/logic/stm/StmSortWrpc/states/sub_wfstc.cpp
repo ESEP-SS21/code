@@ -15,7 +15,7 @@ bool SubWfstc::lb_sw_clr() {
         _datamodel->get_height_switch_sec()->exit_first_workpiece();
         _wfstc_substate->exit();
         exit();
-        new (this) SubOperating;
+        switch_state<SubOperating>();
         entry();
         entry_waiting_for_ramp_to_clear();
     }
@@ -24,11 +24,11 @@ bool SubWfstc::lb_sw_clr() {
 
 bool SubWfstc::tim_alrt(int tim_id) {
     bool handled = _wfstc_substate->tim_alrt(tim_id);
-    if (tim_id == static_cast<uint32_t>(dispatcher::TimerID::SORT_WRPC_NO_DISCARD_PASS)) {
+    if (dispatcher::TimerID(tim_id) == dispatcher::TimerID::SORT_WRPC_NO_DISCARD_PASS) {
         if (!handled && _wfstc_substate->has_super_exit_with_tim_alrt()) {
             _wfstc_substate->exit();
             exit();
-            new (this) SubOperating;
+            switch_state<SubOperating>();
             entry();
             entry_history();
         }

@@ -11,6 +11,7 @@ INIT_SUB_STM(SubOperating, WaitingForWrpc, _operating_substate)
 
 bool SubOperating::lb_sw_blck() {
     bool handled = _operating_substate->lb_sw_blck();
+
     // WaitingForWrpc -> NoDiscard / Discard
     if (!handled) {
         if (_operating_substate->has_super_exit_with_lb_sw_blck_from_waiting_for_wrpc()) {
@@ -18,13 +19,13 @@ bool SubOperating::lb_sw_blck() {
             if (_datamodel->wrpc_fits_order(unchecked_wrpc)) { // in sorting order
                 _operating_substate->exit();
                 exit();
-                new (this) SubWfstc;
+                switch_state<SubWfstc>();
                 entry();
                 entry_wfstc();
             } else { // not in sorting order
                 _operating_substate->exit();
                 exit();
-                new (this) SubWfstc;
+                switch_state<SubWfstc>();
                 entry();
                 entry_discard();
             }
@@ -34,7 +35,7 @@ bool SubOperating::lb_sw_blck() {
             if (_datamodel->_unit_type == UnitType::PRIMARY) {
                 _operating_substate->exit();
                 exit();
-                new (this) SubWfstc;
+                switch_state<SubWfstc>();
                 entry();
                 entry_wfstc();
             }

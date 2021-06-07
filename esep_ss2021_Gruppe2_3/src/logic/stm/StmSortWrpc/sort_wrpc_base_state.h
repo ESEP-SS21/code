@@ -32,8 +32,8 @@ public:
 
 protected:
     bool _ramp_already_cleared = true;
-    SortWrpcBaseState *_operating_substate {nullptr};
-    SortWrpcBaseState *_wfstc_substate {nullptr};
+    SortWrpcBaseState *_operating_substate;
+    SortWrpcBaseState *_wfstc_substate;
 };
 
 }

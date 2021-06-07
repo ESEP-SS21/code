@@ -21,7 +21,7 @@ bool RampFull::lb_sw_blck(){
 
 bool RampFull::lb_ra_clr(){
     exit();
-    new(this) WaitingForWrpc;
+    switch_state<WaitingForWrpc>();
     _datamodel->_ramp_full = false;
     entry();
     return true;
