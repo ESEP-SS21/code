@@ -6,8 +6,11 @@ namespace sortWrpcStm {
 
 STATE_INIT(WaitingToPass)
 
+using namespace ::dispatcher;
+
 void WaitingToPass::entry(){
-    dispatcher::Event::CreateTimer(dispatcher::TimerID::SORT_WRPC_NO_DISCARD_PASS, PASS_TIME_MS, false);
+    Event e = Event::CreateTimer(TimerID::SORT_WRPC_NO_DISCARD_PASS, PASS_TIME_MS, false);
+    _eventSender->send(e);
 }
 
 bool WaitingToPass::has_super_exit_with_tim_alrt() {
