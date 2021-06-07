@@ -10,6 +10,6 @@ STATE_INIT(Waiting)
 
 
 
-} /* namespace StmAnswerTransferReq */
+} /* namespace StmWpTransfer */
 } /* namespace stm */
 } /* namespace logic */
