@@ -18,15 +18,29 @@ public:
             {EventType::EVNT_ACT_STPL_LED_ON,::hal::Color::YELLOW},
             {EventType::EVNT_ACT_CTRL_T_STR_LED_ON}
         });
-        test_transition_to<Running>({EventType::EVNT_CTRL_T_STR_PRS_SRT},
-                {
-                        {EventType::EVNT_ACT_STPL_LED_OFF,::hal::Color::YELLOW},
-                        {EventType::EVNT_ACT_CTRL_T_STR_LED_OFF},
-                        {EventType::EVNT_RST_TO_SRT},
-                        {EventType::EVNT_ACT_STPL_LED_ON, ::hal::Color::GREEN},
+        if(data._estop_triggered){
+            test_transition_to<Running>({EventType::EVNT_CTRL_T_STR_PRS_SRT},
+                    {
+                            {EventType::EVNT_ACT_STPL_LED_OFF,::hal::Color::YELLOW},
+                            {EventType::EVNT_ACT_CTRL_T_STR_LED_OFF},
+                            {EventType::EVNT_RST_TO_SRT},
+                            {EventType::EVNT_ACT_STPL_LED_ON, ::hal::Color::GREEN},
 
-                });
-        ASSERT_EQ(data._operating_mode , ::logic::datamodel::OperatingMode::RUNNING);
+                    });
+            ASSERT_EQ(data._operating_mode , ::logic::datamodel::OperatingMode::RUNNING);
+        }
+        else{
+            test_transition_to<Running>({EventType::EVNT_CTRL_T_STR_PRS_SRT},
+                    {
+                            {EventType::EVNT_ACT_STPL_LED_OFF,::hal::Color::YELLOW},
+                            {EventType::EVNT_ACT_CTRL_T_STR_LED_OFF},
+                            {EventType::EVNT_HIST},
+                            {EventType::EVNT_ACT_STPL_LED_ON, ::hal::Color::GREEN},
+
+                    });
+            ASSERT_EQ(data._operating_mode , ::logic::datamodel::OperatingMode::RUNNING);
+        }
+
     }
 };
 
@@ -196,6 +210,7 @@ TEST_F(testOperationManager, EStop) {
                     {EventType::EVNT_ACT_CTRL_T_RST_LED_ON},
 
             });
+    ASSERT_TRUE(data._estop_triggered);
     ASSERT_EQ(data._estop_count,1);
     ASSERT_EQ(data._operating_mode , ::logic::datamodel::OperatingMode::ESTOP);
 

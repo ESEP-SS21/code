@@ -56,6 +56,7 @@ bool Running::wrn_gone() {
 }
 
 void Running::entry() {
+    _datamodel->_estop_triggered = false;
     _eventSender->send({ EventType::EVNT_ACT_STPL_LED_ON, Color::GREEN, false });
 }
 
@@ -71,7 +72,11 @@ bool Idle::str_prs_srt() {
     exit();
     _datamodel->_operating_mode = OperatingMode::RUNNING;
     switch_state<Running>();
-    _eventSender->send({EventType::EVNT_RST_TO_SRT});
+    if(_datamodel->_estop_triggered){
+        _eventSender->send({EventType::EVNT_RST_TO_SRT});
+    }else{
+        _eventSender->send({EventType::EVNT_HIST});
+    }
     entry();
     return true;
 }
@@ -133,6 +138,7 @@ bool EStop::estop_off() {
 }
 
 void EStop::entry(){
+    _datamodel->_estop_triggered = true;
     _datamodel->_operating_mode = OperatingMode::ESTOP;
     _eventSender->send({ EventType::EVNT_ACT_STPL_LED_BLNK_SLW, Color::RED, false });
     _eventSender->send({ EventType::EVNT_ACT_CTRL_T_RST_LED_ON});
