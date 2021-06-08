@@ -13,12 +13,14 @@ using namespace dispatcher;
 Type::Type(IEventSender *eventSender, UnitData *datamodel) :\
     BaseContext(new StartState, datamodel, eventSender, #Type) {}
 
+
 class BaseContext {
 public:
 
     BaseContext( logic::stm::BaseBaseState *state, UnitData *datamodel, IEventSender *eventSender, char* name)
         : _state(state) , _datamodel(datamodel) {
         _state->SetData(eventSender, datamodel, name);
+        _state->entry();
     }
 
     virtual void handle(Event e) = 0;
