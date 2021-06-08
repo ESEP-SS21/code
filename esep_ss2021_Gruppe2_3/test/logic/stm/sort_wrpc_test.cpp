@@ -43,7 +43,7 @@ TEST_F(testSortWrpc, WrpcFitsInSortingOrder) {
     test_transition_to<WaitingForWrpc>( { EventType::EVNT_TIM_ALRT,
             static_cast<int>(TimerID::SORT_WRPC_NO_DISCARD_PASS) }, {
             { EventType::EVNT_ACT_SORT_RST } });
-    ASSERT_EQ(wrpc, data.get_height_switch_sec()->first_workpiece());
+    ASSERT_EQ(0, data.get_height_switch_sec()->workpiece_count());
     ASSERT_EQ(wrpc, data.get_switch_end_sec()->last_workpiece());
 }
 
