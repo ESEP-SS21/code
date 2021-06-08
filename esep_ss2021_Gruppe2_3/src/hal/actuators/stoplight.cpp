@@ -1,6 +1,7 @@
 #include "../actuators/stoplight.h"
 
 namespace hal {
+using namespace dispatcher;
 
 Stoplight::Stoplight(std::shared_ptr<GPIOWrapper> gpio) :
         _blinker(gpio) {
