@@ -49,7 +49,6 @@ public:
     bool belt_empty();
 
     std::atomic<bool> _belt_blocked{false};
-    //std::atomic<bool> _belt_empty{true};
     std::atomic<bool> _ramp_full{false};
     std::atomic<int> _estop_count{0};
     std::atomic<int> _warning_count{0};
