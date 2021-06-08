@@ -20,9 +20,9 @@ private:
 public:
     Stoplight(std::shared_ptr<GPIOWrapper>);
     virtual ~Stoplight();
-    void enable(Color);
-    void disable(Color);
-    void blink(Color, Speed);
+    void enable(dispatcher::Color);
+    void disable(dispatcher::Color);
+    void blink(dispatcher::Color, Speed);
 };
 
 }
