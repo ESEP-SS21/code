@@ -65,6 +65,7 @@ bool Blocked::ack() {
     exit();
     switch_state<WaitingForWpToLeave>();
     entry();
+    return true;
 }
 
 
