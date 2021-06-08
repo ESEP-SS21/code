@@ -1,0 +1,15 @@
+/*
+ * error_listener_context.h
+ *
+ *  Created on: 08.06.2021
+ *      Author: jendr
+ */
+
+#ifndef SRC_LOGIC_STM_STMERRORLISTENER_ERROR_LISTENER_CONTEXT_H_
+#define SRC_LOGIC_STM_STMERRORLISTENER_ERROR_LISTENER_CONTEXT_H_
+
+
+
+
+
+#endif /* SRC_LOGIC_STM_STMERRORLISTENER_ERROR_LISTENER_CONTEXT_H_ */
