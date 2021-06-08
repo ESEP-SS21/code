@@ -176,8 +176,9 @@ TEST_F(testSortWrpcSecondary, DiscardButRampFullError) {
     data.get_height_switch_sec()->enter_workpiece(wrpc_discard_2);
 
     // RampFull -> RampFull
+    Event error_event {EventType::EVNT_ERR, static_cast<int>(::logic::datamodel::Error::RAMP_FULL), true};
     test_transition_to<RampFull>( { EventType::EVNT_SEN_LB_SW_BLCK },
-            { { Event::CreateError(EventType::EVNT_SEN_LB_RA_CLR) } });
+            { {error_event} });
     ASSERT_TRUE(data._ramp_full);
 
 }
