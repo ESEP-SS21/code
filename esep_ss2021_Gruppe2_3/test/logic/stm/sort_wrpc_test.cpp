@@ -43,8 +43,8 @@ TEST_F(testSortWrpc, WrpcFitsInSortingOrder) {
     test_transition_to<WaitingForWrpc>( { EventType::EVNT_TIM_ALRT,
             static_cast<int>(TimerID::SORT_WRPC_NO_DISCARD_PASS) }, {
             { EventType::EVNT_ACT_SORT_RST } });
-    ASSERT_FALSE(wrpc == data.get_height_switch_sec()->first_workpiece());
-    ASSERT_TRUE(wrpc == data.get_switch_end_sec()->last_workpiece());
+    ASSERT_EQ(wrpc, data.get_height_switch_sec()->first_workpiece());
+    ASSERT_EQ(wrpc, data.get_switch_end_sec()->last_workpiece());
 }
 
 TEST_F(testSortWrpc, WrpcStuck) {
@@ -64,8 +64,8 @@ TEST_F(testSortWrpc, WrpcStuck) {
             EventType::EVNT_WRN_GONE }, { EventType::EVNT_ACT_SORT_RST }, {
             EventType::EVNT_ACT_BELT_STP }, { Event::CreateTimer(TimerID::SORT_WRPC_FULL, 200) } });
 
-    ASSERT_FALSE(wrpc == data.get_height_switch_sec()->first_workpiece());
-    //ASSERT_FALSE(wrpc == data.get_switch_end_sec()->last_workpiece());
+    ASSERT_EQ(wrpc, data.get_height_switch_sec()->first_workpiece());
+    //ASSERT_EQ(wrpc, data.get_switch_end_sec()->last_workpiece());
 }
 
 } /* namespace stm */
