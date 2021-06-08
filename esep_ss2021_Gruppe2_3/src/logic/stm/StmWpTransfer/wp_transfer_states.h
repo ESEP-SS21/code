@@ -33,8 +33,6 @@ class WaitingForWpToLeave: public WpTransferBaseState {
 public:
     STATE_HEADER_INIT
     bool lb_en_clr() override;
-private:
-    bool warning = false;
 };
 
 class WaitingForFinTransfer: public WpTransferBaseState {

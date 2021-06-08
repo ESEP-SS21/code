@@ -71,10 +71,6 @@ bool Blocked::ack() {
 
 bool WaitingForWpToLeave::lb_en_clr() {
     _datamodel->get_switch_end_sec()->exit_first_workpiece();
-    if (warning) {
-        _eventSender->send( { EventType::EVNT_WRN_GONE, 0, true });
-        warning = false;
-    }
     exit();
     switch_state<WaitingForFinTransfer>();
     entry();
