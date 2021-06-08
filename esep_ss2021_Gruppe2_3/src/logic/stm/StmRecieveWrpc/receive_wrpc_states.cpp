@@ -23,6 +23,7 @@ bool BeltNotRunning::handle(const Event &event) {
             bool belt_blocked = _datamodel->_belt_blocked;
             if (_datamodel->_unit_type == UnitType::SECONDARY) {
                 _datamodel->get_start_height_sec()->enter_workpiece(*_datamodel->get_pending_transfer());
+                _datamodel->_belt_blocked = true;
             } else {
                 datamodel::Workpiece new_wrpc;
                 _datamodel->get_start_height_sec()->enter_workpiece(new_wrpc);
@@ -57,6 +58,7 @@ bool BeltRunning::handle(const Event &event) {
         case EventType::EVNT_SEN_LB_ST_BLCK:
             if (_datamodel->_unit_type == UnitType::SECONDARY) {
                 _datamodel->get_start_height_sec()->enter_workpiece(*_datamodel->get_pending_transfer());
+                _datamodel->_belt_blocked = true;
             } else {
                 datamodel::Workpiece new_wrpc;
                 _datamodel->get_start_height_sec()->enter_workpiece(new_wrpc);
