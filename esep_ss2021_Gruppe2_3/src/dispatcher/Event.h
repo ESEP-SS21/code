@@ -69,7 +69,8 @@ enum class EventType { //make sure to add a string representation for each value
 
 enum class TimerID
     :uint16_t {
-        HEARTBEAT, SORT_WRPC_STUCK, SORT_WRPC_FULL, WRPC_TRANSFER_BLOCKED,
+        HEARTBEAT, SORT_WRPC_STUCK, SORT_WRPC_FULL, WRPC_TRANSFER_BLOCKED, WRPC_TRANSFER_WAIT4EXIT,
+        WRPC_TRANSFER_LAST_REMAINING_WRPC
 };
 
 inline std::ostream& operator<<(std::ostream& out, const EventType& e) {

@@ -48,7 +48,6 @@ void NotBlocked::entry() {
 }
 
 bool NotBlocked::ack() {
-    _eventSender->send( { EventType::EVNT_ACK, 0, true });
     exit();
     switch_state<WaitingForWpToLeave>();
     entry();
@@ -69,9 +68,9 @@ bool Blocked::ack() {
 
 bool WaitingForWpToLeave::tim_alrt(int tim_id) {
     bool handled = false;
-    if (TimerID(tim_id) == TimerID::WRPC_TRANSFER_BLOCKED) {
+    if (TimerID(tim_id) == TimerID::WRPC_TRANSFER_WAIT4EXIT) {
         _eventSender->send( { EventType::EVNT_WRN, 0, true });
-        if (warning == false) {
+        if (!warning) {
             warning = true;
         }
         exit();
@@ -83,13 +82,13 @@ bool WaitingForWpToLeave::tim_alrt(int tim_id) {
 }
 
 void WaitingForWpToLeave::entry() {
-    Event e = Event::CreateTimer(TimerID::WRPC_TRANSFER_BLOCKED, 2000, false);
+    Event e = Event::CreateTimer(TimerID::WRPC_TRANSFER_WAIT4EXIT, 2000, false);
     _eventSender->send(e);
 }
 
 bool WaitingForWpToLeave::lb_en_clr() {
-    _datamodel->get_start_height_sec()->exit_first_workpiece();
-    if (warning == true) {
+    _datamodel->get_switch_end_sec()->exit_first_workpiece();
+    if (warning) {
         _eventSender->send( { EventType::EVNT_WRN_GONE, 0, true });
         warning = false;
     }
@@ -101,10 +100,10 @@ bool WaitingForWpToLeave::lb_en_clr() {
 
 bool WaitingForFinTransfer::tim_alrt(int tim_id) {
     bool handled = false;
-    if (TimerID(tim_id) == TimerID::WRPC_TRANSFER_BLOCKED) {
-        if (_datamodel->_belt_empty) {
-            _eventSender->send( { EventType::EVNT_ACT_BELT_STP, 0, true });
-        }
+    if (TimerID(tim_id) == TimerID::WRPC_TRANSFER_LAST_REMAINING_WRPC) {
+        //if (_datamodel->belt_empty()) {
+        //    _eventSender->send( { EventType::EVNT_ACT_BELT_STP });
+        //}
         exit();
         switch_state<Waiting>();
         entry();
@@ -114,7 +113,7 @@ bool WaitingForFinTransfer::tim_alrt(int tim_id) {
 }
 
 void WaitingForFinTransfer::entry() {
-    Event e = Event::CreateTimer(TimerID::WRPC_TRANSFER_BLOCKED, 500, false);
+    Event e = Event::CreateTimer(TimerID::WRPC_TRANSFER_LAST_REMAINING_WRPC, 500, false);
     _eventSender->send(e);
 }
 
