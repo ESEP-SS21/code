@@ -101,9 +101,9 @@ bool WaitingForWpToLeave::lb_en_clr() {
 bool WaitingForFinTransfer::tim_alrt(int tim_id) {
     bool handled = false;
     if (TimerID(tim_id) == TimerID::WRPC_TRANSFER_LAST_REMAINING_WRPC) {
-        //if (_datamodel->belt_empty()) {
-        //    _eventSender->send( { EventType::EVNT_ACT_BELT_STP });
-        //}
+        if (_datamodel->belt_empty()) {
+            _eventSender->send( { EventType::EVNT_ACT_BELT_STP });
+        }
         exit();
         switch_state<Waiting>();
         entry();

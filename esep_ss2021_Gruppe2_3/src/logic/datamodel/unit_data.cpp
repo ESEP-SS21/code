@@ -49,5 +49,11 @@ void UnitData::set_pending_transfer(std::shared_ptr<Workpiece> wrpc) {
     _pending_transfer = std::move(wrpc);
 }
 
+bool UnitData::belt_empty() {
+    return (get_start_height_sec()->workpiece_count() == 0)
+            && (get_height_switch_sec()->workpiece_count() == 0)
+            && (get_switch_end_sec()->workpiece_count() == 0);
+}
+
 } /* namespace datamodel */
 } /* namespace logic */

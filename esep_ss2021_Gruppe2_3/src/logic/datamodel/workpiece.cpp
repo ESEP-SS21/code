@@ -63,7 +63,14 @@ WorkpieceType Workpiece::determine_type_internal(int height) {
 }
 
 void Workpiece::print_wrpc_data() {
-    std::cout << " Workpiece wird gedruckt!! " << std::endl;
+    std::cout << "--------------------------" << std::endl;
+    std::cout << "Workpiece " << this->get_id() << std::endl;
+    std::cout << "Type: " << static_cast<int>(this->get_type()) << std::endl;
+    std::cout << "Height 1: " << this->height_1 << std::endl;
+    std::cout << "Height 2: " << this->height_2 << std::endl;
+    std::cout << "Metallic: " << this->is_metallic << std::endl;
+    std::cout << "Flipped: " << this->is_flipped << std::endl;
+    std::cout << "--------------------------" << std::endl;
 }
 
 } /* namespace datamodel */
