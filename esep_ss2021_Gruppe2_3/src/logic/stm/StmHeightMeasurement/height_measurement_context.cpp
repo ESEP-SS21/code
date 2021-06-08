@@ -18,7 +18,7 @@ void HeightMeasurementContext::handle(Event e) {
     }
     switch (e.type) {
         case EventType::EVNT_SEN_LB_HE_BLCK:
-            state->lb_he_block();
+            state->lb_he_blck();
             return;
         case EventType::EVNT_HIST:
              state->entry_history();
