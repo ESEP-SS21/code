@@ -20,6 +20,7 @@ public:
     WorkpieceType get_type() const;
     id get_id() const;
     void determine_type();
+    void print_wrpc_data();
 
     /*
      * In 0.1mm

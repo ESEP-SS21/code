@@ -1,5 +1,7 @@
 #include <memory>
+#include <iostream>
 #include "workpiece.h"
+
 
 namespace logic {
 namespace datamodel {
@@ -58,6 +60,10 @@ WorkpieceType Workpiece::determine_type_internal(int height) {
             height_is_within_tolerance(height_low, height) ? WorkpieceType::WRPC_L :
             height_is_within_tolerance(height_high, height) ?
                     WorkpieceType::WRPC_H : WorkpieceType::Unknown;
+}
+
+void Workpiece::print_wrpc_data() {
+    std::cout << " Workpiece wird gedruckt!! " << std::endl;
 }
 
 } /* namespace datamodel */

@@ -21,8 +21,7 @@ bool Waiting::lb_en_blck() {
         entry();
     }
     if (_datamodel->_unit_type == UnitType::SECONDARY) {
-        //_datamodel->print_wrpc_data();
-        //TODO: print_wrpc_data() implementieren
+        _datamodel->get_switch_end_sec()->first_workpiece().print_wrpc_data();
         exit();
         switch_state<Waiting>();
         entry();
@@ -60,14 +59,6 @@ void Blocked::entry() {
     _eventSender->send( { EventType::EVNT_ACT_BELT_STP, 0, true });
 }
 
-void Blocked::entry_history() {
-    entry();
-}
-
-void Blocked::reset_to_start(){
-    switch_state<Waiting>();
-    entry();
-}
 bool Blocked::ack() {
     _datamodel->_belt_blocked = false;
     _eventSender->send( { EventType::EVNT_ACT_BELT_FWD, 0, true });
