@@ -21,6 +21,10 @@ enum class OperatingMode{
     SERVICE,
 };
 
+enum class Error{
+    RAMP_FULL,
+    NO_ERROR,
+};
 
 const std::initializer_list<OperatingMode> OperatingModesNotRunning =
     {OperatingMode::IDLE,
@@ -63,6 +67,7 @@ public:
     std::atomic<int> _warning_count{0};
     const UnitType _unit_type;
     std::atomic<OperatingMode> _operating_mode {OperatingMode::IDLE};
+    std::atomic<Error> _pending_error {Error::NO_ERROR};
     std::atomic<BeltState> _belt_state {BeltState::STOP};
     std::atomic<SorterState> _sorter_state {SorterState::NOTSET};
 
