@@ -56,7 +56,6 @@ bool Running::wrn_gone() {
 }
 
 void Running::entry() {
-    _datamodel->_estop_triggered = false;
     _eventSender->send({ EventType::EVNT_ACT_STPL_LED_ON, Color::GREEN, false });
 }
 
@@ -75,6 +74,7 @@ bool Idle::str_prs_srt() {
     if(_datamodel->_estop_triggered){
         _eventSender->send({EventType::EVNT_RST_TO_SRT});
     }else{
+        _datamodel->_estop_triggered = false;
         _eventSender->send({EventType::EVNT_HIST});
     }
     entry();
