@@ -1,5 +1,5 @@
 #include "operation_manager_states.h"
-#include "hal/hal.h"
+#include "dispatcher/color.h"
 
 namespace logic {
 namespace stm {

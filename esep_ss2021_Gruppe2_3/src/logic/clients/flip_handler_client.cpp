@@ -1,7 +1,7 @@
-#include <logic/util/flip_handler_client.h>
+#include <logic/clients/flip_handler_client.h>
 
 namespace logic {
-namespace util {
+namespace clients {
 
 using namespace dispatcher;
 

@@ -1,7 +1,7 @@
-#include <logic/util/heartbeat_client.h>
+#include <logic/clients/heartbeat_client.h>
 
 namespace logic {
-namespace util {
+namespace clients {
 
 using namespace dispatcher;
 

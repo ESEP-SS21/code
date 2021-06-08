@@ -13,6 +13,8 @@ GPIOWrapper::GPIOWrapper() {
     _bank_led = mmap_device_io(gpio_adresses::GPIO_SIZE,
             (uint64_t ) gpio_adresses::GPIO_BASE_BANK2);
     out32((uintptr_t ) (_bank_input + gpio_adresses::GPIO_OE), 0xFFFFFFFF); //set all pins to input
+    out32((uintptr_t ) (_bank_actuator + gpio_adresses::GPIO_OE), 0x00000000); //set all pins to input
+    out32((uintptr_t ) (_bank_led + gpio_adresses::GPIO_OE), 0x00000000); //set all pins to input
 }
 
 GPIOWrapper::~GPIOWrapper() {

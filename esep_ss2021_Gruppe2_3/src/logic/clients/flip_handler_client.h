@@ -6,7 +6,7 @@
 #include "logic/datamodel/encoded_workpiece.h"
 
 namespace logic {
-namespace util {
+namespace clients {
 
 class FlipHandlerClient: public dispatcher::DispatcherClient {
 public:
