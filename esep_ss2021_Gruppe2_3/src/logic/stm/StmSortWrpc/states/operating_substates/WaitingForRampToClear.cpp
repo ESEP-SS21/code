@@ -29,7 +29,7 @@ bool WaitingForRampToClear::lb_ra_clr(){
 }
 
 void WaitingForRampToClear::entry() {
-    if(_datamodel->_belt_empty) {
+    if(_datamodel->belt_empty()) {
         _eventSender->send( { EventType::EVNT_ACT_BELT_STP, 0, false } );
     }
     Event e = Event::CreateTimer(TimerID::SORT_WRPC_FULL, RA_CLR_TIME_TOLERANCE_MS, false);

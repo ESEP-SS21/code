@@ -9,6 +9,7 @@ STATE_INIT(NoDiscard)
 
 void NoDiscard::entry(){
     _eventSender->send( { EventType::EVNT_ACT_SORT_NO_DSC, 0, false } );
+    _datamodel->wrpc_order_step();
 }
 
 bool NoDiscard::lb_sw_clr(){
