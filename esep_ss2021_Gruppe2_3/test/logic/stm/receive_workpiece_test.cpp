@@ -83,6 +83,7 @@ TEST_F(testReceiveWrpcStmSecondary, TransitionSec) {
     test_transition_to<BeltRunning>({EventType::EVNT_SEN_LB_ST_BLCK});
     ASSERT_TRUE(data._belt_blocked);
     ASSERT_TRUE(data.get_start_height_sec()->workpiece_count() == 1);
+    ASSERT_EQ(data.get_start_height_sec()->first_workpiece(), *wrpc);
     test_transition_to<BeltNotRunning>({EventType::EVNT_ACT_BELT_STP}, {EventType::EVNT_ACT_BELT_STP});
 
 }
@@ -100,7 +101,7 @@ TEST_F(testReceiveWrpcStmSecondary, TransitionBeltNotBlockedSec) {
     test_transition_to<BeltRunning>({EventType::EVNT_SEN_LB_ST_BLCK}, {EventType::EVNT_ACT_BELT_FWD});
     ASSERT_TRUE(data._belt_blocked);
     ASSERT_TRUE(data.get_start_height_sec()->workpiece_count() == 1);
-
+    ASSERT_EQ(data.get_start_height_sec()->first_workpiece(), *wrpc);
 }
 
 TEST_F(testReceiveWrpcStmSecondary, TransitionBeltBlockedSec) {
@@ -114,7 +115,7 @@ TEST_F(testReceiveWrpcStmSecondary, TransitionBeltBlockedSec) {
     ASSERT_TRUE(data.get_start_height_sec()->workpiece_count() == 0);
     test_transition_to<BeltNotRunning>({EventType::EVNT_SEN_LB_ST_BLCK});
     ASSERT_TRUE(data.get_start_height_sec()->workpiece_count() == 1);
-
+    ASSERT_EQ(data.get_start_height_sec()->first_workpiece(), *wrpc);
 }
 
 }
