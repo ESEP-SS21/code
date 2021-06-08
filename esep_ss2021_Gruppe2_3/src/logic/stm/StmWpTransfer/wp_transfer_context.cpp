@@ -17,6 +17,9 @@ void WpTransferContext::handle(Event e) {
         return;
     }
     switch (e.type) {
+    case EventType::EVNT_TIM_ALRT:
+        state->tim_alrt(e.payload);
+        return;
     case EventType::EVNT_SEN_LB_EN_BLCK:
         state->lb_en_blck();
         return;

@@ -32,19 +32,76 @@ TEST_F(testWpTransferSecondary, TransferInSecondary) {
     test_transition_to<Waiting>( { EventType::EVNT_SEN_LB_EN_BLCK }, { });
 }
 
-TEST_F(testWpTransferPrimary, RegularTransferWithoutBlock) {
+TEST_F(testWpTransferPrimary, RegularTransferWithoutBlockLastRemaining) {
     data._operating_mode = OperatingMode::RUNNING;
     Workpiece wrpc = create_wp_hm();
     data.get_switch_end_sec()->enter_workpiece(wrpc);
 
     // Waiting -> NotBlocked
-    //test_transition_to<NotBlocked>( { EventType::EVNT_SEN_LB_EN_BLCK },
-    //        { { Event::CreateTimer(TimerID::WRPC_TRANSFER_BLOCKED, 50, false) }, {
-    //                EventType::EVNT_WRPC_TRNS_RQ } });
+    test_transition_to<NotBlocked>( { EventType::EVNT_SEN_LB_EN_BLCK },
+            { { EventType::EVNT_WRPC_TRNS_RQ, wrpc.encode().code, true }, { Event::CreateTimer(
+                    TimerID::WRPC_TRANSFER_BLOCKED, 50, false) } });
 
     // Waiting -> WaitingForWpToLeave
-    //test_transition_to<WaitingForWpToLeave>( { EventType::EVNT_ACK },
-    //        { { Event::CreateTimer(TimerID::WRPC_TRANSFER_WAIT4EXIT, 2000, false) } });
+    test_transition_to<WaitingForWpToLeave>( { EventType::EVNT_ACK, 0, true }, { });
+
+    // WaitingForWpToLeave -> WaitingForFinTransfer
+    test_transition_to<WaitingForFinTransfer>( { EventType::EVNT_SEN_LB_EN_CLR }, {
+            Event::CreateTimer(TimerID::WRPC_TRANSFER_LAST_REMAINING_WRPC, 500) });
+    ASSERT_TRUE(data.get_switch_end_sec()->workpiece_count() == 0);
+
+    // WaitingForFinTransfer -> Waiting
+    test_transition_to<Waiting>( { EventType::EVNT_TIM_ALRT,
+            static_cast<int>(TimerID::WRPC_TRANSFER_LAST_REMAINING_WRPC) }, { {
+            EventType::EVNT_ACT_BELT_STP } });
+}
+
+TEST_F(testWpTransferPrimary, RegularTransferWithoutBlockBeltNotEmptyYet) {
+    data._operating_mode = OperatingMode::RUNNING;
+    Workpiece wrpc_1 = create_wp_hm();
+    data.get_switch_end_sec()->enter_workpiece(wrpc_1);
+
+    // Waiting -> NotBlocked
+    test_transition_to<NotBlocked>( { EventType::EVNT_SEN_LB_EN_BLCK },
+            { { EventType::EVNT_WRPC_TRNS_RQ, wrpc_1.encode().code, true }, { Event::CreateTimer(
+                    TimerID::WRPC_TRANSFER_BLOCKED, 50, false) } });
+
+    // Waiting -> WaitingForWpToLeave
+    test_transition_to<WaitingForWpToLeave>( { EventType::EVNT_ACK, 0, true }, { });
+
+    // WaitingForWpToLeave -> WaitingForFinTransfer
+    test_transition_to<WaitingForFinTransfer>( { EventType::EVNT_SEN_LB_EN_CLR }, {
+            Event::CreateTimer(TimerID::WRPC_TRANSFER_LAST_REMAINING_WRPC, 500) });
+    ASSERT_TRUE(data.get_switch_end_sec()->workpiece_count() == 0);
+
+    Workpiece wrpc_2 = create_wp_l();
+    data.get_start_height_sec()->enter_workpiece(wrpc_2);
+
+    // WaitingForFinTransfer -> Waiting
+    test_transition_to<Waiting>( { EventType::EVNT_TIM_ALRT,
+            static_cast<int>(TimerID::WRPC_TRANSFER_LAST_REMAINING_WRPC) }, { });
+}
+
+TEST_F(testWpTransferPrimary, TransferAndBlock) {
+    data._operating_mode = OperatingMode::RUNNING;
+    Workpiece wrpc = create_wp_hm();
+    data.get_switch_end_sec()->enter_workpiece(wrpc);
+
+    // Waiting -> NotBlocked
+    test_transition_to<NotBlocked>( { EventType::EVNT_SEN_LB_EN_BLCK },
+            { { EventType::EVNT_WRPC_TRNS_RQ, wrpc.encode().code, true }, { Event::CreateTimer(
+                    TimerID::WRPC_TRANSFER_BLOCKED, 50, false) } });
+
+    // NotBlocked -> Blocked
+    test_transition_to<Blocked>( { EventType::EVNT_TIM_ALRT,
+            static_cast<int>(TimerID::WRPC_TRANSFER_BLOCKED) },
+            { { EventType::EVNT_ACT_BELT_STP } });
+    ASSERT_TRUE(data._belt_blocked);
+
+    // Blocked -> WaitingForWpToLeave
+    test_transition_to<WaitingForWpToLeave>( { EventType::EVNT_ACK, 0, true }, { {
+            EventType::EVNT_ACT_BELT_FWD } });
+    ASSERT_FALSE(data._belt_blocked);
 }
 
 } /* namespace stm */

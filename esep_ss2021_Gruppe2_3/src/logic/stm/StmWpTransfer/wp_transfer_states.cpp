@@ -1,4 +1,5 @@
 #include <logic/stm/StmWpTransfer/wp_transfer_states.h>
+#include <iostream>
 
 namespace logic {
 namespace stm {
@@ -55,36 +56,17 @@ bool NotBlocked::ack() {
 }
 
 void Blocked::entry() {
-    _eventSender->send( { EventType::EVNT_ACT_BELT_STP, 0, true });
+    _eventSender->send( { EventType::EVNT_ACT_BELT_STP, 0, false });
 }
 
 bool Blocked::ack() {
     _datamodel->_belt_blocked = false;
-    _eventSender->send( { EventType::EVNT_ACT_BELT_FWD, 0, true });
+    _eventSender->send( { EventType::EVNT_ACT_BELT_FWD, 0, false });
     exit();
     switch_state<WaitingForWpToLeave>();
     entry();
 }
 
-bool WaitingForWpToLeave::tim_alrt(int tim_id) {
-    bool handled = false;
-    if (TimerID(tim_id) == TimerID::WRPC_TRANSFER_WAIT4EXIT) {
-        _eventSender->send( { EventType::EVNT_WRN, 0, true });
-        if (!warning) {
-            warning = true;
-        }
-        exit();
-        switch_state<WaitingForWpToLeave>();
-        entry();
-        handled = true;
-    }
-    return handled;
-}
-
-void WaitingForWpToLeave::entry() {
-    Event e = Event::CreateTimer(TimerID::WRPC_TRANSFER_WAIT4EXIT, 2000, false);
-    _eventSender->send(e);
-}
 
 bool WaitingForWpToLeave::lb_en_clr() {
     _datamodel->get_switch_end_sec()->exit_first_workpiece();
