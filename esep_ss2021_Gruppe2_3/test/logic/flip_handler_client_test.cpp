@@ -1,6 +1,6 @@
+#include <logic/clients/flip_handler_client.h>
 #include "TestClient.h"
 #include "../../dispatcher/Event.h"
-#include "../../logic/util/flip_handler_client.h"
 #include "../../dispatcher/dispatcher.h"
 #include "../TestUtils.h"
 #include "../../logic/datamodel/unit_data.h"
@@ -14,7 +14,7 @@ namespace test {
 namespace logic {
 
 using namespace ::dispatcher;
-using namespace ::logic::util;
+using namespace ::logic::clients;
 using namespace ::logic::datamodel;
 
 class FlipHandlerTest: public ::testing::Test {

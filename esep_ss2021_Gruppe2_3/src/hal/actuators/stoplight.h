@@ -1,9 +1,9 @@
 #ifndef SRC_ACTUATORS_STOPLIGHT_H_
 #define SRC_ACTUATORS_STOPLIGHT_H_
 
+#include "../../dispatcher/color.h"
 #include "../gpiowrapper.h"
 #include "../actuators/BlinkWorker.h"
-#include "color.h"
 
 namespace hal {
 
