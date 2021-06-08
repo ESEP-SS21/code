@@ -14,19 +14,21 @@ file(GLOB_RECURSE stm_SRC
 
         "logic/datamodel/*.h"
         "logic/datamodel/*.cpp"
+
+        "logic/stm/*.h"
+        "logic/stm/*.cpp"
         )
 
 add_executable(Google_Tests_run
         ${stm_SRC}
         argument_parser_test.cpp
-        logic/stm/util/stm_test_client.h
-        logic/stm/util/stm_test_client.cpp
 
         ../src/dispatcher/Event.h
         ../src/dispatcher/IEventSender.h
-
+<<<<<<< HEAD
         logic/stm/receive_workpiece_test.cpp
-        logic/stm/metal_detection_test.cpp
-        logic/stm/answer_transfer_req_test.cpp
+        logic/stm/sort_wrpc_test.cpp
+=======
+>>>>>>> master
         )
 target_link_libraries(Google_Tests_run gtest gtest_main)

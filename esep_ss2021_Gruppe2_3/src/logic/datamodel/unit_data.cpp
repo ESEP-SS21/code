@@ -1,11 +1,13 @@
 #include <logic/datamodel/unit_data.h>
 
 #include <utility>
+#include <iostream>
 
 namespace logic {
 namespace datamodel {
 
-UnitData::UnitData(UnitType unit_type) : _unit_type(unit_type) {
+UnitData::UnitData(UnitType unit_type) :
+        _unit_type(unit_type) {
 
 }
 

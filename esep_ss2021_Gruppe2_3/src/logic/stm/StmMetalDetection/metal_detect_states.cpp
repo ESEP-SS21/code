@@ -8,12 +8,13 @@ STATE_INIT(MetalDetection)
 
 bool MetalDetection::metal_dtc() {
 
-    auto section = _datamodel->get_start_height_sec();
-    if (section->empty()) {
+    auto hs_section = _datamodel->get_height_switch_sec();
+    if (hs_section->workpiece_count() == 0) {
         std::cout << name << " Detected metal but there was no workpiece in the section" << std::endl;
         return true;
     }
-    section->first_workpiece().is_metallic = true;
+    hs_section->first_workpiece().is_metallic = true;
+    hs_section->first_workpiece().determine_type();
     return true;
 }
 

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <logic/stm/StmRecieveWrpc/sub_belt_states.h>
+#include <logic/stm/StmRecieveWrpc/receive_wrpc_states.h>
 
 #include "logic/stm/StmRecieveWrpc/recieve_wrpc_context.h"
 #include "util/stm_test_client.h"
@@ -10,18 +10,18 @@ namespace test {
 namespace logic {
 namespace stm {
 
-using namespace ::logic::stm::recieveWrpcStm;
+using namespace ::logic::stm::receiveWrpcStm;
 
-INIT_STM_TEST(testRecieveWrpcStm, RecieveWrpcContext, ::logic::datamodel::UnitType::PRIMARY)
+INIT_STM_TEST(testReceiveWrpcStm, ReceiveWrpcContext, ::logic::datamodel::UnitType::PRIMARY)
 
 
-TEST_F(testRecieveWrpcStm, BeginsInRightState){
+TEST_F(testReceiveWrpcStm, BeginsInRightState){
     test_start_state<BeltNotRunning>({
         {EventType::EVNT_ACT_BELT_STP}
     });
 }
 
-TEST_F(testRecieveWrpcStm, Transition) {
+TEST_F(testReceiveWrpcStm, Transition) {
     test_start_state<BeltNotRunning>({
         {EventType::EVNT_ACT_BELT_STP}
     });
@@ -30,7 +30,7 @@ TEST_F(testRecieveWrpcStm, Transition) {
     test_transition_to<BeltNotRunning>({EventType::EVNT_ACT_BELT_STP}, {EventType::EVNT_ACT_BELT_STP});
 }
 
-TEST_F(testRecieveWrpcStm, BlockingIfNotRunning) {
+TEST_F(testReceiveWrpcStm, BlockingIfNotRunning) {
     test_start_state<BeltNotRunning>({
         {EventType::EVNT_ACT_BELT_STP}
     });

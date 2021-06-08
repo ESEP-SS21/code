@@ -9,8 +9,6 @@
 
 namespace dispatcher {
 
-#define EVNT_PREFIX "EVNT_"
-
 enum class EventType { //make sure to add a string representation for each value
     EVNT_ERR = 0,
     EVNT_ERR_GONE,
@@ -69,7 +67,8 @@ enum class EventType { //make sure to add a string representation for each value
 
 enum class TimerID
     :uint16_t {
-        HEARTBEAT, SORT_WRPC_STUCK, SORT_WRPC_FULL, WRPC_TRANSFER_BLOCKED, WRPC_TRANSFER_LAST_REMAINING_WRPC
+        HEARTBEAT, SORT_WRPC_STUCK, SORT_WRPC_FULL, WRPC_TRANSFER_BLOCKED,
+        WRPC_TRANSFER_LAST_REMAINING_WRPC, SORT_WRPC_NO_DISCARD_PASS
 };
 
 inline std::ostream& operator<<(std::ostream& out, const EventType& e) {
@@ -128,9 +127,8 @@ inline std::ostream& operator<<(std::ostream& out, const EventType& e) {
             "EVNT_RST_TO_SRT",
 
     };
-    return out << EVNT_PREFIX << strs[static_cast<int>(e)];
+    return out << strs[static_cast<int>(e)];
 }
-
 
 inline std::string str(EventType et) {
     std::ostringstream buffer;
@@ -142,7 +140,6 @@ struct Event {
     EventType type;
     int payload;
     bool broadcast;
-
 
     Event() = default;
 
@@ -167,16 +164,21 @@ struct Event {
         return buffer.str();
     }
 
-    bool operator== (const Event& e) const{
+    bool operator==(const Event& e) const {
         return e.type == type && e.payload == payload;
     }
 
-    bool operator!= (const Event& e) const{
+    bool operator!=(const Event& e) const {
         return !(*this == e);
     }
 
     static inline Event CreateTimer(TimerID id, uint16_t time_ms, bool broadcast = false) {
-        return Event { dispatcher::EventType::EVNT_TIM_REQ, (static_cast<uint16_t>(id) << 16) + time_ms, broadcast };
+        return Event { dispatcher::EventType::EVNT_TIM_REQ, (static_cast<uint16_t>(id) << 16)
+                + time_ms, broadcast };
+    }
+
+    static inline Event CreateError(dispatcher::EventType fix) {
+        return Event { dispatcher::EventType::EVNT_ERR, static_cast<uint16_t>(fix), true };
     }
 
 private:
@@ -188,7 +190,6 @@ private:
         return evnt_id & (~0b01000000);
     }
 
-
 };
 
 struct EventSubscription {
@@ -199,7 +200,7 @@ struct EventSubscription {
 using nlohmann::json;
 
 inline void to_json(json& j, const Event& e) {
-    j = json{{"type", e.type}, {"payl", e.payload}, {"broad", e.broadcast}};
+    j = json { { "type", e.type }, { "payl", e.payload }, { "broad", e.broadcast } };
 }
 
 inline void from_json(const json& j, Event& e) {
