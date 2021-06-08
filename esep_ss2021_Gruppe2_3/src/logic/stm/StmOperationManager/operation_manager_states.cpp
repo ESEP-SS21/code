@@ -5,7 +5,7 @@ namespace logic {
 namespace stm {
 namespace operationManagerStm {
 
-using namespace hal;
+using namespace dispatcher;
 
 STATE_INIT(Running)
 

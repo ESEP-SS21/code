@@ -4,6 +4,8 @@
 
 namespace hal {
 
+using namespace dispatcher;
+
 BlinkWorker::BlinkWorker(std::shared_ptr<GPIOWrapper> gpio) :
         _gpio { gpio }, _running { true }, _duty_cycle { 1000 }, _color { hal::RED }, _interrupted{true} {
 }
