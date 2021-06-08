@@ -9,21 +9,21 @@ namespace StmWpTransfer {
 class Waiting: public WpTransferBaseState {
 public:
     STATE_HEADER_INIT
-    bool lb_en_blck();
-    bool wrpc_trans_req() override;
+    bool lb_en_blck() override;
 };
 
 class NotBlocked: public WpTransferBaseState {
 public:
     STATE_HEADER_INIT
     bool tim_alrt(int tim_id) override;
-    bool ack();
+    bool ack() override;
+    void entry() override;
 };
 
 class Blocked: public WpTransferBaseState {
 public:
     STATE_HEADER_INIT
-    bool ack();
+    bool ack() override;
 
 protected:
     void entry() override;
@@ -34,8 +34,9 @@ protected:
 class WaitingForWpToLeave: public WpTransferBaseState {
 public:
     STATE_HEADER_INIT
-    bool lb_en_clr();
-    bool tim_alrt(int tim_id);
+    bool lb_en_clr() override;
+    bool tim_alrt(int tim_id) override;
+    void entry() override;
 private:
     bool warning = false;
 };
@@ -43,8 +44,8 @@ private:
 class WaitingForFinTransfer: public WpTransferBaseState {
 public:
     STATE_HEADER_INIT
-    bool belt_stp();
-    bool tim_alrt(int tim_id);
+    bool tim_alrt(int tim_id) override;
+    void entry() override;
 };
 
 
