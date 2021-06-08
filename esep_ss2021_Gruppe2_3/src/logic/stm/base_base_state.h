@@ -41,7 +41,7 @@ protected:
 public:
     virtual ~BaseBaseState() = default;
 
-    virtual void SetData(IEventSender *eventSender,
+    void SetData(IEventSender *eventSender,
                  datamodel::UnitData *datamodel) {
         _datamodel = datamodel;
         _eventSender = eventSender;
