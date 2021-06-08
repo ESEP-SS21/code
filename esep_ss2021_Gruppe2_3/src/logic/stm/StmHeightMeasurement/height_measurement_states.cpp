@@ -8,8 +8,9 @@ STATE_INIT(WaitingForWorkpiece)
 STATE_INIT(WaitingForHeight)
 
 bool WaitingForWorkpiece::lb_he_blck() {
-    _datamodel->get_start_height_sec()->transfer_first_workpiece();
     exit();
+    _datamodel->get_start_height_sec()->transfer_first_workpiece();
+    _datamodel->_belt_blocked = false;
     switch_state<WaitingForHeight>();
     entry();
     _eventSender->send( { EventType::EVNT_SEN_HEIGHT_REQ, 0, true });
@@ -17,26 +18,39 @@ bool WaitingForWorkpiece::lb_he_blck() {
 }
 
 bool WaitingForHeight::he_sensor_he(int payload) {
+    exit();
     if (_datamodel->_unit_type == datamodel::UnitType::PRIMARY) {
-        _datamodel->get_start_height_sec()->first_workpiece().height_1 = payload;
-        _datamodel->get_start_height_sec()->transfer_first_workpiece();
-        exit();
+        auto section = _datamodel->get_start_height_sec();
+        if (section->empty()) {
+            std::cout << name << " No workpiece in section! " << std::endl;
+        } else {
+            section->first_workpiece().height_1 = payload;
+            section->transfer_first_workpiece();
+        }
         switch_state<WaitingForWorkpiece>();
         entry();
     }
 
     if (_datamodel->_unit_type == datamodel::UnitType::SECONDARY) {
-        _datamodel->get_start_height_sec()->first_workpiece().height_2 = payload;
-        if(_datamodel->get_start_height_sec()->first_workpiece().is_flipped){
-            auto enc_wrpc = _datamodel->get_start_height_sec()->first_workpiece().encode();
-            _eventSender->send({EventType::EVNT_WRPC_FLP, enc_wrpc.code, true});
+        auto section = _datamodel->get_start_height_sec();
+        if (section->empty()) {
+            std::cout << name << " No workpiece in section! " << std::endl;
+        } else {
+            section->first_workpiece().height_2 = payload;
+            if (section->first_workpiece().is_flipped) {
+                auto enc_wrpc = section->first_workpiece().encode();
+                _eventSender->send( { EventType::EVNT_WRPC_FLP, enc_wrpc.code, true });
+            }
+            section->transfer_first_workpiece();
         }
-        _datamodel->get_start_height_sec()->transfer_first_workpiece();
-        exit();
         switch_state<WaitingForWorkpiece>();
         entry();
     }
     return true;
+}
+void WaitingForHeight::entry() {
+    _eventSender->send( { EventType::EVNT_SEN_HEIGHT_REQ });
+
 }
 }
 }

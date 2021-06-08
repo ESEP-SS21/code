@@ -9,13 +9,14 @@ namespace StmHeightMeasurement {
 class WaitingForWorkpiece: public HeightMeasurementBaseState {
 public:
     STATE_HEADER_INIT
-    bool lb_he_blck();
+    bool lb_he_blck() override;
 };
 
 class WaitingForHeight: public HeightMeasurementBaseState {
 public:
     STATE_HEADER_INIT
-    bool he_sensor_he(int payload);
+    bool he_sensor_he(int payload) override;
+    void entry() override;
 };
 
 
