@@ -14,15 +14,18 @@ public:
 
 class notBlocked: public WpTransferBaseState {
 public:
-
+    STATE_HEADER_INIT
+    bool
 };
 
 class Blocked: public WpTransferBaseState {
 public:
+    STATE_HEADER_INIT
 };
 
 class WaitingForWpToLeave: public WpTransferBaseState {
 public:
+    STATE_HEADER_INIT
     bool lb_en_clr() override;
 };
 

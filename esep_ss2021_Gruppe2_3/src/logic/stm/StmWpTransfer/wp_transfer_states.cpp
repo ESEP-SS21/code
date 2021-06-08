@@ -8,7 +8,12 @@ using namespace dispatcher;
 
 STATE_INIT(Waiting)
 
+bool Waiting::lb_en_blck() {
 
+}
+
+STATE_INIT(NotBlocked)
+bool NotBlocked::
 
 } /* namespace StmWpTransfer */
 } /* namespace stm */
