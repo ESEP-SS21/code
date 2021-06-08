@@ -19,6 +19,12 @@ void ErrorListenerContext::handle(Event e) {
         case(EventType::EVNT_SEN_LB_RA_CLR):
             state->lb_ra_clr();
             return;
+        case(EventType::EVNT_SEN_ESTOP_ON):
+            state->estop_on();
+            return;
+        case(EventType::EVNT_CONN_LOST):
+            state->estop_on();
+            return;
         default:
             return;
     }
