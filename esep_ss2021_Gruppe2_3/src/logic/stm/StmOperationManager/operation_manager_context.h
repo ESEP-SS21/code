@@ -5,15 +5,14 @@
 
 namespace logic {
 namespace stm {
-namespace receiveWrpcStm {
+namespace operationManagerStm {
 
 
-class ReceiveWrpcContext : public BaseContext {
+class OperationManagerContext : public BaseContext {
 public:
-    ReceiveWrpcContext(IEventSender* eventSender, UnitData* datamodel);
+    OperationManagerContext(IEventSender* eventSender, UnitData* datamodel);
 
     void handle(Event e) override;
-
 };
 
 }

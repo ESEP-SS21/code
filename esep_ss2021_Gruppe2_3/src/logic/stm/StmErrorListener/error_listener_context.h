@@ -5,17 +5,16 @@
 
 namespace logic {
 namespace stm {
-namespace receiveWrpcStm {
+namespace StmErrorListener {
 
 
-class ReceiveWrpcContext : public BaseContext {
+class ErrorListenerContext : public BaseContext {
 public:
-    ReceiveWrpcContext(IEventSender* eventSender, UnitData* datamodel);
+    ErrorListenerContext(IEventSender* eventSender, UnitData* datamodel);
 
     void handle(Event e) override;
 
 };
-
 }
 }
 }

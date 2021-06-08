@@ -1,6 +1,7 @@
 #include "../actuators/stoplight.h"
 
 namespace hal {
+using namespace dispatcher;
 
 Stoplight::Stoplight(std::shared_ptr<GPIOWrapper> gpio) :
         _blinker(gpio) {
@@ -11,6 +12,9 @@ Stoplight::Stoplight(std::shared_ptr<GPIOWrapper> gpio) :
 Stoplight::~Stoplight() {
     _blinker.stop_loop();
     _blinker_thread.join();
+    disable(Color::RED);
+    disable(Color::YELLOW);
+    disable(Color::GREEN);
 }
 
 void Stoplight::enable(Color color) {

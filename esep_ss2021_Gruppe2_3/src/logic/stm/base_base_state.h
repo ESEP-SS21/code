@@ -12,13 +12,13 @@ using namespace datamodel;
 
 #define STATE_INIT(Type)\
 const std::string Type::name = #Type;\
-std::string Type::get_name() {\
+std::string Type::get_name() const {\
     return name;\
 }
 
 #define STATE_HEADER_INIT \
 static const std::string name;\
-std::string get_name() override;
+std::string get_name() const override;
 
 #define SUBSTM_HEADER_INIT \
 STATE_HEADER_INIT \
@@ -26,7 +26,7 @@ std::string str();\
 
 #define INIT_SUB_STM(Type, EntrySubState, SubStmName)\
 const std::string Type::name = #Type;\
-std::string Type::get_name() {\
+std::string Type::get_name() const {\
     return SubStmName->get_name();\
 }\
 std::string Type::str() {\
@@ -35,11 +35,16 @@ std::string Type::str() {\
 
 class BaseBaseState {
 protected:
+    //Destructor of members will be called on state switch,
+    // due to new(this) -> do not use smart pointers or containers here
     IEventSender *_eventSender;
     UnitData *_datamodel;
 
 public:
     virtual ~BaseBaseState() = default;
+
+    //TODO make this virtual once everybody uses this
+    virtual bool handle(const Event &event) {return false;}
 
     void SetData(IEventSender *eventSender,
                  datamodel::UnitData *datamodel) {
@@ -47,7 +52,7 @@ public:
         _eventSender = eventSender;
     }
 
-    virtual std::string get_name() = 0;
+    virtual std::string get_name() const = 0;
 
     virtual void init_sub_states(){};
 
@@ -55,14 +60,14 @@ public:
         return get_name();
     };
 
+    virtual void entry(){};
+    virtual void exit(){};
+
     template<typename State>
     void switch_state() {
-        //todo replace with logger
         std::cout << "Exiting " << str() << std::endl;
-        new (this) State;
+                new (this) State;
     }
-
-
 };
 
 }
