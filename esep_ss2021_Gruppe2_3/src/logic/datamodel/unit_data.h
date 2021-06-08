@@ -57,9 +57,9 @@ public:
     bool wrpc_fits_order(const Workpiece&) const;
     void wrpc_order_step();
     void wrpc_order_reset(WorkpieceType);
+    bool belt_empty();
 
     std::atomic<bool> _belt_blocked{false};
-    std::atomic<bool> _belt_empty{true};
     std::atomic<bool> _ramp_full{false};
     std::atomic<int> _estop_count{0};
     // gets cleared when switching back to running

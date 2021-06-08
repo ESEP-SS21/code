@@ -13,7 +13,7 @@ public:
     bool tim_alrt(int tim_id) override;
 protected:
     void entry_history() override;
-    void entry_wfstc() override;
+    void entry_waiting_for_ramp_to_clear() override;
 };
 
 } /* namespace recieveWrpcStm */

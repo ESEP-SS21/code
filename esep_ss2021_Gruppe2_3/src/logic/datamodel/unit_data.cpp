@@ -1,11 +1,13 @@
 #include <logic/datamodel/unit_data.h>
 
 #include <utility>
+#include <iostream>
 
 namespace logic {
 namespace datamodel {
 
-UnitData::UnitData(UnitType unit_type) : _unit_type(unit_type) {
+UnitData::UnitData(UnitType unit_type) :
+        _unit_type(unit_type) {
 
 }
 
@@ -47,6 +49,12 @@ std::shared_ptr<Workpiece> UnitData::get_pending_transfer() const {
 void UnitData::set_pending_transfer(std::shared_ptr<Workpiece> wrpc) {
     const std::lock_guard<std::mutex> lock(_unit_mutex);
     _pending_transfer = std::move(wrpc);
+}
+
+bool UnitData::belt_empty() {
+    return (get_start_height_sec()->workpiece_count() == 0)
+            && (get_height_switch_sec()->workpiece_count() == 0)
+            && (get_switch_end_sec()->workpiece_count() == 0);
 }
 
 } /* namespace datamodel */
