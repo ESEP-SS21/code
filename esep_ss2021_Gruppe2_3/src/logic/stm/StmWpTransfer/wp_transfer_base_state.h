@@ -14,6 +14,10 @@ class WpTransferBaseState: public BaseBaseState {
     virtual void entry_history(){};
     virtual void reset_to_start(){};
     virtual bool lb_st_blck(){return false;}
+    virtual bool belt_stp(){return false;}
+    virtual bool wrpc_trans_req(){return false;}
+    virtual bool belt_fwd(){return false;}
+    virtual bool wrn_gone(){return false;}
 
 };
 
