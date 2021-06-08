@@ -2,6 +2,7 @@
 #include "wfstc_substates/NoDiscard.h"
 #include "sub_operating.h"
 #include "wfstc_substates/Discard.h"
+#include "operating_substates/WaitingForWrpc.h"
 
 namespace logic {
 namespace stm {
@@ -35,6 +36,22 @@ bool SubWfstc::tim_alrt(int tim_id) {
     }
     return handled;
 }
+
+bool SubWfstc::hist_evnt(){
+    entry();
+    _wfstc_substate->entry();
+    return true;
+}
+
+bool SubWfstc::rst_to_srt(){
+    switch_state<SubOperating>();
+    entry();
+    new(_operating_substate)WaitingForWrpc;
+    _operating_substate->entry();
+    return true;
+}
+
+
 void SubWfstc::entry_discard() {
     new (_wfstc_substate) Discard;
     _wfstc_substate->entry();
