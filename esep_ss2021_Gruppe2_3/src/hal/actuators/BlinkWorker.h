@@ -5,8 +5,8 @@
 #include <thread>
 #include <atomic>
 #include "../gpiowrapper.h"
-#include "color.h"
 #include <chrono>
+#include "../../dispatcher/color.h"
 
 namespace hal {
 
