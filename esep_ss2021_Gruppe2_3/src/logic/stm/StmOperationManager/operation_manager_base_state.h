@@ -25,10 +25,6 @@ public:
     virtual void exit(){}
     virtual void entry_history(){};
     virtual void reset_to_start(){};
-protected:
-    void show_err(){
-
-    }
 };
 
 }
