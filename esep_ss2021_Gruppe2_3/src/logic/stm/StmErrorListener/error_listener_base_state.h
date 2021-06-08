@@ -1,15 +1,2 @@
-/*
- * error_listener_base_state.h
- *
- *  Created on: 08.06.2021
- *      Author: jendr
- */
+#pragma once
 
-#ifndef SRC_LOGIC_STM_STMERRORLISTENER_ERROR_LISTENER_BASE_STATE_H_
-#define SRC_LOGIC_STM_STMERRORLISTENER_ERROR_LISTENER_BASE_STATE_H_
-
-
-
-
-
-#endif /* SRC_LOGIC_STM_STMERRORLISTENER_ERROR_LISTENER_BASE_STATE_H_ */
