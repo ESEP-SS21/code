@@ -15,8 +15,8 @@ public:
     virtual bool lb_sw_clr(){return false;}
     virtual bool lb_ra_clr(){return false;}
     virtual bool tim_alrt(int tim_id){return false;}
-    virtual void entry(){}
-    virtual void exit(){}
+    virtual bool hist_evnt(){return false;}
+    virtual bool rst_to_srt(){return false;}
 
     virtual void entry_history(){}
     virtual void entry_wfstc(){}

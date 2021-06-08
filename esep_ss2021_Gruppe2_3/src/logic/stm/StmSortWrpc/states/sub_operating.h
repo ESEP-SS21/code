@@ -11,6 +11,8 @@ public:
     bool lb_sw_blck() override;
     bool lb_ra_clr() override;
     bool tim_alrt(int tim_id) override;
+    bool hist_evnt() override;
+    bool rst_to_srt() override;
 protected:
     void entry_history() override;
     void entry_waiting_for_ramp_to_clear() override;

@@ -51,6 +51,19 @@ bool SubOperating::lb_sw_blck() {
     return handled;
 }
 
+bool SubOperating::hist_evnt(){
+    entry();
+    _operating_substate->entry();
+    return true;
+}
+
+bool SubOperating::rst_to_srt(){
+    entry();
+    new(_operating_substate)WaitingForWrpc;
+    _operating_substate->entry();
+    return true;
+}
+
 bool SubOperating::lb_ra_clr() {
     bool handled = _operating_substate->lb_ra_clr();
     return handled;
