@@ -3,7 +3,7 @@
 #include "dispatcher/Event.h"
 
 namespace logic {
-namespace util {
+namespace clients {
 
 class HeartbeatClient : public dispatcher::DispatcherClient {
 public:

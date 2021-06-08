@@ -1,6 +1,8 @@
 #include <dispatcher/Dispatcher.h>
 #include <embedded_recorder/recorder.h>
 #include <embedded_recorder/replayer.h>
+#include <logic/clients/heartbeat_client.h>
+#include <logic/clients/operation_manager_client.h>
 #include <Logger.h>
 #include <iostream>
 #include "hal/gpiowrapper.h"
@@ -8,7 +10,6 @@
 #include <thread>
 #include <chrono>
 #include "DemoClient.h"
-#include "logic/stm/StmOperationManager/operation_manager_client.h"
 #include "dispatcher/Event.h"
 #include <sys/dispatch.h>
 #include "dispatcher/cnnMngmnt/QnxChannel.h"
@@ -16,7 +17,6 @@
 #include "hal/HalManagerSen.h"
 #include "timer/AsyncTimerService.h"
 #include "argument_parser.hpp"
-#include "logic/util/heartbeat_client.h"
 #include "logic/datamodel/unit_data.h"
 
 #ifdef TEST_ENABLE
@@ -42,13 +42,13 @@ struct Clients {
     std::unique_ptr<embedded_recorder::Replayer> replayer{nullptr};
 
     //STMS
-    const std::unique_ptr<logic::util::HeartbeatClient> hrtbt;
+    const std::unique_ptr<logic::clients::HeartbeatClient> hrtbt;
 
     Clients()
         : dispatcher(new dispatcher::Dispatcher(args->mode.str)),
           timer_svc(new timer::AsyncTimerService(args->mode.str)),
           hal_mngrAct(new hal::HalManagerAct(args->mode.str)),
-          hrtbt(new util::HeartbeatClient(args->mode.str)) {
+          hrtbt(new clients::HeartbeatClient(args->mode.str)) {
 
         if (args->playback){
             replayer = std::unique_ptr<Replayer>(new Replayer(args->mode.str, args->filename));
@@ -88,7 +88,7 @@ int main(int argc, char **argv) {
     Clients clients;
     //DemoClient client(args->mode.str, "DEMO");
     logic::datamodel::UnitData data(logic::datamodel::UnitType::PRIMARY);
-    logic::stm::operationManagerStm::OperationManagerClient op_mngr(args->mode.str, &data);
+    logic::clients::OperationManagerClient op_mngr(args->mode.str, &data);
     wait_for_exit();
 
     return 0;
