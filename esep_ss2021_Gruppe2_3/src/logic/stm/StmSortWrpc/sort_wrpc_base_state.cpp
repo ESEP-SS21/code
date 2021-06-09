@@ -4,8 +4,8 @@
 
 void logic::stm::sortWrpcStm::SortWrpcBaseState::init_sub_states() {
     _operating_substate = new WaitingForWrpc;
-    _operating_substate->SetData(_eventSender, _datamodel);
+    _operating_substate->SetData(_eventSender, _datamodel, _context_name);
 
     _wfstc_substate = new NoDiscard;
-    _wfstc_substate->SetData(_eventSender, _datamodel);
+    _wfstc_substate->SetData(_eventSender, _datamodel, _context_name);
 }
