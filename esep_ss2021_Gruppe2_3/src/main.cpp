@@ -1,26 +1,28 @@
-#include <argument_parser.hpp>
 #include <dispatcher/Dispatcher.h>
-#include <dispatcher/Event.h>
 #include <embedded_recorder/recorder.h>
 #include <embedded_recorder/replayer.h>
-#include <hal/HalManagerAct.h>
-#include <hal/HalManagerSen.h>
-#include <logic/clients/height_measurement_client.h>
-#include <logic/clients/metal_detection_client.h>
+#include <logic/clients/heartbeat_client.h>
 #include <logic/clients/operation_manager_client.h>
 #include <logic/clients/recieve_wrpc_client.h>
+#include <logic/clients/height_measurement_client.h>
+#include <logic/clients/metal_detection_client.h>
 #include <logic/clients/sort_wrpc_client.h>
 #include <logic/clients/wrpc_transfer_client.h>
-#include <logic/clients/heartbeat_client.h>
-#include <logic/datamodel/unit_data.h>
 #include <Logger.h>
-#include <spdlog/common.h>
-#include <spdlog/logger.h>
-#include <spdlog/logger-inl.h>
-#include <timer/AsyncTimerService.h>
-#include <cstdio>
-#include <cstring>
-#include <memory>
+#include <iostream>
+#include "hal/gpiowrapper.h"
+#include "hal/hal.h"
+#include <thread>
+#include <chrono>
+#include "DemoClient.h"
+#include "dispatcher/Event.h"
+#include <sys/dispatch.h>
+#include "dispatcher/cnnMngmnt/QnxChannel.h"
+#include "hal/HalManagerAct.h"
+#include "hal/HalManagerSen.h"
+#include "timer/AsyncTimerService.h"
+#include "argument_parser.hpp"
+#include "logic/datamodel/unit_data.h"
 
 #ifdef TEST_ENABLE
 #include <gtest/gtest.h>
@@ -35,10 +37,6 @@ using Event = dispatcher::Event;
 void wait_for_exit();
 
 std::shared_ptr<argument_parser::Arguments> args{nullptr};
-using namespace logic::datamodel;
-using namespace logic::clients;
-
-UnitData * data;
 
 struct Clients {
     const std::unique_ptr<dispatcher::Dispatcher> dispatcher;
@@ -48,28 +46,16 @@ struct Clients {
     std::unique_ptr<embedded_recorder::Recorder> recorder{nullptr};
     std::unique_ptr<embedded_recorder::Replayer> replayer{nullptr};
 
-
     //STMS
-    const std::unique_ptr<HeartbeatClient> hrtbt;
-    const std::unique_ptr<OperationManagerClient> op_mngr;
-    const std::unique_ptr<ReceiveWrpcClient> rec_wrpc;
-    const std::unique_ptr<HeightMeasurementClient> he_meas;
-    const std::unique_ptr<MetalDetectionClient> metal_dtc;
-    const std::unique_ptr<SortWrpcClient> sort;
-    const std::unique_ptr<WrpcTransferClient> transfer;
+    const std::unique_ptr<logic::clients::HeartbeatClient> hrtbt;
 
-    Clients()
-        : dispatcher(new dispatcher::Dispatcher(args->mode.str)),
+    Clients():
+
+          dispatcher(new dispatcher::Dispatcher(args->mode.str)),
           timer_svc(new timer::AsyncTimerService(args->mode.str)),
           hal_mngrAct(new hal::HalManagerAct(args->mode.str)),
-          hrtbt(new HeartbeatClient(args->mode.str)),
-          op_mngr(new OperationManagerClient(args->mode.str, data)),
-          rec_wrpc(new ReceiveWrpcClient(args->mode.str, data)),
-          he_meas(new HeightMeasurementClient(args->mode.str, data)),
-          metal_dtc(new MetalDetectionClient(args->mode.str, data)),
-          sort(new SortWrpcClient(args->mode.str, data)),
-          transfer(new WrpcTransferClient(args->mode.str, data))
-    {
+          hrtbt(new clients::HeartbeatClient(args->mode.str)) {
+
         if (args->playback){
             replayer = std::unique_ptr<Replayer>(new Replayer(args->mode.str, args->filename));
             replayer->start();
@@ -96,7 +82,7 @@ int main(int argc, char **argv) {
 #endif
 
     args = argument_parser::parse(argc, argv);
-    data = new UnitData(args->mode.secondary ? UnitType::PRIMARY : UnitType::SECONDARY);
+
     Logger::setup(args->mode.str, true, true);
     Logger::Logger _logger = Logger::get();
     _logger->info(">>>>>>>>> running in {} mode <<<<<<<<<", args->mode.str);
@@ -107,6 +93,13 @@ int main(int argc, char **argv) {
 
     Clients clients;
     //DemoClient client(args->mode.str, "DEMO");
+    logic::datamodel::UnitData data(logic::datamodel::UnitType::PRIMARY);
+    logic::clients::OperationManagerClient op_mngr(args->mode.str, &data);
+    logic::clients::ReceiveWrpcClient rec_wrpc_client(args->mode.str, &data);
+    logic::clients::HeightMeasurementClient he_meas_client(args->mode.str, &data);
+    logic::clients::MetalDetectionClient metal_dtc_client(args->mode.str, &data);
+    logic::clients::SortWrpcClient sort_client(args->mode.str, &data);
+    logic::clients::WrpcTransferClient transfer_client(args->mode.str, &data);
     wait_for_exit();
 
     return 0;
