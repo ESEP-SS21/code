@@ -39,7 +39,7 @@ TEST_F(testWpTransferPrimary, RegularTransferWithoutBlockLastRemaining) {
 
     // Waiting -> NotBlocked
     test_transition_to<NotBlocked>( { EventType::EVNT_SEN_LB_EN_BLCK },
-            { { EventType::EVNT_WRPC_TRNS_RQ, wrpc.encode().code, true }, { Event::CreateTimer(
+            { { EventType::EVNT_WRPC_TRNS_RQ, static_cast<int>(wrpc.encode().code), true }, { Event::CreateTimer(
                     TimerID::WRPC_TRANSFER_BLOCKED, 50, false) } });
 
     // Waiting -> WaitingForWpToLeave
@@ -63,7 +63,7 @@ TEST_F(testWpTransferPrimary, RegularTransferWithoutBlockBeltNotEmptyYet) {
 
     // Waiting -> NotBlocked
     test_transition_to<NotBlocked>( { EventType::EVNT_SEN_LB_EN_BLCK },
-            { { EventType::EVNT_WRPC_TRNS_RQ, wrpc_1.encode().code, true }, { Event::CreateTimer(
+            { { EventType::EVNT_WRPC_TRNS_RQ, static_cast<int>(wrpc_1.encode().code), true }, { Event::CreateTimer(
                     TimerID::WRPC_TRANSFER_BLOCKED, 50, false) } });
 
     // Waiting -> WaitingForWpToLeave
@@ -89,7 +89,7 @@ TEST_F(testWpTransferPrimary, TransferAndBlock) {
 
     // Waiting -> NotBlocked
     test_transition_to<NotBlocked>( { EventType::EVNT_SEN_LB_EN_BLCK },
-            { { EventType::EVNT_WRPC_TRNS_RQ, wrpc.encode().code, true }, { Event::CreateTimer(
+            { { EventType::EVNT_WRPC_TRNS_RQ, static_cast<int>(wrpc.encode().code), true }, { Event::CreateTimer(
                     TimerID::WRPC_TRANSFER_BLOCKED, 50, false) } });
 
     // NotBlocked -> Blocked

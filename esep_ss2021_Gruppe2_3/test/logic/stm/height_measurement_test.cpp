@@ -59,7 +59,7 @@ TEST_F(testHeightMeasurementSecondary, MeasurementOfFlippedWrpcInSecondary) {
 
     test_transition_to<WaitingForWorkpiece>(
             { EventType::EVNT_SEN_HEIGHT_HE, Workpiece::height_high }, { { EventType::EVNT_WRPC_FLP,
-                    enc_wrpc.code } });
+                    static_cast<int>(enc_wrpc.code) } });
 
     ASSERT_EQ(data.get_height_switch_sec()->last_workpiece().height_1,
             static_cast<int>(Workpiece::height_bohrung));

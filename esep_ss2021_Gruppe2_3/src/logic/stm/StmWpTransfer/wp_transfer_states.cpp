@@ -16,7 +16,7 @@ STATE_INIT(WaitingForFinTransfer)
 bool Waiting::lb_en_blck() {
     if (_datamodel->_unit_type == UnitType::PRIMARY) {
         _eventSender->send( {EventType::EVNT_WRPC_TRNS_RQ,
-                    _datamodel->get_switch_end_sec()->first_workpiece().encode().code , true});
+                    static_cast<int>(_datamodel->get_switch_end_sec()->first_workpiece().encode().code) , true});
         exit();
         switch_state<NotBlocked>();
         entry();
