@@ -5,6 +5,8 @@ namespace logic {
 namespace stm {
 namespace operationManagerStm {
 
+#define UNRECOVERABLE_ESTOP_COUNT 3
+
 using namespace dispatcher;
 
 STATE_INIT(Running)
@@ -19,7 +21,7 @@ bool Running::estop_on() {
 
 bool Running::conn_lost() {
     exit();
-    _datamodel->_estop_count = 3;
+    _datamodel->_estop_count = UNRECOVERABLE_ESTOP_COUNT;
     switch_state<EStop>();
     entry();
     return true;
@@ -100,7 +102,7 @@ bool Idle::estop_on() {
 
 bool Idle::conn_lost() {
     exit();
-    _datamodel->_estop_count = 3;
+    _datamodel->_estop_count = UNRECOVERABLE_ESTOP_COUNT;
     switch_state<EStop>();
     entry();
     return true;
@@ -139,6 +141,10 @@ bool EStop::estop_off() {
 }
 
 void EStop::entry(){
+    if(_datamodel->_estop_count == 0){
+       new(_datamodel) UnitData(_datamodel->_unit_type);
+    }
+    _datamodel->_estop_count;
     _datamodel->_estop_triggered = true;
     _datamodel->_operating_mode = OperatingMode::ESTOP;
     _eventSender->send({ EventType::EVNT_ACT_STPL_LED_BLNK_SLW, Color::RED, false });
@@ -160,7 +166,6 @@ STATE_INIT(PendingUnacknowledged)
 
 bool PendingUnacknowledged::estop_on() {
     exit();
-    _datamodel->_estop_count = 1;
     switch_state<EStop>();
     entry();
     return true;
@@ -168,7 +173,7 @@ bool PendingUnacknowledged::estop_on() {
 
 bool PendingUnacknowledged::conn_lost() {
     exit();
-    _datamodel->_estop_count = 3;
+    _datamodel->_estop_count = UNRECOVERABLE_ESTOP_COUNT;
     switch_state<EStop>();
     entry();
     return true;
@@ -199,7 +204,6 @@ STATE_INIT(PendingAcknowledged)
 
 bool PendingAcknowledged::estop_on() {
     exit();
-    _datamodel->_estop_count = 1;
     switch_state<EStop>();
     entry();
     return true;
@@ -207,7 +211,7 @@ bool PendingAcknowledged::estop_on() {
 
 bool PendingAcknowledged::conn_lost() {
     exit();
-    _datamodel->_estop_count = 3;
+    _datamodel->_estop_count = UNRECOVERABLE_ESTOP_COUNT;
     switch_state<EStop>();
     entry();
     return true;
@@ -228,7 +232,6 @@ STATE_INIT(GoneUnacknowledged)
 
 bool GoneUnacknowledged::estop_on() {
     exit();
-    _datamodel->_estop_count = 1;
     switch_state<EStop>();
     entry();
     return true;
@@ -236,7 +239,7 @@ bool GoneUnacknowledged::estop_on() {
 
 bool GoneUnacknowledged::conn_lost() {
     exit();
-    _datamodel->_estop_count = 3;
+    _datamodel->_estop_count = UNRECOVERABLE_ESTOP_COUNT;
     switch_state<EStop>();
     entry();
     return true;
@@ -260,7 +263,6 @@ STATE_INIT(OK)
 
 bool OK::estop_on() {
     exit();
-    _datamodel->_estop_count = 1;
     switch_state<EStop>();
     entry();
     return true;
@@ -268,7 +270,7 @@ bool OK::estop_on() {
 
 bool OK::conn_lost() {
     exit();
-    _datamodel->_estop_count = 3;
+    _datamodel->_estop_count = UNRECOVERABLE_ESTOP_COUNT;
     switch_state<EStop>();
     entry();
     return true;
@@ -302,7 +304,6 @@ void Service::entry() {
 
 bool Service::estop_on() {
     exit();
-    _datamodel->_estop_count = 1;
     switch_state<EStop>();
     entry();
     return true;
@@ -310,7 +311,7 @@ bool Service::estop_on() {
 
 bool Service::conn_lost(){
     exit();
-    _datamodel->_estop_count = 3;
+    _datamodel->_estop_count = UNRECOVERABLE_ESTOP_COUNT;
     switch_state<EStop>();
     entry();
     return true;
