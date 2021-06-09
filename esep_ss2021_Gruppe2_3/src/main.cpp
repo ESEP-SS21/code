@@ -97,7 +97,10 @@ int main(int argc, char **argv) {
     Clients clients;
     //DemoClient client(args->mode.str, "DEMO");
 
-    auto data = std::make_shared<logic::datamodel::UnitData>(logic::datamodel::UnitType::PRIMARY);
+    auto data = std::make_shared<logic::datamodel::UnitData>(
+                args->mode.secondary?
+                        logic::datamodel::UnitType::SECONDARY : logic::datamodel::UnitType::PRIMARY
+                        );
     logic::clients::OperationManagerClient op_mngr(args->mode.str, data.get());
     logic::clients::ReceiveWrpcClient rec_wrpc_client(args->mode.str, data.get());
     logic::clients::HeightMeasurementClient he_meas_client(args->mode.str, data.get());
