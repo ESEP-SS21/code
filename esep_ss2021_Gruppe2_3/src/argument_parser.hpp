@@ -69,7 +69,7 @@ inline std::shared_ptr<Arguments> parse(int argc, const char *const *argv) {
                 ("v," + argument_names::verbose, "start in secondary mode")
                 ("e," + argument_names::ejector, "FTS has ejector instead of switch")
                 ("R," + argument_names::record, "enable recording events to file",
-                    cxxopts::value<std::string>()->implicit_value(""), "[FILENAME]<optional>")
+                    cxxopts::value<std::string>()->implicit_value(""), "[FILENAME]")
                 (argument_names::single, "do not connect to other dispatcher")
                 ("P," + argument_names::playback, "playback a record", cxxopts::value<std::string>(),
                  "[FILENAME]");
