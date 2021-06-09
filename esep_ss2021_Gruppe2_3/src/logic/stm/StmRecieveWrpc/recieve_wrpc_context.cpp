@@ -12,6 +12,9 @@ CONTEXT_CTOR(ReceiveWrpcContext, BeltNotRunning)
 using namespace dispatcher;
 
 void ReceiveWrpcContext::handle(Event e) {
+    if(e.type == EventType::EVNT_HIST){
+        std::cout<<"moin"<<std::endl;
+    }
     if (_datamodel->_operating_mode != datamodel::OperatingMode::RUNNING) {
         return;
     }

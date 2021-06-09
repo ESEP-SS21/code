@@ -12,6 +12,8 @@ STATE_INIT(BeltNotRunning)
 bool BeltNotRunning::handle(const Event &event) {
     switch (event.type) {
         case EventType::EVNT_HIST:
+            entry();
+            return true;
         case EventType::EVNT_RST_TO_SRT:
             entry();
             return true;
@@ -41,7 +43,7 @@ bool BeltNotRunning::handle(const Event &event) {
 
 void BeltNotRunning::entry() {
     _datamodel->_belt_state = datamodel::BeltState::RUNNING;
-    _eventSender->send({EventType::EVNT_ACT_BELT_STP, 0, false});
+    //_eventSender->send({EventType::EVNT_ACT_BELT_STP, 0, false});
 }
 
 STATE_INIT(BeltRunning)

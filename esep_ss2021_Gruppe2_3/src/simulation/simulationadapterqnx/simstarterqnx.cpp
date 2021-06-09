@@ -43,43 +43,54 @@ SimulationStarterQNX::SimulationStarterQNX() {
     if (handler != nullptr) {
 #ifndef SIM_TWIN_B
 
-        handler->addAction(SimItemHandlingAction(1000, ItemKinds::holeup));
-        handler->addAction(SimItemHandlingAction(4000, ItemKinds::holedown));
-        handler->addAction(SimItemHandlingAction(7000, ItemKinds::flat));
+        handler->addAction(SimItemHandlingAction(5000, ItemKinds::metalup));
         /*
-        handler->addAction(SimItemHandlingAction(3000, ItemKinds::flat));
-        handler->addAction(SimItemHandlingAction(5000, ItemKinds::flat));
-        handler->addAction(SimItemHandlingAction(7000, ItemKinds::flat));
+        handler->addAction(SimItemHandlingAction(8000, ItemKinds::metalup));
+        handler->addAction(SimItemHandlingAction(11000, ItemKinds::holeup));
+        handler->addAction(SimItemHandlingAction(14000, ItemKinds::holeup));
+        handler->addAction(SimItemHandlingAction(17000, ItemKinds::flat));
+        handler->addAction(SimItemHandlingAction(20000, ItemKinds::flat));
+        handler->addAction(SimItemHandlingAction(23000, ItemKinds::metalup));
+        handler->addAction(SimItemHandlingAction(26000, ItemKinds::metalup));
+        handler->addAction(SimItemHandlingAction(29000, ItemKinds::holeup));
+        handler->addAction(SimItemHandlingAction(32000, ItemKinds::holeup));
+        handler->addAction(SimItemHandlingAction(35000, ItemKinds::flat));
+        handler->addAction(SimItemHandlingAction(16000, ItemKinds::flat));
 
-        handler->addAction(
-                SimItemHandlingAction(16000,
-                        SimItemHandlingActionKind::removeallslide));
-        handler->addAction(
-                SimItemHandlingAction(16000,
-                        SimItemHandlingActionKind::removeall));
-        handler->addAction(SimItemHandlingAction(17000, ItemKinds::metalup));
-        handler->addAction(
-                SimItemHandlingAction(33000,
-                        SimItemHandlingActionKind::removeall));
-        handler->addAction(
-            SimItemHandlingAction(33000,
-                    SimItemHandlingActionKind::removeallslide));
-        */
+
+         handler->addAction(SimItemHandlingAction(3000, ItemKinds::flat));
+         handler->addAction(SimItemHandlingAction(5000, ItemKinds::flat));
+         handler->addAction(SimItemHandlingAction(7000, ItemKinds::flat));
+
+         handler->addAction(
+         SimItemHandlingAction(16000,
+         SimItemHandlingActionKind::removeallslide));
+         handler->addAction(
+         SimItemHandlingAction(16000,
+         SimItemHandlingActionKind::removeall));
+         handler->addAction(SimItemHandlingAction(17000, ItemKinds::metalup));
+         handler->addAction(
+         SimItemHandlingAction(33000,
+         SimItemHandlingActionKind::removeall));
+         handler->addAction(
+         SimItemHandlingAction(33000,
+         SimItemHandlingActionKind::removeallslide));
+         */
 #else
-    // add actions for system B here
+        // add actions for system B here
 #endif
     }
 
     hci = new SimHCI();
     if (hci != nullptr) {
 #ifndef SIM_TWIN_B
-    	/*
-		hci->addAction(SimHCIAction(0));
-		hci->addAction(SimHCIAction(3000, SimHCIActionKind::pressStartOnly));
-		hci->addAction(SimHCIAction(3500, SimHCIActionKind::releaseAll));
-		hci->addAction(SimHCIAction(35000, SimHCIActionKind::pressStartOnly));
-		hci->addAction(SimHCIAction(36000, SimHCIActionKind::releaseAll));
-		*/
+        /*
+         hci->addAction(SimHCIAction(0));
+         hci->addAction(SimHCIAction(3000, SimHCIActionKind::pressStartOnly));
+         hci->addAction(SimHCIAction(3500, SimHCIActionKind::releaseAll));
+         hci->addAction(SimHCIAction(35000, SimHCIActionKind::pressStartOnly));
+         hci->addAction(SimHCIAction(36000, SimHCIActionKind::releaseAll));
+         */
 #else
         // add actions for system B here
 #endif
@@ -95,8 +106,7 @@ SimulationStarterQNX::SimulationStarterQNX() {
         simrunner = new SimulationExecuter(sim, 20);
         simrunnerthread = new thread(*simrunner);
     }
-    simulationStarted = (sim != nullptr) && (simrunner != nullptr)
-            && (simrunnerthread != nullptr);
+    simulationStarted = (sim != nullptr) && (simrunner != nullptr) && (simrunnerthread != nullptr);
     if (simulationStarted) {
         SimGPIO::getGPIO()->setSimulation(sim);
     }
@@ -122,9 +132,9 @@ SimulationStarterQNX::SimulationStarterQNX() {
             << (simulationStarted ? "completed" : "failed") << endl;
 }
 
-unsigned long SimulationStarterQNX::currentSimTime(){
+unsigned long SimulationStarterQNX::currentSimTime() {
     unsigned long result = 0;
-    if(nullptr!=sim){
+    if (nullptr != sim) {
         result = sim->currentSimTime();
     }
     return result;
@@ -134,8 +144,8 @@ unsigned long SimulationStarterQNX::currentSimTime(){
 #error Manual start is not allwoed for Twin-system B
 #endif
 
-void SimulationStarterQNX::startSimulation(){
-    if(nullptr!=sim){
+void SimulationStarterQNX::startSimulation() {
+    if (nullptr != sim) {
 #if defined(SIM_MANUAL_START) && !defined(SIM_TWIN_B)
         sim->releaseSimulation();
 #endif

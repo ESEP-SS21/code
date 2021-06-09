@@ -30,6 +30,10 @@ bool Waiting::lb_en_blck() {
     return true;
 }
 
+void Waiting::reset_to_start(){
+    entry();
+}
+
 bool NotBlocked::tim_alrt(int tim_id) {
     bool handled = false;
     if (TimerID(tim_id) == TimerID::WRPC_TRANSFER_BLOCKED) {
@@ -42,10 +46,14 @@ bool NotBlocked::tim_alrt(int tim_id) {
     return handled;
 }
 
+void NotBlocked::reset_to_start(){
+    switch_state<Waiting>();
+    entry();
+}
+
 void NotBlocked::entry() {
     Event e = Event::CreateTimer(TimerID::WRPC_TRANSFER_BLOCKED, 50, false);
     _eventSender->send(e);
-
 }
 
 bool NotBlocked::ack() {
@@ -68,6 +76,10 @@ bool Blocked::ack() {
     return true;
 }
 
+void Blocked::reset_to_start(){
+    switch_state<Waiting>();
+    entry();
+}
 
 bool WaitingForWpToLeave::lb_en_clr() {
     _datamodel->get_switch_end_sec()->exit_first_workpiece();
@@ -75,6 +87,11 @@ bool WaitingForWpToLeave::lb_en_clr() {
     switch_state<WaitingForFinTransfer>();
     entry();
     return true;
+}
+
+void WaitingForWpToLeave::reset_to_start(){
+    switch_state<Waiting>();
+    entry();
 }
 
 bool WaitingForFinTransfer::tim_alrt(int tim_id) {
@@ -89,6 +106,11 @@ bool WaitingForFinTransfer::tim_alrt(int tim_id) {
         handled = true;
     }
     return handled;
+}
+
+void WaitingForFinTransfer::reset_to_start(){
+    switch_state<Waiting>();
+    entry();
 }
 
 void WaitingForFinTransfer::entry() {

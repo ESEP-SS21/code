@@ -26,6 +26,7 @@ bool Running::conn_lost() {
 }
 
 bool Running::stp_prs_srt() {
+    _datamodel->_operating_mode = OperatingMode::IDLE;
     exit();
     if(_datamodel->_warning_count == 0){
         switch_state<Idle>();
