@@ -1,3 +1,6 @@
 [submodule "esep_ss2021_Gruppe2_3/test/lib/google_test"]
 	path = esep_ss2021_Gruppe2_3/test/lib/google_test
 	url = https://github.com/google/googletest.git
+[submodule "esep_ss2021_Gruppe2_3/lib/spdlog"]
+	path = esep_ss2021_Gruppe2_3/lib/spdlog
+	url = https://github.com/gabime/spdlog.git

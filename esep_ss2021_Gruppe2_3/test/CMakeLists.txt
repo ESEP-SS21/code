@@ -19,11 +19,14 @@ file(GLOB_RECURSE stm_SRC
         "logic/stm/*.cpp"
         )
 
+
 add_executable(Google_Tests_run
         ${stm_SRC}
+        ../src/Logger.h
+        ../src/Loggerr.cpp
         argument_parser_test.cpp
 
         ../src/dispatcher/Event.h
         ../src/dispatcher/IEventSender.h
         )
-target_link_libraries(Google_Tests_run gtest gtest_main)
+target_link_libraries(Google_Tests_run gtest gtest_main spdlog)
