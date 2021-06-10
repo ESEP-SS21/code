@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <Logger.h>
 #include "dispatcher/IEventSender.h"
 #include "../datamodel/unit_data.h"
 
@@ -66,10 +67,13 @@ public:
     virtual void entry(){};
     virtual void exit(){};
 
+    Logger::StmLogger _logger {Logger::getStmLogger()};
+
     template<typename State>
     void switch_state() {
-        std::cout << " [" << _context_name << "] " << "Exiting " << str() << std::endl;
-                new (this) State;
+        auto oldState = str();
+        new(this) State;
+        _logger->debug(" [{}] {} -> {}", _context_name, oldState, str());
     }
 };
 
