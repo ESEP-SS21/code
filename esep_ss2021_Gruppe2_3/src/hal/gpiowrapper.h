@@ -6,6 +6,7 @@
 #include <sys/neutrino.h>
 #include "simqnxirqapi.h"
 #include "simqnxgpioapi.h"
+#include "Logger.h"
 
 namespace hal {
 
@@ -102,6 +103,11 @@ public:
     void enable_interrupt_falling(uint32_t bank, uint32_t pin);
     void enable_interrupt_rising(uint32_t bank, uint32_t pin);
     void reset_interrupt();
+private:
+    Logger::Logger _logger = Logger::get();
+    void log_bank_error(int bank) const{
+        _logger->error("gpio bank {} is invalid", bank);
+    }
 };
 
 }

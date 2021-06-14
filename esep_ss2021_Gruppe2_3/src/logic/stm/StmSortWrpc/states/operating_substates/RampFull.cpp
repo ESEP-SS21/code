@@ -12,7 +12,7 @@ bool RampFull::lb_sw_blck() {
     if (_datamodel->_unit_type == UnitType::SECONDARY) {
         //section cant be empty
         if (_datamodel->get_height_switch_sec()->workpiece_count() == 0) {
-            std::cout << "MISSING WORKPIECE IN DATAMODEL" << std::endl;
+            _logger->error("MISSING WORKPIECE IN DATAMODEL");
             return handled;
         }
         Workpiece unchecked_wrpc = _datamodel->get_height_switch_sec()->first_workpiece();

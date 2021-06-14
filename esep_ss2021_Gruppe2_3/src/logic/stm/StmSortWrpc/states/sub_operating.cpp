@@ -16,7 +16,7 @@ bool SubOperating::lb_sw_blck() {
     if (!handled) {
         //section cant be empty
         if(_datamodel->get_height_switch_sec()->workpiece_count() == 0) {
-            std::cout << "MISSING WORKPIECE IN DATAMODEL" << std::endl;
+            _logger->error("MISSING WORKPIECE IN DATAMODEL");
             return handled;
         }
         if (_operating_substate->has_super_exit_with_lb_sw_blck_from_waiting_for_wrpc()) {

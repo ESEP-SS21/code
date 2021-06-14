@@ -83,7 +83,7 @@ void GPIOWrapper::set_bit_in_register(uint32_t bank, const uint32_t gpio_registe
         break;
     }
     default:
-        std::cout << "GPIOWrapper " << bank << "not valid\n";
+        log_bank_error(bank);
     }
 }
 
@@ -107,7 +107,7 @@ void GPIOWrapper::add_bit_to_register(uint32_t bank, const uint32_t gpio_registe
         break;
     }
     default:
-        std::cout << "GPIOWrapper " << bank << "not valid\n";
+        log_bank_error(bank);
     }
 }
 
@@ -124,7 +124,7 @@ void GPIOWrapper::write_value_to_register(uint32_t bank, const uint32_t gpio_reg
         out32((uintptr_t ) (_bank_led + gpio_register), value);
         break;
     default:
-        std::cout << "GPIOWrapper " << bank << "not valid\n";
+        log_bank_error(bank);
     }
 }
 
