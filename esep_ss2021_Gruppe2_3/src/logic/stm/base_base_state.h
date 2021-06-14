@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <Logger.h>
 #include "dispatcher/IEventSender.h"
 #include "../datamodel/unit_data.h"
 
@@ -39,6 +40,7 @@ protected:
     // due to new(this) -> do not use smart pointers or containers here
     IEventSender *_eventSender;
     UnitData *_datamodel;
+    char* _context_name;
 
 public:
     virtual ~BaseBaseState() = default;
@@ -47,9 +49,11 @@ public:
     virtual bool handle(const Event &event) {return false;}
 
     void SetData(IEventSender *eventSender,
-                 datamodel::UnitData *datamodel) {
+                 datamodel::UnitData *datamodel,
+                 char* contextName) {
         _datamodel = datamodel;
         _eventSender = eventSender;
+        _context_name = contextName;
     }
 
     virtual std::string get_name() const = 0;
@@ -63,10 +67,13 @@ public:
     virtual void entry(){};
     virtual void exit(){};
 
+    Logger::StmLogger _logger {Logger::getStmLogger()};
+
     template<typename State>
     void switch_state() {
-        std::cout << "Exiting " << str() << std::endl;
-                new (this) State;
+        auto oldState = str();
+        new(this) State;
+        _logger->debug(" [{}] {} -> {}", _context_name, oldState, str());
     }
 };
 

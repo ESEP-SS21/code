@@ -5,6 +5,7 @@
 namespace Logger {
 
 using Logger = std::shared_ptr<spdlog::logger>;
+using StmLogger = spdlog::logger*;
 
 class Internal {
 private:
@@ -30,6 +31,11 @@ inline std::shared_ptr<spdlog::logger> get() {
     auto& t = Internal::get_instance();
     return t.get();
 }
+
+inline spdlog::logger* getStmLogger() {
+    return get().get();
+}
+
 
 inline void setup(const std::string &name, bool console, bool file) {
     Internal::get_instance().setup(name, console, file);

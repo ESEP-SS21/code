@@ -11,17 +11,19 @@ using namespace dispatcher;
 
 #define CONTEXT_CTOR(Type, StartState) \
 Type::Type(IEventSender *eventSender, UnitData *datamodel) :\
-    BaseContext(new StartState, datamodel) {\
-    _state->SetData(eventSender, datamodel);\
-    _datamodel = datamodel;\
-    _state->init_sub_states();\
-    _state->entry();\
+    BaseContext(new StartState, datamodel, eventSender, #Type) {\
 }
 
 class BaseContext {
 public:
 
-    BaseContext(logic::stm::BaseBaseState *state, UnitData *datamodel) : _state(state), _datamodel(datamodel){}
+    BaseContext(logic::stm::BaseBaseState *state, UnitData *datamodel, IEventSender *eventSender, char *name) :
+        _state(state), _datamodel(datamodel) {
+        _datamodel = datamodel;
+        _state->SetData(eventSender, datamodel, name);
+        _state->init_sub_states();
+        _state->entry();\
+    }
 
     virtual void handle(Event e) = 0;
 
@@ -37,7 +39,7 @@ public:
 
 protected:
     BaseBaseState *_state;
-    const UnitData* _datamodel;
+    const UnitData *_datamodel;
 };
 
 }
