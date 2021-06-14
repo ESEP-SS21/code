@@ -57,7 +57,7 @@ void DispatcherClient::send(Event event, int priority) {
             || event.type == EventType::EVNT_HRTB)
         return;
     const std::string t = fmt::format("Client '{}' send", _name);
-    _logger->debug(LOG_FORMAT2, t, event.str());
+    _logger->trace(LOG_FORMAT2, t, event.str());
 }
 
 void DispatcherClient::run() {
@@ -79,7 +79,7 @@ void DispatcherClient::run() {
             if (!(event.type == EventType::EVNT_TIM_REQ || event.type == EventType::EVNT_TIM_ALRT
                     || event.type == EventType::EVNT_HRTB)) {
                 const std::string t = fmt::format("Client '{}' received", _name);
-                _logger->debug(LOG_FORMAT2, t, event.str());
+                _logger->trace(LOG_FORMAT2, t, event.str());
             }
 
             handle(event);

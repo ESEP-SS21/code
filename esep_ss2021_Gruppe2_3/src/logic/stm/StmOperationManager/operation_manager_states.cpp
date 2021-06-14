@@ -143,10 +143,9 @@ void EStop::entry(){
     _eventSender->send({ EventType::EVNT_ACT_STPL_LED_BLNK_SLW, Color::RED, false });
     _eventSender->send({ EventType::EVNT_ACT_CTRL_T_RST_LED_ON});
     if(_datamodel->_estop_count>2){
-        std::cout<< "FATAL ERROR" <<std::endl;
-        std::cout<< "The Communication with the other System was interrupted or could not be established"<<std::endl;
-        std::cout<< "Check the physical connection and make sure GNS is configured correctly"<<std::endl;
-        std::cout<< "This error is irrecoverable and requires a restart to be solved"<<std::endl;
+        _logger->critical("The Communication with the other System was interrupted or could not be established");
+        _logger->critical("Check the physical connection and make sure GNS is configured correctly");
+        _logger->critical("This error is irrecoverable and requires a restart to be solved");
     }
 }
 

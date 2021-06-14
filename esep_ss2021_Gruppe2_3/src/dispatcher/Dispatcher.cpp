@@ -63,8 +63,9 @@ void Dispatcher::handle_sync_msg(header_t header) {
         _channel->msg_read(&subscription, sizeof(subscription), sizeof(header));
         subscribe(subscription);
         _channel->msg_reply(EOK);
-
+#ifdef LOGGER_TRACE_DISPATCHED_EVENTS
         _logger->trace(LOG_FORMAT2, "Dispatcher received subscr for", str(subscription.type));
+#endif
     }
     //maybe other forms of sync communications
 }
@@ -95,19 +96,25 @@ void Dispatcher::dispatch(Event e) const {
             Event conn_lost_evnt = { EventType::EVNT_CONN_LOST, 0, false };
             dispatch(conn_lost_evnt);
         }
+#ifdef LOGGER_TRACE_DISPATCHED_EVENTS
         _logger->trace(LOG_FORMAT2, "Dispatcher broadcasted", e.str());
+#endif
     }
 
     for (auto& connection : _subscriptons[evnt_id]) {
         connection->msg_send_pulse(1, evnt_id, e.payload);
     }
+#ifdef LOGGER_TRACE_DISPATCHED_EVENTS
     _logger->trace(LOG_FORMAT2, "Dispatcher dispatched", e.str());
+#endif
 }
 
 void Dispatcher::handle_qnx_io_msg(header_t header) const {
     if (header.type == _IO_CONNECT) {
         _channel->msg_reply(EOK);
+#ifdef LOGGER_TRACE_DISPATCHED_EVENTS
         _logger->trace(LOG_FORMAT2, "Dispatcher received", "_IO_CONNECT");
+#endif
         return;
     }
     _logger->error("Dispatcher received unexpected sync. QNX IO with type '{}'", header.type);

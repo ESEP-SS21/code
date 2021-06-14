@@ -19,6 +19,8 @@
 #include "argument_parser.hpp"
 #include "logic/datamodel/unit_data.h"
 
+//#define LOGGER_TRACE_DISPATCHED_EVENTS
+
 #ifdef TEST_ENABLE
 #include <gtest/gtest.h>
 #endif

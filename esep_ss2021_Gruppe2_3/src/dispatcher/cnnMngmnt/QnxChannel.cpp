@@ -18,7 +18,7 @@ QnxChannel::QnxChannel(const std::string &attach_string) {
         throw;
     }
     _id = _attach->chid;
-    _logger->trace("Attached named channel '{}' with chid {}", attach_string, _id);
+    _logger->debug("Attached named channel '{}' with chid {}", attach_string, _id);
 
 }
 
