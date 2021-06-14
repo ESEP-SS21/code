@@ -11,6 +11,16 @@
 ## Links
 - [Unsere Wiki](https://git.haw-hamburg.de/groups/ss21-esep-gruppe-2.3/-/wikis/home) (Guides zum Eintrichten etc.)
 
+## Build from source
+- clone repo
+- `git submodule update --init --recursive`
+  
+### QNX Momentics IDE
+- [Setup Project in Momentics](https://git.haw-hamburg.de/groups/ss21-esep-gruppe-2.3/-/wikis/Projekt-in-Momentics-aufsetzten)
+
+### CMAKE (Only logic tests)
+- Run CMake project
+
 ## Boards
 
 - [MRs pending review](https://git.haw-hamburg.de/groups/ss21-esep-gruppe-2.3/-/merge_requests?scope=all&utf8=%E2%9C%93&state=opened&label_name[]=workflow%3A%3Apending%20review)
