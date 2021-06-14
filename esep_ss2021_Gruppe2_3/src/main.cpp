@@ -20,7 +20,7 @@
 #include "logic/datamodel/unit_data.h"
 
 #ifdef TEST_ENABLE
-#include "../test/gtest_main.h"
+#include <gtest/gtest.h>
 #endif
 
 using namespace embedded_recorder;
@@ -70,9 +70,10 @@ int main(int argc, char **argv) {
 #ifdef TEST_ENABLE
     if (argc > 1 && !strcmp(argv[1], "-t")) {
         Logger::setup("test logger", true, false);
-        Logger::get()->set_level(spdlog::level::level_enum::trace);
+        Logger::get()->set_level(spdlog::level::level_enum::debug);
         Logger::get()->set_pattern("[%n] %v");
-        return test::start(argc, argv);
+        ::testing::InitGoogleTest(&argc, argv);
+        return RUN_ALL_TESTS();
     }
 #endif
 
