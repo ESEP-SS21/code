@@ -12,9 +12,6 @@ INIT_SUB_STM(SubOperating, WaitingForWrpc, _operating_substate)
 bool SubOperating::lb_sw_blck() {
     bool handled = _operating_substate->lb_sw_blck();
 
-    // to avoid race condition with metal sensor probably caused by simulation update rate
-    //usleep(1000*10);
-
     // Super Transition to Wfstc
     if (!handled) {
         //section cant be empty
@@ -24,8 +21,9 @@ bool SubOperating::lb_sw_blck() {
         }
         if (_operating_substate->has_super_exit_with_lb_sw_blck_from_waiting_for_wrpc()) {
             Workpiece unchecked_wrpc = _datamodel->get_height_switch_sec()->first_workpiece();
+            unchecked_wrpc.determine_type();
             // WaitingForWrpc -> NoDiscard
-            if (_datamodel->wrpc_fits_order(unchecked_wrpc)) { // in sorting order
+            if (_datamodel->wrpc_fits_order(unchecked_wrpc) && !unchecked_wrpc.is_flipped) { // in sorting order
                 _operating_substate->exit();
                 exit();
                 switch_state<SubWfstc>();
@@ -33,7 +31,6 @@ bool SubOperating::lb_sw_blck() {
                 entry_wfstc();
             // WaitingForWrpc -> Discard
             } else { // not in sorting order
-                unchecked_wrpc.print_wrpc_data();
                 _operating_substate->exit();
                 exit();
                 switch_state<SubWfstc>();

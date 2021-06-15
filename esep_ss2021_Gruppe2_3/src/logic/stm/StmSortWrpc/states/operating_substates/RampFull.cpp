@@ -27,6 +27,7 @@ bool RampFull::lb_sw_blck() {
 
 bool RampFull::lb_ra_clr() {
     exit();
+    _eventSender->send( { EventType::EVNT_WRN_GONE, 0, true });
     switch_state<WaitingForWrpc>();
     _datamodel->_ramp_full = false;
     entry();
@@ -34,12 +35,11 @@ bool RampFull::lb_ra_clr() {
 }
 
 void RampFull::exit() {
-    _eventSender->send( { EventType::EVNT_WRN_GONE, 0, true });
+
 }
 
 void RampFull::entry() {
-    _eventSender->send( { EventType::EVNT_WRN, 0, true });
-    _datamodel->_ramp_full = true;
+
 }
 
 bool RampFull::has_super_exit_with_lb_sw_blck_from_ramp_full() {
