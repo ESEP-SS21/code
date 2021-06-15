@@ -11,13 +11,13 @@ HAL::HAL(std::shared_ptr<GPIOWrapper> gpio_shptr) {
     _cb_motor = std::shared_ptr<CBMotor>(new CBMotor(gpio_shptr));
     _stoplight = std::shared_ptr<Stoplight>(new Stoplight(gpio_shptr));
     //check if the ejector sensor is on by default and select the sort mechanism
-    if(gpio_shptr->in(gpio_adresses::BANK_INPUT, gpio_adresses::WEICHE_OFFEN_0)){
+    int is_pusher = gpio_shptr->in(gpio_adresses::BANK_INPUT, gpio_adresses::WEICHE_OFFEN_0);
+    if(is_pusher){
         _sorting_mechanism = std::shared_ptr<SortingMechanism>(new Ejector(gpio_shptr));
     }
     else{
         _sorting_mechanism = std::shared_ptr<SortingMechanism>(new Switch(gpio_shptr));
     }
-    _sorting_mechanism = std::shared_ptr<SortingMechanism>(new Switch(gpio_shptr));
     _estop = std::shared_ptr<EStop>(new EStop(gpio_shptr));
     _light_barriers = std::shared_ptr<LightBarriers>(new LightBarriers(gpio_shptr));
     _height_sensor = std::shared_ptr<HeightSensor>(new HeightSensor());
