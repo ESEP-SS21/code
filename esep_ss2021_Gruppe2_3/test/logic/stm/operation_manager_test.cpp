@@ -83,8 +83,8 @@ TEST_F(testOperationManager, WarningsToErrorWithResolve) {
     test_transition_to<Running>({EventType::EVNT_CTRL_T_STR_PRS_SRT},
             {
                     {EventType::EVNT_ACT_CTRL_T_STR_LED_OFF},
-                    {EventType::EVNT_HIST},
                     {EventType::EVNT_ACT_STPL_LED_ON, Color::GREEN},
+                    {EventType::EVNT_HIST}
 
             });
     ASSERT_EQ(data._operating_mode , ::logic::datamodel::OperatingMode::RUNNING);
