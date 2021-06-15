@@ -19,9 +19,9 @@ bool SubOperating::lb_sw_blck() {
             std::cout << "MISSING WORKPIECE IN DATAMODEL" << std::endl;
             return handled;
         }
+        Workpiece unchecked_wrpc = _datamodel->get_height_switch_sec()->first_workpiece();
+        unchecked_wrpc.determine_type();
         if (_operating_substate->has_super_exit_with_lb_sw_blck_from_waiting_for_wrpc()) {
-            Workpiece unchecked_wrpc = _datamodel->get_height_switch_sec()->first_workpiece();
-            unchecked_wrpc.determine_type();
             // WaitingForWrpc -> NoDiscard
             if (_datamodel->wrpc_fits_order(unchecked_wrpc) && !unchecked_wrpc.is_flipped) { // in sorting order
                 _operating_substate->exit();
@@ -40,7 +40,7 @@ bool SubOperating::lb_sw_blck() {
         }
         // RampFull -> NoDiscard
         if (_operating_substate->has_super_exit_with_lb_sw_blck_from_ramp_full()) {
-            if (_datamodel->_unit_type == UnitType::PRIMARY) {
+            if (_datamodel->_unit_type == UnitType::PRIMARY || (_datamodel->wrpc_fits_order(unchecked_wrpc) && !unchecked_wrpc.is_flipped)) {
                 _operating_substate->exit();
                 exit();
                 switch_state<SubWfstc>();
