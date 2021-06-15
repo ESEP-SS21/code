@@ -42,7 +42,7 @@ SimulationStarterQNX::SimulationStarterQNX() {
     handler = new SimItemHandling();
     if (handler != nullptr) {
 #ifndef SIM_TWIN_B
-
+        /*
         handler->addAction(SimItemHandlingAction(5000, ItemKinds::metalup));
         handler->addAction(SimItemHandlingAction(8000, ItemKinds::metalup));
         handler->addAction(SimItemHandlingAction(11000, ItemKinds::holeup));
@@ -55,7 +55,7 @@ SimulationStarterQNX::SimulationStarterQNX() {
         handler->addAction(SimItemHandlingAction(32000, ItemKinds::holeup));
         handler->addAction(SimItemHandlingAction(35000, ItemKinds::flat));
         handler->addAction(SimItemHandlingAction(16000, ItemKinds::flat));
-        /*
+
 
 
          handler->addAction(SimItemHandlingAction(3000, ItemKinds::flat));

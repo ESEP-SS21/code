@@ -28,11 +28,12 @@ bool Running::conn_lost() {
 }
 
 bool Running::stp_prs_srt() {
-    _datamodel->_operating_mode = OperatingMode::IDLE;
     exit();
     if(_datamodel->_warning_count == 0){
+        _datamodel->_operating_mode = OperatingMode::IDLE;
         switch_state<Idle>();
     }else{
+        _datamodel->_operating_mode = OperatingMode::ERROR;
         switch_state<GoneUnacknowledged>();
     }
     entry();
@@ -40,6 +41,7 @@ bool Running::stp_prs_srt() {
 }
 
 bool Running::err() {
+    _datamodel->_operating_mode = OperatingMode::ERROR;
     exit();
     switch_state<PendingUnacknowledged>();
     entry();
@@ -281,8 +283,8 @@ bool OK::str_prs_srt() {
     _datamodel->_operating_mode = OperatingMode::RUNNING;
     _datamodel->_warning_count = 0;
     switch_state<Running>();
-    _eventSender->send({EventType::EVNT_HIST});
     entry();
+    _eventSender->send({EventType::EVNT_HIST});
     return true;
 }
 

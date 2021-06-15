@@ -22,6 +22,7 @@ enum class OperatingMode{
 };
 
 enum class Error{
+    OTHER_SYSTEM,
     RAMP_FULL,
     NO_ERROR,
 };
