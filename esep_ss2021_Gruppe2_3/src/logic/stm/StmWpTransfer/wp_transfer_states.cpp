@@ -22,7 +22,9 @@ bool Waiting::lb_en_blck() {
         entry();
     }
     if (_datamodel->_unit_type == UnitType::SECONDARY) {
+
         _datamodel->get_switch_end_sec()->first_workpiece().print_wrpc_data();
+        _datamodel->get_switch_end_sec()->exit_first_workpiece();
         exit();
         switch_state<Waiting>();
         entry();
