@@ -26,7 +26,7 @@ bool WaitingForHeight::he_sensor_he(int payload) {
     } else {
         hs_section->last_workpiece().height_2 = payload;
         hs_section->last_workpiece().determine_type();
-        if (hs_section->last_workpiece().is_flipped) {
+        if (hs_section->last_workpiece().is_flipped && _datamodel->wrpc_fits_order(hs_section->last_workpiece())) {
             auto enc_wrpc = hs_section->first_workpiece().encode();
             _eventSender->send( { EventType::EVNT_WRPC_FLP, enc_wrpc.code, true });
         }
