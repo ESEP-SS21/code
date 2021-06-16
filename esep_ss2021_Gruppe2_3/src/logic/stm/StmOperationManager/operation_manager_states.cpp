@@ -61,6 +61,7 @@ bool Running::wrn_gone() {
 }
 
 void Running::entry() {
+    _datamodel->_warning_count = 0;
     _eventSender->send({ EventType::EVNT_ACT_STPL_LED_ON, Color::GREEN, false });
 }
 
