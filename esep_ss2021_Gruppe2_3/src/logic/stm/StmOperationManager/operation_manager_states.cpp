@@ -143,10 +143,11 @@ bool EStop::estop_off() {
 }
 
 void EStop::entry(){
-    if(_datamodel->_estop_count == 0){
+    int old_estop_count =_datamodel->_estop_count;
+    if(!_datamodel->_estop_count == 0){
        new(_datamodel) UnitData(_datamodel->_unit_type);
     }
-    _datamodel->_estop_count;
+    _datamodel->_estop_count = old_estop_count;
     _datamodel->_estop_triggered = true;
     _datamodel->_operating_mode = OperatingMode::ESTOP;
     _eventSender->send({ EventType::EVNT_ACT_STPL_LED_BLNK_SLW, Color::RED, false });
@@ -168,6 +169,7 @@ STATE_INIT(PendingUnacknowledged)
 
 bool PendingUnacknowledged::estop_on() {
     exit();
+    _datamodel->_estop_count = 1;
     switch_state<EStop>();
     entry();
     return true;
@@ -206,6 +208,7 @@ STATE_INIT(PendingAcknowledged)
 
 bool PendingAcknowledged::estop_on() {
     exit();
+    _datamodel->_estop_count = 1;
     switch_state<EStop>();
     entry();
     return true;
@@ -234,6 +237,7 @@ STATE_INIT(GoneUnacknowledged)
 
 bool GoneUnacknowledged::estop_on() {
     exit();
+    _datamodel->_estop_count = 1;
     switch_state<EStop>();
     entry();
     return true;
@@ -265,6 +269,7 @@ STATE_INIT(OK)
 
 bool OK::estop_on() {
     exit();
+    _datamodel->_estop_count = 1;
     switch_state<EStop>();
     entry();
     return true;
@@ -306,6 +311,7 @@ void Service::entry() {
 
 bool Service::estop_on() {
     exit();
+    _datamodel->_estop_count = 1;
     switch_state<EStop>();
     entry();
     return true;

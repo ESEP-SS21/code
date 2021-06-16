@@ -16,7 +16,7 @@ bool RampFull::lb_sw_blck() {
             return handled;
         }
         Workpiece unchecked_wrpc = _datamodel->get_height_switch_sec()->first_workpiece();
-        if (!_datamodel->wrpc_fits_order(unchecked_wrpc)) {
+        if ((!_datamodel->wrpc_fits_order(unchecked_wrpc)) || unchecked_wrpc.is_flipped) {
             _eventSender->send(
                     { EventType::EVNT_ERR, static_cast<int>(::logic::datamodel::Error::RAMP_FULL), true });
             handled = true;
