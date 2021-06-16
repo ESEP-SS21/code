@@ -77,6 +77,7 @@ bool Idle::str_prs_srt() {
     _datamodel->_operating_mode = OperatingMode::RUNNING;
     switch_state<Running>();
     if(_datamodel->_estop_triggered){
+        _datamodel->_estop_triggered = false;
         _eventSender->send({EventType::EVNT_RST_TO_SRT});
     }else{
         _datamodel->_estop_triggered = false;
