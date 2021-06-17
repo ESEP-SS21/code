@@ -15,8 +15,9 @@ private:
     bool start = false;
     bool restart = false;
 public:
-    SimCtrlAction(){};
+    SimCtrlAction() = default;
     SimCtrlAction(const std::string& command);
+    ~SimCtrlAction(){};
     std::string toJSONString() override;
 
     bool isCommandStart(){return (start && !restart);};

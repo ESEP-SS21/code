@@ -92,7 +92,7 @@ void SimConveyorBelt::evalTimeStep(unsigned int simTime) {
                             (*it)->x = separator->getPosition();
                             // are we sticky?
                             if((*it)->sticky){
-                                (*it)->y = (*it)->y + stepY/3;   // reduce speed to a third.
+                                (*it)->y = (*it)->y + stepY/2;   // reduce speed to a half.
                             } else {
                                 (*it)->y = (*it)->y + stepY;
                             }

@@ -16,7 +16,7 @@ class SimulationBase {
 public:
     static constexpr unsigned int timeslice = 20;       // Simulate this time in each cycle
     static constexpr unsigned int realTimeSlice = 20;   // Do step only if this time has expired since last call
-    static constexpr unsigned int simVersionCode = 16;
+    static constexpr unsigned int simVersionCode = 18;
     static constexpr unsigned int displayEachNCycle = 10;
 };
 
