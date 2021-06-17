@@ -93,6 +93,7 @@ bool Idle::str_prs_srt() {
 bool Idle::str_prs_lng() {
     exit();
     switch_state<Service>();
+    _datamodel->_srv_pending = 1;
     entry();
     return true;
 }
@@ -330,9 +331,14 @@ bool Service::conn_lost(){
 }
 
 bool Service::srv_done() {
-    exit();
-    switch_state<Idle>();
-    entry();
+    if(_datamodel->_srv_pending ==0){
+        exit();
+        switch_state<Idle>();
+        entry();
+    }else{
+        _datamodel->_srv_pending--;
+    }
+
     return true;
 }
 

@@ -66,6 +66,7 @@ public:
     // gets cleared when switching back to running
     std::atomic<bool> _estop_triggered{false};
     std::atomic<int> _warning_count{0};
+    std::atomic<int> _srv_pending{0};
     const UnitType _unit_type;
     std::atomic<OperatingMode> _operating_mode {OperatingMode::IDLE};
     std::atomic<Error> _pending_error {Error::NO_ERROR};

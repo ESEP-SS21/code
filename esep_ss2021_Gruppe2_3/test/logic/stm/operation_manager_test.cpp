@@ -105,7 +105,8 @@ TEST_F(testOperationManager, Service) {
 
             });
     ASSERT_EQ(data._operating_mode , ::logic::datamodel::OperatingMode::SERVICE);
-
+    ASSERT_EQ(data._srv_pending, 1);
+    test_transition_to<Service>({EventType::EVNT_SRV_DONE},{});
     test_transition_to<Idle>({EventType::EVNT_SRV_DONE},
             {
                     {EventType::EVNT_ACT_STPL_LED_ON,Color::YELLOW},
