@@ -46,6 +46,8 @@ TEST_F(testHeightMeasurementSecondary, MeasurementOfFlippedWrpcInSecondary) {
     data._operating_mode = OperatingMode::RUNNING;
     Workpiece wrpc;
     wrpc.height_1 = Workpiece::height_bohrung;
+    wrpc.is_metallic = true;
+    wrpc.determine_type();
     data.get_start_height_sec()->enter_workpiece(wrpc);
 
     test_transition_to<WaitingForHeight>( { EventType::EVNT_SEN_LB_HE_BLCK }, { {

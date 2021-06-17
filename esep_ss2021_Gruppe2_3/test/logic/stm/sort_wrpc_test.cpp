@@ -145,7 +145,7 @@ TEST_F(testSortWrpcPrimary, RampFullButWrpcIsInOrder) {
             { EventType::EVNT_WRN_GONE }, { EventType::EVNT_ACT_SORT_NO_DSC } });
     // NoDiscard -> WaitingToPass
     test_transition_to<WaitingToPass>( { EventType::EVNT_SEN_LB_SW_CLR },
-            { Event::CreateTimer(TimerID::SORT_WRPC_NO_DISCARD_PASS, 500) });
+            { Event::CreateTimer(TimerID::SORT_WRPC_NO_DISCARD_PASS, 800) });
 
     ASSERT_TRUE(data._ramp_full);
     ASSERT_EQ(0, data.get_height_switch_sec()->workpiece_count());
