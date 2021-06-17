@@ -9,6 +9,10 @@ STATE_INIT(WaitingForWorkpiece)
 STATE_INIT(WaitingForHeight)
 
 bool WaitingForWorkpiece::lb_he_blck() {
+    if(_datamodel->get_start_height_sec()->empty()){
+        std::cout << "Unexpected wrpc in " << name <<std::endl;
+        return true;
+    }
     _datamodel->get_start_height_sec()->transfer_first_workpiece();
     _datamodel->_belt_blocked = false;
     exit();

@@ -14,6 +14,10 @@ STATE_INIT(WaitingForWpToLeave)
 STATE_INIT(WaitingForFinTransfer)
 
 bool Waiting::lb_en_blck() {
+    if(_datamodel->get_switch_end_sec()->empty()){
+        std::cout << "Unexpected wrpc in " << name <<std::endl;
+        return true;
+    }
     if (_datamodel->_unit_type == UnitType::PRIMARY) {
         _eventSender->send( {EventType::EVNT_WRPC_TRNS_RQ,
                     _datamodel->get_switch_end_sec()->first_workpiece().encode().code , true});
