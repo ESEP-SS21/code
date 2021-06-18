@@ -1,8 +1,7 @@
 #pragma once
-#include "../stm/StmSortWrpc/sort_wrpc_context.h"
+#include "logic/stm/StmSortWrpc/sort_wrpc_context.h"
 #include "dispatcher/DispatcherClient.h"
 
-namespace logic {
 namespace clients {
 
 using namespace logic::stm::sortWrpcStm;
@@ -28,5 +27,4 @@ protected:
     SortWrpcContext _context;
 };
 
-}
 }

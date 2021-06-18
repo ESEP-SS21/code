@@ -1,11 +1,11 @@
 #pragma once
-#include "../stm/StmErrorListener/error_listener_context.h"
+#include "logic/stm/StmErrorListener/error_listener_context.h"
 #include "dispatcher/DispatcherClient.h"
 
-namespace logic {
 namespace clients {
 
 using namespace logic::stm::StmErrorListener;
+using namespace logic;
 
 class ErrorListenerClient : public dispatcher::DispatcherClient{
 public:
@@ -26,5 +26,4 @@ protected:
     ErrorListenerContext _context;
 };
 
-}
 }

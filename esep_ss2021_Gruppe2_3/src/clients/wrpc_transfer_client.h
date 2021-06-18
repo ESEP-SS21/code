@@ -1,8 +1,7 @@
 #pragma once
-#include "../stm/StmWpTransfer/wp_transfer_context.h"
+#include "logic/stm/StmWpTransfer/wp_transfer_context.h"
 #include "dispatcher/DispatcherClient.h"
 
-namespace logic {
 namespace clients {
 
 using namespace logic::stm::StmWpTransfer;
@@ -28,5 +27,4 @@ protected:
     WpTransferContext _context;
 };
 
-}
 }

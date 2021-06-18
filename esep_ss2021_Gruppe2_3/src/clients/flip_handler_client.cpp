@@ -1,9 +1,9 @@
-#include <logic/clients/flip_handler_client.h>
+#include <clients/flip_handler_client.h>
 
-namespace logic {
 namespace clients {
 
 using namespace dispatcher;
+using namespace logic;
 
 FlipHandlerClient::FlipHandlerClient(const std::string& dispatcher_name, std::shared_ptr<logic::datamodel::UnitData> data):
         DispatcherClient(dispatcher_name, "FlipHandler"){
@@ -18,5 +18,4 @@ void FlipHandlerClient::handle(dispatcher::Event& event) {
     }
 }
 
-}
 }

@@ -1,6 +1,5 @@
-#include <logic/clients/heartbeat_client.h>
+#include <clients/heartbeat_client.h>
 
-namespace logic {
 namespace clients {
 
 using namespace dispatcher;
@@ -22,5 +21,4 @@ void HeartbeatClient::handle(dispatcher::Event& event) {
     }
 }
 
-}
 }

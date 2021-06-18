@@ -5,7 +5,6 @@
 #include "logic/datamodel/unit_data.h"
 #include "logic/datamodel/encoded_workpiece.h"
 
-namespace logic {
 namespace clients {
 
 class FlipHandlerClient: public dispatcher::DispatcherClient {
@@ -19,5 +18,4 @@ private:
     Logger::Logger _logger { Logger::get() };
 };
 
-}
 }

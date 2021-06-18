@@ -1,8 +1,7 @@
 #pragma once
-#include "../stm/StmHeightMeasurement/height_measurement_context.h"
+#include "logic/stm/StmHeightMeasurement/height_measurement_context.h"
 #include "dispatcher/DispatcherClient.h"
 
-namespace logic {
 namespace clients {
 
 using namespace logic::stm::StmHeightMeasurement;
@@ -26,5 +25,4 @@ protected:
     HeightMeasurementContext _context;
 };
 
-}
 }

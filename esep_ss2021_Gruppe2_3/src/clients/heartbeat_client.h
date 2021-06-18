@@ -2,7 +2,6 @@
 #include "dispatcher/DispatcherClient.h"
 #include "dispatcher/Event.h"
 
-namespace logic {
 namespace clients {
 
 class HeartbeatClient : public dispatcher::DispatcherClient {
@@ -14,7 +13,5 @@ private:
     void handle(dispatcher::Event& event) override;
     Logger::Logger _logger { Logger::get() };
 };
-
-}
 }
 

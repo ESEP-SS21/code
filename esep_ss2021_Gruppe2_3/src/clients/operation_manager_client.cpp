@@ -1,8 +1,9 @@
-#include <logic/clients/operation_manager_client.h>
+#include <clients/operation_manager_client.h>
 #include "dispatcher/Event.h"
 
-namespace logic {
 namespace clients {
+
+using namespace logic;
 
 OperationManagerClient::OperationManagerClient(const std::string& dispatcher_name, datamodel::UnitData *data) :
         DispatcherClient(dispatcher_name, "OperationManagerClient"), _context(this, data) {
@@ -26,5 +27,4 @@ OperationManagerClient::~OperationManagerClient() {
 
 }
 
-}
 }

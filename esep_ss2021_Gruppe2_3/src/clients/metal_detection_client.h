@@ -1,8 +1,7 @@
 #pragma once
-#include "../stm/StmMetalDetection/metal_detect_context.h"
+#include "logic/stm/StmMetalDetection/metal_detect_context.h"
 #include "dispatcher/DispatcherClient.h"
 
-namespace logic {
 namespace clients {
 
 using namespace logic::stm::StmMetalDetection;
@@ -23,5 +22,4 @@ protected:
     MetalDetectionContext _context;
 };
 
-}
 }

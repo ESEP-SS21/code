@@ -1,8 +1,7 @@
 #pragma once
-#include "../stm/StmRecieveWrpc/recieve_wrpc_context.h"
+#include "logic/stm/StmRecieveWrpc/recieve_wrpc_context.h"
 #include "dispatcher/DispatcherClient.h"
 
-namespace logic {
 namespace clients {
 
 using namespace logic::stm::receiveWrpcStm;
@@ -27,5 +26,4 @@ protected:
     ReceiveWrpcContext _context;
 };
 
-}
 }

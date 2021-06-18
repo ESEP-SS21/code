@@ -1,16 +1,16 @@
+#include <clients/answer_transfer_req_client.h>
+#include <clients/error_listener_client.h>
+#include <clients/flip_handler_client.h>
+#include <clients/heartbeat_client.h>
+#include <clients/height_measurement_client.h>
+#include <clients/metal_detection_client.h>
+#include <clients/operation_manager_client.h>
+#include <clients/recieve_wrpc_client.h>
+#include <clients/sort_wrpc_client.h>
+#include <clients/wrpc_transfer_client.h>
 #include <dispatcher/Dispatcher.h>
 #include <embedded_recorder/recorder.h>
 #include <embedded_recorder/replayer.h>
-#include <logic/clients/heartbeat_client.h>
-#include <logic/clients/operation_manager_client.h>
-#include <logic/clients/recieve_wrpc_client.h>
-#include <logic/clients/height_measurement_client.h>
-#include <logic/clients/metal_detection_client.h>
-#include <logic/clients/sort_wrpc_client.h>
-#include <logic/clients/wrpc_transfer_client.h>
-#include <logic/clients/answer_transfer_req_client.h>
-#include <logic/clients/error_listener_client.h>
-#include <logic/clients/flip_handler_client.h>
 #include <Logger.h>
 #include <iostream>
 #include "hal/gpiowrapper.h"
@@ -51,7 +51,7 @@ struct Clients {
     std::unique_ptr<embedded_recorder::Replayer> replayer{nullptr};
 
     //STMS
-    const std::unique_ptr<logic::clients::HeartbeatClient> hrtbt;
+    const std::unique_ptr<clients::HeartbeatClient> hrtbt;
 
     Clients():
 
@@ -105,15 +105,15 @@ int main(int argc, char **argv) {
                 args->mode.secondary?
                         logic::datamodel::UnitType::SECONDARY : logic::datamodel::UnitType::PRIMARY
                         );
-    logic::clients::OperationManagerClient op_mngr(args->mode.str, data.get());
-    logic::clients::ReceiveWrpcClient rec_wrpc_client(args->mode.str, data.get());
-    logic::clients::HeightMeasurementClient he_meas_client(args->mode.str, data.get());
-    logic::clients::MetalDetectionClient metal_dtc_client(args->mode.str, data.get());
-    logic::clients::SortWrpcClient sort_client(args->mode.str, data.get());
-    logic::clients::WrpcTransferClient transfer_client(args->mode.str, data.get());
-    logic::clients::AnswerTransferReqClient ans_transfer(args->mode.str, data.get());
-    logic::clients::ErrorListenerClient error_listener(args->mode.str, data.get());
-    logic::clients::FlipHandlerClient flip_handler(args->mode.str, data);
+    clients::OperationManagerClient op_mngr(args->mode.str, data.get());
+    clients::ReceiveWrpcClient rec_wrpc_client(args->mode.str, data.get());
+    clients::HeightMeasurementClient he_meas_client(args->mode.str, data.get());
+    clients::MetalDetectionClient metal_dtc_client(args->mode.str, data.get());
+    clients::SortWrpcClient sort_client(args->mode.str, data.get());
+    clients::WrpcTransferClient transfer_client(args->mode.str, data.get());
+    clients::AnswerTransferReqClient ans_transfer(args->mode.str, data.get());
+    clients::ErrorListenerClient error_listener(args->mode.str, data.get());
+    clients::FlipHandlerClient flip_handler(args->mode.str, data);
     wait_for_exit();
 
     return 0;

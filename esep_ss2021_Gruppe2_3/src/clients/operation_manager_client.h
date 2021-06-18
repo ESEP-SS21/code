@@ -1,10 +1,10 @@
 #pragma once
-#include "../stm/StmOperationManager/operation_manager_context.h"
+#include "logic/stm/StmOperationManager/operation_manager_context.h"
 #include "dispatcher/DispatcherClient.h"
 
-namespace logic {
 namespace clients {
 
+using namespace logic;
 using namespace logic::stm::operationManagerStm;
 
 class OperationManagerClient : public dispatcher::DispatcherClient{
@@ -19,6 +19,3 @@ protected:
 };
 
 }
-}
-
-

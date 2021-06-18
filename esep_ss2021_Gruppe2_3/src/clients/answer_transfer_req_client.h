@@ -1,11 +1,11 @@
 #pragma once
-#include "../stm/StmAnswerTransferReq/answer_transfer_req_context.h"
+#include "logic/stm/StmAnswerTransferReq/answer_transfer_req_context.h"
 #include "dispatcher/DispatcherClient.h"
 
-namespace logic {
 namespace clients {
 
 using namespace logic::stm::StmAnswerTransferReq;
+using namespace logic;
 
 class AnswerTransferReqClient : public dispatcher::DispatcherClient{
 public:
@@ -26,5 +26,4 @@ protected:
     AnswerTransferReqContext _context;
 };
 
-}
 }
