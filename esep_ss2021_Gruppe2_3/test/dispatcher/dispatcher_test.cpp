@@ -56,8 +56,8 @@ protected:
     }
 
     std::initializer_list<EventType> _test_event_types_actors {EventType::EVNT_ACT_BELT_FWD,
-        EventType::EVNT_ACT_BELT_BWD, EventType::EVNT_ACT_BELT_STP, EventType::EVNT_ACT_STPL_LED_ON,
-        EventType::EVNT_ACT_STPL_LED_OFF, EventType::EVNT_ACT_BELT_BWD, EventType::EVNT_ACT_BELT_STP,};
+        EventType::EVNT_ACT_BELT_STP, EventType::EVNT_ACT_STPL_LED_ON,
+        EventType::EVNT_ACT_STPL_LED_OFF, EventType::EVNT_ACT_BELT_STP,};
 
     std::initializer_list<EventType> _test_event_types_sensors {EventType::EVNT_SEN_LB_EN_CLR,
         EventType::EVNT_SEN_LB_EN_BLCK, EventType::EVNT_SEN_ESTOP_ON, EventType::EVNT_SEN_ESTOP_OFF,
