@@ -15,6 +15,8 @@ bool WaitingForRampToClear::tim_alrt(int tim_id){
     if(TimerID(tim_id) == TimerID::SORT_WRPC_FULL) {
         exit();
         switch_state<RampFull>();
+        _eventSender->send( { EventType::EVNT_WRN, 0, true });
+        _datamodel->_ramp_full = true;
         entry();
         handled = true;
     }

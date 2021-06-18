@@ -29,6 +29,9 @@ void WpTransferContext::handle(Event e) {
     case EventType::EVNT_HIST:
         state->entry_history();
         return;
+    case EventType::EVNT_RST_TO_SRT:
+        state->reset_to_start();
+        return;
     case EventType::EVNT_SEN_LB_EN_CLR:
         state->lb_en_clr();
         return;

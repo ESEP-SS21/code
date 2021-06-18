@@ -95,7 +95,7 @@ short int SimItem::heightValues[13][41] = {
 unsigned int SimItem::IDCounter(0);
 
 SimItem::SimItem(ItemKinds kind) :
-heightIndex(-1), x(0.0), y(60.0), kind(kind), state(ItemState::onBelt), ID(0), roi(RoI::none), flip(false) {
+heightIndex(-1), x(0.0), y(60.0), kind(kind), state(ItemState::onBelt), ID(0), roi(RoI::none), flip(false), sticky(false) {
     switch (kind) {
         case ItemKinds::flat:
             heightIndex = 0;

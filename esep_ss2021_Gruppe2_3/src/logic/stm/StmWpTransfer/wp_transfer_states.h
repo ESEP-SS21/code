@@ -10,6 +10,7 @@ class Waiting: public WpTransferBaseState {
 public:
     STATE_HEADER_INIT
     bool lb_en_blck() override;
+    void reset_to_start() override;
 };
 
 class NotBlocked: public WpTransferBaseState {
@@ -18,21 +19,23 @@ public:
     bool tim_alrt(int tim_id) override;
     bool ack() override;
     void entry() override;
+    void reset_to_start() override;
 };
 
 class Blocked: public WpTransferBaseState {
 public:
     STATE_HEADER_INIT
     bool ack() override;
-
-protected:
+    void reset_to_start() override;
     void entry() override;
+
 };
 
 class WaitingForWpToLeave: public WpTransferBaseState {
 public:
     STATE_HEADER_INIT
     bool lb_en_clr() override;
+    void reset_to_start() override;
 };
 
 class WaitingForFinTransfer: public WpTransferBaseState {
@@ -40,6 +43,7 @@ public:
     STATE_HEADER_INIT
     bool tim_alrt(int tim_id) override;
     void entry() override;
+    void reset_to_start() override;
 };
 
 

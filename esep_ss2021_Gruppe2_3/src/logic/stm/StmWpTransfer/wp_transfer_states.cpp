@@ -14,6 +14,10 @@ STATE_INIT(WaitingForWpToLeave)
 STATE_INIT(WaitingForFinTransfer)
 
 bool Waiting::lb_en_blck() {
+    if(_datamodel->get_switch_end_sec()->empty()){
+        std::cout << "Unexpected wrpc in " << name <<std::endl;
+        return true;
+    }
     if (_datamodel->_unit_type == UnitType::PRIMARY) {
         _eventSender->send( {EventType::EVNT_WRPC_TRNS_RQ,
                     static_cast<int>(_datamodel->get_switch_end_sec()->first_workpiece().encode().code) , true});
@@ -22,12 +26,18 @@ bool Waiting::lb_en_blck() {
         entry();
     }
     if (_datamodel->_unit_type == UnitType::SECONDARY) {
+
         _datamodel->get_switch_end_sec()->first_workpiece().print_wrpc_data();
+        _datamodel->get_switch_end_sec()->exit_first_workpiece();
         exit();
         switch_state<Waiting>();
         entry();
     }
     return true;
+}
+
+void Waiting::reset_to_start(){
+    entry();
 }
 
 bool NotBlocked::tim_alrt(int tim_id) {
@@ -42,10 +52,14 @@ bool NotBlocked::tim_alrt(int tim_id) {
     return handled;
 }
 
+void NotBlocked::reset_to_start(){
+    switch_state<Waiting>();
+    entry();
+}
+
 void NotBlocked::entry() {
     Event e = Event::CreateTimer(TimerID::WRPC_TRANSFER_BLOCKED, 50, false);
     _eventSender->send(e);
-
 }
 
 bool NotBlocked::ack() {
@@ -68,6 +82,10 @@ bool Blocked::ack() {
     return true;
 }
 
+void Blocked::reset_to_start(){
+    switch_state<Waiting>();
+    entry();
+}
 
 bool WaitingForWpToLeave::lb_en_clr() {
     _datamodel->get_switch_end_sec()->exit_first_workpiece();
@@ -75,6 +93,11 @@ bool WaitingForWpToLeave::lb_en_clr() {
     switch_state<WaitingForFinTransfer>();
     entry();
     return true;
+}
+
+void WaitingForWpToLeave::reset_to_start(){
+    switch_state<Waiting>();
+    entry();
 }
 
 bool WaitingForFinTransfer::tim_alrt(int tim_id) {
@@ -89,6 +112,11 @@ bool WaitingForFinTransfer::tim_alrt(int tim_id) {
         handled = true;
     }
     return handled;
+}
+
+void WaitingForFinTransfer::reset_to_start(){
+    switch_state<Waiting>();
+    entry();
 }
 
 void WaitingForFinTransfer::entry() {

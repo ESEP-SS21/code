@@ -95,6 +95,11 @@ void HalManagerSen::int_rec_fnct() {
 }
 
 void HalManagerSen::send_event_to_dispatcher() {
+    if (_hal->get_metal_sensor().get()->was_metal()) {
+        dispatcher::Event e = { dispatcher::EventType::EVNT_SEN_METAL_DTC, 0, false };
+        send(e, 20);
+    }
+
     if (_hal->get_estop().get()->was_pressed()) {
         dispatcher::Event e = { dispatcher::EventType::EVNT_SEN_ESTOP_ON, 0, true };
         send(e, 40);
@@ -187,10 +192,6 @@ void HalManagerSen::send_event_to_dispatcher() {
         send(e, 20);
     }
 
-    if (_hal->get_metal_sensor().get()->was_metal()) {
-        dispatcher::Event e = { dispatcher::EventType::EVNT_SEN_METAL_DTC, 0, false };
-        send(e, 20);
-    }
 }
 
 void HalManagerSen::handle_qnx_io_msg(header_t header) {

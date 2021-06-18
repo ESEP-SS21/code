@@ -12,11 +12,12 @@ BlinkWorker::BlinkWorker(std::shared_ptr<GPIOWrapper> gpio) :
 
 void BlinkWorker::run() {
     int val = 0;
-    while (_running) {
+    while (1) {
         std::unique_lock<std::mutex> lk(_mutex);
         while(_interrupted){
             _cv.wait(lk);
         }
+        if(!_running) return;
         val = !val;
         switch (_color) {
         case GREEN:
