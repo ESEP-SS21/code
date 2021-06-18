@@ -155,18 +155,18 @@ void HalManagerSen::send_event_to_dispatcher() {
         dispatcher::Event e = { dispatcher::EventType::EVNT_SEN_LB_ST_BLCK, 0, false };
         send(e, 20);
     }
-    if (_hal->get_light_barriers().get()->was_cleared(hal::LBSTART)) {
-        dispatcher::Event e = { dispatcher::EventType::EVNT_SEN_LB_ST_CLR, 0, false };
-        send(e, 20);
-    }
+//    if (_hal->get_light_barriers().get()->was_cleared(hal::LBSTART)) {
+//        dispatcher::Event e = { dispatcher::EventType::EVNT_SEN_LB_ST_CLR, 0, false };
+//        send(e, 20);
+//    }
     if (_hal->get_light_barriers().get()->was_blocked(hal::LBHEIGHT)) {
         dispatcher::Event e = { dispatcher::EventType::EVNT_SEN_LB_HE_BLCK, 0, false };
         send(e, 20);
     }
-    if (_hal->get_light_barriers().get()->was_cleared(hal::LBHEIGHT)) {
-        dispatcher::Event e = { dispatcher::EventType::EVNT_SEN_LB_HE_CLR, 0, false };
-        send(e, 20);
-    }
+//    if (_hal->get_light_barriers().get()->was_cleared(hal::LBHEIGHT)) {
+//        dispatcher::Event e = { dispatcher::EventType::EVNT_SEN_LB_HE_CLR, 0, false };
+//        send(e, 20);
+//    }
     if (_hal->get_light_barriers().get()->was_blocked(hal::LBSWITCH)) {
         dispatcher::Event e = { dispatcher::EventType::EVNT_SEN_LB_SW_BLCK, 0, false };
         send(e, 20);
@@ -175,10 +175,10 @@ void HalManagerSen::send_event_to_dispatcher() {
         dispatcher::Event e = { dispatcher::EventType::EVNT_SEN_LB_SW_CLR, 0, false };
         send(e, 20);
     }
-    if (_hal->get_light_barriers().get()->was_blocked(hal::LBRAMP)) {
-        dispatcher::Event e = { dispatcher::EventType::EVNT_SEN_LB_RA_BLCK, 0, false };
-        send(e, 20);
-    }
+//    if (_hal->get_light_barriers().get()->was_blocked(hal::LBRAMP)) {
+//        dispatcher::Event e = { dispatcher::EventType::EVNT_SEN_LB_RA_BLCK, 0, false };
+//        send(e, 20);
+//    }
     if (_hal->get_light_barriers().get()->was_cleared(hal::LBRAMP)) {
         dispatcher::Event e = { dispatcher::EventType::EVNT_SEN_LB_RA_CLR, 0, false };
         send(e, 20);
