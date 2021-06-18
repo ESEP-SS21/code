@@ -31,6 +31,10 @@ void DemoClient::handle(dispatcher::Event& event) {
         dispatcher::Event e = { dispatcher::EventType::EVNT_ACT_BELT_STP, 0, false };
         send(e, 20);
     }
+    if (event.type == dispatcher::EventType::EVNT_CTRL_T_RST_PRS_SRT) {
+        dispatcher::Event e = { dispatcher::EventType::EVNT_ACT_BELT_BWD, 0, false };
+        send(e, 20);
+    }
 }
 
 DemoClient::~DemoClient() {

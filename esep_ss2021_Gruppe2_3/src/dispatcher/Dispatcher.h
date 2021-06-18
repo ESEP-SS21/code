@@ -36,7 +36,7 @@ private:
      * The array is indexed by the EventType Enum, which returns a set of QnxConnections.
      * These represent all the QnxConnections which are subscribed to said EventType.
      */
-    std::array<std::unordered_set<std::shared_ptr<cnnMngmnt::QnxConnection>>, static_cast<int>(EventType::COUNT)> _subscriptons;
+    std::array<std::unordered_set<std::shared_ptr<cnnMngmnt::QnxConnection>>, static_cast<int>(EventType::SIZE)> _subscriptons;
     std::unique_ptr<cnnMngmnt::QnxChannel> _channel;
     std::unique_ptr<cnnMngmnt::QnxConnection> _other_connection;
 };
