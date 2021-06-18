@@ -39,7 +39,7 @@ TEST_F(testSortWrpcPrimary, WrpcFitsInSortingOrder) {
             EventType::EVNT_ACT_SORT_NO_DSC } });
     // NoDiscard -> WaitingToPass
     test_transition_to<WaitingToPass>( { EventType::EVNT_SEN_LB_SW_CLR },
-            { Event::CreateTimer(TimerID::SORT_WRPC_NO_DISCARD_PASS, 500) });
+            { Event::CreateTimer(TimerID::SORT_WRPC_NO_DISCARD_PASS, PASS_TIME_MS) });
     // WaitingToPass -> WaitingForWrpc
     test_transition_to<WaitingForWrpc>( { EventType::EVNT_TIM_ALRT,
             static_cast<int>(TimerID::SORT_WRPC_NO_DISCARD_PASS) }, {
@@ -57,14 +57,14 @@ TEST_F(testSortWrpcPrimary, WrpcDiscardWithStuck) {
     // WaitingForWrpc -> Discard
     test_transition_to<Discard>( { EventType::EVNT_SEN_LB_SW_BLCK },
             { { EventType::EVNT_ACT_SORT_DSC },
-                    { Event::CreateTimer(TimerID::SORT_WRPC_STUCK, 3000) } });
+                    { Event::CreateTimer(TimerID::SORT_WRPC_STUCK, SW_CLR_TIME_TOLERANCE_MS) } });
     // Discard -> WrpcStuck
     test_transition_to<WrpcStuck>( { EventType::EVNT_TIM_ALRT,
             static_cast<int>(TimerID::SORT_WRPC_STUCK) }, { { EventType::EVNT_WRN } });
     // WrpcStuck -> WaitingForRampToClear
     test_transition_to<WaitingForRampToClear>( { EventType::EVNT_SEN_LB_SW_CLR }, { {
             EventType::EVNT_WRN_GONE }, { EventType::EVNT_ACT_SORT_RST }, {
-            EventType::EVNT_ACT_BELT_STP }, { Event::CreateTimer(TimerID::SORT_WRPC_FULL, 200) } });
+            EventType::EVNT_ACT_BELT_STP }, { Event::CreateTimer(TimerID::SORT_WRPC_FULL, RA_CLR_TIME_TOLERANCE_MS) } });
     // WaitingForRampToClear -> WaitingForWrpc
     test_transition_to<WaitingForWrpc>( { EventType::EVNT_SEN_LB_RA_CLR }, { });
 
@@ -80,11 +80,11 @@ TEST_F(testSortWrpcPrimary, RegularDiscardOfWrpc) {
     // WaitingForWrpc -> Discard
     test_transition_to<Discard>( { EventType::EVNT_SEN_LB_SW_BLCK },
             { { EventType::EVNT_ACT_SORT_DSC },
-                    { Event::CreateTimer(TimerID::SORT_WRPC_STUCK, 3000) } });
+                    { Event::CreateTimer(TimerID::SORT_WRPC_STUCK, SW_CLR_TIME_TOLERANCE_MS) } });
     // Discard -> WaitingForRampToClear
     test_transition_to<WaitingForRampToClear>( { EventType::EVNT_SEN_LB_SW_CLR },
             { { EventType::EVNT_ACT_SORT_RST }, { EventType::EVNT_ACT_BELT_STP }, {
-                    Event::CreateTimer(TimerID::SORT_WRPC_FULL, 200) } });
+                    Event::CreateTimer(TimerID::SORT_WRPC_FULL, RA_CLR_TIME_TOLERANCE_MS) } });
     // WaitingForRampToClear -> WaitingForWrpc
     test_transition_to<WaitingForWrpc>( { EventType::EVNT_SEN_LB_RA_CLR }, { });
 
@@ -100,11 +100,11 @@ TEST_F(testSortWrpcPrimary, MakeSpaceInRampWhileFullCapacity) {
     // WaitingForWrpc -> Discard
     test_transition_to<Discard>( { EventType::EVNT_SEN_LB_SW_BLCK },
             { { EventType::EVNT_ACT_SORT_DSC },
-                    { Event::CreateTimer(TimerID::SORT_WRPC_STUCK, 3000) } });
+                    { Event::CreateTimer(TimerID::SORT_WRPC_STUCK, SW_CLR_TIME_TOLERANCE_MS) } });
     // Discard -> WaitingForRampToClear
     test_transition_to<WaitingForRampToClear>( { EventType::EVNT_SEN_LB_SW_CLR },
             { { EventType::EVNT_ACT_SORT_RST }, { EventType::EVNT_ACT_BELT_STP }, {
-                    Event::CreateTimer(TimerID::SORT_WRPC_FULL, 200) } });
+                    Event::CreateTimer(TimerID::SORT_WRPC_FULL, RA_CLR_TIME_TOLERANCE_MS) } });
     ASSERT_TRUE(data.belt_empty());
 
     // WaitingForRampToClear -> RampFull
@@ -126,11 +126,11 @@ TEST_F(testSortWrpcPrimary, RampFullButWrpcIsInOrder) {
     // WaitingForWrpc -> Discard
     test_transition_to<Discard>( { EventType::EVNT_SEN_LB_SW_BLCK },
             { { EventType::EVNT_ACT_SORT_DSC },
-                    { Event::CreateTimer(TimerID::SORT_WRPC_STUCK, 3000) } });
+                    { Event::CreateTimer(TimerID::SORT_WRPC_STUCK, SW_CLR_TIME_TOLERANCE_MS) } });
     // Discard -> WaitingForRampToClear
     test_transition_to<WaitingForRampToClear>( { EventType::EVNT_SEN_LB_SW_CLR },
             { { EventType::EVNT_ACT_SORT_RST }, { EventType::EVNT_ACT_BELT_STP }, {
-                    Event::CreateTimer(TimerID::SORT_WRPC_FULL, 200) } });
+                    Event::CreateTimer(TimerID::SORT_WRPC_FULL, RA_CLR_TIME_TOLERANCE_MS) } });
     ASSERT_TRUE(data.belt_empty());
     // WaitingForRampToClear -> RampFull
     test_transition_to<RampFull>( { EventType::EVNT_TIM_ALRT,
@@ -145,7 +145,7 @@ TEST_F(testSortWrpcPrimary, RampFullButWrpcIsInOrder) {
             { EventType::EVNT_WRN_GONE }, { EventType::EVNT_ACT_SORT_NO_DSC } });
     // NoDiscard -> WaitingToPass
     test_transition_to<WaitingToPass>( { EventType::EVNT_SEN_LB_SW_CLR },
-            { Event::CreateTimer(TimerID::SORT_WRPC_NO_DISCARD_PASS, 800) });
+            { Event::CreateTimer(TimerID::SORT_WRPC_NO_DISCARD_PASS, PASS_TIME_MS) });
 
     ASSERT_TRUE(data._ramp_full);
     ASSERT_EQ(0, data.get_height_switch_sec()->workpiece_count());
@@ -161,11 +161,11 @@ TEST_F(testSortWrpcSecondary, DiscardButRampFullError) {
     // WaitingForWrpc -> Discard
     test_transition_to<Discard>( { EventType::EVNT_SEN_LB_SW_BLCK },
             { { EventType::EVNT_ACT_SORT_DSC },
-                    { Event::CreateTimer(TimerID::SORT_WRPC_STUCK, 3000) } });
+                    { Event::CreateTimer(TimerID::SORT_WRPC_STUCK, SW_CLR_TIME_TOLERANCE_MS) } });
     // Discard -> WaitingForRampToClear
     test_transition_to<WaitingForRampToClear>( { EventType::EVNT_SEN_LB_SW_CLR },
             { { EventType::EVNT_ACT_SORT_RST }, { EventType::EVNT_ACT_BELT_STP }, {
-                    Event::CreateTimer(TimerID::SORT_WRPC_FULL, 200) } });
+                    Event::CreateTimer(TimerID::SORT_WRPC_FULL, RA_CLR_TIME_TOLERANCE_MS) } });
     ASSERT_TRUE(data.belt_empty());
     // WaitingForRampToClear -> RampFull
     test_transition_to<RampFull>( { EventType::EVNT_TIM_ALRT,
