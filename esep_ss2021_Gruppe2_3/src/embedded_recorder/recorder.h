@@ -5,6 +5,7 @@
 #include "dispatcher/DispatcherClient.h"
 #include "dispatcher/Event.h"
 #include <fstream>
+#include "event_json_converter.h"
 
 namespace embedded_recorder {
 
