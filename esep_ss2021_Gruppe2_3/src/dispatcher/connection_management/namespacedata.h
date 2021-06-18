@@ -3,7 +3,7 @@
 #include <stdint.h>
 
 namespace dispatcher {
-namespace cnnMngmnt {
+namespace connection_management {
 
 union sigval {
     int sival_int;

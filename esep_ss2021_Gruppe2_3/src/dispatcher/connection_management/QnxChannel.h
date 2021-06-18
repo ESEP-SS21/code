@@ -1,12 +1,12 @@
 #pragma once
 
-#include "namespacedata.h"
 #include <sys/dispatch.h>
 #include <string>
+#include "../connection_management/namespacedata.h"
 #include "Logger.h"
 
 namespace dispatcher {
-namespace cnnMngmnt {
+namespace connection_management {
 
 enum class MsgType {
     puls, sync, error

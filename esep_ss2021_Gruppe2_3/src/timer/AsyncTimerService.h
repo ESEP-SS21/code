@@ -1,6 +1,6 @@
 #ifndef SRC_TIMER_ASYNCTIMERSERVICE_H_
 #define SRC_TIMER_ASYNCTIMERSERVICE_H_
-#include "dispatcher/cnnMngmnt/QnxChannel.h"
+#include "dispatcher/connection_management/QnxChannel.h"
 #include "dispatcher/DispatcherClient.h"
 namespace timer {
 

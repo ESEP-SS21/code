@@ -1,7 +1,7 @@
 #pragma once
 
-#include "dispatcher/cnnMngmnt/QnxChannel.h"
-#include "dispatcher/cnnMngmnt/QnxConnection.h"
+#include "dispatcher/connection_management/QnxChannel.h"
+#include "dispatcher/connection_management/QnxConnection.h"
 #include "dispatcher/DispatcherClient.h"
 #include "dispatcher/Event.h"
 #include "event_json_converter.h"

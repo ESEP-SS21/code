@@ -1,11 +1,11 @@
-#include "QnxConnection.h"
+#include <dispatcher/connection_management/QnxConnection.h>
 #include <errno.h>
 #include <chrono>
 #include <thread>
 #include <sys/dispatch.h>
 
 namespace dispatcher {
-namespace cnnMngmnt {
+namespace connection_management {
 
 QnxConnection::QnxConnection(const std::string &receiver_attach_string) {
     int retry_count = 0;

@@ -15,10 +15,10 @@ HalManagerSen::HalManagerSen(const std::string& dispatcher_name) :
     _running = true;
     _gpio = std::make_shared<GPIOWrapper>();
     _hal = std::unique_ptr<HAL>(new HAL(_gpio));
-    _irq_rec_channel = std::unique_ptr<dispatcher::cnnMngmnt::QnxChannel>(
-            new dispatcher::cnnMngmnt::QnxChannel());
-    _irq_connection = std::unique_ptr<dispatcher::cnnMngmnt::QnxConnection>(
-            new dispatcher::cnnMngmnt::QnxConnection(_irq_rec_channel->get_chid()));
+    _irq_rec_channel = std::unique_ptr<dispatcher::connection_management::QnxChannel>(
+            new dispatcher::connection_management::QnxChannel());
+    _irq_connection = std::unique_ptr<dispatcher::connection_management::QnxConnection>(
+            new dispatcher::connection_management::QnxConnection(_irq_rec_channel->get_chid()));
     _listener_thread = std::thread([this] {this->int_rec_fnct();});
     _start_pressed_time = std::chrono::high_resolution_clock::now();
     _stop_pressed_time = std::chrono::high_resolution_clock::now();
@@ -52,15 +52,15 @@ void HalManagerSen::int_rec_fnct() {
     header_t header;
 
     while (_running) {
-        dispatcher::cnnMngmnt::MsgType msg_type = _irq_rec_channel->msg_receive(&header,
+        dispatcher::connection_management::MsgType msg_type = _irq_rec_channel->msg_receive(&header,
                 sizeof(header_t));
 
-        if (msg_type == dispatcher::cnnMngmnt::MsgType::error) {
+        if (msg_type == dispatcher::connection_management::MsgType::error) {
             _logger->error("IRQ handler received error '{}'", header.type);
             break;
         }
 
-        if (msg_type == dispatcher::cnnMngmnt::MsgType::puls) {
+        if (msg_type == dispatcher::connection_management::MsgType::puls) {
             if (header.code == _PULSE_CODE_UNBLOCK) {
                 continue;
             }
@@ -208,7 +208,7 @@ void HalManagerSen::handle_qnx_io_msg(header_t header) {
 
 HalManagerSen::~HalManagerSen() {
     _running = false;
-    dispatcher::cnnMngmnt::QnxConnection(_irq_rec_channel->get_chid()).msg_send_pulse(1,
+    dispatcher::connection_management::QnxConnection(_irq_rec_channel->get_chid()).msg_send_pulse(1,
     _PULSE_CODE_UNBLOCK, 0);
     _listener_thread.join();
 }

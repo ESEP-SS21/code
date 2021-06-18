@@ -4,7 +4,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "cnnMngmnt/namespacedata.h"
+#include "connection_management/namespacedata.h"
 
 namespace dispatcher {
 
@@ -139,7 +139,7 @@ struct Event {
             type(type), payload(payload), broadcast(broadcast) {
     }
 
-    Event(const cnnMngmnt::custom_header_t& header) :
+    Event(const connection_management::custom_header_t& header) :
             payload(header.value.sival_int), broadcast(false) {
 
         int evnt_id = header.code;
@@ -186,7 +186,7 @@ private:
 
 struct EventSubscription {
     EventType type;
-    cnnMngmnt::chid chid;
+    connection_management::chid chid;
 };
 
 } /* namespace dispatcher */

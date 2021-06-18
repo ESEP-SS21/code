@@ -1,10 +1,10 @@
-#include "QnxChannel.h"
+#include <dispatcher/connection_management/QnxChannel.h>
 #include <sys/dispatch.h>
 #include <errno.h>
 #include <iostream>
 
 namespace dispatcher {
-namespace cnnMngmnt {
+namespace connection_management {
 
 QnxChannel::QnxChannel() :
         _id(ChannelCreate(0)) {

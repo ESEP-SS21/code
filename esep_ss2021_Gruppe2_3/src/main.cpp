@@ -8,6 +8,7 @@
 #include <clients/recieve_wrpc_client.h>
 #include <clients/sort_wrpc_client.h>
 #include <clients/wrpc_transfer_client.h>
+#include <dispatcher/connection_management/QnxChannel.h>
 #include <dispatcher/Dispatcher.h>
 #include <embedded_recorder/recorder.h>
 #include <embedded_recorder/replayer.h>
@@ -20,7 +21,6 @@
 #include "DemoClient.h"
 #include "dispatcher/Event.h"
 #include <sys/dispatch.h>
-#include "dispatcher/cnnMngmnt/QnxChannel.h"
 #include "hal/HalManagerAct.h"
 #include "hal/HalManagerSen.h"
 #include "timer/AsyncTimerService.h"

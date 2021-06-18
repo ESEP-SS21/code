@@ -2,8 +2,8 @@
 
 #include <string>
 #include <thread>
-#include "cnnMngmnt/QnxChannel.h" //TODO use the interface instead. This needs a 'IIpcConnectionFactory of some sort'
-#include "cnnMngmnt/QnxConnection.h"
+#include "connection_management/QnxChannel.h" //TODO use the interface instead. This needs a 'IIpcConnectionFactory of some sort'
+#include "connection_management/QnxConnection.h"
 #include "Event.h"
 #include "IEventSender.h"
 #include "msg_header.h"
@@ -19,7 +19,7 @@ public:
     void subscribe(std::initializer_list<EventType> event_types);
 
 protected:
-    std::unique_ptr<cnnMngmnt::QnxConnection> _dispatcher_connection;
+    std::unique_ptr<connection_management::QnxConnection> _dispatcher_connection;
     Logger::Logger _logger { Logger::get() };
 
 private:
@@ -30,7 +30,7 @@ private:
     bool _is_running { true };
     std::string _name;
     std::string _dispatcher_name;
-    std::unique_ptr<cnnMngmnt::QnxChannel> _channel;
+    std::unique_ptr<connection_management::QnxChannel> _channel;
 
     std::thread _client_thread;
 };

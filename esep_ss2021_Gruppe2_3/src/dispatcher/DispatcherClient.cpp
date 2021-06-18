@@ -8,15 +8,15 @@ namespace dispatcher {
 DispatcherClient::DispatcherClient(const std::string& dispatcher_name, const std::string& name) :
         _name { name }, _dispatcher_name { dispatcher_name }, _channel(nullptr) {
 
-    _channel = std::unique_ptr<cnnMngmnt::QnxChannel>(new cnnMngmnt::QnxChannel());
-    _dispatcher_connection = std::unique_ptr<cnnMngmnt::QnxConnection>(
-            new cnnMngmnt::QnxConnection(_dispatcher_name));
+    _channel = std::unique_ptr<connection_management::QnxChannel>(new connection_management::QnxChannel());
+    _dispatcher_connection = std::unique_ptr<connection_management::QnxConnection>(
+            new connection_management::QnxConnection(_dispatcher_name));
     _client_thread = std::thread([this] {this->run();});
 }
 
 DispatcherClient::~DispatcherClient() {
     _is_running = false;
-    cnnMngmnt::QnxConnection(_channel->get_chid()).msg_send_pulse(1, _PULSE_CODE_UNBLOCK, 0);
+    connection_management::QnxConnection(_channel->get_chid()).msg_send_pulse(1, _PULSE_CODE_UNBLOCK, 0);
     _client_thread.join();
 }
 
@@ -63,14 +63,14 @@ void DispatcherClient::send(Event event, int priority) {
 void DispatcherClient::run() {
     while (_is_running) {
         header_t header;
-        cnnMngmnt::MsgType msg_type = _channel->msg_receive(&header, sizeof(header_t));
+        connection_management::MsgType msg_type = _channel->msg_receive(&header, sizeof(header_t));
 
-        if (msg_type == cnnMngmnt::MsgType::error) {
+        if (msg_type == connection_management::MsgType::error) {
             _logger->error("Client '{}' received error '{}'", _name, header.type);
             break;
         }
 
-        if (msg_type == cnnMngmnt::MsgType::puls) {
+        if (msg_type == connection_management::MsgType::puls) {
             if (header.code == _PULSE_CODE_UNBLOCK) {
                 continue;
             }

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "dispatcher/cnnMngmnt/QnxChannel.h"
+#include "dispatcher/connection_management/QnxChannel.h"
 #include "dispatcher/DispatcherClient.h"
 
 class DemoClient: public dispatcher::DispatcherClient {

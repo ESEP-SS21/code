@@ -7,8 +7,8 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <array>
-#include "cnnMngmnt/QnxChannel.h"
-#include "cnnMngmnt/QnxConnection.h"
+#include "connection_management/QnxChannel.h"
+#include "connection_management/QnxConnection.h"
 #include "Event.h"
 #include "msg_header.h"
 
@@ -30,15 +30,15 @@ private:
     Logger::Logger _logger { Logger::get() };
     bool _is_running { true };
     std::thread _dispatcher_thread;
-    std::unordered_map<cnnMngmnt::chid, std::shared_ptr<cnnMngmnt::QnxConnection>> _chid_conn_map { };
+    std::unordered_map<connection_management::chid, std::shared_ptr<connection_management::QnxConnection>> _chid_conn_map { };
     /**
      * Multimap of subscriptions.
      * The array is indexed by the EventType Enum, which returns a set of QnxConnections.
      * These represent all the QnxConnections which are subscribed to said EventType.
      */
-    std::array<std::unordered_set<std::shared_ptr<cnnMngmnt::QnxConnection>>, static_cast<int>(EventType::COUNT)> _subscriptons;
-    std::unique_ptr<cnnMngmnt::QnxChannel> _channel;
-    std::unique_ptr<cnnMngmnt::QnxConnection> _other_connection;
+    std::array<std::unordered_set<std::shared_ptr<connection_management::QnxConnection>>, static_cast<int>(EventType::COUNT)> _subscriptons;
+    std::unique_ptr<connection_management::QnxChannel> _channel;
+    std::unique_ptr<connection_management::QnxConnection> _other_connection;
 };
 
 } /* namespace dispatcher */

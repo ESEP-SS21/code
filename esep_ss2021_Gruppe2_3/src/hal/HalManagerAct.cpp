@@ -15,10 +15,10 @@ HalManagerAct::HalManagerAct(const std::string& dispatcher_name) :
     _running = true;
     _gpio = std::make_shared<GPIOWrapper>();
     _hal = std::unique_ptr<HAL>(new HAL(_gpio));
-    _irq_rec_channel = std::unique_ptr<dispatcher::cnnMngmnt::QnxChannel>(
-            new dispatcher::cnnMngmnt::QnxChannel());
-    _irq_connection = std::unique_ptr<dispatcher::cnnMngmnt::QnxConnection>(
-            new dispatcher::cnnMngmnt::QnxConnection(_irq_rec_channel->get_chid()));
+    _irq_rec_channel = std::unique_ptr<dispatcher::connection_management::QnxChannel>(
+            new dispatcher::connection_management::QnxChannel());
+    _irq_connection = std::unique_ptr<dispatcher::connection_management::QnxConnection>(
+            new dispatcher::connection_management::QnxConnection(_irq_rec_channel->get_chid()));
 
     subscribe( { dispatcher::EventType::EVNT_ACT_CTRL_T_STR_LED_ON,
             dispatcher::EventType::EVNT_ACT_CTRL_T_STR_LED_OFF,
@@ -104,7 +104,7 @@ void HalManagerAct::handle_qnx_io_msg(header_t header) {
 
 HalManagerAct::~HalManagerAct() {
     _running = false;
-    dispatcher::cnnMngmnt::QnxConnection(_irq_rec_channel->get_chid()).msg_send_pulse(1,
+    dispatcher::connection_management::QnxConnection(_irq_rec_channel->get_chid()).msg_send_pulse(1,
     _PULSE_CODE_UNBLOCK, 0);
 }
 

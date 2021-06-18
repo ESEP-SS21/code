@@ -1,4 +1,4 @@
-#include "cnnMngmnt/QnxConnection.h"
+#include "connection_management/QnxConnection.h"
 #include "Dispatcher.h"
 #include <errno.h>
 #include "Event.h"
@@ -8,33 +8,33 @@
 namespace dispatcher {
 
 Dispatcher::Dispatcher(const std::string &name) :
-        _channel(std::unique_ptr<cnnMngmnt::QnxChannel>(new cnnMngmnt::QnxChannel(name))) {
+        _channel(std::unique_ptr<connection_management::QnxChannel>(new connection_management::QnxChannel(name))) {
     _dispatcher_thread = std::thread([this] {this->run();});
     _other_connection.reset();
 }
 
 Dispatcher::~Dispatcher() {
     _is_running = false;
-    cnnMngmnt::QnxConnection(_channel->get_chid()).msg_send_pulse(1, _PULSE_CODE_UNBLOCK, 0);
+    connection_management::QnxConnection(_channel->get_chid()).msg_send_pulse(1, _PULSE_CODE_UNBLOCK, 0);
     _dispatcher_thread.join();
 }
 
 void Dispatcher::connect_to_other(const std::string &other_dispacher_name) {
-    _other_connection = std::unique_ptr<cnnMngmnt::QnxConnection>(
-            new cnnMngmnt::QnxConnection(other_dispacher_name));
+    _other_connection = std::unique_ptr<connection_management::QnxConnection>(
+            new connection_management::QnxConnection(other_dispacher_name));
 }
 
 void Dispatcher::run() {
     while (_is_running) {
         header_t header;
-        cnnMngmnt::MsgType type = _channel->msg_receive(&header, sizeof(header_t));
+        connection_management::MsgType type = _channel->msg_receive(&header, sizeof(header_t));
 
-        if (type == cnnMngmnt::MsgType::error) {
+        if (type == connection_management::MsgType::error) {
             _logger->error("Dispatcher received error '{}'", header.type);
             break;
         }
 
-        if (type == cnnMngmnt::MsgType::puls) {
+        if (type == connection_management::MsgType::puls) {
             if (header.code < 0) {
                 continue;
             }
@@ -73,8 +73,8 @@ void Dispatcher::handle_sync_msg(header_t header) {
 void Dispatcher::subscribe(EventSubscription subscr) {
     if (_chid_conn_map.find(subscr.chid) == _chid_conn_map.end()) {
         //no connection for this chid yet, create a new one
-        _chid_conn_map[subscr.chid] = std::shared_ptr<cnnMngmnt::QnxConnection>(
-                new cnnMngmnt::QnxConnection(subscr.chid));
+        _chid_conn_map[subscr.chid] = std::shared_ptr<connection_management::QnxConnection>(
+                new connection_management::QnxConnection(subscr.chid));
     }
     _subscriptons[static_cast<int>(subscr.type)].insert(_chid_conn_map[subscr.chid]);
 }

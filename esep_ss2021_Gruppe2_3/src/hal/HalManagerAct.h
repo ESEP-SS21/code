@@ -1,7 +1,7 @@
 #pragma once
 
-#include "dispatcher/cnnMngmnt/QnxChannel.h"
-#include "dispatcher/cnnMngmnt/QnxConnection.h"
+#include "dispatcher/connection_management/QnxChannel.h"
+#include "dispatcher/connection_management/QnxConnection.h"
 #include "dispatcher/DispatcherClient.h"
 #include "dispatcher/Event.h"
 #include <stdint.h>
@@ -27,8 +27,8 @@ private:
     std::shared_ptr<GPIOWrapper> _gpio;
     std::unique_ptr<HAL> _hal;
     void handle_qnx_io_msg(header_t header);
-    std::unique_ptr<dispatcher::cnnMngmnt::QnxChannel> _irq_rec_channel;
-    std::unique_ptr<dispatcher::cnnMngmnt::QnxConnection> _irq_connection; //connection used by isr
+    std::unique_ptr<dispatcher::connection_management::QnxChannel> _irq_rec_channel;
+    std::unique_ptr<dispatcher::connection_management::QnxConnection> _irq_connection; //connection used by isr
     bool _running;
 
 };
