@@ -141,8 +141,7 @@ TEST_F(testSortWrpcPrimary, RampFullButWrpcIsInOrder) {
     data.get_height_switch_sec()->enter_workpiece(wrpc_no_discard);
 
     // RampFull -> NoDiscard
-    test_transition_to<NoDiscard>( { EventType::EVNT_SEN_LB_SW_BLCK }, {
-            { EventType::EVNT_WRN_GONE }, { EventType::EVNT_ACT_SORT_NO_DSC } });
+    test_transition_to<NoDiscard>( { EventType::EVNT_SEN_LB_SW_BLCK }, { EventType::EVNT_ACT_SORT_NO_DSC });
     // NoDiscard -> WaitingToPass
     test_transition_to<WaitingToPass>( { EventType::EVNT_SEN_LB_SW_CLR },
             { Event::CreateTimer(TimerID::SORT_WRPC_NO_DISCARD_PASS, PASS_TIME_MS) });
