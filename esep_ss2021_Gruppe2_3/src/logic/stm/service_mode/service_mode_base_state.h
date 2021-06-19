@@ -14,6 +14,7 @@ public:
 
     void end_service() {
         _eventSender->send({EventType::EVNT_SRV_DONE, 0, true});
+        _eventSender->send({EventType::EVNT_ACT_CTRL_T_RST_LED_OFF});
 //        new(this) ServiceModeState();
     }
 

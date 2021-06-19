@@ -1,4 +1,5 @@
 #include "service_mode_states.h"
+#include "dispatcher/color.h"
 
 namespace logic {
 namespace stm {
@@ -54,6 +55,7 @@ bool Leds::handle(const Event &event) {
 }
 
 void Leds::entry() {
+    step_done();
     _eventSender->send({EventType::EVNT_ACT_CTRL_T_STR_LED_ON});
     _eventSender->send({EventType::EVNT_ACT_CTRL_T_RST_LED_ON});
 }
@@ -78,13 +80,12 @@ bool Stoplight::handle(const Event &event) {
 }
 
 void Stoplight::entry() {
-    _eventSender->send({EventType::EVNT_ACT_STPL_LED_ON, 4, true});
+    _eventSender->send({EventType::EVNT_ACT_STPL_LED_ON, Color::ALL, true});
     step_done();
 }
 
 void Stoplight::exit() {
-    //todo grün
-    _eventSender->send({EventType::EVNT_ACT_STPL_LED_BLNK_SLW, 4, true});
+    _eventSender->send({EventType::EVNT_ACT_STPL_LED_BLNK_SLW, Color::GREEN, true});
 }
 
 STATE_INIT(BeltFwd)
