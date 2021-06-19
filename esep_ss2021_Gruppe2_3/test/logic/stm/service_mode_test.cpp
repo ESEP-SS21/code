@@ -29,6 +29,7 @@ public:
 
 TEST_F(testServiceMode, StartState) {
     test_start_state<StartState>();
+
     test_transition_to<Calibrate>({EventType::EVNT_SRV_STR},
                                   {{EventType::EVNT_SEN_HEIGHT_REQ, 0}});
 
