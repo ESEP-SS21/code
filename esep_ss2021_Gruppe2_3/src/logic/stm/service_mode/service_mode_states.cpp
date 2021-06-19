@@ -143,7 +143,7 @@ bool SortDisc::handle(const Event &event) {
         return true;
     }
 
-    if (event.type == EventType::EVNT_TIM_ALRT && (TimerID(event.type) == TimerID::SRV_Timer)) {
+    if (event.type == EventType::EVNT_TIM_ALRT && (TimerID(event.payload) == TimerID::SRV_Timer)) {
         _eventSender->send({EventType::EVNT_ACT_SORT_RST});
         step_done();
     }
