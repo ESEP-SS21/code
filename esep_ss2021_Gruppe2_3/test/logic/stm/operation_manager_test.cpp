@@ -83,8 +83,8 @@ TEST_F(testOperationManager, WarningsToErrorWithResolve) {
     test_transition_to<Running>({EventType::EVNT_CTRL_T_STR_PRS_SRT},
             {
                     {EventType::EVNT_ACT_CTRL_T_STR_LED_OFF},
-                    {EventType::EVNT_HIST},
                     {EventType::EVNT_ACT_STPL_LED_ON, Color::GREEN},
+                    {EventType::EVNT_HIST}
 
             });
     ASSERT_EQ(data._operating_mode , ::logic::datamodel::OperatingMode::RUNNING);
@@ -105,7 +105,8 @@ TEST_F(testOperationManager, Service) {
 
             });
     ASSERT_EQ(data._operating_mode , ::logic::datamodel::OperatingMode::SERVICE);
-
+    ASSERT_EQ(data._srv_pending, 1);
+    test_transition_to<Service>({EventType::EVNT_SRV_DONE},{});
     test_transition_to<Idle>({EventType::EVNT_SRV_DONE},
             {
                     {EventType::EVNT_ACT_STPL_LED_ON,Color::YELLOW},

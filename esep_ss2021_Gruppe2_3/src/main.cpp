@@ -3,6 +3,14 @@
 #include <embedded_recorder/replayer.h>
 #include <logic/clients/heartbeat_client.h>
 #include <logic/clients/operation_manager_client.h>
+#include <logic/clients/recieve_wrpc_client.h>
+#include <logic/clients/height_measurement_client.h>
+#include <logic/clients/metal_detection_client.h>
+#include <logic/clients/sort_wrpc_client.h>
+#include <logic/clients/wrpc_transfer_client.h>
+#include <logic/clients/answer_transfer_req_client.h>
+#include <logic/clients/error_listener_client.h>
+#include <logic/clients/flip_handler_client.h>
 #include <Logger.h>
 #include <iostream>
 #include "hal/gpiowrapper.h"
@@ -45,8 +53,9 @@ struct Clients {
     //STMS
     const std::unique_ptr<logic::clients::HeartbeatClient> hrtbt;
 
-    Clients()
-        : dispatcher(new dispatcher::Dispatcher(args->mode.str)),
+    Clients():
+
+          dispatcher(new dispatcher::Dispatcher(args->mode.str)),
           timer_svc(new timer::AsyncTimerService(args->mode.str)),
           hal_mngrAct(new hal::HalManagerAct(args->mode.str)),
           hrtbt(new clients::HeartbeatClient(args->mode.str)) {
@@ -91,8 +100,20 @@ int main(int argc, char **argv) {
 
     Clients clients;
     //DemoClient client(args->mode.str, "DEMO");
-    logic::datamodel::UnitData data(logic::datamodel::UnitType::PRIMARY);
-    logic::clients::OperationManagerClient op_mngr(args->mode.str, &data);
+
+    auto data = std::make_shared<logic::datamodel::UnitData>(
+                args->mode.secondary?
+                        logic::datamodel::UnitType::SECONDARY : logic::datamodel::UnitType::PRIMARY
+                        );
+    logic::clients::OperationManagerClient op_mngr(args->mode.str, data.get());
+    logic::clients::ReceiveWrpcClient rec_wrpc_client(args->mode.str, data.get());
+    logic::clients::HeightMeasurementClient he_meas_client(args->mode.str, data.get());
+    logic::clients::MetalDetectionClient metal_dtc_client(args->mode.str, data.get());
+    logic::clients::SortWrpcClient sort_client(args->mode.str, data.get());
+    logic::clients::WrpcTransferClient transfer_client(args->mode.str, data.get());
+    logic::clients::AnswerTransferReqClient ans_transfer(args->mode.str, data.get());
+    logic::clients::ErrorListenerClient error_listener(args->mode.str, data.get());
+    logic::clients::FlipHandlerClient flip_handler(args->mode.str, data);
     wait_for_exit();
 
     return 0;

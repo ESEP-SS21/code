@@ -29,7 +29,8 @@ public:
         context.handle(event);
         ASSERT_STATE(StateAfter);
         for (auto & expectedEvent : expectedEvents){
-            ASSERT_EQ(client.get_last_event(), expectedEvent);
+            ASSERT_FALSE(client.empty());
+            ASSERT_EQ(expectedEvent,client.get_last_event());
         }
         if(!client.empty()){
             std::cout << client.get_last_event().str() << std::endl;
@@ -42,7 +43,8 @@ public:
     void test_start_state(std::initializer_list<Event> expectedEvents = {}){
         ASSERT_STATE(StartState);
         for (auto & expectedEvent : expectedEvents){
-            ASSERT_EQ(client.get_last_event(), expectedEvent);
+            ASSERT_FALSE(client.empty());
+            ASSERT_EQ(expectedEvent,client.get_last_event());
         }
         ASSERT_TRUE(client.empty());
     }

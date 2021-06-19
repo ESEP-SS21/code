@@ -12,7 +12,9 @@ public:
 
     virtual bool ack(){return false;}
     virtual void entry(){}
-    virtual void entry_history(){};
+    virtual void entry_history(){
+        entry();
+    };
     virtual void reset_to_start(){};
     virtual bool lb_st_blck(){return false;}
     virtual bool belt_stp(){return false;}

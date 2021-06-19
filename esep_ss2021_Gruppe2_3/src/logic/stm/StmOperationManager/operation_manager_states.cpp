@@ -5,6 +5,8 @@ namespace logic {
 namespace stm {
 namespace operationManagerStm {
 
+#define UNRECOVERABLE_ESTOP_COUNT 3
+
 using namespace dispatcher;
 
 STATE_INIT(Running)
@@ -19,7 +21,7 @@ bool Running::estop_on() {
 
 bool Running::conn_lost() {
     exit();
-    _datamodel->_estop_count = 3;
+    _datamodel->_estop_count = UNRECOVERABLE_ESTOP_COUNT;
     switch_state<EStop>();
     entry();
     return true;
@@ -28,8 +30,10 @@ bool Running::conn_lost() {
 bool Running::stp_prs_srt() {
     exit();
     if(_datamodel->_warning_count == 0){
+        _datamodel->_operating_mode = OperatingMode::IDLE;
         switch_state<Idle>();
     }else{
+        _datamodel->_operating_mode = OperatingMode::ERROR;
         switch_state<GoneUnacknowledged>();
     }
     entry();
@@ -37,6 +41,7 @@ bool Running::stp_prs_srt() {
 }
 
 bool Running::err() {
+    _datamodel->_operating_mode = OperatingMode::ERROR;
     exit();
     switch_state<PendingUnacknowledged>();
     entry();
@@ -51,11 +56,14 @@ bool Running::wrn() {
 
 bool Running::wrn_gone() {
     _datamodel->_warning_count--;
-    _eventSender->send({ EventType::EVNT_ACT_STPL_LED_ON, Color::GREEN, false });
+    if(_datamodel->_warning_count == 0){
+        _eventSender->send({ EventType::EVNT_ACT_STPL_LED_ON, Color::GREEN, false });
+    }
     return true;
 }
 
 void Running::entry() {
+    _datamodel->_warning_count = 0;
     _eventSender->send({ EventType::EVNT_ACT_STPL_LED_ON, Color::GREEN, false });
 }
 
@@ -72,6 +80,7 @@ bool Idle::str_prs_srt() {
     _datamodel->_operating_mode = OperatingMode::RUNNING;
     switch_state<Running>();
     if(_datamodel->_estop_triggered){
+        _datamodel->_estop_triggered = false;
         _eventSender->send({EventType::EVNT_RST_TO_SRT});
     }else{
         _datamodel->_estop_triggered = false;
@@ -84,6 +93,7 @@ bool Idle::str_prs_srt() {
 bool Idle::str_prs_lng() {
     exit();
     switch_state<Service>();
+    _datamodel->_srv_pending = 1;
     entry();
     return true;
 }
@@ -99,7 +109,7 @@ bool Idle::estop_on() {
 
 bool Idle::conn_lost() {
     exit();
-    _datamodel->_estop_count = 3;
+    _datamodel->_estop_count = UNRECOVERABLE_ESTOP_COUNT;
     switch_state<EStop>();
     entry();
     return true;
@@ -138,6 +148,11 @@ bool EStop::estop_off() {
 }
 
 void EStop::entry(){
+    int old_estop_count =_datamodel->_estop_count;
+    if(!_datamodel->_estop_count == 0){
+       new(_datamodel) UnitData(_datamodel->_unit_type);
+    }
+    _datamodel->_estop_count = old_estop_count;
     _datamodel->_estop_triggered = true;
     _datamodel->_operating_mode = OperatingMode::ESTOP;
     _eventSender->send({ EventType::EVNT_ACT_STPL_LED_BLNK_SLW, Color::RED, false });
@@ -166,7 +181,7 @@ bool PendingUnacknowledged::estop_on() {
 
 bool PendingUnacknowledged::conn_lost() {
     exit();
-    _datamodel->_estop_count = 3;
+    _datamodel->_estop_count = UNRECOVERABLE_ESTOP_COUNT;
     switch_state<EStop>();
     entry();
     return true;
@@ -205,7 +220,7 @@ bool PendingAcknowledged::estop_on() {
 
 bool PendingAcknowledged::conn_lost() {
     exit();
-    _datamodel->_estop_count = 3;
+    _datamodel->_estop_count = UNRECOVERABLE_ESTOP_COUNT;
     switch_state<EStop>();
     entry();
     return true;
@@ -234,7 +249,7 @@ bool GoneUnacknowledged::estop_on() {
 
 bool GoneUnacknowledged::conn_lost() {
     exit();
-    _datamodel->_estop_count = 3;
+    _datamodel->_estop_count = UNRECOVERABLE_ESTOP_COUNT;
     switch_state<EStop>();
     entry();
     return true;
@@ -266,7 +281,7 @@ bool OK::estop_on() {
 
 bool OK::conn_lost() {
     exit();
-    _datamodel->_estop_count = 3;
+    _datamodel->_estop_count = UNRECOVERABLE_ESTOP_COUNT;
     switch_state<EStop>();
     entry();
     return true;
@@ -277,8 +292,8 @@ bool OK::str_prs_srt() {
     _datamodel->_operating_mode = OperatingMode::RUNNING;
     _datamodel->_warning_count = 0;
     switch_state<Running>();
-    _eventSender->send({EventType::EVNT_HIST});
     entry();
+    _eventSender->send({EventType::EVNT_HIST});
     return true;
 }
 
@@ -308,16 +323,21 @@ bool Service::estop_on() {
 
 bool Service::conn_lost(){
     exit();
-    _datamodel->_estop_count = 3;
+    _datamodel->_estop_count = UNRECOVERABLE_ESTOP_COUNT;
     switch_state<EStop>();
     entry();
     return true;
 }
 
 bool Service::srv_done() {
-    exit();
-    switch_state<Idle>();
-    entry();
+    if(_datamodel->_srv_pending ==0){
+        exit();
+        switch_state<Idle>();
+        entry();
+    }else{
+        _datamodel->_srv_pending--;
+    }
+
     return true;
 }
 

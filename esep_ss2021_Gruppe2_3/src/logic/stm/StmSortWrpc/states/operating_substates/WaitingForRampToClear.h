@@ -5,7 +5,7 @@ namespace logic {
 namespace stm {
 namespace sortWrpcStm {
 
-static constexpr int RA_CLR_TIME_TOLERANCE_MS = 200;
+static constexpr int RA_CLR_TIME_TOLERANCE_MS = 800;
 
 class WaitingForRampToClear: public SortWrpcBaseState {
 public:

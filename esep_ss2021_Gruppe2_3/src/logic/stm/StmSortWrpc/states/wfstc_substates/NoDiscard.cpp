@@ -9,7 +9,11 @@ STATE_INIT(NoDiscard)
 
 void NoDiscard::entry(){
     _eventSender->send( { EventType::EVNT_ACT_SORT_NO_DSC, 0, false } );
-    _datamodel->wrpc_order_step();
+
+    if(!_datamodel->get_height_switch_sec()->empty()
+            &&_datamodel->wrpc_fits_order(_datamodel->get_height_switch_sec()->first_workpiece())){
+        _datamodel->wrpc_order_step();
+    }
 }
 
 bool NoDiscard::lb_sw_clr(){

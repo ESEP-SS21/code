@@ -20,33 +20,27 @@ INIT_STM_TEST(testReceiveWrpcStmSecondary, ReceiveWrpcContext, ::logic::datamode
 
 
 TEST_F(testReceiveWrpcStmPrimary, BeginsInRightState){
-    test_start_state<BeltNotRunning>({
-        {EventType::EVNT_ACT_BELT_STP}
-    });
+    test_start_state<BeltNotRunning>({});
 }
 
 TEST_F(testReceiveWrpcStmPrimary, TransitionPri) {
 
     data._operating_mode = ::logic::datamodel::OperatingMode::RUNNING;
     data._belt_blocked = false;
-    test_start_state<BeltNotRunning>({
-        {EventType::EVNT_ACT_BELT_STP}
-    });
+    test_start_state<BeltNotRunning>({});
     ASSERT_TRUE(data.get_start_height_sec()->workpiece_count() == 0);
 
     test_transition_to<BeltRunning>({EventType::EVNT_ACT_BELT_FWD}, {EventType::EVNT_ACT_BELT_FWD});
     test_transition_to<BeltRunning>({EventType::EVNT_SEN_LB_ST_BLCK});
     ASSERT_TRUE(data.get_start_height_sec()->workpiece_count() == 1);
-    test_transition_to<BeltNotRunning>({EventType::EVNT_ACT_BELT_STP}, {EventType::EVNT_ACT_BELT_STP});
+    test_transition_to<BeltNotRunning>({EventType::EVNT_ACT_BELT_STP}, {});
 
 }
 
 TEST_F(testReceiveWrpcStmPrimary, TransitionBeltNotBlockedPri) {
     data._operating_mode = ::logic::datamodel::OperatingMode::RUNNING;
     data._belt_blocked = false;
-    test_start_state<BeltNotRunning>({
-        {EventType::EVNT_ACT_BELT_STP}
-    });
+    test_start_state<BeltNotRunning>({});
     ASSERT_TRUE(data.get_start_height_sec()->workpiece_count() == 0);
     test_transition_to<BeltRunning>({EventType::EVNT_SEN_LB_ST_BLCK}, {EventType::EVNT_ACT_BELT_FWD});
     ASSERT_TRUE(data.get_start_height_sec()->workpiece_count() == 1);
@@ -56,9 +50,7 @@ TEST_F(testReceiveWrpcStmPrimary, TransitionBeltNotBlockedPri) {
 TEST_F(testReceiveWrpcStmPrimary, TransitionBeltBlockedPri) {
     data._operating_mode = ::logic::datamodel::OperatingMode::RUNNING;
     data._belt_blocked = true;
-    test_start_state<BeltNotRunning>({
-        {EventType::EVNT_ACT_BELT_STP}
-    });
+    test_start_state<BeltNotRunning>({});
     ASSERT_TRUE(data.get_start_height_sec()->workpiece_count() == 0);
     test_transition_to<BeltNotRunning>({EventType::EVNT_SEN_LB_ST_BLCK});
     ASSERT_TRUE(data.get_start_height_sec()->workpiece_count() == 1);
@@ -73,9 +65,7 @@ TEST_F(testReceiveWrpcStmSecondary, TransitionSec) {
     auto wrpc = std::make_shared<Workpiece>(create_wp_hm());
     data.set_pending_transfer(wrpc);
 
-    test_start_state<BeltNotRunning>({
-        {EventType::EVNT_ACT_BELT_STP}
-    });
+    test_start_state<BeltNotRunning>({});
 
     ASSERT_TRUE(data.get_start_height_sec()->workpiece_count() == 0);
 
@@ -84,7 +74,7 @@ TEST_F(testReceiveWrpcStmSecondary, TransitionSec) {
     ASSERT_TRUE(data._belt_blocked);
     ASSERT_TRUE(data.get_start_height_sec()->workpiece_count() == 1);
     ASSERT_EQ(data.get_start_height_sec()->first_workpiece(), *wrpc);
-    test_transition_to<BeltNotRunning>({EventType::EVNT_ACT_BELT_STP}, {EventType::EVNT_ACT_BELT_STP});
+    test_transition_to<BeltNotRunning>({EventType::EVNT_ACT_BELT_STP}, {});
 
 }
 
@@ -94,9 +84,7 @@ TEST_F(testReceiveWrpcStmSecondary, TransitionBeltNotBlockedSec) {
     auto wrpc = std::make_shared<Workpiece>(create_wp_hm());
     data.set_pending_transfer(wrpc);
 
-    test_start_state<BeltNotRunning>({
-        {EventType::EVNT_ACT_BELT_STP}
-    });
+    test_start_state<BeltNotRunning>({});
     ASSERT_TRUE(data.get_start_height_sec()->workpiece_count() == 0);
     test_transition_to<BeltRunning>({EventType::EVNT_SEN_LB_ST_BLCK}, {EventType::EVNT_ACT_BELT_FWD});
     ASSERT_TRUE(data._belt_blocked);
@@ -109,9 +97,7 @@ TEST_F(testReceiveWrpcStmSecondary, TransitionBeltBlockedSec) {
     data._belt_blocked = true;
     auto wrpc = std::make_shared<Workpiece>(create_wp_hm());
     data.set_pending_transfer(wrpc);
-    test_start_state<BeltNotRunning>({
-        {EventType::EVNT_ACT_BELT_STP}
-    });
+    test_start_state<BeltNotRunning>({});
     ASSERT_TRUE(data.get_start_height_sec()->workpiece_count() == 0);
     test_transition_to<BeltNotRunning>({EventType::EVNT_SEN_LB_ST_BLCK});
     ASSERT_TRUE(data.get_start_height_sec()->workpiece_count() == 1);

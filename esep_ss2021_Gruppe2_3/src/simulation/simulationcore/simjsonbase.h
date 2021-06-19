@@ -18,6 +18,7 @@ class SimJSONBase {
 protected:
     PJS pstate = PJS::error;
 public:
+    virtual ~SimJSONBase(){};
     virtual bool parseJSON(std::string input);
     virtual std::string toJSONString();
 protected:

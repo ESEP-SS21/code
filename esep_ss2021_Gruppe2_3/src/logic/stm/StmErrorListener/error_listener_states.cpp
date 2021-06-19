@@ -21,7 +21,7 @@ STATE_INIT(WaitingForResolve)
 
 bool WaitingForResolve::lb_ra_clr(){
     if(_datamodel->_pending_error == datamodel::Error::RAMP_FULL){
-        _eventSender->send({EventType::EVNT_ERR_GONE});
+        _eventSender->send({EventType::EVNT_ERR_GONE,0,true});
         switch_state<WaitingForError>();
         entry();
     }

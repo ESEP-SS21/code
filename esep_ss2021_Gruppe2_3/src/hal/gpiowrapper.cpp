@@ -15,9 +15,15 @@ GPIOWrapper::GPIOWrapper() {
     out32((uintptr_t ) (_bank_input + gpio_adresses::GPIO_OE), 0xFFFFFFFF); //set all pins to input
     out32((uintptr_t ) (_bank_actuator + gpio_adresses::GPIO_OE), 0x00000000); //set all pins to input
     out32((uintptr_t ) (_bank_led + gpio_adresses::GPIO_OE), 0x00000000); //set all pins to input
+    write_value_to_register(gpio_adresses::BANK_LED, gpio_adresses::GPIO_CLEARDATAOUT ,0xFFFFFFFF);
+    write_value_to_register(gpio_adresses::BANK_ACTUATOR, gpio_adresses::GPIO_CLEARDATAOUT ,0xFFFFFFFF);
 }
 
 GPIOWrapper::~GPIOWrapper() {
+    write_value_to_register(gpio_adresses::BANK_LED, gpio_adresses::GPIO_CLEARDATAOUT ,0xFFFFFFFF);
+    write_value_to_register(gpio_adresses::BANK_ACTUATOR, gpio_adresses::GPIO_CLEARDATAOUT ,0xFFFFFFFF);
+    // wait for sim to tick, not needed on real hardware
+    usleep(1000*10);
     munmap_device_io(_bank_input, gpio_adresses::GPIO_SIZE);
     munmap_device_io(_bank_actuator, gpio_adresses::GPIO_SIZE);
     munmap_device_io(_bank_led, gpio_adresses::GPIO_SIZE);
