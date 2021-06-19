@@ -80,12 +80,12 @@ bool Stoplight::handle(const Event &event) {
 }
 
 void Stoplight::entry() {
-    _eventSender->send({EventType::EVNT_ACT_STPL_LED_ON, Color::ALL, true});
+    _eventSender->send({EventType::EVNT_ACT_STPL_LED_ON, Color::ALL});
     step_done();
 }
 
 void Stoplight::exit() {
-    _eventSender->send({EventType::EVNT_ACT_STPL_LED_BLNK_SLW, Color::GREEN, true});
+    _eventSender->send({EventType::EVNT_ACT_STPL_LED_BLNK_SLW, Color::GREEN});
 }
 
 STATE_INIT(BeltFwd)
