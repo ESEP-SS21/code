@@ -41,6 +41,19 @@ protected:
         _eventSender->send({EventType::EVNT_ACT_CTRL_T_RST_LED_OFF});
     }
 
+    template<typename state>
+    bool switch_to_if_ack(const Event &event){
+        if (_waiting_for_ack && event.type == EventType::EVNT_CTRL_T_RST_PRS_SRT) {
+            handle_rst();
+            exit();
+            switch_state<state>();
+            entry();
+            return true;
+        }
+
+        return false;
+    }
+
 };
 
 } /* namespace StmAnswerTransferReq */

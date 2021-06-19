@@ -44,14 +44,7 @@ bool Calibrate::handle(const Event &event) {
 STATE_INIT(Leds)
 
 bool Leds::handle(const Event &event) {
-    if (_waiting_for_ack && event.type == EventType::EVNT_CTRL_T_RST_PRS_SRT) {
-        handle_rst();
-        exit();
-        switch_state<Stoplight>();
-        entry();
-        return true;
-    }
-    return false;
+    return switch_to_if_ack<Stoplight>(event);
 }
 
 void Leds::entry() {
@@ -69,14 +62,7 @@ void Leds::exit() {
 STATE_INIT(Stoplight)
 
 bool Stoplight::handle(const Event &event) {
-    if (_waiting_for_ack && event.type == EventType::EVNT_CTRL_T_RST_PRS_SRT) {
-        handle_rst();
-        exit();
-        switch_state<BeltFwd>();
-        entry();
-        return true;
-    }
-    return false;
+    return switch_to_if_ack<BeltFwd>(event);
 }
 
 void Stoplight::entry() {
@@ -91,14 +77,7 @@ void Stoplight::exit() {
 STATE_INIT(BeltFwd)
 
 bool BeltFwd::handle(const Event &event) {
-    if (_waiting_for_ack && event.type == EventType::EVNT_CTRL_T_RST_PRS_SRT) {
-        handle_rst();
-        exit();
-        switch_state<BeltBwd>();
-        entry();
-        return true;
-    }
-    return false;
+    return switch_to_if_ack<BeltBwd>(event);
 }
 
 void BeltFwd::entry() {
@@ -113,14 +92,7 @@ void BeltFwd::exit() {
 STATE_INIT(BeltBwd)
 
 bool BeltBwd::handle(const Event &event) {
-    if (_waiting_for_ack && event.type == EventType::EVNT_CTRL_T_RST_PRS_SRT) {
-        handle_rst();
-        exit();
-        switch_state<SortDisc>();
-        entry();
-        return true;
-    }
-    return false;
+    return switch_to_if_ack<SortDisc>(event);
 }
 
 void BeltBwd::entry() {
@@ -135,13 +107,8 @@ void BeltBwd::exit() {
 STATE_INIT(SortDisc)
 
 bool SortDisc::handle(const Event &event) {
-    if (_waiting_for_ack && event.type == EventType::EVNT_CTRL_T_RST_PRS_SRT) {
-        handle_rst();
-        exit();
-        switch_state<SortNoDisc>();
-        entry();
+    if (switch_to_if_ack<SortNoDisc>(event))
         return true;
-    }
 
     if (event.type == EventType::EVNT_TIM_ALRT && (TimerID(event.payload) == TimerID::SRV_Timer)) {
         _eventSender->send({EventType::EVNT_ACT_SORT_RST});
@@ -164,13 +131,8 @@ void SortDisc::exit() {
 STATE_INIT(SortNoDisc)
 
 bool SortNoDisc::handle(const Event &event) {
-    if (_waiting_for_ack && event.type == EventType::EVNT_CTRL_T_RST_PRS_SRT) {
-        handle_rst();
-        exit();
-        switch_state<Sensors>();
-        entry();
+    if (switch_to_if_ack<Sensors>(event))
         return true;
-    }
 
     if (event.type == EventType::EVNT_TIM_ALRT && (TimerID(event.payload) == TimerID::SRV_Timer)) {
         _eventSender->send({EventType::EVNT_ACT_SORT_RST});
