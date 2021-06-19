@@ -45,6 +45,41 @@ TEST_F(testServiceMode, StartState) {
                                    {EventType::EVNT_ACT_STPL_LED_ON, Color::ALL},
                                    StepDoneEvent,
                                   });
+
+    test_transition_to<BeltFwd>(AckEvent, {AfterAckEvent,
+            {EventType::EVNT_ACT_STPL_LED_BLNK_SLW, Color::GREEN},
+            {EventType::EVNT_ACT_BELT_FWD}, StepDoneEvent}
+    );
+
+    test_transition_to<BeltBwd>(AckEvent,
+            {AfterAckEvent, {EventType::EVNT_ACT_BELT_STP},{EventType::EVNT_ACT_BELT_BWD},StepDoneEvent}
+    );
+
+    test_transition_to<SortDisc>(AckEvent,
+            {AfterAckEvent, {EventType::EVNT_ACT_BELT_STP},
+                    {EventType::EVNT_ACT_SORT_DSC},
+                    Event::CreateTimer(TimerID::SRV_Timer, 2000),}
+    );
+    test_transition_to<SortDisc>({EventType::EVNT_TIM_ALRT, static_cast<int>(TimerID::SRV_Timer)}, {{EventType::EVNT_ACT_SORT_RST}, StepDoneEvent}
+    );
+
+//    test_transition_to<SortNoDisc>(AckEvent,
+//    {AfterAckEvent, {EventType::EVNT_ACT_SORT_RST},
+//            {EventType::EVNT_ACT_SORT_NO_DSC},
+//            Event::CreateTimer(TimerID::SRV_Timer, 2000)}
+//    );
+//
+//    test_transition_to<Sensors>(AckEvent,
+//       {AfterAckEvent, {EventType::EVNT_ACT_SORT_RST}
+//       });
+//
+//    test_transition_to<StartState>(AckEvent, {AfterAckEvent,{EventType::EVNT_SEN_LB_ST_CLR},
+//                {EventType::EVNT_SEN_LB_EN_CLR},
+//                {EventType::EVNT_SEN_LB_RA_CLR},
+//                {EventType::EVNT_SEN_LB_SW_CLR},}
+//    );
+
+
 }
 
 }
