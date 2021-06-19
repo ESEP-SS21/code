@@ -60,9 +60,10 @@ enum class EventType { //make sure to add a string representation for each value
     EVNT_TIM_ALRT,
     EVNT_CONN_LOST,
     EVNT_SRV_DONE,
+    EVNT_SRV_STR,
     EVNT_HIST,
     EVNT_RST_TO_SRT,
-    SIZE = 64
+    SIZE = 64,
 };
 
 enum class TimerID
@@ -128,9 +129,9 @@ inline std::ostream& operator<<(std::ostream& out, const EventType& e) {
             "EVNT_TIM_ALRT",
             "EVNT_CONN_LOST",
             "EVNT_SRV_DONE",
+            "EVNT_SRV_STR",
             "EVNT_HIST",
             "EVNT_RST_TO_SRT",
-
     };
     return out << strs[static_cast<int>(e)];
 }

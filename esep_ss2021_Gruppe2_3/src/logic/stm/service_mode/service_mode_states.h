@@ -1,57 +1,80 @@
 #pragma once
 
-#include <dispatcher/color.h>
-#include "../base_base_state.h"
+#include "service_mode_base_state.h"
 
 namespace logic {
 namespace stm {
-namespace ServiceModeStm {
+namespace stm_service_mode {
 
-enum class Step {
-    calibrate_he_req,
-    calibrate_he_he,
-    act_led,
-    act_stp_light,
-    act_belt_fwd,
-    act_belt_backw,
-    act_sort_dsc,
-    act_sort_no_dsc,
-    sen_lb_st,
-    sen_lb_en,
-    sen_lb_sw,
-    sen_lb_ra,
-    sen_me,
-    DONE,
-};
-
-class ServiceModeState : public BaseBaseState {
-private:
-    Step _currStep;
-    bool _waiting_for_ack;
-    dispatcher::Color _blink_color;
-    std::queue<Event> _reset_events = std::queue<Event>();
-
-    void end_service();
-    void step_done();
-
+class StartState: public ServiceModeBaseState {
 public:
-    ServiceModeState() = default;
-
     STATE_HEADER_INIT
-
     bool handle(const Event &event) override;
 
-    void handle_rst();
-
-    void exit() override{
-        end_service();
-    }
-
-    void blink_stoplight();
-
-    void handle_timers();
+    void entry() override;
 };
 
-} /* namespace recieveWrpcStm */
+class Calibrate: public ServiceModeBaseState {
+public:
+    STATE_HEADER_INIT
+    bool handle(const Event &event) override;
+    void entry() override;
+};
+
+class Sensors: public ServiceModeBaseState {
+public:
+    STATE_HEADER_INIT
+    bool handle(const Event &event) override;
+};
+
+class Leds: public ServiceModeBaseState {
+public:
+    STATE_HEADER_INIT
+    bool handle(const Event &event) override;
+    void entry() override;
+    void exit() override;
+};
+
+class Stoplight: public ServiceModeBaseState {
+public:
+    STATE_HEADER_INIT
+    bool handle(const Event &event) override;
+    void entry() override;
+    void exit() override;
+};
+
+class BeltFwd: public ServiceModeBaseState {
+public:
+    STATE_HEADER_INIT
+    bool handle(const Event &event) override;
+    void entry() override;
+    void exit() override;
+};
+
+class BeltBwd: public ServiceModeBaseState {
+public:
+    STATE_HEADER_INIT
+    bool handle(const Event &event) override;
+    void entry() override;
+    void exit() override;
+};
+
+class SortDisc: public ServiceModeBaseState {
+public:
+    STATE_HEADER_INIT
+    bool handle(const Event &event) override;
+    void entry() override;
+    void exit() override;
+};
+
+class SortNoDisc: public ServiceModeBaseState {
+public:
+    STATE_HEADER_INIT
+    bool handle(const Event &event) override;
+    void entry() override;
+    void exit() override;
+};
+
+} /* namespace StmAnswerTransferReq */
 } /* namespace stm */
 } /* namespace logic */
