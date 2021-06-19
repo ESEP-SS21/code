@@ -24,12 +24,9 @@ HalManagerAct::HalManagerAct(const std::string& dispatcher_name) :
             dispatcher::EventType::EVNT_ACT_CTRL_T_STR_LED_OFF,
             dispatcher::EventType::EVNT_ACT_CTRL_T_RST_LED_ON,
             dispatcher::EventType::EVNT_ACT_CTRL_T_RST_LED_OFF,
-            //dispatcher::EventType::EVNT_ACT_BELT_BWD,
-            dispatcher::EventType::EVNT_ACT_BELT_FWD,
-            dispatcher::EventType::EVNT_ACT_BELT_STP,
-            dispatcher::EventType::EVNT_ACT_SORT_DSC,
-            dispatcher::EventType::EVNT_ACT_SORT_NO_DSC,
-            dispatcher::EventType::EVNT_ACT_SORT_RST,
+            dispatcher::EventType::EVNT_ACT_BELT_BWD, dispatcher::EventType::EVNT_ACT_BELT_FWD,
+            dispatcher::EventType::EVNT_ACT_BELT_STP, dispatcher::EventType::EVNT_ACT_SORT_DSC,
+            dispatcher::EventType::EVNT_ACT_SORT_NO_DSC, dispatcher::EventType::EVNT_ACT_SORT_RST,
             dispatcher::EventType::EVNT_ACT_STPL_LED_ON,
             dispatcher::EventType::EVNT_ACT_STPL_LED_OFF,
             dispatcher::EventType::EVNT_ACT_STPL_LED_BLNK_FST,
@@ -38,9 +35,9 @@ HalManagerAct::HalManagerAct(const std::string& dispatcher_name) :
 }
 
 void HalManagerAct::handle(dispatcher::Event& event) {
-//    if (event.type == dispatcher::EventType::EVNT_ACT_BELT_BWD) {
-//        _hal->get_cb_motor().get()->set_direction(Direction::FAST_BACKWARDS);
-//    }
+    if (event.type == dispatcher::EventType::EVNT_ACT_BELT_BWD) {
+        _hal->get_cb_motor().get()->set_direction(Direction::FAST_BACKWARDS);
+    }
     if (event.type == dispatcher::EventType::EVNT_ACT_BELT_FWD) {
         _hal->get_cb_motor().get()->set_direction(Direction::FAST_FORWARDS);
     }
