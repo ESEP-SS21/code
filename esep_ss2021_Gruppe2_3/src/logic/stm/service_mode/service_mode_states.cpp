@@ -172,7 +172,7 @@ bool SortNoDisc::handle(const Event &event) {
         return true;
     }
 
-    if (event.type == EventType::EVNT_TIM_ALRT && (TimerID(event.type) == TimerID::SRV_Timer)) {
+    if (event.type == EventType::EVNT_TIM_ALRT && (TimerID(event.payload) == TimerID::SRV_Timer)) {
         _eventSender->send({EventType::EVNT_ACT_SORT_RST});
         step_done();
     }
@@ -205,8 +205,8 @@ bool Sensors::handle(const Event &event) {
 
     if (_currSensType == SensorEnum::lb_st && event.type == EventType::EVNT_SEN_LB_ST_CLR ||
         _currSensType == SensorEnum::lb_en && event.type == EventType::EVNT_SEN_LB_EN_CLR ||
-        _currSensType == SensorEnum::lb_ra && event.type == EventType::EVNT_SEN_LB_RA_CLR ||
         _currSensType == SensorEnum::lb_sw && event.type == EventType::EVNT_SEN_LB_SW_CLR ||
+        _currSensType == SensorEnum::lb_ra && event.type == EventType::EVNT_SEN_LB_RA_CLR ||
         _currSensType == SensorEnum::me && event.type == EventType::EVNT_SEN_METAL_DTC
         ) {
 
