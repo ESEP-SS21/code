@@ -48,7 +48,7 @@ using client_ptr = std::unique_ptr<DispatcherClient>;
 
 struct Clients {
     const std::unique_ptr<dispatcher::Dispatcher> dispatcher;
-    const std::vector<std::unique_ptr<DispatcherClient>> _clients{std::vector<client_ptr>()};
+    std::vector<std::unique_ptr<DispatcherClient>> _clients{std::vector<client_ptr>()};
 
     Clients() : dispatcher(new dispatcher::Dispatcher(args->mode.str)) {
         _clients.push_back(client_ptr(new timer::AsyncTimerService(args->mode.str)));
@@ -64,9 +64,7 @@ struct Clients {
         if (args->record)
             _clients.push_back(client_ptr(new Recorder(args->mode.str, args->filename)));
         if (args->playback) {
-            auto replayer = client_ptr(new Replayer(args->mode.str, args->filename));
-            replayer->start();
-            _clients.push_back(replayer);
+            _clients.push_back(client_ptr(new Replayer(args->mode.str, args->filename)));
         }
     }
 };
