@@ -21,7 +21,8 @@ public:
             EventType::EVNT_SEN_HEIGHT_HE,
             EventType::EVNT_CTRL_T_RST_PRS_SRT,
             EventType::EVNT_TIM_ALRT,
-            EventType::EVNT_CTRL_T_STP_PRS_LNG
+            EventType::EVNT_CTRL_T_STP_PRS_LNG,
+            EventType::EVNT_ACK
         });
     }
     virtual ~ServiceModeClient() = default;
