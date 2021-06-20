@@ -88,18 +88,28 @@ TEST_F(testServiceMode, StartState) {
                         Event(EventType::EVNT_SEN_LB_RA_CLR)}) {
 
         test_transition_to<Sensors>(event,
+                                    {{EventType::EVNT_ACK}});
+
+        test_transition_to<Sensors>({EventType::EVNT_ACK});
+
+        test_transition_to<Sensors>({EventType::EVNT_ACK},
                                     {StepDoneEvent});
 
         test_transition_to<Sensors>(AckEvent,
                                     {AfterAckEvent});
     }
 
+
     test_transition_to<Sensors>({EventType::EVNT_SEN_METAL_DTC},
+                                {{EventType::EVNT_ACK}});
+
+    test_transition_to<Sensors>({EventType::EVNT_ACK});
+
+    test_transition_to<Sensors>({EventType::EVNT_ACK},
                                 {StepDoneEvent});
 
     test_transition_to<StartState>(AckEvent,
-                                   {AfterAckEvent});
-
+                                {AfterAckEvent});
 }
 
 }
