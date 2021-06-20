@@ -29,6 +29,7 @@ protected:
 
     bool _waiting_for_ack;
     SensorEnum _currSensType = SensorEnum::lb_st;
+    int _ackCount;
 
     void step_done() {
         _eventSender->send({EventType::EVNT_ACT_CTRL_T_RST_LED_ON});

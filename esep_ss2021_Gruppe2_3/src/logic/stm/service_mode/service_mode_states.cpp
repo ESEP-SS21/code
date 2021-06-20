@@ -22,6 +22,7 @@ bool StartState::handle(const Event &event) {
 void StartState::entry() {
     _waiting_for_ack = false;
     _currSensType = SensorEnum::lb_st;
+    _ackCount = 0;
 }
 
 STATE_INIT(Calibrate)
@@ -172,8 +173,20 @@ bool Sensors::handle(const Event &event) {
         _currSensType == SensorEnum::me && event.type == EventType::EVNT_SEN_METAL_DTC
         ) {
 
-        _currSensType = SensorEnum(static_cast<int>(_currSensType) + 1);
-        step_done();
+        _eventSender->send({EventType::EVNT_ACK, static_cast<int>(_currSensType)});
+        return true;
+    }
+
+    if (event.type == EventType::EVNT_ACK) {
+        if (SensorEnum(event.payload) != _currSensType)
+            _logger->critical("Service mode out of sync");
+        _ackCount++;
+
+        if (_ackCount == 2){
+            _currSensType = SensorEnum(static_cast<int>(_currSensType) + 1);
+            _ackCount = 0;
+            step_done();
+        }
         return true;
     }
 
