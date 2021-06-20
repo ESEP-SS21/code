@@ -55,6 +55,22 @@ struct Clients {
         _clients.push_back(client_ptr(new hal::HalManagerAct(args->mode.str)));
         _clients.push_back(client_ptr(new clients::HeartbeatClient(args->mode.str)));
 
+        auto data = std::make_shared<logic::datamodel::UnitData>(
+            args->mode.secondary?
+            logic::datamodel::UnitType::SECONDARY : logic::datamodel::UnitType::PRIMARY
+        );
+
+       _clients.push_back(client_ptr(new logic::clients::OperationManagerClient (args->mode.str, data.get()));
+       _clients.push_back(client_ptr(new logic::clients::ReceiveWrpcClient (args->mode.str, data.get()));
+       _clients.push_back(client_ptr(new logic::clients::HeightMeasurementClient (args->mode.str, data.get()));
+       _clients.push_back(client_ptr(new logic::clients::MetalDetectionClient (args->mode.str, data.get()));
+       _clients.push_back(client_ptr(new logic::clients::SortWrpcClient (args->mode.str, data.get()));
+       _clients.push_back(client_ptr(new logic::clients::WrpcTransferClient (args->mode.str, data.get()));
+       _clients.push_back(client_ptr(new logic::clients::AnswerTransferReqClient (args->mode.str, data.get()));
+       _clients.push_back(client_ptr(new logic::clients::ErrorListenerClient (args->mode.str, data.get()));
+       _clients.push_back(client_ptr(new logic::clients::FlipHandlerClient (args->mode.str, data));
+       _clients.push_back(client_ptr(new logic::clients::ServiceModeClient (args->mode.str, data.get()));
+
         if (!args->playback)
             _clients.push_back(client_ptr(new hal::HalManagerSen(args->mode.str)));
 
@@ -95,20 +111,6 @@ int main(int argc, char **argv) {
     Clients clients;
     //DemoClient client(args->mode.str, "DEMO");
 
-    auto data = std::make_shared<logic::datamodel::UnitData>(
-                args->mode.secondary?
-                        logic::datamodel::UnitType::SECONDARY : logic::datamodel::UnitType::PRIMARY
-                        );
-    logic::clients::OperationManagerClient op_mngr(args->mode.str, data.get());
-    logic::clients::ReceiveWrpcClient rec_wrpc_client(args->mode.str, data.get());
-    logic::clients::HeightMeasurementClient he_meas_client(args->mode.str, data.get());
-    logic::clients::MetalDetectionClient metal_dtc_client(args->mode.str, data.get());
-    logic::clients::SortWrpcClient sort_client(args->mode.str, data.get());
-    logic::clients::WrpcTransferClient transfer_client(args->mode.str, data.get());
-    logic::clients::AnswerTransferReqClient ans_transfer(args->mode.str, data.get());
-    logic::clients::ErrorListenerClient error_listener(args->mode.str, data.get());
-    logic::clients::FlipHandlerClient flip_handler(args->mode.str, data);
-    logic::clients::ServiceModeClient service_mode(args->mode.str, data.get());
 
     wait_for_exit();
 
