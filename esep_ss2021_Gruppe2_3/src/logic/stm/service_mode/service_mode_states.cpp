@@ -26,7 +26,7 @@ void StartState::entry() {
 }
 
 void StartState::exit() {
-    _logger->info("Starting service mode. Hold stop button for 3 seconds to abort");
+    _logger->info("Starting service mode. Hold stop button for 3 seconds to abort. Confirm each step with the reset button.");
 }
 
 STATE_INIT(Calibrate)
@@ -73,7 +73,7 @@ bool Stoplight::handle(const Event &event) {
 }
 
 void Stoplight::entry() {
-    _logger->info("Confirm that both all stoplight LEDs are turned on on both systems");
+    _logger->info("Confirm that all stoplight LEDs are turned on on both systems");
     _eventSender->send({EventType::EVNT_ACT_STPL_LED_ON, Color::ALL});
     step_done();
 }
