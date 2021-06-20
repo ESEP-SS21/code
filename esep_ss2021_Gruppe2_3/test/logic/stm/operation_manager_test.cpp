@@ -208,6 +208,8 @@ TEST_F(testOperationManager, EStop) {
             {
                     {EventType::EVNT_ACT_STPL_LED_OFF,Color::YELLOW},
                     {EventType::EVNT_ACT_CTRL_T_STR_LED_OFF},
+                    {EventType::EVNT_ACT_BELT_STP},
+                    {EventType::EVNT_ACT_SORT_RST},
                     {EventType::EVNT_ACT_STPL_LED_BLNK_SLW,Color::RED},
                     {EventType::EVNT_ACT_CTRL_T_RST_LED_ON},
 
