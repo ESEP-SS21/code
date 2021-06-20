@@ -117,7 +117,8 @@ void HalManagerSen::send_event_to_dispatcher() {
         if (delta > 3000) {
             dispatcher::Event e = { dispatcher::EventType::EVNT_CTRL_T_STR_PRS_LNG, 0, true };
             send(e, 20);
-        } else {
+        }
+        if (delta < 500){
             dispatcher::Event e = { dispatcher::EventType::EVNT_CTRL_T_STR_PRS_SRT, 0, true };
             send(e, 20);
         }
@@ -131,7 +132,8 @@ void HalManagerSen::send_event_to_dispatcher() {
         if (delta > 3000) {
             dispatcher::Event e = { dispatcher::EventType::EVNT_CTRL_T_STP_PRS_LNG, 0, true };
             send(e, 20);
-        } else {
+        }
+        if (delta < 500) {
             dispatcher::Event e = { dispatcher::EventType::EVNT_CTRL_T_STP_PRS_SRT, 0, true };
             send(e, 20);
         }
@@ -145,7 +147,8 @@ void HalManagerSen::send_event_to_dispatcher() {
         if (delta > 3000) {
             dispatcher::Event e = { dispatcher::EventType::EVNT_CTRL_T_RST_PRS_LNG, 0, true };
             send(e, 20);
-        } else {
+        }
+        if (delta < 500) {
             dispatcher::Event e = { dispatcher::EventType::EVNT_CTRL_T_RST_PRS_SRT, 0, true };
             send(e, 20);
         }
