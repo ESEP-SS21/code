@@ -109,11 +109,12 @@ TEST_F(testSortWrpcPrimary, MakeSpaceInRampWhileFullCapacity) {
 
     // WaitingForRampToClear -> RampFull
     test_transition_to<RampFull>( { EventType::EVNT_TIM_ALRT,
-            static_cast<int>(TimerID::SORT_WRPC_FULL) }, { { EventType::EVNT_WRN } });
+            static_cast<int>(TimerID::SORT_WRPC_FULL) }, { { EventType::EVNT_WRN },
+                    {EventType::EVNT_ACT_CTRL_Q1_LED_ON} });
     ASSERT_TRUE(data._ramp_full);
     // RampFull -> WaitingForWrpc
     test_transition_to<WaitingForWrpc>( { EventType::EVNT_SEN_LB_RA_CLR }, { {
-            EventType::EVNT_WRN_GONE } });
+            EventType::EVNT_WRN_GONE }, {EventType::EVNT_ACT_CTRL_Q1_LED_OFF} });
     ASSERT_FALSE(data._ramp_full);
 }
 
@@ -134,7 +135,8 @@ TEST_F(testSortWrpcPrimary, RampFullButWrpcIsInOrder) {
     ASSERT_TRUE(data.belt_empty());
     // WaitingForRampToClear -> RampFull
     test_transition_to<RampFull>( { EventType::EVNT_TIM_ALRT,
-            static_cast<int>(TimerID::SORT_WRPC_FULL) }, { { EventType::EVNT_WRN } });
+            static_cast<int>(TimerID::SORT_WRPC_FULL) }, { { EventType::EVNT_WRN },
+                    {EventType::EVNT_ACT_CTRL_Q1_LED_ON} });
     ASSERT_TRUE(data._ramp_full);
 
     Workpiece wrpc_no_discard = create_wp_hm();
@@ -168,7 +170,8 @@ TEST_F(testSortWrpcSecondary, DiscardButRampFullError) {
     ASSERT_TRUE(data.belt_empty());
     // WaitingForRampToClear -> RampFull
     test_transition_to<RampFull>( { EventType::EVNT_TIM_ALRT,
-            static_cast<int>(TimerID::SORT_WRPC_FULL) }, { { EventType::EVNT_WRN } });
+            static_cast<int>(TimerID::SORT_WRPC_FULL) }, { { EventType::EVNT_WRN },
+                    {EventType::EVNT_ACT_CTRL_Q1_LED_ON} });
     ASSERT_TRUE(data._ramp_full);
 
     Workpiece wrpc_discard_2 = create_wp_l();
@@ -177,7 +180,7 @@ TEST_F(testSortWrpcSecondary, DiscardButRampFullError) {
     // RampFull -> RampFull
     Event error_event {EventType::EVNT_ERR, static_cast<int>(::logic::datamodel::Error::RAMP_FULL), true};
     test_transition_to<RampFull>( { EventType::EVNT_SEN_LB_SW_BLCK },
-            { {error_event} });
+            { {error_event}, {EventType::EVNT_ACT_CTRL_Q1_LED_ON} });
     ASSERT_TRUE(data._ramp_full);
 
 }
