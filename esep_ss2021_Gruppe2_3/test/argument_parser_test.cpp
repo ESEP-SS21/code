@@ -70,17 +70,6 @@ TEST(ArgumentParser, Secondary) {
     ASSERT_TRUE(res->mode.secondary);
 }
 
-TEST(ArgumentParser, Ejector) {
-    constexpr int size = 2;
-    const char *messages[size] =
-        {
-            "testmain",
-            "-e",
-        };
-    auto res = argument_parser::parse(size, messages);
-    ASSERT_TRUE(res->ejector);
-}
-
 TEST(ArgumentParser, Verbose) {
     constexpr int size = 2;
     const char *messages[size] =
