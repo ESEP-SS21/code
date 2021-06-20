@@ -60,16 +60,16 @@ struct Clients {
             logic::datamodel::UnitType::SECONDARY : logic::datamodel::UnitType::PRIMARY
         );
 
-       _clients.push_back(client_ptr(new logic::clients::OperationManagerClient (args->mode.str, data.get()));
-       _clients.push_back(client_ptr(new logic::clients::ReceiveWrpcClient (args->mode.str, data.get()));
-       _clients.push_back(client_ptr(new logic::clients::HeightMeasurementClient (args->mode.str, data.get()));
-       _clients.push_back(client_ptr(new logic::clients::MetalDetectionClient (args->mode.str, data.get()));
-       _clients.push_back(client_ptr(new logic::clients::SortWrpcClient (args->mode.str, data.get()));
-       _clients.push_back(client_ptr(new logic::clients::WrpcTransferClient (args->mode.str, data.get()));
-       _clients.push_back(client_ptr(new logic::clients::AnswerTransferReqClient (args->mode.str, data.get()));
-       _clients.push_back(client_ptr(new logic::clients::ErrorListenerClient (args->mode.str, data.get()));
-       _clients.push_back(client_ptr(new logic::clients::FlipHandlerClient (args->mode.str, data));
-       _clients.push_back(client_ptr(new logic::clients::ServiceModeClient (args->mode.str, data.get()));
+       _clients.push_back(client_ptr(new logic::clients::OperationManagerClient (args->mode.str, data.get())));
+       _clients.push_back(client_ptr(new logic::clients::ReceiveWrpcClient (args->mode.str, data.get())));
+       _clients.push_back(client_ptr(new logic::clients::HeightMeasurementClient (args->mode.str, data.get())));
+       _clients.push_back(client_ptr(new logic::clients::MetalDetectionClient (args->mode.str, data.get())));
+       _clients.push_back(client_ptr(new logic::clients::SortWrpcClient (args->mode.str, data.get())));
+       _clients.push_back(client_ptr(new logic::clients::WrpcTransferClient (args->mode.str, data.get())));
+       _clients.push_back(client_ptr(new logic::clients::AnswerTransferReqClient (args->mode.str, data.get())));
+       _clients.push_back(client_ptr(new logic::clients::ErrorListenerClient (args->mode.str, data.get())));
+       _clients.push_back(client_ptr(new logic::clients::FlipHandlerClient (args->mode.str, data)));
+       _clients.push_back(client_ptr(new logic::clients::ServiceModeClient (args->mode.str, data.get())));
 
         if (!args->playback)
             _clients.push_back(client_ptr(new hal::HalManagerSen(args->mode.str)));
