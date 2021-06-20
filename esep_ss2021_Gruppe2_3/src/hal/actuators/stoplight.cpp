@@ -26,9 +26,16 @@ void Stoplight::enable(Color color) {
     case YELLOW:
         _gpio->out(gpio_adresses::BANK_ACTUATOR, gpio_adresses::AMPEL_GELB_1, 1);
         break;
-    default:
+    case RED:
+        _gpio->out(gpio_adresses::BANK_ACTUATOR, gpio_adresses::AMPEL_ROT_1, 1);
+         break;
+    case ALL:
+        _gpio->out(gpio_adresses::BANK_ACTUATOR, gpio_adresses::AMPEL_GRUEN_1, 1);
+        _gpio->out(gpio_adresses::BANK_ACTUATOR, gpio_adresses::AMPEL_GELB_1, 1);
         _gpio->out(gpio_adresses::BANK_ACTUATOR, gpio_adresses::AMPEL_ROT_1, 1);
         break;
+    default:
+        _logger->error("Unknown Color");
     }
 }
 
@@ -41,9 +48,16 @@ void Stoplight::disable(Color color) {
     case YELLOW:
         _gpio->out(gpio_adresses::BANK_ACTUATOR, gpio_adresses::AMPEL_GELB_1, 0);
         break;
-    default:
+    case RED:
         _gpio->out(gpio_adresses::BANK_ACTUATOR, gpio_adresses::AMPEL_ROT_1, 0);
         break;
+    case ALL:
+        _gpio->out(gpio_adresses::BANK_ACTUATOR, gpio_adresses::AMPEL_GRUEN_1, 0);
+        _gpio->out(gpio_adresses::BANK_ACTUATOR, gpio_adresses::AMPEL_GELB_1, 0);
+        _gpio->out(gpio_adresses::BANK_ACTUATOR, gpio_adresses::AMPEL_ROT_1, 0);
+        break;
+    default:
+        _logger->error("Unknown Color");
     }
 }
 

@@ -4,6 +4,7 @@
 #include "../../dispatcher/color.h"
 #include "../gpiowrapper.h"
 #include "../actuators/BlinkWorker.h"
+#include "Logger.h"
 
 namespace hal {
 
@@ -16,6 +17,7 @@ private:
     std::shared_ptr<GPIOWrapper> _gpio;
     BlinkWorker _blinker;
     std::thread _blinker_thread;
+    Logger::Logger _logger { Logger::get() };
 
 public:
     Stoplight(std::shared_ptr<GPIOWrapper>);

@@ -4,7 +4,7 @@
 namespace dispatcher{
 
 enum Color {
-	GREEN = 0, YELLOW, RED
+	GREEN = 0, YELLOW, RED, ALL
 };
 
 }

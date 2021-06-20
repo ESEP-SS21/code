@@ -11,6 +11,7 @@
 #include <logic/clients/answer_transfer_req_client.h>
 #include <logic/clients/error_listener_client.h>
 #include <logic/clients/flip_handler_client.h>
+#include <logic/clients/service_mode_client.h>
 #include <Logger.h>
 #include <iostream>
 #include "hal/gpiowrapper.h"
@@ -114,6 +115,8 @@ int main(int argc, char **argv) {
     logic::clients::AnswerTransferReqClient ans_transfer(args->mode.str, data.get());
     logic::clients::ErrorListenerClient error_listener(args->mode.str, data.get());
     logic::clients::FlipHandlerClient flip_handler(args->mode.str, data);
+    logic::clients::ServiceModeClient service_mode(args->mode.str, data.get());
+
     wait_for_exit();
 
     return 0;

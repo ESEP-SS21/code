@@ -155,6 +155,8 @@ void EStop::entry(){
     _datamodel->_estop_count = old_estop_count;
     _datamodel->_estop_triggered = true;
     _datamodel->_operating_mode = OperatingMode::ESTOP;
+    _eventSender->send({ EventType::EVNT_ACT_BELT_STP, 0, false });
+    _eventSender->send({ EventType::EVNT_ACT_SORT_RST, 0, false });
     _eventSender->send({ EventType::EVNT_ACT_STPL_LED_BLNK_SLW, Color::RED, false });
     _eventSender->send({ EventType::EVNT_ACT_CTRL_T_RST_LED_ON});
     if(_datamodel->_estop_count>2){
@@ -310,6 +312,7 @@ STATE_INIT(Service)
 
 void Service::entry() {
     _datamodel->_operating_mode = OperatingMode::SERVICE;
+    _eventSender->send({EventType::EVNT_SRV_STR});
     _eventSender->send({EventType::EVNT_ACT_STPL_LED_BLNK_SLW,Color::GREEN});
 }
 
