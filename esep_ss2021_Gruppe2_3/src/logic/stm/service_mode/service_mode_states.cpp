@@ -173,13 +173,11 @@ bool Sensors::handle(const Event &event) {
         _currSensType == SensorEnum::me && event.type == EventType::EVNT_SEN_METAL_DTC
         ) {
 
-        _eventSender->send({EventType::EVNT_ACK/*, static_cast<int>(_currSensType)*/});
+        _eventSender->send({EventType::EVNT_ACK});
         return true;
     }
 
     if (event.type == EventType::EVNT_ACK) {
-//        if (SensorEnum(event.payload) != _currSensType)
-//            _logger->critical("Service mode out of sync");
         _ackCount++;
 
         if (_ackCount == 2){
