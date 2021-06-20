@@ -25,6 +25,10 @@ void StartState::entry() {
     _ackCount = 0;
 }
 
+void StartState::exit() {
+    _logger->info("Starting service mode. Hold stop button for 3 seconds to abort");
+}
+
 STATE_INIT(Calibrate)
 
 void Calibrate::entry() {
@@ -35,6 +39,7 @@ bool Calibrate::handle(const Event &event) {
     if (event.type == EventType::EVNT_SEN_HEIGHT_HE) {
         _eventSender->send({EventType::EVNT_SEN_HEIGHT_REQ, event.payload});
         exit();
+        _logger->info("Calibrated height sensor to {}", event.payload);
         switch_state<Leds>();
         entry();
         return true;
@@ -50,6 +55,7 @@ bool Leds::handle(const Event &event) {
 
 void Leds::entry() {
     step_done();
+    _logger->info("Confirm that both start and reset button LEDs are turned on on both systems");
     _eventSender->send({EventType::EVNT_ACT_CTRL_T_STR_LED_ON});
     _eventSender->send({EventType::EVNT_ACT_CTRL_T_RST_LED_ON});
 }
@@ -67,6 +73,7 @@ bool Stoplight::handle(const Event &event) {
 }
 
 void Stoplight::entry() {
+    _logger->info("Confirm that both all stoplight LEDs are turned on on both systems");
     _eventSender->send({EventType::EVNT_ACT_STPL_LED_ON, Color::ALL});
     step_done();
 }
@@ -82,6 +89,7 @@ bool BeltFwd::handle(const Event &event) {
 }
 
 void BeltFwd::entry() {
+    _logger->info("Confirm that belts are moving forwards on both systems");
     _eventSender->send({EventType::EVNT_ACT_BELT_FWD});
     step_done();
 }
@@ -97,6 +105,7 @@ bool BeltBwd::handle(const Event &event) {
 }
 
 void BeltBwd::entry() {
+    _logger->info("Confirm that belts are moving backwards on both systems");
     _eventSender->send({EventType::EVNT_ACT_BELT_BWD});
     step_done();
 }
@@ -120,6 +129,7 @@ bool SortDisc::handle(const Event &event) {
 }
 
 void SortDisc::entry() {
+    _logger->info("Confirm that sorters are in discard position for approx. 2 seconds on both systems");
     _eventSender->send({EventType::EVNT_ACT_SORT_DSC});
     _eventSender->send(Event::CreateTimer(TimerID::SRV_Timer, 2000));
 }
@@ -144,6 +154,7 @@ bool SortNoDisc::handle(const Event &event) {
 }
 
 void SortNoDisc::entry() {
+    _logger->info("Confirm that sorters are in no discard position for approx. 2 seconds on both systems");
     _eventSender->send({EventType::EVNT_ACT_SORT_NO_DSC});
     _eventSender->send(Event::CreateTimer(TimerID::SRV_Timer, 2000));
 }
@@ -162,6 +173,8 @@ bool Sensors::handle(const Event &event) {
             exit();
             switch_state<StartState>();
             entry();
+        } else {
+            log_current_instruction();
         }
         return true;
     }
@@ -179,16 +192,32 @@ bool Sensors::handle(const Event &event) {
 
     if (event.type == EventType::EVNT_ACK) {
         _ackCount++;
+        _logger->info("{} sensor confirmed working", _ackCount);
 
         if (_ackCount == 2){
             _currSensType = SensorEnum(static_cast<int>(_currSensType) + 1);
             _ackCount = 0;
+            _logger->info("Press reset to confirm");
             step_done();
         }
         return true;
     }
 
     return false;
+}
+
+void Sensors::entry() {
+    _logger->info(
+        "Test sensors by placing and removing a metal workpiece in the specified sensor on both systems");
+    log_current_instruction();
+}
+
+void Sensors::log_current_instruction() {
+    _logger->info("Place workpiece in {}", _currSensType == SensorEnum::lb_st ? "lightbarrier start" :
+                                           _currSensType == SensorEnum::lb_en ? "lightbarrier end" :
+                                           _currSensType == SensorEnum::lb_sw ? "lightbarrier switch" :
+                                           _currSensType == SensorEnum::lb_ra ? "lightbarrier ramp" :
+                                           _currSensType == SensorEnum::me ? "metal sensor" : "error");
 }
 
 

@@ -12,6 +12,8 @@ public:
     bool handle(const Event &event) override;
 
     void entry() override;
+
+    void exit() override;
 };
 
 class Calibrate: public ServiceModeBaseState {
@@ -25,6 +27,10 @@ class Sensors: public ServiceModeBaseState {
 public:
     STATE_HEADER_INIT
     bool handle(const Event &event) override;
+    void entry() override;
+
+private:
+    void log_current_instruction();
 };
 
 class Leds: public ServiceModeBaseState {
