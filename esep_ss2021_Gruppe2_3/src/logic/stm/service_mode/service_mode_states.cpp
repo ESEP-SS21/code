@@ -186,7 +186,7 @@ bool Sensors::handle(const Event &event) {
         _currSensType == SensorEnum::me && event.type == EventType::EVNT_SEN_METAL_DTC
         ) {
 
-        _eventSender->send({EventType::EVNT_ACK});
+        _eventSender->send({EventType::EVNT_ACK, 0, true});
         return true;
     }
 
