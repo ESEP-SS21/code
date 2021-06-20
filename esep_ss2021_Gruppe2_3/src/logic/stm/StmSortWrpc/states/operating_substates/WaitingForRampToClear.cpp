@@ -16,6 +16,7 @@ bool WaitingForRampToClear::tim_alrt(int tim_id){
         exit();
         switch_state<RampFull>();
         _eventSender->send( { EventType::EVNT_WRN, 0, true });
+        _eventSender->send({EventType::EVNT_ACT_CTRL_Q1_LED_ON});
         _datamodel->_ramp_full = true;
         entry();
         handled = true;

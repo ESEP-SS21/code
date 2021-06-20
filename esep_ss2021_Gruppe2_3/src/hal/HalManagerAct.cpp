@@ -24,6 +24,10 @@ HalManagerAct::HalManagerAct(const std::string& dispatcher_name) :
             dispatcher::EventType::EVNT_ACT_CTRL_T_STR_LED_OFF,
             dispatcher::EventType::EVNT_ACT_CTRL_T_RST_LED_ON,
             dispatcher::EventType::EVNT_ACT_CTRL_T_RST_LED_OFF,
+            dispatcher::EventType::EVNT_ACT_CTRL_Q1_LED_ON,
+            dispatcher::EventType::EVNT_ACT_CTRL_Q1_LED_OFF,
+            dispatcher::EventType::EVNT_ACT_CTRL_Q2_LED_ON,
+            dispatcher::EventType::EVNT_ACT_CTRL_Q2_LED_OFF,
             dispatcher::EventType::EVNT_ACT_BELT_BWD, dispatcher::EventType::EVNT_ACT_BELT_FWD,
             dispatcher::EventType::EVNT_ACT_BELT_STP, dispatcher::EventType::EVNT_ACT_SORT_DSC,
             dispatcher::EventType::EVNT_ACT_SORT_NO_DSC, dispatcher::EventType::EVNT_ACT_SORT_RST,
@@ -64,6 +68,18 @@ void HalManagerAct::handle(dispatcher::Event& event) {
     }
     if (event.type == dispatcher::EventType::EVNT_ACT_CTRL_T_RST_LED_OFF) {
         _hal->get_leds().get()->disable(LED_type::RESET);
+    }
+    if (event.type == dispatcher::EventType::EVNT_ACT_CTRL_Q1_LED_ON) {
+            _hal->get_leds().get()->enable(LED_type::Q1);
+    }
+    if (event.type == dispatcher::EventType::EVNT_ACT_CTRL_Q1_LED_OFF) {
+        _hal->get_leds().get()->disable(LED_type::Q1);
+    }
+    if (event.type == dispatcher::EventType::EVNT_ACT_CTRL_Q2_LED_ON) {
+        _hal->get_leds().get()->enable(LED_type::Q2);
+    }
+    if (event.type == dispatcher::EventType::EVNT_ACT_CTRL_Q2_LED_OFF) {
+        _hal->get_leds().get()->disable(LED_type::Q2);
     }
     if (event.type == dispatcher::EventType::EVNT_ACT_STPL_LED_ON) {
         _hal->get_stoplight().get()->enable(Color(event.payload));

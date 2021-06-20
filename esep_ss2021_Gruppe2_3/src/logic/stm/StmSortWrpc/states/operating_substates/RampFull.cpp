@@ -20,6 +20,7 @@ bool RampFull::lb_sw_blck() {
             _datamodel->get_height_switch_sec()->exit_first_workpiece();
             _eventSender->send(
                     { EventType::EVNT_ERR, static_cast<int>(::logic::datamodel::Error::RAMP_FULL), true });
+            _eventSender->send({EventType::EVNT_ACT_CTRL_Q1_LED_ON});
             handled = true;
         }
     }
@@ -29,6 +30,7 @@ bool RampFull::lb_sw_blck() {
 bool RampFull::lb_ra_clr() {
     exit();
     _eventSender->send( { EventType::EVNT_WRN_GONE, 0, true });
+    _eventSender->send({EventType::EVNT_ACT_CTRL_Q1_LED_OFF});
     switch_state<WaitingForWrpc>();
     _datamodel->_ramp_full = false;
     entry();
