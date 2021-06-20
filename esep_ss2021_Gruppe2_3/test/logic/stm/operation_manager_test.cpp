@@ -101,6 +101,7 @@ TEST_F(testOperationManager, Service) {
             {
                     {EventType::EVNT_ACT_STPL_LED_OFF,Color::YELLOW},
                     {EventType::EVNT_ACT_CTRL_T_STR_LED_OFF},
+                    {EventType::EVNT_SRV_STR},
                     {EventType::EVNT_ACT_STPL_LED_BLNK_SLW,Color::GREEN}
 
             });
