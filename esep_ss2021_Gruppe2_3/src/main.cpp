@@ -43,36 +43,31 @@ void wait_for_exit();
 
 std::shared_ptr<argument_parser::Arguments> args{nullptr};
 
+using namespace dispatcher;
+using client_ptr = std::unique_ptr<DispatcherClient>;
+
 struct Clients {
     const std::unique_ptr<dispatcher::Dispatcher> dispatcher;
-    const std::unique_ptr<timer::AsyncTimerService> timer_svc;
-    const std::unique_ptr<hal::HalManagerAct> hal_mngrAct;
-    std::unique_ptr<hal::HalManagerSen> hal_mngrSen{nullptr};
-    std::unique_ptr<embedded_recorder::Recorder> recorder{nullptr};
-    std::unique_ptr<embedded_recorder::Replayer> replayer{nullptr};
+    const std::vector<std::unique_ptr<DispatcherClient>> _clients{std::vector<client_ptr>()};
 
-    //STMS
-    const std::unique_ptr<logic::clients::HeartbeatClient> hrtbt;
+    Clients() : dispatcher(new dispatcher::Dispatcher(args->mode.str)) {
+        _clients.push_back(client_ptr(new timer::AsyncTimerService(args->mode.str)));
+        _clients.push_back(client_ptr(new hal::HalManagerAct(args->mode.str)));
+        _clients.push_back(client_ptr(new clients::HeartbeatClient(args->mode.str)));
 
-    Clients():
-
-          dispatcher(new dispatcher::Dispatcher(args->mode.str)),
-          timer_svc(new timer::AsyncTimerService(args->mode.str)),
-          hal_mngrAct(new hal::HalManagerAct(args->mode.str)),
-          hrtbt(new clients::HeartbeatClient(args->mode.str)) {
-
-        if (args->playback){
-            replayer = std::unique_ptr<Replayer>(new Replayer(args->mode.str, args->filename));
-            replayer->start();
-        }
-        else
-            hal_mngrSen = std::unique_ptr<hal::HalManagerSen>(new hal::HalManagerSen(args->mode.str));
-
-        if (args->record)
-            recorder = std::unique_ptr<Recorder>(new Recorder(args->mode.str, args->filename));
+        if (!args->playback)
+            _clients.push_back(client_ptr(new hal::HalManagerSen(args->mode.str)));
 
         if (!args->single)
             dispatcher->connect_to_other(args->mode.other_str);
+
+        if (args->record)
+            _clients.push_back(client_ptr(new Recorder(args->mode.str, args->filename)));
+        if (args->playback) {
+            auto replayer = client_ptr(new Replayer(args->mode.str, args->filename));
+            replayer->start();
+            _clients.push_back(replayer);
+        }
     }
 };
 
