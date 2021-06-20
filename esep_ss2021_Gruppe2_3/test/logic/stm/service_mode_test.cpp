@@ -22,9 +22,9 @@ public:
         data._operating_mode = ::logic::datamodel::OperatingMode::SERVICE;
     }
 
-    const Event StepDoneEvent = {EventType::EVNT_ACT_CTRL_T_RST_LED_ON};
-    const Event AckEvent = {EventType::EVNT_CTRL_T_RST_PRS_SRT};
-    const Event AfterAckEvent = {EventType::EVNT_ACT_CTRL_T_RST_LED_OFF};
+    const Event TurnOnLedsAfterStepDone = {EventType::EVNT_ACT_CTRL_T_RST_LED_ON};
+    const Event AckStepDoneWithRst = {EventType::EVNT_CTRL_T_RST_PRS_SRT};
+    const Event TurnOffLedsAfterAck = {EventType::EVNT_ACT_CTRL_T_RST_LED_OFF};
 };
 
 TEST_F(testServiceMode, StartState) {
@@ -35,51 +35,51 @@ TEST_F(testServiceMode, StartState) {
 
     test_transition_to<Leds>({EventType::EVNT_SEN_HEIGHT_HE, 88},
                              {{EventType::EVNT_SEN_HEIGHT_REQ, 88},
-                              StepDoneEvent,
+                              TurnOnLedsAfterStepDone,
                               {EventType::EVNT_ACT_CTRL_T_STR_LED_ON},
                               {EventType::EVNT_ACT_CTRL_T_RST_LED_ON},});
 
-    test_transition_to<Stoplight>(AckEvent,
-                                  {AfterAckEvent,
+    test_transition_to<Stoplight>(AckStepDoneWithRst,
+                                  {TurnOffLedsAfterAck,
                                    {EventType::EVNT_ACT_CTRL_T_STR_LED_OFF},
                                    {EventType::EVNT_ACT_CTRL_T_RST_LED_OFF},
                                    {EventType::EVNT_ACT_STPL_LED_ON, Color::ALL},
-                                   StepDoneEvent,});
+                                   TurnOnLedsAfterStepDone,});
 
-    test_transition_to<BeltFwd>(AckEvent,
-                                {AfterAckEvent,
+    test_transition_to<BeltFwd>(AckStepDoneWithRst,
+                                {TurnOffLedsAfterAck,
                                  {EventType::EVNT_ACT_STPL_LED_BLNK_SLW, Color::GREEN},
                                  {EventType::EVNT_ACT_BELT_FWD},
-                                 StepDoneEvent});
+                                 TurnOnLedsAfterStepDone});
 
-    test_transition_to<BeltBwd>(AckEvent,
-                                {AfterAckEvent,
+    test_transition_to<BeltBwd>(AckStepDoneWithRst,
+                                {TurnOffLedsAfterAck,
                                  {EventType::EVNT_ACT_BELT_STP},
                                  {EventType::EVNT_ACT_BELT_BWD},
-                                 StepDoneEvent});
+                                 TurnOnLedsAfterStepDone});
 
-    test_transition_to<SortDisc>(AckEvent,
-                                 {AfterAckEvent,
+    test_transition_to<SortDisc>(AckStepDoneWithRst,
+                                 {TurnOffLedsAfterAck,
                                   {EventType::EVNT_ACT_BELT_STP},
                                   {EventType::EVNT_ACT_SORT_DSC},
                                   Event::CreateTimer(TimerID::SRV_Timer, 2000)});
 
     test_transition_to<SortDisc>({EventType::EVNT_TIM_ALRT, static_cast<int>(TimerID::SRV_Timer)},
                                  {{EventType::EVNT_ACT_SORT_RST},
-                                  StepDoneEvent});
+                                  TurnOnLedsAfterStepDone});
 
-    test_transition_to<SortNoDisc>(AckEvent,
-                                   {AfterAckEvent,
+    test_transition_to<SortNoDisc>(AckStepDoneWithRst,
+                                   {TurnOffLedsAfterAck,
                                     {EventType::EVNT_ACT_SORT_RST},
                                     {EventType::EVNT_ACT_SORT_NO_DSC},
                                     Event::CreateTimer(TimerID::SRV_Timer, 2000)});
 
     test_transition_to<SortNoDisc>({EventType::EVNT_TIM_ALRT, static_cast<int>(TimerID::SRV_Timer)},
                                    {{EventType::EVNT_ACT_SORT_RST},
-                                    StepDoneEvent});
+                                    TurnOnLedsAfterStepDone});
 
-    test_transition_to<Sensors>(AckEvent,
-                                {AfterAckEvent,
+    test_transition_to<Sensors>(AckStepDoneWithRst,
+                                {TurnOffLedsAfterAck,
                                  {EventType::EVNT_ACT_SORT_RST}});
 
     for (Event event : {Event(EventType::EVNT_SEN_LB_ST_CLR),
@@ -93,10 +93,10 @@ TEST_F(testServiceMode, StartState) {
         test_transition_to<Sensors>({EventType::EVNT_ACK});
 
         test_transition_to<Sensors>({EventType::EVNT_ACK},
-                                    {StepDoneEvent});
+                                    {TurnOnLedsAfterStepDone});
 
-        test_transition_to<Sensors>(AckEvent,
-                                    {AfterAckEvent});
+        test_transition_to<Sensors>(AckStepDoneWithRst,
+                                    {TurnOffLedsAfterAck});
     }
 
 
@@ -106,10 +106,10 @@ TEST_F(testServiceMode, StartState) {
     test_transition_to<Sensors>({EventType::EVNT_ACK});
 
     test_transition_to<Sensors>({EventType::EVNT_ACK},
-                                {StepDoneEvent});
+                                {TurnOnLedsAfterStepDone});
 
-    test_transition_to<StartState>(AckEvent,
-                                {AfterAckEvent});
+    test_transition_to<StartState>(AckStepDoneWithRst,
+                                   {TurnOffLedsAfterAck});
 }
 
 }
