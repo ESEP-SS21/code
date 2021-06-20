@@ -10,11 +10,11 @@ namespace clients {
 
 class FlipHandlerClient: public dispatcher::DispatcherClient {
 public:
-    FlipHandlerClient(const std::string& dispatcher_name, std::shared_ptr<logic::datamodel::UnitData> data);
+    FlipHandlerClient(const std::string& dispatcher_name, logic::datamodel::UnitData *data);
     virtual ~FlipHandlerClient() = default;
 
 private:
-    std::shared_ptr<logic::datamodel::UnitData> _data;
+    logic::datamodel::UnitData *_data;
     void handle(dispatcher::Event& event) override;
     Logger::Logger _logger { Logger::get() };
 };

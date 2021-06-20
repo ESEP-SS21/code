@@ -5,7 +5,7 @@ namespace clients {
 
 using namespace dispatcher;
 
-FlipHandlerClient::FlipHandlerClient(const std::string& dispatcher_name, std::shared_ptr<logic::datamodel::UnitData> data):
+FlipHandlerClient::FlipHandlerClient(const std::string& dispatcher_name, logic::datamodel::UnitData *data):
         DispatcherClient(dispatcher_name, "FlipHandler"){
     _data = data;
     subscribe(EventType::EVNT_WRPC_FLP);

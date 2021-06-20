@@ -19,13 +19,13 @@ using namespace ::logic::datamodel;
 
 class FlipHandlerTest: public ::testing::Test {
 protected:
-    std::shared_ptr<UnitData> _data;
+    UnitData *_data;
     std::unique_ptr<Dispatcher> _dispatcher;
     std::unique_ptr<FlipHandlerClient> _flip_handler;
     std::unique_ptr<TestClient> _testClient;
     FlipHandlerTest() {
         const std::string DISPATCHER_NAME = getUniqueDispatcherName();
-        _data = std::shared_ptr<UnitData>(new UnitData(UnitType::PRIMARY));
+        _data = new UnitData(UnitType::PRIMARY);
         _dispatcher = std::unique_ptr<Dispatcher>(new Dispatcher(DISPATCHER_NAME));
         _flip_handler = std::unique_ptr<FlipHandlerClient>(
                 new FlipHandlerClient(DISPATCHER_NAME,_data));
