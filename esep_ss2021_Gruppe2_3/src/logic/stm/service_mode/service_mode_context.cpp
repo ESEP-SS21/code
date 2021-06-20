@@ -16,10 +16,14 @@ void ServiceModeContext::handle(Event e) {
         return;
     }
 
-    if(e.type == EventType::EVNT_CTRL_T_STP_PRS_LNG) {
-        _state->exit();
+    if (e.type == EventType::EVNT_SRV_STR){
         new (_state) StartState;
         _state->entry();
+        //do not return -> start state needs to handle this
+    }
+
+    if(e.type == EventType::EVNT_CTRL_T_STP_PRS_LNG) {
+        _state->exit();
         dynamic_cast<ServiceModeBaseState*>(_state)->end_service();
         return;
     }
