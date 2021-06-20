@@ -27,7 +27,6 @@ public:
 
 struct Arguments {
     const Mode mode;
-    bool ejector{};
     bool record{};
     bool playback{};
     bool verbose{};
@@ -41,7 +40,6 @@ struct Arguments {
 namespace argument_names {
 static const std::string ofile{"ofile"};
 static const std::string record{"record"};
-static const std::string ejector{"ejector"};
 static const std::string secondary{"secondary"};
 static const std::string playback{"playback"};
 static const std::string verbose{"verbose"};
@@ -67,10 +65,9 @@ inline std::shared_ptr<Arguments> parse(int argc, const char *const *argv) {
                 ("h,help", "Print usage")
                 ("s," + argument_names::secondary, "start in secondary mode")
                 ("v," + argument_names::verbose, "start in secondary mode")
-                ("e," + argument_names::ejector, "FTS has ejector instead of switch")
                 ("R," + argument_names::record, "enable recording events to file",
                     cxxopts::value<std::string>()->implicit_value(""), "[FILENAME]")
-                (argument_names::single, "do not connect to other dispatcher")
+                (argument_names::single, "USE FOR DEBUGGING ONLY! Do not connect to other dispatcher")
                 ("P," + argument_names::playback, "playback a record", cxxopts::value<std::string>(),
                  "[FILENAME]");
 
@@ -82,7 +79,6 @@ inline std::shared_ptr<Arguments> parse(int argc, const char *const *argv) {
 
         auto args = std::make_shared<Arguments>(result.count(argument_names::secondary));
         args->verbose = result.count(argument_names::verbose);
-        args->ejector = result.count(argument_names::ejector);
         args->record = result.count(argument_names::record);
         args->single = result.count(argument_names::single);
 
