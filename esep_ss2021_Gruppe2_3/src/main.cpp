@@ -70,9 +70,7 @@ struct Clients {
        _clients.push_back(client_ptr(new logic::clients::ErrorListenerClient (args->mode.str, data)));
        _clients.push_back(client_ptr(new logic::clients::FlipHandlerClient (args->mode.str, data)));
        _clients.push_back(client_ptr(new logic::clients::ServiceModeClient (args->mode.str, data)));
-
-        if (!args->playback)
-            _clients.push_back(client_ptr(new hal::HalManagerSen(args->mode.str)));
+       _clients.push_back(client_ptr(new hal::HalManagerSen(args->mode.str, args->playback)));
 
         if (!args->single)
             dispatcher->connect_to_other(args->mode.other_str);

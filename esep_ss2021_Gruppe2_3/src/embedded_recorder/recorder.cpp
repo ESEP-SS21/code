@@ -14,8 +14,6 @@ using namespace dispatcher;
 Recorder::Recorder(const std::string &dispatcher_name, const std::string &filename) :
     DispatcherClient(dispatcher_name, "Recorder Manager") {
     subscribe({
-        EventType::EVNT_SEN_ESTOP_ON,
-        EventType::EVNT_SEN_ESTOP_OFF,
         EventType::EVNT_CTRL_T_STR_PRS_LNG,
         EventType::EVNT_CTRL_T_STR_PRS_SRT,
         EventType::EVNT_CTRL_T_STP_PRS_LNG,

@@ -22,7 +22,7 @@ static constexpr uint32_t PULSE_ADC_IRQ = 18;
 
 class HalManagerSen: public dispatcher::DispatcherClient {
 public:
-    HalManagerSen(const std::string& dispatcher_name);
+    HalManagerSen(const std::string& dispatcher_name, bool playback);
     void handle(dispatcher::Event& event){};
     virtual ~HalManagerSen();
 private:
@@ -39,6 +39,7 @@ private:
     std::chrono::time_point<std::chrono::high_resolution_clock> _start_pressed_time;
     std::chrono::time_point<std::chrono::high_resolution_clock> _stop_pressed_time;
     std::chrono::time_point<std::chrono::high_resolution_clock> _reset_pressed_time;
+    bool _playback;
 };
 
 } /* namespace hal */

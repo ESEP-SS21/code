@@ -9,7 +9,7 @@
 
 namespace hal {
 
-HalManagerSen::HalManagerSen(const std::string& dispatcher_name) :
+HalManagerSen::HalManagerSen(const std::string& dispatcher_name, bool playback) :
         DispatcherClient(dispatcher_name, "HAL Manager Sen") {
     _irq_rec_channel = nullptr;
     _running = true;
@@ -23,6 +23,7 @@ HalManagerSen::HalManagerSen(const std::string& dispatcher_name) :
     _start_pressed_time = std::chrono::high_resolution_clock::now();
     _stop_pressed_time = std::chrono::high_resolution_clock::now();
     _reset_pressed_time = std::chrono::high_resolution_clock::now();
+    _playback = playback;
 
 }
 
@@ -95,18 +96,19 @@ void HalManagerSen::int_rec_fnct() {
 }
 
 void HalManagerSen::send_event_to_dispatcher() {
-    if (_hal->get_metal_sensor().get()->was_metal()) {
-        dispatcher::Event e = { dispatcher::EventType::EVNT_SEN_METAL_DTC, 0, false };
-        send(e, 20);
-    }
 
     if (_hal->get_estop().get()->was_pressed()) {
         dispatcher::Event e = { dispatcher::EventType::EVNT_SEN_ESTOP_ON, 0, true };
         send(e, 40);
     }
+    if(_playback) return; //Allow E-Stop in Playback-Mode
     if (_hal->get_estop().get()->was_released()) {
         dispatcher::Event e = { dispatcher::EventType::EVNT_SEN_ESTOP_OFF, 0, true };
         send(e, 40);
+    }
+    if (_hal->get_metal_sensor().get()->was_metal()) {
+            dispatcher::Event e = { dispatcher::EventType::EVNT_SEN_METAL_DTC, 0, false };
+            send(e, 20);
     }
     if (_hal->get_cp_buttons().get()->was_pressed(hal::CPSTART)) {
         _start_pressed_time = std::chrono::high_resolution_clock::now();
