@@ -50,6 +50,7 @@ private:
     bool height_is_within_tolerance(int expected, int actual){
         return (actual >= expected - height_tolerance) && (actual <= expected + height_tolerance);
     }
+    void print_type_str();
 };
 
 } /* namespace datamodel */
