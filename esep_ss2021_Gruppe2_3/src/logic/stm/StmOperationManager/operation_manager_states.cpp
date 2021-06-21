@@ -158,6 +158,9 @@ void EStop::entry(){
     _eventSender->send({ EventType::EVNT_ACT_BELT_STP, 0, false });
     _eventSender->send({ EventType::EVNT_ACT_SORT_RST, 0, false });
     _eventSender->send({ EventType::EVNT_ACT_STPL_LED_BLNK_SLW, Color::RED, false });
+    _eventSender->send({ EventType::EVNT_ACT_CTRL_T_STR_LED_OFF});
+    _eventSender->send({ EventType::EVNT_ACT_CTRL_Q1_LED_OFF});
+    _eventSender->send({ EventType::EVNT_ACT_CTRL_Q2_LED_OFF});
     _eventSender->send({ EventType::EVNT_ACT_CTRL_T_RST_LED_ON});
     if(_datamodel->_estop_count>2){
         _logger->critical("The Communication with the other System was interrupted or could not be established");

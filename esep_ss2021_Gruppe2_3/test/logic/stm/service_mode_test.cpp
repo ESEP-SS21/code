@@ -37,12 +37,16 @@ TEST_F(testServiceMode, StartState) {
                              {{EventType::EVNT_SEN_HEIGHT_REQ, 88},
                               TurnOnLedsAfterStepDone,
                               {EventType::EVNT_ACT_CTRL_T_STR_LED_ON},
-                              {EventType::EVNT_ACT_CTRL_T_RST_LED_ON},});
+                              {EventType::EVNT_ACT_CTRL_T_RST_LED_ON},
+                              {EventType::EVNT_ACT_CTRL_Q1_LED_ON},
+                              {EventType::EVNT_ACT_CTRL_Q2_LED_ON},});
 
     test_transition_to<Stoplight>(AckStepDoneWithRst,
                                   {TurnOffLedsAfterAck,
                                    {EventType::EVNT_ACT_CTRL_T_STR_LED_OFF},
                                    {EventType::EVNT_ACT_CTRL_T_RST_LED_OFF},
+                                   {EventType::EVNT_ACT_CTRL_Q1_LED_OFF},
+                                   {EventType::EVNT_ACT_CTRL_Q2_LED_OFF},
                                    {EventType::EVNT_ACT_STPL_LED_ON, Color::ALL},
                                    TurnOnLedsAfterStepDone,});
 

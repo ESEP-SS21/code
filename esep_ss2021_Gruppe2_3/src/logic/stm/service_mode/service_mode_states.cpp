@@ -55,14 +55,18 @@ bool Leds::handle(const Event &event) {
 
 void Leds::entry() {
     step_done();
-    _logger->info("Confirm that both start and reset button LEDs are turned on on both systems");
+    _logger->info("Confirm that all control Panel LEDs are turned on on both systems");
     _eventSender->send({EventType::EVNT_ACT_CTRL_T_STR_LED_ON});
     _eventSender->send({EventType::EVNT_ACT_CTRL_T_RST_LED_ON});
+    _eventSender->send({EventType::EVNT_ACT_CTRL_Q1_LED_ON});
+    _eventSender->send({EventType::EVNT_ACT_CTRL_Q2_LED_ON});
 }
 
 void Leds::exit() {
     _eventSender->send({EventType::EVNT_ACT_CTRL_T_STR_LED_OFF});
     _eventSender->send({EventType::EVNT_ACT_CTRL_T_RST_LED_OFF});
+    _eventSender->send({EventType::EVNT_ACT_CTRL_Q1_LED_OFF});
+    _eventSender->send({EventType::EVNT_ACT_CTRL_Q2_LED_OFF});
 }
 
 
