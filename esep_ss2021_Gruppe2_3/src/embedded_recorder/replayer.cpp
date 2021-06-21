@@ -33,6 +33,13 @@ void Replayer::replay(const std::string& input) {
                     next_event_time - now);
             std::this_thread::sleep_for(time_diff);
         }
+        if(event.type == dispatcher::EventType::EVNT_SEN_ESTOP_OFF ||
+           event.type == dispatcher::EventType::EVNT_SEN_ESTOP_ON
+          ){
+            _logger->critical("E-stop event in replay");
+            send({EventType::EVNT_SEN_ESTOP_ON, 0, true});
+            return;
+        }
         send(event);
     }
 }
