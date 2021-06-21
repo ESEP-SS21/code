@@ -5,7 +5,7 @@ namespace logic {
 namespace stm {
 namespace sortWrpcStm {
 
-static constexpr int SW_CLR_TIME_TOLERANCE_MS = 3000;
+static constexpr int SW_CLR_TIME_TOLERANCE_MS = 2300;
 
 class Discard: public SortWrpcBaseState {
 public:
