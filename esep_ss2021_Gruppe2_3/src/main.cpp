@@ -51,8 +51,11 @@ struct Clients {
     std::vector<std::unique_ptr<DispatcherClient>> _clients{std::vector<client_ptr>()};
 
     Clients() : dispatcher(new dispatcher::Dispatcher(args->mode.str)) {
+        if (!args->single)
+            dispatcher->connect_to_other(args->mode.other_str);
         _clients.push_back(client_ptr(new timer::AsyncTimerService(args->mode.str)));
         _clients.push_back(client_ptr(new hal::HalManagerAct(args->mode.str)));
+        _clients.push_back(client_ptr(new hal::HalManagerSen(args->mode.str, args->playback)));
         _clients.push_back(client_ptr(new clients::HeartbeatClient(args->mode.str)));
 
         auto data = new logic::datamodel::UnitData(
@@ -70,12 +73,6 @@ struct Clients {
        _clients.push_back(client_ptr(new logic::clients::ErrorListenerClient (args->mode.str, data)));
        _clients.push_back(client_ptr(new logic::clients::FlipHandlerClient (args->mode.str, data)));
        _clients.push_back(client_ptr(new logic::clients::ServiceModeClient (args->mode.str, data)));
-
-        if (!args->playback)
-            _clients.push_back(client_ptr(new hal::HalManagerSen(args->mode.str)));
-
-        if (!args->single)
-            dispatcher->connect_to_other(args->mode.other_str);
 
         if (args->record)
             _clients.push_back(client_ptr(new Recorder(args->mode.str, args->filename)));

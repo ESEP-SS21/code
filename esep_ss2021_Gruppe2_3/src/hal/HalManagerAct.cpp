@@ -34,8 +34,7 @@ HalManagerAct::HalManagerAct(const std::string& dispatcher_name) :
             dispatcher::EventType::EVNT_ACT_STPL_LED_ON,
             dispatcher::EventType::EVNT_ACT_STPL_LED_OFF,
             dispatcher::EventType::EVNT_ACT_STPL_LED_BLNK_FST,
-            dispatcher::EventType::EVNT_ACT_STPL_LED_BLNK_SLW,
-            dispatcher::EventType::EVNT_SEN_HEIGHT_REQ, });
+            dispatcher::EventType::EVNT_ACT_STPL_LED_BLNK_SLW,});
 }
 
 void HalManagerAct::handle(dispatcher::Event& event) {
@@ -92,14 +91,6 @@ void HalManagerAct::handle(dispatcher::Event& event) {
     }
     if (event.type == dispatcher::EventType::EVNT_ACT_STPL_LED_BLNK_SLW) {
         _hal->get_stoplight().get()->blink(Color(event.payload), Speed::SLOW);
-    }
-    if (event.type == dispatcher::EventType::EVNT_SEN_HEIGHT_REQ) {
-        if (event.payload == 0) {
-            _hal->get_height_sensor().get()->sample();
-        } else {
-            _hal->get_height_sensor().get()->set_zero_point(event.payload);
-        }
-
     }
 }
 

@@ -9,9 +9,9 @@
 
 namespace hal {
 
-HalManagerSen::HalManagerSen(const std::string& dispatcher_name) :
+HalManagerSen::HalManagerSen(const std::string& dispatcher_name, bool playback_mode) :
         DispatcherClient(dispatcher_name, "HAL Manager Sen") {
-    _irq_rec_channel = nullptr;
+    _pb_mode = playback_mode;
     _running = true;
     _gpio = std::make_shared<GPIOWrapper>();
     _hal = std::unique_ptr<HAL>(new HAL(_gpio));
@@ -19,11 +19,25 @@ HalManagerSen::HalManagerSen(const std::string& dispatcher_name) :
             new dispatcher::cnnMngmnt::QnxChannel());
     _irq_connection = std::unique_ptr<dispatcher::cnnMngmnt::QnxConnection>(
             new dispatcher::cnnMngmnt::QnxConnection(_irq_rec_channel->get_chid()));
+    subscribe(dispatcher::EventType::EVNT_SEN_HEIGHT_REQ);
     _listener_thread = std::thread([this] {this->int_rec_fnct();});
     _start_pressed_time = std::chrono::high_resolution_clock::now();
     _stop_pressed_time = std::chrono::high_resolution_clock::now();
     _reset_pressed_time = std::chrono::high_resolution_clock::now();
+}
 
+void HalManagerSen::handle(Event &event){
+    if(_pb_mode){
+        return;
+    }
+    if (event.type == dispatcher::EventType::EVNT_SEN_HEIGHT_REQ) {
+        if (event.payload == 0) {
+            _hal->get_height_sensor().get()->sample();
+        } else {
+            _hal->get_height_sensor().get()->set_zero_point(event.payload);
+        }
+
+    }
 }
 
 void HalManagerSen::int_rec_fnct() {
@@ -95,7 +109,7 @@ void HalManagerSen::int_rec_fnct() {
 }
 
 void HalManagerSen::send_event_to_dispatcher() {
-    if (_hal->get_metal_sensor().get()->was_metal()) {
+    if (_hal->get_metal_sensor().get()->was_metal() && !_pb_mode) {
         dispatcher::Event e = { dispatcher::EventType::EVNT_SEN_METAL_DTC, 0, false };
         send(e, 20);
     }
@@ -107,6 +121,9 @@ void HalManagerSen::send_event_to_dispatcher() {
     if (_hal->get_estop().get()->was_released()) {
         dispatcher::Event e = { dispatcher::EventType::EVNT_SEN_ESTOP_OFF, 0, true };
         send(e, 40);
+    }
+    if (_pb_mode){
+        return;
     }
     if (_hal->get_cp_buttons().get()->was_pressed(hal::CPSTART)) {
         _start_pressed_time = std::chrono::high_resolution_clock::now();

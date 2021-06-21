@@ -19,6 +19,7 @@ private:
     void start();
     nlohmann::json _json;
     std::string _file_name;
+    bool _running;
 };
 
 }

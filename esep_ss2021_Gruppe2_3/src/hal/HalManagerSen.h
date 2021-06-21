@@ -22,10 +22,11 @@ static constexpr uint32_t PULSE_ADC_IRQ = 18;
 
 class HalManagerSen: public dispatcher::DispatcherClient {
 public:
-    HalManagerSen(const std::string& dispatcher_name);
-    void handle(dispatcher::Event& event){};
+    HalManagerSen(const std::string& dispatcher_name, bool playback_mode);
+    void handle(dispatcher::Event& event) override;
     virtual ~HalManagerSen();
 private:
+    bool _pb_mode;
     Logger::Logger _logger { Logger::get() };
     std::shared_ptr<GPIOWrapper> _gpio;
     std::unique_ptr<HAL> _hal;

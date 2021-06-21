@@ -13,7 +13,12 @@ using namespace dispatcher;
 
 void SortWrpcContext::handle(Event e) {
     auto *state = (SortWrpcBaseState *) (_state);
-
+    if(_datamodel->_operating_mode == datamodel::OperatingMode::ESTOP){
+        return;
+    }
+    if(_datamodel->_operating_mode == datamodel::OperatingMode::SERVICE){
+        return;
+    }
     switch (e.type) {
     case EventType::EVNT_HIST:
         state->hist_evnt();
